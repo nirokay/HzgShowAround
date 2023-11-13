@@ -1,0 +1,7 @@
+# Project:
+.vscode/
+
+# Binaries:
+webbuilder
+*.exe
+*.out
