@@ -25,6 +25,7 @@ type
         pics*: Option[Pictures]
         coords*: Option[Coords]
         path*: Option[string] ## Optional, because needs not to be inserted into json file
+        same*: Option[seq[string]] ## Optional similar locations
 
 
 proc convert*(desc: Description): seq[HtmlElement] =
@@ -34,8 +35,10 @@ proc convert*(desc: Description): seq[HtmlElement] =
         result.add h2(header) # Table index as header
         result.add p(content) # Table values as paragraph
 
+proc getLocationPath(name: string): string =
+    result = locationHtmlPath & name.strip().toLower().replace(' ', '_') & ".html"
 proc getLocationPath(location: Location): string =
-    result = locationHtmlPath & location.name.strip().toLower().replace(' ', '_') & ".html"
+    result = location.name.getLocationPath()
 
 var buffer: Option[seq[Location]] ## Cache
 proc getLocations*(): seq[Location] =
@@ -94,6 +97,15 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
             let pics = get(location.pics)
             if pics.footer.isSome():
                 html.addToBody img(get pics.footer, location.name & " footer image").setClass(textCenterClass)
+
+        # Add similar places as links:
+        if location.same.isSome():
+            var
+                same: seq[string] = get location.same
+                table: OrderedTable[string, string]
+            for name in same:
+                table[name] = name.getLocationPath()
+            
 
         # Apply css and write to disk:
         html.addToHead(stylesheet("../styles.css"))

@@ -29,6 +29,8 @@ html.addToBody(
     p("ToDo!").setClass(textCenterClass)
 )
 
+# TODO
+
 
 # -----------------------------------------------------------------------------
 # Locations
@@ -49,7 +51,7 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    footer("Hi")
+    footer("🄯 by nirokay | " & $a("https://github.com/nirokay/HzgShowAround", "Source")).setClass(textCenterClass)
 )
 
 

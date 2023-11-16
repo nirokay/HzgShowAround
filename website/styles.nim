@@ -1,4 +1,6 @@
+import std/[tables]
 import websitegenerator
+import colours
 
 const
     textUnderline* = ["text-decoration", "underline"]
@@ -33,8 +35,9 @@ const
     )
 
     buttonClassHover* = newCssClass("button:hover",
-        backgroundColour(rgb(180, 180, 180))
+        backgroundColour(colButtonHover)
     )
+
 #[footer {
     position: fixed;
     width: 100%;
@@ -42,6 +45,10 @@ const
     box-sizing: border-box;
 }]#
 proc button*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
+
+proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
+    for content, href in table:
+        result.add button(content, href)
 
 proc link(which: string, colour: CssColour|string): CssElement =
     newCssElement("a:" & which,
@@ -53,9 +60,17 @@ var css*: CssStyleSheet = newCssStyleSheet("styles.css")
 css.elements = @[
     # Body:
     newCssElement("body",
-        backgroundColour(rgb(23, 25, 33)),
+        backgroundColour(colBackground),
         colour(White),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
+    ),
+
+    newCssElement("footer",
+        ["position", "fixed"],
+        backgroundColour(colBackground),
+        width("100%"),
+        ["bottom", "0"],
+        ["box-sizing" ,"border-box"]
     ),
 
     # Classes:

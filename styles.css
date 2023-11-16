@@ -4,6 +4,14 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-sizing: border-box;
+    background-color: rgb(23, 25, 33);
+}
+
 .center {
     text-align: center;
 }
@@ -62,4 +70,3 @@ a:active {
     color: DarkMagenta;
     text-decoration: none;
 }
-
