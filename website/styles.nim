@@ -1,60 +1,30 @@
 import std/[tables]
-import websitegenerator
-import colours
+import websitegenerator ##! Not generator, because I need the writeFile() proc here!
+import globals
+export globals
 
-const
-    textUnderline* = ["text-decoration", "underline"]
-    textNoDecoration* = ["text-decoration", "none"]
-    # textTransparentBackground = ["background-color", "transparent"]
+# -----------------------------------------------------------------------------
+# Buttons:
+# -----------------------------------------------------------------------------
 
-    textCenter* = ["text-align", "center"]
-    textCenterClass* = newCssClass("center",
-        textCenter
-    )
-
-    centerClass* = newCssClass("generic-center",
-        textCenter,
-        ["display", "block"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["width", "90%"]
-    )
-
-    buttonClass* = newCssClass("button",
-        backgroundColour(rgb(60, 60, 60)),
-        ["border", "none"],
-        padding("20px 34px"),
-        textCenter,
-        textNoDecoration,
-        display(inlineBlock),
-        fontSize(20.px),
-        ["margin", "4px 2px"],
-        ["cursor", "pointer"],
-        # ["transition", "0.3s"],
-        ["border-radius", 6.px]
-    )
-
-    buttonClassHover* = newCssClass("button:hover",
-        backgroundColour(colButtonHover)
-    )
-
-#[footer {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    box-sizing: border-box;
-}]#
 proc button*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
 
 proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
+    ## List of buttons
     for content, href in table:
         result.add button(content, href)
 
 proc link(which: string, colour: CssColour|string): CssElement =
+    ## Css link stuff
     newCssElement("a:" & which,
         ["color", $colour],
         textNoDecoration
     )
+
+
+# -----------------------------------------------------------------------------
+# Css:
+# ----------------------------------------------------------------------------
 
 var css*: CssStyleSheet = newCssStyleSheet("styles.css")
 css.elements = @[
@@ -73,17 +43,22 @@ css.elements = @[
         ["box-sizing" ,"border-box"]
     ),
 
+    newCssElement("table, th, td",
+        ["border", 1.px],
+        ["border-collapse", "collapse"]
+    ),
+
     # Classes:
-    textCenterClass,
     centerClass,
+
+    textCenterClass,
+    # centerTableClass,
+
     buttonClass,
+    buttonClassHover,
 
     # Headers:
-    newCssElement("h1",
-        textCenter,
-        textUnderline
-    ),
-    newCssElement("h2",
+    newCssElement("h1, h2",
         textCenter,
         textUnderline
     ),
@@ -98,4 +73,5 @@ css.elements = @[
     link("active", DarkMagenta),
 ]
 
+# Write to disk:
 css.writeFile()

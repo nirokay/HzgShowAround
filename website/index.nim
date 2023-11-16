@@ -1,16 +1,13 @@
 import std/[options]
-import websitegenerator
-import styles, locations as locationModule
+import generator, styles, locations as locationModule
 
 # Generate locations
 let locations: seq[Location] = getLocations()
 locations.generateLocationsHtmlPages()
 
-var html: HtmlDocument = newDocument("index.html")
+var html: HtmlDocument = newPage("index.html")
 
 html.addToHead(
-    charset("utf-8"),
-    viewport("width=device-width, initial-scale=1"),
     title("Home - HzgShowAround"),
     description("HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle.")
 )
@@ -50,15 +47,5 @@ html.addToBody(
     `div`(locationButtons).setClass(centerClass)
 )
 
-
-# -----------------------------------------------------------------------------
-# Footer
-# -----------------------------------------------------------------------------
-
-html.addToBody(
-    footer("🄯 by nirokay | " & $a("https://github.com/nirokay/HzgShowAround", "Source")).setClass(textCenterClass)
-)
-
-
 html.setStyle(css)
-html.writeFile()
+html.generate()
