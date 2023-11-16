@@ -1,0 +1,65 @@
+body {
+    color: White;
+    background-color: rgb(23, 25, 33);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.center {
+    text-align: center;
+}
+
+.generic-center {
+    width: 90%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.button {
+    margin: 4px 2px;
+    font-size: 20px;
+    border-radius: 6px;
+    display: inline-block;
+    border: none;
+    padding: 20px 34px;
+    background-color: rgb(60, 60, 60);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+h1 {
+    text-decoration: underline;
+    text-align: center;
+}
+
+h2 {
+    text-decoration: underline;
+    text-align: center;
+}
+
+h3 {
+    text-decoration: underline;
+}
+
+a:link {
+    color: Pink;
+    text-decoration: none;
+}
+
+a:visited {
+    color: HotPink;
+    text-decoration: none;
+}
+
+a:hover {
+    color: DeepPink;
+    text-decoration: none;
+}
+
+a:active {
+    color: DarkMagenta;
+    text-decoration: none;
+}
+

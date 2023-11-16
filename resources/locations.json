@@ -1,0 +1,33 @@
+[
+    {
+        "name": "Mühlenmarkt",
+        "desc": {
+            "Header": [
+                "This is a paragraph."
+            ],
+            "Second header": [
+                "This is another.",
+                "This will be on a new line!"
+            ]
+        },
+        "open": {
+            "Mo":        "7.30 - 13.00",
+            "Di - Fr":   "7:30 - 18.00",
+            "Sa":        "8.00 - 12.00",
+            "Metzgerei": "keine Bedienung dienstags und samstags"
+        },
+        "pics": {
+            "header": "resources/images/location/mühlenmarkt.png",
+            "footer": ""
+        }
+    },
+    {
+        "name": "Wühlkiste",
+        "desc": {},
+        "open": {
+            "Mo - Do": "8.00 - 12.00 & 13.00 - 17.00",
+            "Fr":      "8.00 - 12.00"
+        },
+        "pics": {}
+    }
+]
