@@ -21,7 +21,7 @@ proc generate*(html: var HtmlDocument) =
     var f: HtmlElement = footer(@[
         "🄯 by nirokay",
         $a("https://github.com/nirokay/HzgShowAround", "Source"),
-        $a("terms-of-service.html", "Terms of Service")
+        $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "Terms of Service")
     ].join(" | "))
     f.class = "generic-center-100-width"
     html.addToBody(
