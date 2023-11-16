@@ -68,13 +68,10 @@ proc getLocations*(): seq[Location] =
 proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
     for location in locations:
-        var html: HtmlDocument = newPage(location.getLocationPath())
-        # Add meta-data to head:
-        html.addToHead(
-            charset("utf-8"),
-            viewport("width=device-width, initial-scale=1"),
-            title(location.name & " - HzgShowAround"),
-            description("HzgShowAround Ort-display von " & location.name)
+        var html: HtmlDocument = newPage(
+            location.name,
+            location.getLocationPath(),
+            "Infos zum Ort " & location.name
         )
 
         # Add header:

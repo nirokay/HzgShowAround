@@ -7,8 +7,8 @@ import generator
 const
     colBackground*: string = rgb(23, 25, 33)
 
-    colButton*: string = rgb(60, 60, 60)
-    colButtonHover*: string = rgb(180, 180, 180)
+    colButton*: string = rgb(50, 30, 58)
+    colButtonHover*: string = rgb(60, 40, 68)
 
 
 # -----------------------------------------------------------------------------
@@ -31,6 +31,14 @@ const
         textCenter
     )
 
+    centerWidth100Class* = newCssClass("generic-center-100-width",
+        textCenter,
+        ["display", "block"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+        ["width", "100%"]
+    )
+
     centerClass* = newCssClass("generic-center",
         textCenter,
         ["display", "block"],
@@ -45,7 +53,7 @@ const
     )
 
     buttonClass* = newCssClass("button",
-        backgroundColour(rgb(60, 60, 60)),
+        backgroundColour(rgb(50, 30, 58)), # backgroundColour(rgb(60, 60, 60)),
         ["border", "none"],
         padding("20px 34px"),
         textCenter,

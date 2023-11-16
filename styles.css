@@ -29,6 +29,14 @@ table, th, td {
     text-align: center;
 }
 
+.generic-center-100-width {
+    width: 100%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
 .button {
     margin: 4px 2px;
     font-size: 20px;
@@ -36,14 +44,14 @@ table, th, td {
     display: inline-block;
     border: none;
     padding: 20px 34px;
-    background-color: rgb(60, 60, 60);
+    background-color: rgb(50, 30, 58);
     cursor: pointer;
     text-decoration: none;
     text-align: center;
 }
 
 .button:hover {
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(60, 40, 68);
 }
 
 h1, h2 {
@@ -66,11 +74,11 @@ a:visited {
 }
 
 a:hover {
-    color: DeepPink;
+    color: LightPink;
     text-decoration: none;
 }
 
 a:active {
-    color: DarkMagenta;
+    color: DeepPink;
     text-decoration: none;
 }

@@ -52,6 +52,7 @@ css.elements = @[
     centerClass,
 
     textCenterClass,
+    centerWidth100Class,
     # centerTableClass,
 
     buttonClass,
@@ -69,8 +70,8 @@ css.elements = @[
     # Links:
     link("link", Pink),
     link("visited", HotPink),
-    link("hover", DeepPink),
-    link("active", DarkMagenta),
+    link("hover", LightPink),
+    link("active", DeepPink),
 ]
 
 # Write to disk:
