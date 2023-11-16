@@ -64,7 +64,7 @@ h3 {
 }
 
 a:link {
-    color: Pink;
+    color: HotPink;
     text-decoration: none;
 }
 
@@ -79,6 +79,6 @@ a:hover {
 }
 
 a:active {
-    color: DeepPink;
+    color: WhiteSmoke;
     text-decoration: none;
 }

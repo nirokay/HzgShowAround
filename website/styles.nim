@@ -68,10 +68,10 @@ css.elements = @[
     ),
 
     # Links:
-    link("link", Pink),
+    link("link", HotPink),
     link("visited", HotPink),
     link("hover", LightPink),
-    link("active", DeepPink),
+    link("active", WhiteSmoke),
 ]
 
 # Write to disk:

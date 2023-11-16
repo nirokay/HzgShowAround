@@ -1,4 +1,4 @@
-import std/[strutils]
+import std/[strutils, times]
 import websitegenerator
 export websitegenerator except newDocument, writeFile
 
@@ -20,6 +20,7 @@ proc generate*(html: var HtmlDocument) =
     ## Adds a footer before writing html page to disk
     var f: HtmlElement = footer(@[
         "🄯 by nirokay",
+        $small("Updated at " & now().format("yyyy-MM-dd - HH:mm")),
         $a("https://github.com/nirokay/HzgShowAround", "Source"),
         $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "Terms of Service")
     ].join(" | "))
