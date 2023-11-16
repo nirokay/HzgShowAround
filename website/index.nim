@@ -8,7 +8,12 @@ locations.generateLocationsHtmlPages()
 
 var html: HtmlDocument = newDocument("index.html")
 
-
+html.addToHead(
+    charset("utf-8"),
+    viewport("width=device-width, initial-scale=1"),
+    title("Home - HzgShowAround"),
+    description("HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle.")
+)
 
 # -----------------------------------------------------------------------------
 # Introduction

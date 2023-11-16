@@ -5,7 +5,7 @@ import colours
 const
     textUnderline* = ["text-decoration", "underline"]
     textNoDecoration* = ["text-decoration", "none"]
-    textTransparentBackground = ["background-color", "transparent"]
+    # textTransparentBackground = ["background-color", "transparent"]
 
     textCenter* = ["text-align", "center"]
     textCenterClass* = newCssClass("center",

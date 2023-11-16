@@ -17,7 +17,7 @@
             "Metzgerei": "keine Bedienung dienstags und samstags ab 13.00"
         },
         "pics": {
-            "header": "resources/images/location/mühlenmarkt.png",
+            "header": "mühlenmarkt.png",
             "footer": ""
         },
         "same": [

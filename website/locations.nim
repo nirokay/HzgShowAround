@@ -35,8 +35,13 @@ proc convert*(desc: Description): seq[HtmlElement] =
         result.add h2(header) # Table index as header
         result.add p(content) # Table values as paragraph
 
+proc getLocationPathRelative(name: string): string =
+    result = name.strip().toLower().replace(' ', '_') & ".html"
+# proc getLocationPathRelative(location: Location): string =
+#     result = location.name.getLocationPathRelative()
+
 proc getLocationPath(name: string): string =
-    result = locationHtmlPath & name.strip().toLower().replace(' ', '_') & ".html"
+    result = getLocationPathRelative(locationHtmlPath & name)
 proc getLocationPath(location: Location): string =
     result = location.name.getLocationPath()
 
@@ -65,6 +70,13 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
     for location in locations:
         var html: HtmlDocument = newDocument(location.getLocationPath())
+        # Add meta-data to head:
+        html.addToHead(
+            charset("utf-8"),
+            viewport("width=device-width, initial-scale=1"),
+            title(location.name & " - HzgShowAround"),
+            description("HzgShowAround Ort-display von " & location.name)
+        )
 
         # Add header:
         html.addToBody h1(location.name)
@@ -103,15 +115,18 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
             var
                 same: seq[string] = get location.same
                 table: OrderedTable[string, string]
+
             for name in same:
-                table[name] = name.getLocationPath()
-            
+                table[name] = name.getLocationPathRelative()
+
+            let buttons: seq[HtmlElement] = table.buttonList()
+            html.addToBody(
+                h2("Das könnte dich auch interessieren"),
+                `div`(buttons).setClass(centerClass)
+            )
 
         # Apply css and write to disk:
         html.addToHead(stylesheet("../styles.css"))
         html.writeFile()
-
-
-
 
 
