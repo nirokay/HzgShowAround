@@ -77,7 +77,7 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    button("Tour starten →", todoPage).setClass(centerClass)
+    button("Tour starten →", "tour.html").setClass(centerClass)
 )
 
 

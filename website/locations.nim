@@ -1,5 +1,5 @@
 import std/[tables, json, options, strutils]
-import generator, styles
+import generator, styles, client
 
 const
     locationHtmlPath*: string = "location/"
@@ -52,9 +52,7 @@ proc getLocations*(): seq[Location] =
         return buffer.get()
 
     # Parse locations from json:
-    result = readFile(locationsJsonPath)
-        .parseJson()
-        .to(seq[Location])
+    result = getLocationJson().to(seq[Location])
 
     # Add path to location html in object:
     for i in 0 .. result.len() - 1:

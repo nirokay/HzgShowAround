@@ -20,6 +20,11 @@ const
     textNoDecoration* = ["text-decoration", "none"]
     # textTransparentBackground = ["background-color", "transparent"]
 
+# Urls:
+const
+    urlJsonLocationData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/locations.json"
+    urlJsonTourData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json"
+
 
 # -----------------------------------------------------------------------------
 # Classes:
