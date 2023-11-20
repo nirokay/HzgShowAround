@@ -36,10 +36,10 @@ css.elements = @[
     ),
 
     newCssElement("footer",
-        ["position", "fixed"],
+        position(fixed),
         backgroundColour(colBackground),
         width("100%"),
-        ["bottom", "0"],
+        bottom(0),
         ["box-sizing" ,"border-box"]
     ),
 

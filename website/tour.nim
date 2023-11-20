@@ -8,7 +8,7 @@ var html*: HtmlDocument = newPage(
 )
 
 # Import js script:
-html.addToHead script(" ").attr(attr("src", "javascript/tourLogic.js"))
+html.addToHead script(" ").add(attr("src", "javascript/tourLogic.js"))
 
 # Header and description:
 html.addToBody(
@@ -17,7 +17,7 @@ html.addToBody(
 )
 
 proc button(text, onclick: string): HtmlElement =
-    newElement("button", text).attr(
+    newElement("button", text).add(
         attr("onclick", onclick)
     )
 
@@ -30,7 +30,7 @@ html.addToBody(
     ),
     `div`(
         iframe("location/" & id & ".html")
-            .attr(attr("id", "location-display"))
+            .add(attr("id", "location-display"))
             .setClass(centerClass)
     )
 )
