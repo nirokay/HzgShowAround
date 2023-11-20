@@ -77,3 +77,10 @@ const
     buttonClassHover* = newCssClass("button:hover",
         backgroundColour(colButtonHover)
     )
+
+    mapElement* = newCssClass("map-element",
+        outlineColour(LightPink),
+        display(inline),
+        backgroundColour(Red),
+        colour(LimeGreen)
+    )

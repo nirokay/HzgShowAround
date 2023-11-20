@@ -1,6 +1,6 @@
 {.define: ssl.}
 
-import website/[index, styles, tour]
+import website/[index, styles, tour, map]
 
 # To make the compiler shut up about unused imports:
-export index, styles, tour
+export index, styles, tour, map

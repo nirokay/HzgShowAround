@@ -41,10 +41,10 @@ proc getLocationPathRelative(name: string): string =
 
 proc getLocationPath(name: string): string =
     result = getLocationPathRelative(locationHtmlPath & name)
-proc getLocationPath(location: Location): string =
+proc getLocationPath*(location: Location): string =
     result = location.name.getLocationPath()
 
-var buffer: Option[seq[Location]] ## Cache
+var buffer: Option[seq[Location]] = none seq[Location] ## Cache
 proc getLocations*(): seq[Location] =
     ## Gets a sequence of all locations
     # Return cache, if present:

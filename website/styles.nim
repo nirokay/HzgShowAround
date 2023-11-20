@@ -54,7 +54,8 @@ css.elements = @[
 
     textCenterClass,
     centerWidth100Class,
-    # centerTableClass,
+
+    mapElement,
 
     buttonClass,
     buttonClassHover,

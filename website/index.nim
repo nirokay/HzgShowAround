@@ -104,7 +104,7 @@ for location in locations:
 # TODO: Map with clickable map areas
 html.addToBody(
     h2("Orte"),
-    p($a(todoPage, "Klicke hier") & " für eine Karte von der Mühle!" & $br() & "Oder schau dir jeden Ort einzelnd an:").setClass(centerClass),
+    p($a("map.html", "Klicke hier") & " für eine Karte von der Mühle!" & $br() & "Oder schau dir jeden Ort einzelnd an:").setClass(centerClass),
     `div`(locationButtons).setClass(centerClass)
 )
 

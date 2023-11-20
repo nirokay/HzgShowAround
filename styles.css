@@ -37,6 +37,13 @@ table, th, td {
     text-align: center;
 }
 
+.map-element {
+    color: LimeGreen;
+    display: inline;
+    outline-color: LightPink;
+    background-color: Red;
+}
+
 .button {
     margin: 4px 2px;
     font-size: 20px;
