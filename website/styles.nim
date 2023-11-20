@@ -48,6 +48,7 @@ css.elements = @[
         ["border-collapse", "collapse"]
     ),
 
+
     # Classes:
     centerClass,
 
@@ -57,6 +58,9 @@ css.elements = @[
 
     buttonClass,
     buttonClassHover,
+
+    newCssElement("button", buttonClass.properties),
+    newCssElement("button:hover", buttonClassHover.properties),
 
     # Headers:
     newCssElement("h1, h2",
