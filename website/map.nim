@@ -1,6 +1,10 @@
 import std/[strutils, options]
 import generator, styles, locations as locationModule
 
+const
+    mapResolution: int = 2000
+    mapScaleTo: int = 1000
+
 var html: HtmlDocument = newPage(
     "Karte von Herzogsägmühle",
     "map.html",
@@ -12,15 +16,17 @@ var
     locations: seq[Location] = getLocations()
     picture: HtmlElement = img(urlImages & "map.svg", "Interaktive Karte ist unverfügbar").add(
         attr("usemap", "#location-map"),
-        attr("width", "2000"),
-        attr("height", "2000")
+        attr("width", $mapScaleTo),
+        attr("height", $mapScaleTo)
     )
 
 var areas: seq[string]
 for location in locations:
     if location.coords.isNone(): continue
 
-    let coords: Coords = get location.coords
+    let
+        coords: Coords = get location.coords
+        scale: float = float(mapScaleTo) / float(mapResolution)
     var area: HtmlElement = newElement("area")
 
     # Shape:
@@ -28,11 +34,18 @@ for location in locations:
     of 3: area.add attr("shape", "circle")
     of 4: area.add attr("shape", "rect")
     else:
-        raise ValueError.newException("Got a length of " & $coords.len() & " for coordinates! Expected 3-4. Please double check location " & location.name & "!")
+        raise ValueError.newException(
+            "Got a length of " & $coords.len() & " for coordinates! Expected 3-4. " &
+            "Please double check location " & location.name & "!"
+        )
+
+    var scaledCoords: seq[int]
+    for coord in coords:
+        scaledCoords.add int(float(coord) * scale)
 
     # Coords and link:
     area.add(
-        attr("coords", coords.join(",")),
+        attr("coords", scaledCoords.join(",")),
         attr("alt", location.name),
         attr("href", location.getLocationPath()),
         attr("tabindex", "0"),
