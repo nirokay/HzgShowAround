@@ -16,7 +16,7 @@ html.addToBody(
     p("").setClass(textCenterClass)
 )
 
-proc button(text, onclick: string): HtmlElement =
+proc scriptButton(text, onclick: string): HtmlElement =
     newElement("button", text).add(
         attr("onclick", onclick)
     )
@@ -25,14 +25,20 @@ proc button(text, onclick: string): HtmlElement =
 var id: string = getTourJson().elems[0].str # Fuck you javascript, this ensures that the starting page is not blank
 html.addToBody(
     `div`(
-        button("← prev", "prevLocation()"),
-        button("next →", "nextLocation()")
-    ),
+        button("← Tour beenden", "index.html"),
+    ).setClass(centerClass),
+    `div`(
+        scriptButton("← zurück", "prevLocation()"),
+        scriptButton("weiter →", "nextLocation()")
+    ).setClass(centerClass),
     `div`(
         iframe("location/" & id & ".html")
-            .add(attr("id", "location-display"))
-            .setClass(centerClass)
-    )
+            .add(
+                attr("id", "location-display"),
+                attr("width", "90%"),
+                attr("height", "500vh")
+            )
+    ).setClass(centerClass)
 )
 
 

@@ -24,6 +24,9 @@ const
 const
     urlJsonLocationData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/locations.json"
     urlJsonTourData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json"
+    urlResources*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/"
+    urlImages*: string = urlResources & "images/"
+    urlLocationImages*: string = urlImages & "locations/"
 
 
 # -----------------------------------------------------------------------------

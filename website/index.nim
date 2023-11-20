@@ -16,7 +16,7 @@ block:
     html.addToBody(
         h1("Baustelle"),
         p("Ups, dieser Link führt nur zu einer Baustelle... schau später mal vorbei, vielleicht ist hier dann was Cooles!").setClass(centerClass),
-        img("resources/images/construction.jpg", "Bild einer Baustelle").setClass(centerClass)
+        img(urlImages & "construction.jpg", "Bild einer Baustelle").setClass(centerClass)
     )
     html.setStyle(css)
     html.generate()

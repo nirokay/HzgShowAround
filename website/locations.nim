@@ -63,6 +63,21 @@ proc getLocations*(): seq[Location] =
     # Cache location data:
     buffer = some result
 
+type
+    LocationImageType = enum
+        imgHeader = "header image",
+        imgFooter = "footer image"
+proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
+    let
+        pics: Pictures = get location.pics
+        src: string = get (
+            case img:
+                of imgHeader: pics.header
+                of imgFooter: pics.footer
+            )
+        altText: string = "$1 $2 unavailable" % [location.name, $img]
+    result = img(urlLocationImages & src, altText).setClass(textCenterClass)
+
 proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
     for location in locations:
@@ -79,7 +94,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
         if location.pics.isSome():
             let pics = get location.pics
             if pics.header.isSome():
-                html.addToBody img(get pics.header, location.name & " header image").setClass(textCenterClass)
+                html.addToBody location.getLocationImage(imgHeader)
 
         # Add opening/closing times:
         if location.open.isSome():
@@ -102,7 +117,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
         if location.pics.isSome():
             let pics = get(location.pics)
             if pics.footer.isSome():
-                html.addToBody img(get pics.footer, location.name & " footer image").setClass(textCenterClass)
+                html.addToBody location.getLocationImage(imgFooter)
 
         # Add similar places as links:
         if location.same.isSome():
