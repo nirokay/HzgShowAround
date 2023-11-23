@@ -3,7 +3,8 @@ import client, locations as locationModule, globals
 
 const
     viewbox: int = 200 # Hard-coded viewbox width/height, just like the gods intended
-    colour: string = "#ff000088"
+    colour: string = "#ff0000ff"
+    svgExportPath*: string = "resources/map.svg"
 
 let scale: float = float(viewbox) / float(mapResolution)
 
@@ -56,10 +57,6 @@ proc `$`*(layer: Layer): string =
 
     # Tag:
     result &= "</g>"
-
-const
-    svgExportPath*: string = "resources/map.svg"
-
 
 var svg: tuple[data: string, locations: seq[Rect]]
 svg.data = getMapSvg().strip()
