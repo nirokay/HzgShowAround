@@ -16,6 +16,10 @@ const
 # -----------------------------------------------------------------------------
 
 const
+    mapResolution*: int = 2000
+    mapScaleTo*: int = 1000
+
+const
     textUnderline* = ["text-decoration", "underline"]
     textNoDecoration* = ["text-decoration", "none"]
     # textTransparentBackground = ["background-color", "transparent"]

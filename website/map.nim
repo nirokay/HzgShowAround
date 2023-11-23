@@ -1,9 +1,5 @@
 import std/[strutils, options]
-import generator, styles, locations as locationModule
-
-const
-    mapResolution: int = 2000
-    mapScaleTo: int = 1000
+import generator, styles, mapgenerator, locations as locationModule
 
 var html: HtmlDocument = newPage(
     "Karte von Herzogsägmühle",
@@ -14,16 +10,15 @@ var html: HtmlDocument = newPage(
 
 var
     locations: seq[Location] = getLocations()
-    picture: HtmlElement = img(urlImages & "map.svg", "Interaktive Karte ist unverfügbar").add(
+    picture: HtmlElement = img(svgExportPath, "Interaktive Karte ist unverfügbar").add(
         attr("usemap", "#location-map"),
         attr("width", $mapScaleTo),
         attr("height", $mapScaleTo)
     )
 
 var areas: seq[string]
-for location in locations:
-    if location.coords.isNone(): continue
 
+for location in locations.withCoords():
     let
         coords: Coords = get location.coords
         scale: float = float(mapScaleTo) / float(mapResolution)
@@ -64,9 +59,12 @@ html.addToBody(
     `div`(
         picture,
         map
-    ).setClass(centerWidth100Class).add(attr("style", "overflow:auto;"))
+    ).setClass(centerWidth100Class).add(
+        attr("style", "overflow:auto;")
+    )
 )
 
 
+generateSvg()
 html.setStyle(css)
 html.generate()

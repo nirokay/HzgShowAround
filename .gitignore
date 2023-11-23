@@ -5,3 +5,6 @@
 webbuilder
 *.exe
 *.out
+
+# Testing:
+.test/

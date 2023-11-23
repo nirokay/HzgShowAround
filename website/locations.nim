@@ -26,6 +26,11 @@ type
         path*: Option[string] ## Optional, because needs not to be inserted into json file
         same*: Option[seq[string]] ## Optional similar locations
 
+iterator withCoords*(locations: seq[Location]): Location =
+    for location in locations:
+        if location.coords.isNone(): continue
+        if location.coords.get().len() == 0: continue
+        yield location
 
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`
