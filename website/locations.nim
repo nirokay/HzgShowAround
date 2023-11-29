@@ -102,7 +102,12 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
                 html.addToBody location.getLocationImage(imgHeader)
 
         # Add opening/closing times:
-        if location.open.isSome():
+        proc isOpen(location: Location): bool =
+            if location.open.isSome():
+                if location.open.get().len() != 0:
+                    result = true
+
+        if location.isOpen():
             let open: OpeningTimes = get location.open
             var elements: seq[HtmlElement]
             for day, time in open:
