@@ -66,6 +66,7 @@ const
 
     buttonClass* = newCssClass("button",
         backgroundColour(rgb(50, 30, 58)), # backgroundColour(rgb(60, 60, 60)),
+        colour(White),
         ["border", "none"],
         padding("20px 34px"),
         textCenter,
@@ -85,6 +86,6 @@ const
     mapElement* = newCssClass("map-element",
         outlineColour(LightPink),
         display(inline),
-        backgroundColour(Red),
-        colour(LimeGreen)
+        backgroundColour(Pink),
+        colour(Pink)
     )

@@ -55,6 +55,17 @@ var html: HtmlDocument = newPage(
     "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle."
 )
 
+proc pc(lines: seq[string]): HtmlElement =
+    let text: string = lines.join($br())
+    result = p(text).setClass(centerClass)
+
+proc pc(lines: varargs[string]): HtmlElement =
+    ## Returns a centered paragraph. Join each line with a `<br />`
+    var s: seq[string]
+    for line in lines:
+        s.add line
+    result = pc(s)
+
 # -----------------------------------------------------------------------------
 # Introduction
 # -----------------------------------------------------------------------------
@@ -63,13 +74,13 @@ var html: HtmlDocument = newPage(
 html.addToBody(
     hr(),
     h2("Diese Website ist eine noch Baustelle!"),
-    p("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)").setClass(textCenterClass),
+    pc("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)"),
     hr()
 )
 
 html.addToBody(
     h1("HzgShowAround"),
-    p("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!").setClass(textCenterClass)
+    pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
 )
 
 # -----------------------------------------------------------------------------
@@ -77,7 +88,9 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    button("Tour starten →", "tour.html").setClass(centerClass)
+    `div`(
+        button("Tour starten →", "tour.html")
+    ).setClass(centerClass)
 )
 
 
@@ -87,7 +100,7 @@ html.addToBody(
 
 html.addToBody(
     h2("News-Feed"),
-    p("ToDo!").setClass(textCenterClass)
+    pc("ToDo!")
 )
 
 # TODO: News-Feed
@@ -104,7 +117,11 @@ for location in locations:
 # TODO: Map with clickable map areas
 html.addToBody(
     h2("Orte"),
-    p($a("map.html", "Klicke hier") & " für eine Karte von der Mühle!" & $br() & "Oder schau dir jeden Ort einzelnd an:").setClass(centerClass),
+    pc("Schau dir die interaktive Karte der Herzogsägmühle an, ..."),
+    `div`(
+        button("Karte", "map.html")
+    ).setClass(centerClass),
+    pc("... oder stöbere dich durch jeden Ort einzelnd an:"),
     `div`(locationButtons).setClass(centerClass)
 )
 

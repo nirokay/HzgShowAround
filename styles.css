@@ -38,13 +38,14 @@ table, th, td {
 }
 
 .map-element {
-    color: LimeGreen;
+    color: Pink;
     display: inline;
     outline-color: LightPink;
-    background-color: Red;
+    background-color: Pink;
 }
 
 .button {
+    color: White;
     margin: 4px 2px;
     font-size: 20px;
     border-radius: 6px;
@@ -62,6 +63,7 @@ table, th, td {
 }
 
 button {
+    color: White;
     margin: 4px 2px;
     font-size: 20px;
     border-radius: 6px;
