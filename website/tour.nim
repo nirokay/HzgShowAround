@@ -8,18 +8,13 @@ var html*: HtmlDocument = newPage(
 )
 
 # Import js script:
-html.addToHead script(" ").add(attr("src", "javascript/tourLogic.js"))
+html.addToHead importScript("javascript/tourLogic.js")
 
 # Header and description:
 html.addToBody(
     h1("Digitale Tour durch Herzogsägmühle"),
     p("").setClass(textCenterClass)
 )
-
-proc scriptButton(text, onclick: string): HtmlElement =
-    newElement("button", text).add(
-        attr("onclick", onclick)
-    )
 
 # iframe of current location:
 var id: string = getTourJson().elems[0].str # Fuck you javascript, this ensures that the starting page is not blank

@@ -100,7 +100,9 @@ html.addToBody(
 
 html.addToBody(
     h2("News-Feed"),
-    pc("ToDo!")
+    `div`(
+        button("Zum News-Feed →", "newsfeed.html")
+    ).setClass(centerClass)
 )
 
 # TODO: News-Feed

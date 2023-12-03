@@ -26,12 +26,15 @@ const
 
 # Urls:
 const
-    urlJsonLocationData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/locations.json"
-    urlJsonTourData*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json"
-    urlResources*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/"
+    urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/"
+
+    urlResources*: string = urlRemoteRepo & "resources/"
     urlImages*: string = urlResources & "images/"
     urlLocationImages*: string = urlImages & "locations/"
 
+    urlJsonLocationData*: string = urlRemoteRepo & "locations.json"
+    urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json"
+    urlJsonNewsFeed*: string = urlRemoteRepo & "news.json"
 
 # -----------------------------------------------------------------------------
 # Classes:
@@ -88,4 +91,10 @@ const
         display(inline),
         backgroundColour(Pink),
         colour(Pink)
+    )
+
+
+proc scriptButton*(text, onclick: string): HtmlElement =
+    newElement("button", text).add(
+        attr("onclick", onclick)
     )

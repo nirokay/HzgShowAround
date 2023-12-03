@@ -78,6 +78,3 @@ css.elements = @[
     link("hover", LightPink),
     link("active", WhiteSmoke),
 ]
-
-# Write to disk:
-css.writeFile()

@@ -108,3 +108,7 @@ a:active {
     color: WhiteSmoke;
     text-decoration: none;
 }
+
+.newsfeed-element {
+    text-align: center;
+}

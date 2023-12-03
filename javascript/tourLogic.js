@@ -1,14 +1,12 @@
 // This script has all logic for the tour
 
-const iframeId = "location-display"
+const iframeId = "location-display";
 
 let currentLocation = 0;
 let tourLocations = []
 let fetching = fetch('https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json')
     .then((response) => response.json())
-    .then((json) => tourLocations = json)
-
-setSource()
+    .then((json) => tourLocations = json);
 
 // Changes the source of the iframe:
 function setSource() {
@@ -38,3 +36,5 @@ function nextLocation() {
     currentLocation++;
     setSource();
 }
+
+// document.onload = setSource();

@@ -1,6 +1,11 @@
 {.define: ssl.}
 
-import website/[index, styles, tour, map]
+from websitegenerator import writeFile
 
+# Sub-modules:
+import website/[index, styles, tour, map, newsfeed]
 # To make the compiler shut up about unused imports:
-export index, styles, tour, map
+export index, styles, tour, map, newsfeed
+
+# Write css to disk here, because modules may apply changes to the css var:
+css.writeFile()

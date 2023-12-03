@@ -17,7 +17,7 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     )
 
 proc generate*(html: var HtmlDocument) =
-    stdout.write("Generating " & html.file & "...")
+    when not defined(js): stdout.write("Generating " & html.file & "...")
     ## Adds a footer before writing html page to disk
     var f: HtmlElement = footer(@[
         "🄯 by nirokay",
@@ -31,5 +31,5 @@ proc generate*(html: var HtmlDocument) =
         p($br())# 1_000_000 IQ move to put a buffer between end of content and footer
     )
     html.writeFile()
-    stdout.write("\rFinished generation for " & html.file & "!\n")
+    when not defined(js): stdout.write("\rFinished generation for " & html.file & "!\n")
 
