@@ -23,8 +23,12 @@ function getHtml(element) {
     return html + "</div>";
 }
 
+function addToDiv(content) {
+    getDiv().insertAdjacentHTML('beforeend', content);
+}
+
 function addElement(element) {
-    getDiv().insertAdjacentHTML('beforeend', getHtml(element));
+    addToDiv(getHtml(element));
 }
 
 function fetchNews() {
@@ -35,7 +39,19 @@ function fetchNews() {
 }
 
 function isRelevant(element) {
-    return true
+    let now = new Date();
+    function toUgly(time) {
+        let temp = time.split("-");
+        // Wildcard for every-year events:
+        if(temp[2] == "*") {
+            temp[2] = now.getFullYear();
+        }
+        return [temp[1], temp[2], temp[0]].join("/");
+    }
+    let unixFrom = new Date(toUgly(element.from)).getTime();
+    let unixTill = new Date(toUgly(element.till)).getTime();
+    let unixNow = now.getTime();
+    return unixNow <= unixTill && unixNow >= unixFrom;
 }
 
 function refreshNews() {
@@ -48,8 +64,11 @@ function refreshNews() {
             addElement(element);
         }
     });
+    if(news.length == 0) {
+        addToDiv("<p>Derzeit sind keine Neuigkeiten vorhanden.<br />Klicke auf \"Neu laden\", um zu sehen ob doch Neuigkeiten vorhanden sind!</p>");
+    }
 }
 
 // Defer this little bad-boy, because otherwise everything goes up in flames:
 document.onload =
-    refreshNews()
+    refreshNews();

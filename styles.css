@@ -44,6 +44,19 @@ table, th, td {
     background-color: Pink;
 }
 
+.news-div-class {
+    width: 50%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.newsfeed-element {
+    border: solid White 2px;
+    text-align: center;
+}
+
 .button {
     color: White;
     margin: 4px 2px;
@@ -107,8 +120,4 @@ a:hover {
 a:active {
     color: WhiteSmoke;
     text-decoration: none;
-}
-
-.newsfeed-element {
-    text-align: center;
 }

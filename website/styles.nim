@@ -7,13 +7,6 @@ export globals
 # Buttons:
 # -----------------------------------------------------------------------------
 
-proc button*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
-
-proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
-    ## List of buttons
-    for content, href in table:
-        result.add button(content, href)
-
 proc link(which: string, colour: CssColour|string): CssElement =
     ## Css link stuff
     newCssElement("a:" & which,
@@ -56,6 +49,9 @@ css.elements = @[
     centerWidth100Class,
 
     mapElement,
+
+    newsDivClass,
+    newsElement,
 
     buttonClass,
     buttonClassHover,

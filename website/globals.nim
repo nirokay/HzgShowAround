@@ -1,3 +1,4 @@
+import std/[tables]
 import generator
 
 # -----------------------------------------------------------------------------
@@ -93,8 +94,31 @@ const
         colour(Pink)
     )
 
+    newsDivClass* = newCssClass("news-div-class",
+        textCenter,
+        width("50%"),
+        ["display", "block"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"]
+    )
+
+    newsElement* = newCssClass("newsfeed-element",
+        textCenter,
+        border("solid White 2px")
+    )
+
 
 proc scriptButton*(text, onclick: string): HtmlElement =
+    ## Button with script attached to it
     newElement("button", text).add(
         attr("onclick", onclick)
     )
+
+proc button*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
+
+proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
+    ## List of buttons
+    for content, href in table:
+        result.add button(content, href)
+
+proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") ## Button that returns to the home page

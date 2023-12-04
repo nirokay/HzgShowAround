@@ -13,21 +13,13 @@ var html: HtmlDocument = newPage(
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
+    backToHomeButton("← Zurück"),
     scriptButton("Neu laden", "refreshNews()"),
     `div`(
         p("nothing here...")
-    ).setClass(centerClass).add(
+    ).setClass(newsDivClass).add(
         attr("id", newsfeedDivId)
     )
-)
-
-css.add(
-    newCssClass("newsfeed-element",
-        textCenter
-    )
-)
-
-html.addToBody(
 )
 
 html.setStyle(css)

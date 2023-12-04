@@ -20,7 +20,7 @@ html.addToBody(
 var id: string = getTourJson().elems[0].str # Fuck you javascript, this ensures that the starting page is not blank
 html.addToBody(
     `div`(
-        button("← Tour beenden", "index.html"),
+        backToHomeButton("← Tour beenden")
     ).setClass(centerClass),
     `div`(
         scriptButton("← zurück", "prevLocation()"),
