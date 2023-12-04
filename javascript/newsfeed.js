@@ -1,7 +1,15 @@
 const newsfeedDivId = "news-div";
+const reloadedTimeId = "reloaded-time";
 const remoteRepoNewsJson = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
-const date = new Date();
+const dayMilliseconds = 86400000;
+const weekMilliseconds = dayMilliseconds * 7;
+const dateFormatDisplay = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric"
+};
 
+let date = new Date();
 let news = [];
 
 function getDiv() {
@@ -13,10 +21,8 @@ function getHtml(element) {
 
     // Title:
     html += "<h4>" + element.name + "</h4>";
-
     // Date range:
     html += "<h5>von " + readable(element.from) + " bis " + readable(element.till) + "</h5>";
-
     // Details:
     html += "<p class='generic-center'>" + element.details.join('<br />') + "</p>";
 
@@ -38,38 +44,21 @@ function fetchNews() {
         .then(console.log("Got stuff!"));
 }
 
-function normalize(date) {
-    /** Converts good format "yyyy-MM-dd" to ugly format "MM/dd/yyyy" */
-    const now = new Date();
-    let d = date.split("-");
-    // Wildcard for every-year events:
-    if(d[0] == "*") {
-        d[0] = now.getFullYear();
-    }
-    console.log(d)
-    return [d[1], d[2], d[0]].join("/");
+function normalize(time) {
+    return time.replace("\*", date.getFullYear())
 }
 
-function readable(date) {
-    /** Gets the date in a more readable format "dd.MM.yyyy" from "yyyy-MM-dd" */
-    let now = new Date();
-    let d = date.split("-");
-    let
-        year = d[0],
-        month = d[1],
-        day = d[2]
-    if(year == "*") { year = now.getFullYear() }
-    return [day, month, year].join(".");
+function readable(time) {
+    let d = new Date(Date.parse(normalize(time)))
+    return d.toLocaleString("de-DE", dateFormatDisplay)
 }
 
 function isRelevant(element) {
-    /** Filters irrelevant news (depending on the date) */
-    let now = new Date();
-    let unixFrom = new Date(normalize(element.from)).getTime();
-    let unixTill = new Date(normalize(element.till)).getTime() + 86400000;
-    let unixNow = now.getTime();
-    console.log([unixNow, "----", unixFrom, unixTill].join("\n"))
-    return unixNow <= unixTill && unixNow >= unixFrom;
+    /** Filters irrelevant news (depending on the date ± 7 days) */
+    let unixFrom = Date.parse(normalize(element.from));
+    let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
+    let unixNow = date.getTime();
+    return unixNow <= unixTill + weekMilliseconds && unixNow >= unixFrom - weekMilliseconds;
 }
 
 function refreshNews() {
@@ -88,6 +77,28 @@ function refreshNews() {
             "Klicke auf \"Neu laden\", um zu sehen ob doch Neuigkeiten vorhanden sind!</p>"
         );
     }
+
+    // Debug:
+    function debugPrint() {
+        const infos = [
+            "All news: ",
+            news,
+            "---------",
+            "Relevant news: ",
+            relevantNews
+        ];
+        infos.forEach(element => {
+            console.log(element)
+        });
+    }
+    // Update "refreshed at `time`" text:
+    function updateRefreshedAt() {
+        date = new Date();
+        let time = date.toLocaleTimeString("de-DE")
+        document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time
+    }
+    debugPrint();
+    updateRefreshedAt();
 }
 
 // Defer this little bad-boy, because otherwise everything goes up in flames:

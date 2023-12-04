@@ -55,17 +55,6 @@ var html: HtmlDocument = newPage(
     "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle."
 )
 
-proc pc(lines: seq[string]): HtmlElement =
-    let text: string = lines.join($br())
-    result = p(text).setClass(centerClass)
-
-proc pc(lines: varargs[string]): HtmlElement =
-    ## Returns a centered paragraph. Join each line with a `<br />`
-    var s: seq[string]
-    for line in lines:
-        s.add line
-    result = pc(s)
-
 # -----------------------------------------------------------------------------
 # Introduction
 # -----------------------------------------------------------------------------

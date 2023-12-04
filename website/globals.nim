@@ -1,4 +1,4 @@
-import std/[tables]
+import std/[strutils, tables]
 import generator
 
 # -----------------------------------------------------------------------------
@@ -107,6 +107,16 @@ const
         border("solid White 2px")
     )
 
+proc pc*(lines: seq[string]): HtmlElement =
+    let text: string = lines.join($br())
+    result = p(text).setClass(centerClass)
+
+proc pc*(lines: varargs[string]): HtmlElement =
+    ## Returns a centered paragraph. Join each line with a `<br />`
+    var s: seq[string]
+    for line in lines:
+        s.add line
+    result = pc(s)
 
 proc scriptButton*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
