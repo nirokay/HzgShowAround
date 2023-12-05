@@ -23,13 +23,44 @@ function getDiv() {
     return document.getElementById(newsfeedDivId);
 }
 
+function getImportance(element) {
+    // Returns 0 .. 2 for severity
+    let severity = 0;
+    switch(element.level) {
+        case "alert": case "achtung": case "alarm":
+            severity = 2;
+            break;
+        case "warning": case "warn": case "warnung":
+            severity = 1;
+            break;
+        default:
+            severity = 0;
+            break;
+    }
+    return severity;
+}
+
 function getHtml(element) {
-    let html = "<div class='newsfeed-element'>";
+    let level = element.level.trim().toLowerCase();
+    console.log(level)
+    let cssClass = "";
+    switch(getImportance(element)) {
+        case 2:
+            cssClass = "alert";
+            break;
+        case 1:
+            cssClass = "warning";
+            break;
+        case 0:
+            cssClass = "generic";
+            break;
+    }
+    let html = "<div class='newsfeed-element-" + cssClass + "'>";
 
     // Title:
-    html += "<h4>" + element.name + "</h4>";
+    html += "<h3 style='margin-bottom:2px;'>" + element.name + "</h3>";
     // Date range:
-    html += "<h5>von " + readable(element.from) + " bis " + readable(element.till) + "</h5>";
+    html += "<small><b>von " + readable(element.from) + " bis " + readable(element.till) + "</b></small>";
     // Details:
     html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
 
@@ -75,6 +106,16 @@ function refreshNews() {
     getDiv().innerHTML = "";
 
     let relevantNews = news.filter(element => isRelevant(element));
+    for(let i = 0; i < news.length - 1; i++) { // why do i have to do `- 1`??
+        console.log(relevantNews[i])
+        relevantNews[i].importance = getImportance(relevantNews[i]);
+        console.log(relevantNews[i])
+    }
+
+    relevantNews.sort(function(a, b) {
+        return b.importance - a.importance;
+    });
+
     relevantNews.forEach(element => {
         addElement(element);
     });
