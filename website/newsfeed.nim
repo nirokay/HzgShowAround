@@ -16,8 +16,7 @@ html.addToBody(
     h1("Newsfeed"),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
-        "Einzusehen sind Neuigkeiten ± einer Woche.",
-        "Wenn keine Neuigkeiten angezeigt werden, klicke auf den \"Neu laden\" Knopf."
+        "Einzusehen sind Neuigkeiten ± einer Woche."
     ),
     small("Noch nicht aktualisiert").add(
         attr("id", "reloaded-time")

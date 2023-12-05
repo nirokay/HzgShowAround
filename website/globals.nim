@@ -41,6 +41,22 @@ const
 # Classes:
 # -----------------------------------------------------------------------------
 
+type NewsLevel = enum
+    Generic = "generic",
+    Warning = "warning",
+    Alert = "alert"
+proc newsElement(level: NewsLevel): CssElement =
+    result = newCssClass("newsfeed-element-" & $level,
+        ["border-style", "solid"],
+        ["border-width", "10px"],
+        ["margin-top", "10px"],
+        ["margin-bottom", "10px"]
+    )
+    result.properties["border-color"] = case(level):
+        of Warning: $Yellow
+        of Alert: $Red
+        of Generic: $White
+
 const
     textCenter* = ["text-align", "center"]
     textCenterClass* = newCssClass("center",
@@ -96,16 +112,16 @@ const
 
     newsDivClass* = newCssClass("news-div-class",
         textCenter,
-        width("50%"),
+        width("75%"),
         ["display", "block"],
         ["margin-left", "auto"],
-        ["margin-right", "auto"]
+        ["margin-right", "auto"],
+        padding("10px")
     )
 
-    newsElement* = newCssClass("newsfeed-element",
-        textCenter,
-        border("solid White 2px")
-    )
+    newsElementGeneric* = newsElement(Generic)
+    newsElementWarning* = newsElement(Warning)
+    newsElementAlert* = newsElement(Alert)
 
 proc pc*(lines: seq[string]): HtmlElement =
     let text: string = lines.join($br())

@@ -45,16 +45,36 @@ table, th, td {
 }
 
 .news-div-class {
-    width: 50%;
+    width: 75%;
     display: block;
     margin-right: auto;
+    padding: 10px;
     margin-left: auto;
     text-align: center;
 }
 
-.newsfeed-element {
-    border: solid White 2px;
-    text-align: center;
+.newsfeed-element-generic {
+    border-color: White;
+    margin-bottom: 10px;
+    border-style: solid;
+    margin-top: 10px;
+    border-width: 10px;
+}
+
+.newsfeed-element-warning {
+    border-color: Yellow;
+    margin-bottom: 10px;
+    border-style: solid;
+    margin-top: 10px;
+    border-width: 10px;
+}
+
+.newsfeed-element-alert {
+    border-color: Red;
+    margin-bottom: 10px;
+    border-style: solid;
+    margin-top: 10px;
+    border-width: 10px;
 }
 
 .button {

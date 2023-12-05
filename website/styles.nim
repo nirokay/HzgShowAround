@@ -51,7 +51,9 @@ css.elements = @[
     mapElement,
 
     newsDivClass,
-    newsElement,
+    newsElementGeneric,
+    newsElementWarning,
+    newsElementAlert,
 
     buttonClass,
     buttonClassHover,
