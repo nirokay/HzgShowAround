@@ -1,4 +1,4 @@
-import std/[options, strutils]
+import std/[options, strutils, algorithm]
 import generator, styles, locations as locationModule
 
 # Parse locations from json and create html pages:
@@ -94,8 +94,6 @@ html.addToBody(
     ).setClass(centerClass)
 )
 
-# TODO: News-Feed
-
 
 # -----------------------------------------------------------------------------
 # Locations
@@ -105,7 +103,9 @@ var locationButtons: seq[HtmlElement]
 for location in locations:
     locationButtons.add button(location.name, get location.path)
 
-# TODO: Map with clickable map areas
+locationButtons.sort do (x, y: HtmlElement) -> int:
+    result = cmp(x.content, y.content)
+
 html.addToBody(
     h2("Orte"),
     pc("Schau dir die interaktive Karte der Herzogsägmühle an, ..."),
