@@ -12,6 +12,13 @@ const dateFormatDisplay = {
 let date = new Date();
 let news = [];
 
+function multilineText(array) {
+    return array.join("<br />");
+}
+function p(array) {
+    return "<p>" + multilineText(array) + "</p>";
+}
+
 function getDiv() {
     return document.getElementById(newsfeedDivId);
 }
@@ -24,7 +31,7 @@ function getHtml(element) {
     // Date range:
     html += "<h5>von " + readable(element.from) + " bis " + readable(element.till) + "</h5>";
     // Details:
-    html += "<p class='generic-center'>" + element.details.join('<br />') + "</p>";
+    html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
 
     return html + "</div>";
 }
@@ -45,12 +52,12 @@ function fetchNews() {
 }
 
 function normalize(time) {
-    return time.replace("\*", date.getFullYear())
+    return time.replace("\*", date.getFullYear());
 }
 
 function readable(time) {
-    let d = new Date(Date.parse(normalize(time)))
-    return d.toLocaleString("de-DE", dateFormatDisplay)
+    let d = new Date(Date.parse(normalize(time)));
+    return d.toLocaleString("de-DE", dateFormatDisplay);
 }
 
 function isRelevant(element) {
@@ -71,11 +78,23 @@ function refreshNews() {
     relevantNews.forEach(element => {
         addElement(element);
     });
+
+    // Add "error" message:
     if(relevantNews.length == 0) {
-        addToDiv(
-            "<p>Derzeit sind keine Neuigkeiten vorhanden.<br />" +
-            "Klicke auf \"Neu laden\", um zu sehen ob doch Neuigkeiten vorhanden sind!</p>"
-        );
+        let msg = "";
+        // There are no relevant news:
+        if(news.length != 0) {
+            msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
+        }
+        // There are NO news (probably a network error):
+        else {
+            msg = p([
+                "Derzeit keine Neuigkeiten vorhanden.",
+                "Klicke auf den \"Neu laden\" Knopf, um nochmals nach Neuigkeiten zu suchen.",
+                "Diese Fehlermeldung kann ein auf eine schlechte/nicht vorhandene Internetverbindung deuten."
+            ]);
+        }
+        addToDiv(msg);
     }
 
     // Debug:
@@ -94,8 +113,8 @@ function refreshNews() {
     // Update "refreshed at `time`" text:
     function updateRefreshedAt() {
         date = new Date();
-        let time = date.toLocaleTimeString("de-DE")
-        document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time
+        let time = date.toLocaleTimeString("de-DE");
+        document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time;
     }
     debugPrint();
     updateRefreshedAt();
