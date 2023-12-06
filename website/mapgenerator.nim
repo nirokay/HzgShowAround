@@ -6,7 +6,7 @@ const
     colour: string = "#1a1a1aff"
     smoothing: float = 1.0
     opacity: float = 0.25
-    svgExportPath*: string = "resources/map.svg"
+    svgExportPath*: string = "resources/images/map.svg"
 
 let scale: float = float(viewbox) / float(mapResolution)
 
