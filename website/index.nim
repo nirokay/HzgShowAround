@@ -78,7 +78,7 @@ html.addToBody(
 
 html.addToBody(
     `div`(
-        button("Tour starten →", "tour.html")
+        button("Tour starten", "tour.html")
     ).setClass(centerClass)
 )
 
@@ -88,9 +88,9 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    h2("News-Feed"),
+    h2("Newsfeed"),
     `div`(
-        button("Zum News-Feed →", "newsfeed.html")
+        button("Zum Newsfeed", "newsfeed.html")
     ).setClass(centerClass)
 )
 
@@ -112,7 +112,7 @@ html.addToBody(
     `div`(
         button("Karte", "map.html")
     ).setClass(centerClass),
-    pc("... oder stöbere dich durch jeden Ort einzelnd an:"),
+    pc("... oder stöbere dich durch jeden Ort einzelnd:"),
     `div`(locationButtons).setClass(centerClass)
 )
 

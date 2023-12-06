@@ -5,7 +5,7 @@ const
     newsfeedDivId*: string = "news-div"
 
 var html: HtmlDocument = newPage(
-    "NewsFeed",
+    "Newsfeed",
     "newsfeed.html",
     "Neuigkeiten von und rund um die Herzogsägmühle."
 )
