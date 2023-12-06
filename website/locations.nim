@@ -2,8 +2,7 @@ import std/[tables, json, options, strutils]
 import generator, styles, client
 
 const
-    locationHtmlPath*: string = "location/"
-    locationsJsonPath*: string = "resources/locations.json"
+    locationHtmlPath*: string = "location/" ## Path to directory with all location HTML files
 
 type
     Pictures* = object
@@ -15,18 +14,20 @@ type
 
     Description* = OrderedTable[string, Paragraph] ## Collection of paragraphs (html: `<p> ... </p>`) with headers
 
-    OpeningTimes* = OrderedTable[string, string]
+    OpeningTimes* = OrderedTable[string, string] ## `OrderedTable` of opening times
 
     Location* = object
-        name*: string
-        desc*: Description
-        open*: Option[OpeningTimes]
-        pics*: Option[Pictures]
-        coords*: Option[Coords]
+        name*: string ## Location name
+        link*: Option[string] ## Link to a webpage (if there is one)
+        desc*: Description ## Description about a location
+        open*: Option[OpeningTimes] ## Optional opening times
+        pics*: Option[Pictures] ## Optional header and footer images
+        coords*: Option[Coords] ## Optional coordinates -> will be inserted into the map image
         path*: Option[string] ## Optional, because needs not to be inserted into json file
         same*: Option[seq[string]] ## Optional similar locations
 
 iterator withCoords*(locations: seq[Location]): Location =
+    ## Filters locations only with coordinates
     for location in locations:
         if location.coords.isNone(): continue
         if location.coords.get().len() == 0: continue
@@ -40,13 +41,14 @@ proc convert*(desc: Description): seq[HtmlElement] =
         result.add p(content) # Table values as paragraph
 
 proc getLocationPathRelative(name: string): string =
+    ## Converts name into html file name
     result = name.strip().toLower().replace(' ', '_') & ".html"
-# proc getLocationPathRelative(location: Location): string =
-#     result = location.name.getLocationPathRelative()
 
 proc getLocationPath(name: string): string =
+    ## `getLocationPathRelative()` but with `locationHtmlPath`
     result = getLocationPathRelative(locationHtmlPath & name)
 proc getLocationPath*(location: Location): string =
+    ## Shortcut to `getLocationPath()`
     result = location.name.getLocationPath()
 
 var buffer: Option[seq[Location]] = none seq[Location] ## Cache
@@ -72,16 +74,26 @@ type
     LocationImageType = enum
         imgHeader = "header image",
         imgFooter = "footer image"
+
 proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
+    ## Gets the HTML for a header/footer image
     let
         pics: Pictures = get location.pics
-        src: string = get (
+        src: string = get(
             case img:
                 of imgHeader: pics.header
                 of imgFooter: pics.footer
             )
-        altText: string = "$1 $2 unavailable" % [location.name, $img]
+        altText: string = "$1 $2 nicht vorhanden" % [location.name, $img]
     result = img(urlLocationImages & src, altText).setClass(textCenterClass)
+
+
+proc isSet[T](item: Option[T]): bool =
+    ## Shortcut to `item.isSome()` and `get(item).len() != 0`
+    if item.isSome():
+        if item.get().len() != 0:
+            result = true
+
 
 proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
@@ -93,7 +105,10 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
         )
 
         # Add header:
-        html.addToBody h1(location.name)
+        let headerText: string = block:
+            if location.link.isSome(): $a(get location.link, location.name)
+            else: location.name
+        html.addToBody h1(headerText)
 
         # Add header image:
         if location.pics.isSome():
@@ -101,13 +116,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
             if pics.header.isSome():
                 html.addToBody location.getLocationImage(imgHeader)
 
-        # Add opening/closing times:
-        proc isOpen(location: Location): bool =
-            if location.open.isSome():
-                if location.open.get().len() != 0:
-                    result = true
-
-        if location.isOpen():
+        if location.open.isSet():
             let open: OpeningTimes = get location.open
             var elements: seq[HtmlElement]
             for day, time in open:
@@ -130,7 +139,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
                 html.addToBody location.getLocationImage(imgFooter)
 
         # Add similar places as links:
-        if location.same.isSome():
+        if location.same.isSet():
             var
                 same: seq[string] = get location.same
                 table: OrderedTable[string, string]
@@ -139,13 +148,14 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
                 table[name] = name.getLocationPathRelative()
 
             let buttons: seq[HtmlElement] = table.buttonList()
-            html.addToBody(
-                h2("Das könnte dich auch interessieren"),
-                `div`(buttons).setClass(centerClass)
-            )
+
+            # Only actually add if the stuff is set:
+            if same.len() != 0:
+                html.addToBody(
+                    h2("Das könnte dich auch interessieren"),
+                    `div`(buttons).setClass(centerClass)
+                )
 
         # Apply css and write to disk:
         html.addToHead(stylesheet("../styles.css"))
         html.generate()
-
-

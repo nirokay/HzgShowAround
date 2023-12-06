@@ -5,9 +5,9 @@ TASKS=(
     "nimble run"
 
     # Build js:
-    "cd javascript"
-    "nimble build"
-    "cd .."
+    # "cd javascript"
+    # "nimble build"
+    # "cd .."
 )
 
 function printRed() {

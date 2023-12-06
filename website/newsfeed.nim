@@ -13,7 +13,7 @@ var html: HtmlDocument = newPage(
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
-    h1("Newsfeed"),
+    h1($a("https://www.herzogsaegmuehle.de/aktuelles/aktuelles-und-termine", "Newsfeed")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten ± einer Woche."
