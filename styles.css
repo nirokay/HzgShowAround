@@ -82,6 +82,7 @@ table, th, td {
     padding: 10px;
     border-style: solid;
     text-align: center;
+    flex: content;
 }
 
 .article-preview-box {
@@ -93,6 +94,7 @@ table, th, td {
     margin-left: auto;
     justify-items: stretch;
 }
+
 
 .button {
     color: White;
