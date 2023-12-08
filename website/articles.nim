@@ -1,4 +1,4 @@
-import std/[strutils, options, tables, json, algorithm]
+import std/[strutils, options, json, algorithm]
 import generator
 import globals, styles, client
 
@@ -8,7 +8,13 @@ const
         ("<img>", "</img>"),
         ("<i>", "</i>"),
         ("<img=", ">"),
-        ("<i=", ">")
+        ("<i=", ">"),
+
+        ("<bild>", "</bild>"),
+        ("<bild=", ">"),
+
+        ("<pic>", "</pic>"),
+        ("<pic=", ">")
     ]
     headerTags*: seq[string] = @[
         "#", "##", "###", "####", "#####", "######"
@@ -64,7 +70,7 @@ proc formatLine*(line: string): HtmlElement =
     # Check line for image tags:
     block CheckForImage:
         for tag in imageTags:
-            if not(content.startsWith(tag.opening) or content.endsWith(tag.closing)): continue
+            if not(content.startsWith(tag.opening) and content.endsWith(tag.closing)): continue
 
             # Remove tags and strip:
             content.removePrefix(tag.opening)
@@ -73,7 +79,7 @@ proc formatLine*(line: string): HtmlElement =
 
             # Return image:
             let src: string = content.getImageUrl()
-            return img(src, "Bild nicht vorhanden")
+            return img(src, "Bild nicht vorhanden").setClass(centerClass)
 
     # Just returns the line (if no format found)
     return p(content)
@@ -134,22 +140,47 @@ proc generateHtmlMainPage() =
         "Sämtliche Artikel verfasst von verschiedenen Leuten!"
     )
 
-    var articleButtons: seq[HtmlElement]
-    for article in articles:
-        # Button label:
-        var label: seq[string] = @[article.title]
-        if article.author.isSome(): label.add $small("von " & get article.author)
-        if article.date.isSome():   label.add $small("vom " & get article.date)
-        # Add button:
-        articleButtons.add button(label.join($br()), articlesLocation & article.articleUrl()).setClass(articlePreviewItem)
+    # Sort articles by date:
+    var articlesSorted: seq[Article] = articles
 
-    articleButtons.sort do (x, y: HtmlElement) -> int:
-        result = cmp(x.content, y.content)
+    proc reverseDate(date: string): string = date.split('.').reversed().join(".")
+    articlesSorted.sort do (x, y: Article) -> int:
+        let default: string = "01.01.0000"
+        result = cmp(y.date.getOrDefault(default).reverseDate(), x.date.getOrDefault(default).reverseDate())
+
+    # Add articles to html:
+    var articleElements: seq[HtmlElement]
+
+    for article in articlesSorted:
+        var elements: seq[HtmlElement]
+
+        # Article title:
+        elements.add a(articlesLocation & article.articleUrl(), $h3(article.title))
+
+        # Description:
+        if article.desc.isSome():
+            elements.add p(article.desc.get().replace("\n", $br()))
+
+        # Footer: (author and date)
+        elements.add(
+            small(
+                "verfasst von " & article.author.getOrDefault("Unbekannt") & (
+                    if article.date.isSome(): " | am " & article.date.get() else: ""
+                )
+            )
+        )
+
+        # Add them to html:
+        articleElements.add `div`(elements).setClass(articlePreviewItem)
+
+    # Empty articles div, add info:
+    if articleElements.len() == 0:
+        articleElements.add pc("Derzeit sind keine Artikel vorhanden...")
 
     html.addToBody(
         h1("Artikel"),
         pc("Hier findest du verschiedene Artikel verfasst von unterschiedlichen Leuten zu Themen, die sie interessieren."),
-        `div`(articleButtons).setClass(articlePreviewBox)
+        `div`(articleElements).setClass(articlePreviewBox)
     )
 
     html.setStyle(css)

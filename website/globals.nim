@@ -133,7 +133,6 @@ const
     articlePreviewItem* = newCssClass("article-preview",
         textCenter,
         padding("10px"),
-        ["justify-self", "stretch"],
         ["border-style", "solid"],
         ["border-color", $White]
     )
@@ -143,7 +142,7 @@ const
         ["margin-left", "auto"],
         ["margin-right", "auto"],
         ["display", "flex"],
-        ["justify-content", "flex-start"],
+        ["justify-content", "center"],
         ["justify-items", "stretch"],
         ["flex-wrap", "wrap"]
     )
@@ -194,3 +193,8 @@ proc isSet*[T](item: Option[T]): bool =
     if item.isSome():
         if item.get().len() != 0:
             result = true
+
+proc getOrDefault*[T](value: Option[T], default: T): T =
+    ## Returns the Option's value or a default
+    if value.isSome(): return value.get()
+    else: return default

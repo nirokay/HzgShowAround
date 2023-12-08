@@ -79,7 +79,6 @@ table, th, td {
 
 .article-preview {
     border-color: White;
-    justify-self: stretch;
     padding: 10px;
     border-style: solid;
     text-align: center;
@@ -87,7 +86,7 @@ table, th, td {
 
 .article-preview-box {
     width: 75%;
-    justify-content: flex-start;
+    justify-content: center;
     display: flex;
     margin-right: auto;
     flex-wrap: wrap;
