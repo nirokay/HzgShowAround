@@ -40,15 +40,10 @@ proc convert*(desc: Description): seq[HtmlElement] =
         result.add h2(header) # Table index as header
         result.add p(content) # Table values as paragraph
 
-proc getLocationPathRelative(name: string): string =
-    ## Converts name into html file name
-    result = name.strip().toLower().replace(' ', '_') & ".html"
+proc getLocationPath*(name: string): string =
+    result = getRelativeUrlId(locationHtmlPath & name)
 
-proc getLocationPath(name: string): string =
-    ## `getLocationPathRelative()` but with `locationHtmlPath`
-    result = getLocationPathRelative(locationHtmlPath & name)
 proc getLocationPath*(location: Location): string =
-    ## Shortcut to `getLocationPath()`
     result = location.name.getLocationPath()
 
 var buffer: Option[seq[Location]] = none seq[Location] ## Cache
@@ -86,14 +81,6 @@ proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
             )
         altText: string = "$1 $2 nicht vorhanden" % [location.name, $img]
     result = img(urlLocationImages & src, altText).setClass(textCenterClass)
-
-
-proc isSet[T](item: Option[T]): bool =
-    ## Shortcut to `item.isSome()` and `get(item).len() != 0`
-    if item.isSome():
-        if item.get().len() != 0:
-            result = true
-
 
 proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
@@ -145,7 +132,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
                 table: OrderedTable[string, string]
 
             for name in same:
-                table[name] = name.getLocationPathRelative()
+                table[name] = name.getRelativeUrlPath()
 
             let buttons: seq[HtmlElement] = table.buttonList()
 

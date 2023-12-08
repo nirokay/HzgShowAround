@@ -1,4 +1,4 @@
-import std/[strutils, tables]
+import std/[strutils, tables, options]
 import generator
 
 # -----------------------------------------------------------------------------
@@ -31,11 +31,18 @@ const
 
     urlResources*: string = urlRemoteRepo & "resources/"
     urlImages*: string = urlResources & "images/"
+    urlCustomHtmlArticles*: string = urlResources & "articles/"
+
+    urlArticleImages*: string = urlImages & "articles/"
+    urlArticles*: string = urlRemoteRepo & "articles.json"
+
     urlLocationImages*: string = urlImages & "locations/"
 
     urlJsonLocationData*: string = urlRemoteRepo & "locations.json"
     urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json"
+
     urlJsonNewsFeed*: string = urlRemoteRepo & "news.json"
+
 
 # -----------------------------------------------------------------------------
 # Classes:
@@ -123,6 +130,27 @@ const
     newsElementWarning* = newsElement(Warning)
     newsElementAlert* = newsElement(Alert)
 
+    articlePreviewItem* = newCssClass("article-preview",
+        textCenter,
+        padding("10px"),
+        ["justify-self", "stretch"],
+        ["border-style", "solid"],
+        ["border-color", $White]
+    )
+
+    articlePreviewBox* = newCssClass("article-preview-box",
+        width("75%"),
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+        ["display", "flex"],
+        ["justify-content", "flex-start"],
+        ["justify-items", "stretch"],
+        ["flex-wrap", "wrap"]
+    )
+
+
+# HTML stuff:
+
 proc pc*(lines: seq[string]): HtmlElement =
     let text: string = lines.join($br())
     result = p(text).setClass(centerClass)
@@ -148,3 +176,21 @@ proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq
         result.add button(content, href)
 
 proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") ## Button that returns to the home page
+
+
+# Url formatting:
+
+proc getRelativeUrlId*(name: string): string =
+    result = name.strip().toLower().replace(' ', '_')
+proc getRelativeUrlPath*(name: string): string =
+    ## Converts name into html file name
+    name.getRelativeUrlId() & ".html"
+
+
+# Option stuff:
+
+proc isSet*[T](item: Option[T]): bool =
+    ## Shortcut to `item.isSome()` and `get(item).len() != 0`
+    if item.isSome():
+        if item.get().len() != 0:
+            result = true

@@ -22,7 +22,7 @@ proc link(which: string, colour: CssColour|string): CssElement =
 var css*: CssStyleSheet = newCssStyleSheet("styles.css")
 css.elements = @[
     # Body:
-    newCssElement("body",
+    newCssElement("html",
         backgroundColour(colBackground),
         colour(White),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
@@ -54,6 +54,9 @@ css.elements = @[
     newsElementGeneric,
     newsElementWarning,
     newsElementAlert,
+
+    articlePreviewItem,
+    articlePreviewBox,
 
     buttonClass,
     buttonClassHover,

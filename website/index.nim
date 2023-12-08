@@ -72,25 +72,16 @@ html.addToBody(
     pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
 )
 
-# -----------------------------------------------------------------------------
-# Tour
-# -----------------------------------------------------------------------------
-
-html.addToBody(
-    `div`(
-        button("Tour starten", "tour.html")
-    ).setClass(centerClass)
-)
-
 
 # -----------------------------------------------------------------------------
-# News-Feed
+# Newsfeed and Articles
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    h2("Newsfeed"),
+    h2("Newsfeed und Artikel"),
     `div`(
-        button("Zum Newsfeed", "newsfeed.html")
+        button("Zum Newsfeed", "newsfeed.html"),
+        button("Zu den Artikel", "articles.html")
     ).setClass(centerClass)
 )
 
@@ -108,9 +99,10 @@ locationButtons.sort do (x, y: HtmlElement) -> int:
 
 html.addToBody(
     h2("Orte"),
-    pc("Schau dir die interaktive Karte der Herzogsägmühle an, ..."),
+    pc("Schau dir die " & $b("interaktive Karte") & " der Herzogsägmühle an und/oder führe die " & $b("digitale Tour") & " durch..."),
     `div`(
-        button("Karte", "map.html")
+        button("Karte", "map.html"),
+        button("Tour starten", "tour.html")
     ).setClass(centerClass),
     pc("... oder stöbere dich durch jeden Ort einzelnd:"),
     `div`(locationButtons).setClass(centerClass)

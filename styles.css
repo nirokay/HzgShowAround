@@ -1,4 +1,4 @@
-body {
+html {
     color: White;
     background-color: rgb(23, 25, 33);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -75,6 +75,24 @@ table, th, td {
     border-style: solid;
     margin-top: 10px;
     border-width: 10px;
+}
+
+.article-preview {
+    border-color: White;
+    justify-self: stretch;
+    padding: 10px;
+    border-style: solid;
+    text-align: center;
+}
+
+.article-preview-box {
+    width: 75%;
+    justify-content: flex-start;
+    display: flex;
+    margin-right: auto;
+    flex-wrap: wrap;
+    margin-left: auto;
+    justify-items: stretch;
 }
 
 .button {
