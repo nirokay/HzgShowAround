@@ -134,7 +134,8 @@ const
         textCenter,
         padding("10px"),
         ["border-style", "solid"],
-        ["border-color", $White]
+        ["border-color", $White],
+        ["flex", "content"]
     )
 
     articlePreviewBox* = newCssClass("article-preview-box",
