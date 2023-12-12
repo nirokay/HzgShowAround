@@ -43,6 +43,11 @@ const
 
     urlJsonNewsFeed*: string = urlRemoteRepo & "news.json"
 
+# Resource locations:
+const
+    articlesLocation*: string = "article/"
+    articleCssFile*: string = "article-styles.css"
+
 
 # -----------------------------------------------------------------------------
 # Classes:

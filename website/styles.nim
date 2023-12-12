@@ -19,15 +19,20 @@ proc link(which: string, colour: CssColour|string): CssElement =
 # Css:
 # ----------------------------------------------------------------------------
 
-var css*: CssStyleSheet = newCssStyleSheet("styles.css")
-css.elements = @[
-    # Body:
+var
+    globalCss: CssStyleSheet = newCssStyleSheet("global-styles.css") ## Not written to disk, only inherited from
+    css*: CssStyleSheet = newCssStyleSheet("styles.css") ## Main CSS file
+    cssArticles*: CssStyleSheet = newCssStyleSheet(articlesLocation & articleCssFile) ## CSS file for articles
+
+globalCss.add(
+    # Global stuff:
     newCssElement("html",
         backgroundColour(colBackground),
         colour(White),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
     ),
 
+    # Bottom footer:
     newCssElement("footer",
         position(fixed),
         backgroundColour(colBackground),
@@ -36,41 +41,10 @@ css.elements = @[
         ["box-sizing" ,"border-box"]
     ),
 
+    # Tables:
     newCssElement("table, th, td",
         ["border", 1.px],
         ["border-collapse", "collapse"]
-    ),
-
-
-    # Classes:
-    centerClass,
-
-    textCenterClass,
-    centerWidth100Class,
-
-    mapElement,
-
-    newsDivClass,
-    newsElementGeneric,
-    newsElementWarning,
-    newsElementAlert,
-
-    articlePreviewItem,
-    articlePreviewBox,
-
-    buttonClass,
-    buttonClassHover,
-
-    newCssElement("button", buttonClass.properties),
-    newCssElement("button:hover", buttonClassHover.properties),
-
-    # Headers:
-    newCssElement("h1, h2",
-        textCenter,
-        textUnderline
-    ),
-    newCssElement("h3",
-        textUnderline
     ),
 
     # Links:
@@ -78,4 +52,71 @@ css.elements = @[
     link("visited", HotPink),
     link("hover", LightPink),
     link("active", WhiteSmoke),
-]
+
+    # Classes:
+    centerClass,
+
+    textCenterClass,
+    centerWidth100Class,
+
+    buttonClass,
+    buttonClassHover,
+
+    newCssElement("button", buttonClass.properties),
+    newCssElement("button:hover", buttonClassHover.properties)
+)
+
+css.elements = globalCss.elements
+css.add(
+    # Classes:
+    #   Map:
+    mapElement,
+
+    #   News:
+    newsDivClass,
+    newsElementGeneric,
+    newsElementWarning,
+    newsElementAlert,
+
+    #   Articles:
+    articlePreviewItem,
+    articlePreviewBox,
+
+    # Headers:
+    newCssElement("h1, h2",
+        textCenter,
+        textUnderline
+    ),
+    newCssElement("h3",
+        textCenter
+    )
+)
+
+cssArticles.elements = globalCss.elements
+cssArticles.add(
+    # Center everything in `body`:
+    newCssElement("body",
+        backgroundColour(colBackground),
+        ["display", "block"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+        ["width", "90%"]
+    ),
+
+    # Headers and paragraph:
+    newCssElement("h1, h2",
+        textUnderline,
+        textCenter
+    ),
+    newCssElement("h3, h4, h5, h6, p",
+        textCenter
+    ),
+
+    # Images:
+    newCssElement("img",
+        width("50%"),
+        ["max-width", "700px"],
+        ["border-radius", "10px"],
+        ["margin", "10px"]
+    )
+)

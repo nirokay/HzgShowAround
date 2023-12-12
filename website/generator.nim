@@ -27,8 +27,8 @@ proc generate*(html: var HtmlDocument) =
     ].join(" | "))
     f.class = "generic-center-100-width"
     html.addToBody(
-        f,
-        p($br())# 1_000_000 IQ move to put a buffer between end of content and footer
+        p($br()), # 1_000_000 IQ move to put a buffer between end of content and footer
+        f
     )
     html.writeFile()
     when not defined(js): stdout.write("\rFinished generation for " & html.file & "!\n")

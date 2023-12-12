@@ -41,7 +41,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
         result.add p(content) # Table values as paragraph
 
 proc getLocationPath*(name: string): string =
-    result = getRelativeUrlId(locationHtmlPath & name)
+    result = getRelativeUrlId(locationHtmlPath & name & ".html")
 
 proc getLocationPath*(location: Location): string =
     result = location.name.getLocationPath()

@@ -3,7 +3,6 @@ import generator
 import globals, styles, client
 
 const
-    articlesLocation*: string = "article/"
     imageTags*: seq[tuple[opening, closing: string]] = @[
         ("<img>", "</img>"),
         ("<i>", "</i>"),
@@ -84,6 +83,26 @@ proc formatLine*(line: string): HtmlElement =
     # Just returns the line (if no format found)
     return p(content)
 
+proc addTopPart(html: var HtmlDocument, article: Article) =
+    ## Adds stuff on the top of an article (title, author, etc.)
+    html.addToBody(
+        hr(),
+        h1(article.title)
+    )
+
+    var metaData: seq[string]
+    if article.author.isSome(): metaData.add "Autor: " & get article.author
+    if article.date.isSome():   metaData.add "verfasst am " & get article.date
+    if article.desc.isSome():   metaData.add get article.desc
+
+    html.addToBody pc(metaData.join($br()))
+
+    html.addToBody hr()
+
+proc addBottomPart(html: var HtmlDocument, article: Article) =
+    ## Adds stuff to the bottom of an article (horizontal line)
+    html.addToBody hr()
+
 # Generate html sites:
 var articles: seq[Article]
 proc getArticles() =
@@ -110,6 +129,8 @@ proc generateArticleHtml(article: Article) =
         desc
     )
 
+    html.addTopPart(article)
+
     if article.remote.isSome():
         # Embed custom html into article:
         let body: string = getRawHtmlArticle(get article.remote)
@@ -120,10 +141,12 @@ proc generateArticleHtml(article: Article) =
             html.addToBody line.formatLine()
     else:
         # Uhm, should not happen, but maybe someone will forget it...
-        html.addToBody p("Leerer Artikel... ups...")
+        html.addToBody pc("Leerer Artikel... ups...")
+
+    html.addBottomPart(article)
 
     # Add css and write to disk:
-    html.addToHead(stylesheet("../styles.css"))
+    html.addToHead(stylesheet(articleCssFile))
     html.generate()
 
 proc generateArticlesHtmls() =
