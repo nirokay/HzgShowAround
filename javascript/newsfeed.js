@@ -106,7 +106,7 @@ function refreshNews() {
     getDiv().innerHTML = "";
 
     let relevantNews = news.filter(element => isRelevant(element));
-    for(let i = 0; i < news.length - 1; i++) { // why do i have to do `- 1`??
+    for(let i = 0; i < relevantNews.length; i++) {
         console.log(relevantNews[i])
         relevantNews[i].importance = getImportance(relevantNews[i]);
         console.log(relevantNews[i])
