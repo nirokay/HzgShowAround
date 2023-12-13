@@ -55,7 +55,7 @@ var map: HtmlElement = newElement("map", areas.join("\n"))
 
 html.addToBody(
     h1("Karte von Herzogsägmühle"),
-    p("Diese Karte ist interaktiv. Du kannst jede Kartenstecknadel anklicken und zu dem entsprecheneden Ort gelangen."),
+    pc("Diese Karte ist interaktiv. Du kannst jede Kartenstecknadel anklicken und zu dem entsprecheneden Ort gelangen."),
     `div`(
         picture,
         map
