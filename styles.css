@@ -168,3 +168,21 @@ h1, h2 {
 h3 {
     text-align: center;
 }
+
+.location-image-header {
+    width: 75%;
+    border-radius: 10px;
+    display: block;
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.location-image-footer {
+    width: 50%;
+    border-radius: 10px;
+    display: block;
+    max-width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+}

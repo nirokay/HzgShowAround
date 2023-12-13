@@ -140,7 +140,7 @@ const
         padding("10px"),
         ["border-style", "solid"],
         ["border-color", $White],
-        ["flex", "content"]
+        ["flex", "content"] # Thanks Ika! :3
     )
 
     articlePreviewBox* = newCssClass("article-preview-box",
@@ -153,6 +153,32 @@ const
         ["flex-wrap", "wrap"]
     )
 
+    locationImageHeader* = newCssClass("location-image-header",
+        width("75%"),
+        ["display", "block"],
+        ["max-width", "1000px"],
+        ["border-radius", "10px"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+    )
+    locationImageFooter* = newCssClass("location-image-footer",
+        width("50%"),
+        ["display", "block"],
+        ["max-width", "700px"],
+        ["border-radius", "10px"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+    )
+
+
+#[
+newCssElement("img",
+    width("50%"),
+    ["max-width", "700px"],
+    ["border-radius", "10px"],
+    ["margin", "10px"]
+)
+]#
 
 # HTML stuff:
 

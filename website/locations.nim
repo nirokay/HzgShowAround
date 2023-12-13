@@ -105,7 +105,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
         if location.pics.isSome():
             let pics = get location.pics
             if pics.header.isSome():
-                html.addToBody location.getLocationImage(imgHeader)
+                html.addToBody location.getLocationImage(imgHeader).setClass(locationImageHeader)
 
         if location.open.isSet():
             let open: OpeningTimes = get location.open
@@ -127,7 +127,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
         if location.pics.isSome():
             let pics = get(location.pics)
             if pics.footer.isSome():
-                html.addToBody location.getLocationImage(imgFooter)
+                html.addToBody location.getLocationImage(imgFooter).setClass(locationImageFooter)
 
         # Add similar places as links:
         if location.same.isSet():

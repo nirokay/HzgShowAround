@@ -94,7 +94,11 @@ css.add(
     ),
     newCssElement("h3",
         textCenter
-    )
+    ),
+
+    # Images (for locations):
+    locationImageHeader,
+    locationImageFooter
 )
 
 cssArticles.elements = globalCss.elements
