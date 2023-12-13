@@ -171,15 +171,6 @@ const
     )
 
 
-#[
-newCssElement("img",
-    width("50%"),
-    ["max-width", "700px"],
-    ["border-radius", "10px"],
-    ["margin", "10px"]
-)
-]#
-
 # HTML stuff:
 
 proc pc*(lines: seq[string]): HtmlElement =
