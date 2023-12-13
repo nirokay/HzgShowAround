@@ -12,9 +12,13 @@ footer {
     background-color: rgb(23, 25, 33);
 }
 
-table, th, td {
+tbody {
     border: 1px;
     border-collapse: collapse;
+}
+
+td {
+    margin-right: 5px;
 }
 
 a:link {
@@ -91,6 +95,11 @@ button {
 
 button:hover {
     background-color: rgb(60, 40, 68);
+}
+
+.table-center {
+    margin: 10px auto;
+    text-align: left;
 }
 
 .map-element {

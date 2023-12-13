@@ -42,9 +42,12 @@ globalCss.add(
     ),
 
     # Tables:
-    newCssElement("table, th, td",
+    newCssElement("tbody",
         ["border", 1.px],
         ["border-collapse", "collapse"]
+    ),
+    newCssElement("td",
+        ["margin-right", "5px"]
     ),
 
     # Links:
@@ -63,7 +66,9 @@ globalCss.add(
     buttonClassHover,
 
     newCssElement("button", buttonClass.properties),
-    newCssElement("button:hover", buttonClassHover.properties)
+    newCssElement("button:hover", buttonClassHover.properties),
+
+    centerTableClass
 )
 
 css.elements = globalCss.elements

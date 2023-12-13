@@ -38,7 +38,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
     for header, content in desc:
         var content: string = content.join("\n").replace("\n", $br())
         result.add h2(header) # Table index as header
-        result.add p(content) # Table values as paragraph
+        result.add pc(content) # Table values as paragraph
 
 proc getLocationPath*(name: string): string =
     result = getRelativeUrlId(locationHtmlPath & name & ".html")
@@ -80,7 +80,11 @@ proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
                 of imgFooter: pics.footer
             )
         altText: string = "$1 $2 nicht vorhanden" % [location.name, $img]
-    result = img(urlLocationImages & src, altText).setClass(textCenterClass)
+    result = img(urlLocationImages & src, altText)
+
+    case img:
+    of imgHeader: result.setClass("")
+    of imgFooter: result.setClass("")
 
 proc generateLocationsHtmlPages*(locations: seq[Location]) =
     ## Generates all html sites for all locations
@@ -108,7 +112,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
             var elements: seq[HtmlElement]
             for day, time in open:
                 elements.add(tr(@[
-                    td($b(day & ": ")),
+                    td($b(day & ": ⁣")), # Invisible character, so stuff is spaced a tad more... # TODO: implement this properly
                     td(time)
                 ]))
             html.addToBody(

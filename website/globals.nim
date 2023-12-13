@@ -91,9 +91,9 @@ const
         ["width", "90%"]
     )
 
-    centerTableClass* = newCssElement("table-center",
-        ["margin-left", "auto"],
-        ["margin-right", "auto"]
+    centerTableClass* = newCssClass("table-center",
+        ["text-align", "left"],
+        ["margin", "10px auto"]
     )
 
     buttonClass* = newCssClass("button",
