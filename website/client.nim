@@ -6,7 +6,11 @@ type
     ConnectionError* = object of HttpRequestError
     FetchError* = object of CatchableError
 
-var http*: HttpClient = newHttpClient()
+proc initClient(): HttpClient =
+    stdout.write "Setting up http client"
+    result = newHttpClient()
+    stdout.write "\rSuccessfully set up http client\n"
+var http*: HttpClient = initClient()
 
 
 proc path(path: string): string = "../HzgShowAroundData/" & path
@@ -36,10 +40,18 @@ proc tryNetworkOrPath(url: string, backupPath: string): string {.raises: FetchEr
         except CatchableError:
             raise FetchError.newException("could not read file")
 
+proc write(text: string) =
+    try:
+        stdout.write(text)
+        stdout.flushFile()
+    except IOError:
+        echo "Failed to write to stdout"
 
 proc requestRawText*(url: string, backupPath: string = ""): string {.raises: FetchError.} =
     ## Requests raw text from a source or a fallback
+    write("Awaiting network... Fetching " & url)
     result = url.tryNetworkOrPath(backupPath)
+    write("\r✓ Finished fetching from URL: " & url & "\n")
 
 proc requestJson*(url: string, backupPath: string = ""): JsonNode {.raises: [FetchError, JsonParsingError].} =
     ## Requests json from a source or a fallback
