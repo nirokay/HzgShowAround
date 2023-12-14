@@ -91,8 +91,8 @@ proc addTopPart(html: var HtmlDocument, article: Article) =
     )
 
     var metaData: seq[string]
-    if article.author.isSome(): metaData.add "Autor: " & get article.author
-    if article.date.isSome():   metaData.add "verfasst am " & get article.date
+    if article.author.isSome(): metaData.add $small("Autor: " & get article.author)
+    if article.date.isSome():   metaData.add $small("verfasst am " & get article.date)
     if article.desc.isSome():   metaData.add get article.desc
 
     html.addToBody pc(metaData.join($br()))
