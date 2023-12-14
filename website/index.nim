@@ -62,8 +62,8 @@ var html: HtmlDocument = newPage(
 # Disclaimer:
 html.addToBody(
     hr(),
-    h2("Diese Website ist eine noch Baustelle!"),
-    pc("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)"),
+    h3("Diese Website ist eine noch Baustelle!"),
+    pc($small("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)")),
     hr()
 )
 

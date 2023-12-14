@@ -129,6 +129,11 @@ proc generateArticleHtml(article: Article) =
         desc
     )
 
+    html.addToBody `div`(
+        button("Zurück zur Startseite", "../index.html"),
+        button("Zurück zu den Artikel", "../articles.html")
+    ).setClass(centerClass)
+
     html.addTopPart(article)
 
     if article.remote.isSome():
@@ -162,6 +167,10 @@ proc generateHtmlMainPage() =
         "articles.html",
         "Sämtliche Artikel verfasst von verschiedenen Leuten!"
     )
+
+    html.addToBody `div`(
+        button("Zurück zur Startseite", "index.html"),
+    ).setClass(centerClass)
 
     # Sort articles by date:
     var articlesSorted: seq[Article] = articles
