@@ -147,6 +147,14 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
                     `div`(buttons).setClass(centerClass)
                 )
 
+        # Back buttons:
+        html.addToBody(
+            h2("Mehr Interessantes entdecken"),
+            `div`(
+                button("← Startseite", "../index.html"),
+                button("← Karte", "../map.html")
+            ).setClass(centerClass)
+        )
         # Apply css and write to disk:
         html.addToHead(stylesheet("../styles.css"))
         html.generate()

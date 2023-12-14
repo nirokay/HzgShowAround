@@ -27,15 +27,15 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     inkscape:zoom="64"
-     inkscape:cx="673.75781"
-     inkscape:cy="596.38281"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="322.79424"
+     inkscape:cy="394.91914"
      inkscape:window-width="2560"
      inkscape:window-height="1476"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer23" />
+     inkscape:current-layer="g3-0" />
 <defs
      id="defs1">
 <rect
@@ -143,8 +143,8 @@
 <rect
        x="646.28666"
        y="428.34695"
-       width="44.343091"
-       height="16.451394"
+       width="114.63321"
+       height="20.240319"
        id="rect222" />
 <rect
        x="136.99817"
@@ -2401,7 +2401,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan2">Von-Kahl-Straße</tspan>
+         id="tspan1">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2411,7 +2411,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan3">Von-Kahl-Straße</tspan>
+         id="tspan2">Von-Kahl-Straße</tspan>
 </text>
 </g>
 <g
@@ -2854,7 +2854,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan4">Oblandstraße</tspan>
+         id="tspan3">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2864,7 +2864,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan5">Oblandstraße</tspan>
+         id="tspan4">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2874,7 +2874,7 @@
 <tspan
          x="513.4043"
          y="471.30078"
-         id="tspan6">Unteres Kirchwegfeld</tspan>
+         id="tspan5">Unteres Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2884,7 +2884,7 @@
 <tspan
          x="513.4043"
          y="471.30078"
-         id="tspan7">Oberes Kirchwegfeld</tspan>
+         id="tspan6">Oberes Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2894,7 +2894,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan8">Am Latterbach</tspan>
+         id="tspan7">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2904,7 +2904,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan9">Am Latterbach</tspan>
+         id="tspan8">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2914,7 +2914,7 @@
 <tspan
          x="265.39258"
          y="617.75"
-         id="tspan10">Unteroblandstraße</tspan>
+         id="tspan9">Unteroblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2924,7 +2924,7 @@
 <tspan
          x="165.76562"
          y="366.41992"
-         id="tspan11">Ringstraße</tspan>
+         id="tspan10">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2934,7 +2934,7 @@
 <tspan
          x="208.30078"
          y="270.5918"
-         id="tspan12">Schulweg</tspan>
+         id="tspan11">Schulweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2944,7 +2944,7 @@
 <tspan
          x="158.31445"
          y="517.85352"
-         id="tspan13">Werkstraße</tspan>
+         id="tspan12">Werkstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2954,7 +2954,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan14">Von-Kahl-Straße</tspan>
+         id="tspan13">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2964,7 +2964,7 @@
 <tspan
          x="165.76562"
          y="366.41992"
-         id="tspan15">Ringstraße</tspan>
+         id="tspan14">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2974,7 +2974,7 @@
 <tspan
          x="241.51758"
          y="282.71289"
-         id="tspan16">Kapellenfeld</tspan>
+         id="tspan15">Kapellenfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2984,7 +2984,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan17">Am Latterbach</tspan>
+         id="tspan16">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -2994,7 +2994,7 @@
 <tspan
          x="314.43555"
          y="590.83398"
-         id="tspan18">Koppelweg</tspan>
+         id="tspan17">Koppelweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3004,7 +3004,7 @@
 <tspan
          x="314.43555"
          y="590.83398"
-         id="tspan19">Koppelweg</tspan>
+         id="tspan18">Koppelweg</tspan>
 </text>
 </g>
 <g
@@ -3019,7 +3019,7 @@
 <tspan
          x="657.67188"
          y="582.47657"
-         id="tspan20">13</tspan>
+         id="tspan19">13</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3029,7 +3029,7 @@
 <tspan
          x="638.17383"
          y="607.73438"
-         id="tspan21">14</tspan>
+         id="tspan20">14</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3039,7 +3039,7 @@
 <tspan
          x="633.88281"
          y="569.01367"
-         id="tspan22">16</tspan>
+         id="tspan21">16</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3049,7 +3049,7 @@
 <tspan
          x="624.17578"
          y="546.33985"
-         id="tspan23">18</tspan>
+         id="tspan22">18</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3059,7 +3059,7 @@
 <tspan
          x="667.81836"
          y="633.02344"
-         id="tspan24">11</tspan>
+         id="tspan23">11</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3069,7 +3069,7 @@
 <tspan
          x="651.66992"
          y="646.18555"
-         id="tspan25">9</tspan>
+         id="tspan24">9</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3079,7 +3079,7 @@
 <tspan
          x="606.42969"
          y="655.05274"
-         id="tspan26">10</tspan>
+         id="tspan25">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3089,7 +3089,7 @@
 <tspan
          x="620.65039"
          y="640.625"
-         id="tspan27">12</tspan>
+         id="tspan26">12</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3099,7 +3099,7 @@
 <tspan
          x="617.20508"
          y="517.76758"
-         id="tspan28">6</tspan>
+         id="tspan27">6</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3109,7 +3109,7 @@
 <tspan
          x="664.95703"
          y="527.21485"
-         id="tspan29">1</tspan>
+         id="tspan28">1</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3119,27 +3119,27 @@
 <tspan
          x="658.75781"
          y="482.41797"
-         id="tspan30">17</tspan>
+         id="tspan29">17</tspan>
 </text>
 <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,7.9767942,-0.58873581)"
+       transform="matrix(0.26458333,0,0,0.26458333,7.8147205,-0.77713274)"
        id="text265"
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect266);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="664.59766"
          y="461.06836"
-         id="tspan31">19</tspan>
+         id="tspan30">19</tspan>
 </text>
 <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,0.60374178,0.12905024)"
+       transform="matrix(0.26458333,0,0,0.26458333,0.6643195,1.093602)"
        id="text267"
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect268);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="663.44531"
          y="435.76758"
-         id="tspan32">10</tspan>
+         id="tspan31">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3149,7 +3149,7 @@
 <tspan
          x="580.68359"
          y="436.95117"
-         id="tspan33">2</tspan>
+         id="tspan32">2</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3159,7 +3159,7 @@
 <tspan
          x="604.1543"
          y="447.39649"
-         id="tspan34">4</tspan>
+         id="tspan33">4</tspan>
 </text>
 </g>
 <g
@@ -3190,12 +3190,12 @@
 <tspan
      x="136.99805"
      y="573.77734"
-     id="tspan35">Verwaltung</tspan>
+     id="tspan34">Verwaltung</tspan>
 </text>
 </g>
 <g
        id="g3-0"
-       inkscape:label="???"
+       inkscape:label="Kirchfeld"
        transform="matrix(0.02490949,0,0,0.02490949,167.09691,112.72715)">
 	<path
    style="fill:#231f20"
@@ -3211,13 +3211,13 @@
    id="path3-18-7" />
 <text
    xml:space="preserve"
-   transform="matrix(10.621788,0,0,10.621788,-6743.3526,-4552.399)"
+   transform="matrix(10.621788,0,0,10.621788,-6733.9943,-4530.876)"
    id="text221"
-   style="font-size:12px;white-space:pre;shape-inside:url(#rect222);display:inline;fill:#1a1a1a">
+   style="font-size:8px;white-space:pre;shape-inside:url(#rect222);display:inline;fill:#1a1a1a">
 <tspan
      x="646.28711"
-     y="438.96484"
-     id="tspan36">???</tspan>
+     y="435.42578"
+     id="tspan35">Oberes Kirchwegfeld</tspan>
 </text>
 </g>
 <g
@@ -3244,7 +3244,7 @@
 <tspan
      x="249.18945"
      y="34.34375"
-     id="tspan37">Siedlung</tspan>
+     id="tspan36">Siedlung</tspan>
 </text>
 </g>
 <g
@@ -3271,7 +3271,7 @@
 <tspan
      x="165.65039"
      y="381.45703"
-     id="tspan38">Kirche</tspan>
+     id="tspan37">Kirche</tspan>
 </text>
 </g>
 </g>
@@ -3297,7 +3297,7 @@
 <tspan
          x="661.36133"
          y="211.04102"
-         id="tspan39">Von-Kahl-Denkmal</tspan>
+         id="tspan38">Von-Kahl-Denkmal</tspan>
 </text>
 </g>
 <g
@@ -3339,6 +3339,51 @@ width="5.800000000000001"
 height="3.3"
 x="66.0"
 y="161.8"
+rx="1.0"
+ry="1.0" />
+<rect
+style="fill:#1a1a1aff;stroke-width:0.25"
+id="rect_location_gesundheits.punkt"
+width="5.7"
+height="4.4"
+x="81.90000000000001"
+y="157.5"
+rx="1.0"
+ry="1.0" />
+<rect
+style="fill:#1a1a1aff;stroke-width:0.25"
+id="rect_location_Metzgerei und Bäckerei"
+width="8.9"
+height="4.5"
+x="87.80000000000001"
+y="157.4"
+rx="1.0"
+ry="1.0" />
+<rect
+style="fill:#1a1a1aff;stroke-width:0.25"
+id="rect_location_Herzogsägmühler Werkstätten"
+width="14.8"
+height="22.8"
+x="81.90000000000001"
+y="162.1"
+rx="1.0"
+ry="1.0" />
+<rect
+style="fill:#1a1a1aff;stroke-width:0.25"
+id="rect_location_Telezentrum - Digitale Medien"
+width="12.5"
+height="11.4"
+x="113.1"
+y="175.0"
+rx="1.0"
+ry="1.0" />
+<rect
+style="fill:#1a1a1aff;stroke-width:0.25"
+id="rect_location_Am Latterbach - Häuser"
+width="18.2"
+height="23.1"
+x="162.4"
+y="141.0"
 rx="1.0"
 ry="1.0" />
 <rect
@@ -3547,6 +3592,106 @@ style="opacity:1.0;fill:#1a1a1aff"><g
             style="fill:#0e232e;stroke-width:0"
             cx="3447.0"
             cy="7992.500000000001"
+            rx="34.5"
+            ry="35.5"
+        />
+    </g>
+</g>
+<g
+    id="Location_marker_gesundheits.punkt"
+    transform="matrix(0.02,0,0,0.02,0,0)">
+    <g id="pin_gesundheits.punkt" transform="matrix(0,0,0,0,0)" >
+        <path
+            id="pin_body_gesundheits.punkt"
+            d="m 4237.5,7984.999999999999 c -0.2729,-0.7794 -1.645,-6.0275 -3.049,-11.662 -4.441,-17.823 -12.122,-36.988 -22.546,-56.255 -5.9844,-11.061 -7.0667,-12.824 -24.551,-40 -28.252,-43.911 -33.217,-56.241 -32.173,-79.89 0.9573,-21.672 8.2717,-37.909 24.149,-53.61 13.179,-13.032 27.807,-20.549 45.601,-23.432 44.097,-7.1446 86.878,21.883 95.546,64.828 2.0208,10.012 1.5723,27.243 -0.95271,36.604 -2.77,10.269 -13.883,31.045 -29.589,55.315 -28.348,43.807 -39.082,65.687 -47.119,96.05 -3.1117,11.755 -4.3985,14.673 -5.3161,12.052 z"
+            style="fill:#f41922;stroke:#5a0000;stroke-width:5.7"
+            inkscape:connector-curvature="0"
+        />
+        <ellipse
+            id="pin_ellipse_gesundheits.punkt"
+            style="fill:#0e232e;stroke-width:0"
+            cx="4239.5"
+            cy="7804.999999999999"
+            rx="34.5"
+            ry="35.5"
+        />
+    </g>
+</g>
+<g
+    id="Location_marker_Metzgerei und Bäckerei"
+    transform="matrix(0.02,0,0,0.02,0,0)">
+    <g id="pin_Metzgerei und Bäckerei" transform="matrix(0,0,0,0,0)" >
+        <path
+            id="pin_body_Metzgerei und Bäckerei"
+            d="m 4612.500000000001,7982.5 c -0.2729,-0.7794 -1.645,-6.0275 -3.049,-11.662 -4.441,-17.823 -12.122,-36.988 -22.546,-56.255 -5.9844,-11.061 -7.0667,-12.824 -24.551,-40 -28.252,-43.911 -33.217,-56.241 -32.173,-79.89 0.9573,-21.672 8.2717,-37.909 24.149,-53.61 13.179,-13.032 27.807,-20.549 45.601,-23.432 44.097,-7.1446 86.878,21.883 95.546,64.828 2.0208,10.012 1.5723,27.243 -0.95271,36.604 -2.77,10.269 -13.883,31.045 -29.589,55.315 -28.348,43.807 -39.082,65.687 -47.119,96.05 -3.1117,11.755 -4.3985,14.673 -5.3161,12.052 z"
+            style="fill:#f41922;stroke:#5a0000;stroke-width:5.7"
+            inkscape:connector-curvature="0"
+        />
+        <ellipse
+            id="pin_ellipse_Metzgerei und Bäckerei"
+            style="fill:#0e232e;stroke-width:0"
+            cx="4614.500000000001"
+            cy="7802.5"
+            rx="34.5"
+            ry="35.5"
+        />
+    </g>
+</g>
+<g
+    id="Location_marker_Herzogsägmühler Werkstätten"
+    transform="matrix(0.02,0,0,0.02,0,0)">
+    <g id="pin_Herzogsägmühler Werkstätten" transform="matrix(0,0,0,0,0)" >
+        <path
+            id="pin_body_Herzogsägmühler Werkstätten"
+            d="m 4465.000000000001,8675.000000000002 c -0.2729,-0.7794 -1.645,-6.0275 -3.049,-11.662 -4.441,-17.823 -12.122,-36.988 -22.546,-56.255 -5.9844,-11.061 -7.0667,-12.824 -24.551,-40 -28.252,-43.911 -33.217,-56.241 -32.173,-79.89 0.9573,-21.672 8.2717,-37.909 24.149,-53.61 13.179,-13.032 27.807,-20.549 45.601,-23.432 44.097,-7.1446 86.878,21.883 95.546,64.828 2.0208,10.012 1.5723,27.243 -0.95271,36.604 -2.77,10.269 -13.883,31.045 -29.589,55.315 -28.348,43.807 -39.082,65.687 -47.119,96.05 -3.1117,11.755 -4.3985,14.673 -5.3161,12.052 z"
+            style="fill:#f41922;stroke:#5a0000;stroke-width:5.7"
+            inkscape:connector-curvature="0"
+        />
+        <ellipse
+            id="pin_ellipse_Herzogsägmühler Werkstätten"
+            style="fill:#0e232e;stroke-width:0"
+            cx="4467.000000000001"
+            cy="8495.000000000002"
+            rx="34.5"
+            ry="35.5"
+        />
+    </g>
+</g>
+<g
+    id="Location_marker_Telezentrum - Digitale Medien"
+    transform="matrix(0.02,0,0,0.02,0,0)">
+    <g id="pin_Telezentrum - Digitale Medien" transform="matrix(0,0,0,0,0)" >
+        <path
+            id="pin_body_Telezentrum - Digitale Medien"
+            d="m 5967.5,9035.0 c -0.2729,-0.7794 -1.645,-6.0275 -3.049,-11.662 -4.441,-17.823 -12.122,-36.988 -22.546,-56.255 -5.9844,-11.061 -7.0667,-12.824 -24.551,-40 -28.252,-43.911 -33.217,-56.241 -32.173,-79.89 0.9573,-21.672 8.2717,-37.909 24.149,-53.61 13.179,-13.032 27.807,-20.549 45.601,-23.432 44.097,-7.1446 86.878,21.883 95.546,64.828 2.0208,10.012 1.5723,27.243 -0.95271,36.604 -2.77,10.269 -13.883,31.045 -29.589,55.315 -28.348,43.807 -39.082,65.687 -47.119,96.05 -3.1117,11.755 -4.3985,14.673 -5.3161,12.052 z"
+            style="fill:#f41922;stroke:#5a0000;stroke-width:5.7"
+            inkscape:connector-curvature="0"
+        />
+        <ellipse
+            id="pin_ellipse_Telezentrum - Digitale Medien"
+            style="fill:#0e232e;stroke-width:0"
+            cx="5969.5"
+            cy="8855.0"
+            rx="34.5"
+            ry="35.5"
+        />
+    </g>
+</g>
+<g
+    id="Location_marker_Am Latterbach - Häuser"
+    transform="matrix(0.02,0,0,0.02,0,0)">
+    <g id="pin_Am Latterbach - Häuser" transform="matrix(0,0,0,0,0)" >
+        <path
+            id="pin_body_Am Latterbach - Häuser"
+            d="m 8575.0,7627.500000000001 c -0.2729,-0.7794 -1.645,-6.0275 -3.049,-11.662 -4.441,-17.823 -12.122,-36.988 -22.546,-56.255 -5.9844,-11.061 -7.0667,-12.824 -24.551,-40 -28.252,-43.911 -33.217,-56.241 -32.173,-79.89 0.9573,-21.672 8.2717,-37.909 24.149,-53.61 13.179,-13.032 27.807,-20.549 45.601,-23.432 44.097,-7.1446 86.878,21.883 95.546,64.828 2.0208,10.012 1.5723,27.243 -0.95271,36.604 -2.77,10.269 -13.883,31.045 -29.589,55.315 -28.348,43.807 -39.082,65.687 -47.119,96.05 -3.1117,11.755 -4.3985,14.673 -5.3161,12.052 z"
+            style="fill:#f41922;stroke:#5a0000;stroke-width:5.7"
+            inkscape:connector-curvature="0"
+        />
+        <ellipse
+            id="pin_ellipse_Am Latterbach - Häuser"
+            style="fill:#0e232e;stroke-width:0"
+            cx="8577.0"
+            cy="7447.500000000001"
             rx="34.5"
             ry="35.5"
         />
