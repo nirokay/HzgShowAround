@@ -95,7 +95,7 @@ for location in locations:
     locationButtons.add button(location.name, get location.path)
 
 locationButtons.sort do (x, y: HtmlElement) -> int:
-    result = cmp(x.content, y.content)
+    result = cmp(x.content.toLower(), y.content.toLower())
 
 html.addToBody(
     h2("Orte"),
