@@ -31,13 +31,12 @@ const
 
     urlResources*: string = urlRemoteRepo & "resources/"
     urlImages*: string = urlResources & "images/"
-    urlCustomHtmlArticles*: string = urlResources & "articles/"
 
     urlArticleImages*: string = urlImages & "articles/"
     urlArticles*: string = urlRemoteRepo & "articles.json"
+    urlCustomHtmlArticles*: string = urlResources & "articles/"
 
     urlLocationImages*: string = urlImages & "locations/"
-
     urlJsonLocationData*: string = urlRemoteRepo & "locations.json"
     urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json"
 
