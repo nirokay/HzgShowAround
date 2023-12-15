@@ -12,8 +12,7 @@ html.addToBody(
     pc("Das Gewässer, das du erforschen willst, ist zu tief und gruselig, du wirst aufgehalten!"),
     `div`(
         img(urlImages & "404.svg", "Ironisch... dieses Bild kann nicht angezeigt werden...").add(
-            attr("max-width", "500px"),
-            attr("width", "50%")
+            attr("style", "max-width: 500px; width: 50%; border-radius: 10px;")
         )
     ).setClass(centerClass),
 
