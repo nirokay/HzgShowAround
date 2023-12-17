@@ -27,8 +27,14 @@ proc generate*(html: var HtmlDocument) =
     ].join(" | "))
     f.class = "generic-center-100-width"
     html.addToBody(
-        p($br()), # 1_000_000 IQ move to put a buffer between end of content and footer
-        f
+        # 1_000_000 IQ move to put a buffer between end of content and footer
+        p($br()),
+
+        # Footer:
+        f,
+
+        # Cloudflare analytics:
+        text( """<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
     )
     html.writeFile()
     when not defined(js): stdout.write("\rFinished generation for " & html.file & "!\n")
