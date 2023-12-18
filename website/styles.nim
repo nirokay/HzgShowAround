@@ -57,7 +57,7 @@ globalCss.add(
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-bar",
-        backgroundColour(Black),
+        backgroundColour(White),
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-value",
