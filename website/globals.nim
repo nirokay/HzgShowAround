@@ -2,6 +2,19 @@ import std/[strutils, tables, options]
 import generator
 
 # -----------------------------------------------------------------------------
+# Constants:
+# -----------------------------------------------------------------------------
+
+const urlConvertChars: seq[array[2, string]] = @[
+    [" ", "_"],
+    ["ä", "ae"],
+    ["ö", "oe"],
+    ["ü", "ue"],
+    ["ß", "ss"]
+]
+
+
+# -----------------------------------------------------------------------------
 # Colours:
 # -----------------------------------------------------------------------------
 
@@ -202,7 +215,9 @@ proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") #
 # Url formatting:
 
 proc getRelativeUrlId*(name: string): string =
-    result = name.strip().toLower().replace(' ', '_')
+    result = name.strip().toLower()
+    for chars in urlConvertChars:
+        result = result.replace(chars[0], chars[1])
 proc getRelativeUrlPath*(name: string): string =
     ## Converts name into html file name
     name.getRelativeUrlId() & ".html"

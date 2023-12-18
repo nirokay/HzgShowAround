@@ -1,16 +1,18 @@
 // This script has all logic for the tour
 
 const iframeId = "location-display";
+const progressId = "tour-progress";
 
 let currentLocation = 0;
 let tourLocations = []
-let fetching = fetch('https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json')
+let fetching = fetch('https://nirokay.github.io/HzgShowAround/resources/tour_locations.json')
     .then((response) => response.json())
     .then((json) => tourLocations = json);
 
 // Changes the source of the iframe:
 function setSource() {
     document.getElementById(iframeId).src = ("location/" + tourLocations[currentLocation] + ".html");
+    document.getElementById(progressId).value = currentLocation + 1;
 }
 
 // Previous button function:
@@ -36,5 +38,3 @@ function nextLocation() {
     currentLocation++;
     setSource();
 }
-
-// document.onload = setSource();

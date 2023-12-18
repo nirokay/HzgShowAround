@@ -50,6 +50,34 @@ globalCss.add(
         ["margin-right", "5px"]
     ),
 
+    # Progress bars:
+    newCssElement("progress",
+        width("90%"),
+        ["margin", "auto 1px"],
+        ["border-radius", "10px"]
+    ),
+    newCssElement("progress::-webkit-progress-bar",
+        backgroundColour(Black),
+        ["border-radius", "10px"]
+    ),
+    newCssElement("progress::-webkit-progress-value",
+        backgroundColour(HotPink),
+        ["border-radius", "10px"]
+    ),
+    newCssElement("progress::-moz-progress-bar",
+        backgroundColour(HotPink),
+        ["border-radius", "10px"]
+    ),
+
+    #[
+        # Does not work??
+        newCssElement("progress::-moz-progress-value",
+            backgroundColour(HotPink),
+            ["border-radius", "10px"]
+        ),
+    ]#
+
+
     # Links:
     link("link", HotPink),
     link("visited", HotPink),

@@ -21,6 +21,27 @@ td {
     margin-right: 5px;
 }
 
+progress {
+    margin: auto 1px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    border-radius: 10px;
+    background-color: Black;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 10px;
+    background-color: HotPink;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 10px;
+    background-color: HotPink;
+}
+
 a:link {
     color: HotPink;
     text-decoration: none;

@@ -1,6 +1,14 @@
 import std/[json]
 import generator, globals, styles, client
 
+let rawTourJson*: JsonNode = getTourJson()
+var tourIds*: seq[string] = rawTourJson.to(seq[string])
+
+for i, v in tourIds:
+    tourIds[i] = getRelativeUrlId(v)
+
+writeFile("resources/tour_locations.json", $(% tourIds))
+
 var html*: HtmlDocument = newPage(
     "Digitale Tour",
     "tour.html",
@@ -17,7 +25,7 @@ html.addToBody(
 )
 
 # iframe of current location:
-var id: string = getTourJson().elems[0].str # Fuck you javascript, this ensures that the starting page is not blank
+var startingPageBecauseFuckYouJavascript: string = tourIds[0] # Fuck you javascript, this ensures that the starting page is not blank
 html.addToBody(
     `div`(
         backToHomeButton("← Tour beenden")
@@ -27,7 +35,10 @@ html.addToBody(
         scriptButton("weiter →", "nextLocation()")
     ).setClass(centerClass),
     `div`(
-        iframe("location/" & id & ".html")
+        progress("tour-progress", tourIds.len()).add(attr("value", "1"))
+    ).setClass(centerClass),
+    `div`(
+        iframe("location/" & startingPageBecauseFuckYouJavascript & ".html")
             .add(
                 attr("id", "location-display"),
                 attr("width", "90%"),
