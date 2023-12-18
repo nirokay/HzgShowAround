@@ -5,50 +5,6 @@ import generator, styles, locations as locationModule
 let locations: seq[Location] = getLocations()
 locations.generateLocationsHtmlPages()
 
-# Create temporary page:
-const todoPage: string = "baustelle.html"
-block:
-    var html: HtmlDocument = newPage(
-        "Baustelle",
-        todoPage,
-        "Ups, dieser Link führt nur zu einer Baustelle..."
-    )
-    html.addToBody(
-        h1("Baustelle"),
-        p("Ups, dieser Link führt nur zu einer Baustelle... schau später mal vorbei, vielleicht ist hier dann was Cooles!").setClass(centerClass),
-        img(urlImages & "construction.jpg", "Bild einer Baustelle").setClass(centerClass)
-    )
-    html.setStyle(css)
-    html.generate()
-
-# Create terms-of-use page:
-block:
-    var html: HtmlDocument = newPage(
-        "Terms of Service",
-        "terms-of-service.html",
-        "The terms of service for this website."
-    )
-    proc text(strings: seq[string]): HtmlElement =
-        p(strings.join($br())).setClass(centerClass)
-    html.addToBody(
-        h1("Terms of service"),
-        h2("English [EN]"),
-        text(@[
-            "By using this website you acknowledge, that:" & $br(),
-            "1) this website is not owned nor operated by the owners of " & $a("https://www.herzogsaegmuehle.de", "Herzogsägmühle") & ".",
-            "2) the information provided on this website may not be accurate or may include errors."
-        ]),
-        h2("Deutsch [DE]"),
-        text(@[
-            "Mit dem Benutzen dieser Website ist Ihnen bewusst, dass:" & $br(),
-            "1) diese Website nicht der " & $a("https://www.herzogsaegmuehle.de", "Herzogsägmühle") & " gehört und dass sie Diese nicht betreieben.",
-            "2) die Informationen, die hier gefunden werden können, nicht stimmen oder fehlerhaft sein können."
-        ])
-    )
-    html.setStyle(css)
-    html.generate()
-
-
 var html: HtmlDocument = newPage(
     "Home",
     "index.html",
