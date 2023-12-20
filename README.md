@@ -16,3 +16,8 @@ The build-executable fetches changes from the [data repository](https://github.c
 ## Deployment
 
 This website is deployed using github pages to [my homepage](https://nirokay.github.io/HzgShowAround).
+
+## Documentation
+
+Nim docs are available [on my homepage](https://nirokay.github.io/nim-docs/hzgshowaround/hzgshowaround.html), project docs are available in
+[the data repository](https://github.com/nirokay/HzgShowAroundData#dateistrukturen) (documentation is only available in German, as it is directed at people who speak German).
