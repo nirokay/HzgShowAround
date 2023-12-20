@@ -11,9 +11,7 @@ import globals, styles, client
 const
     imageTags*: seq[tuple[opening, closing: string]] = @[
         ("<img>", "</img>"),
-        ("<i>", "</i>"),
         ("<img=", ">"),
-        ("<i=", ">"),
 
         ("<bild>", "</bild>"),
         ("<bild=", ">"),
