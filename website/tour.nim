@@ -1,3 +1,8 @@
+## Tour module
+## ===========
+##
+## This module generates the `tour.html` file. It is rather bare-bones, as the javascript handles all interactivity.
+
 import std/[json]
 import generator, globals, styles, client
 

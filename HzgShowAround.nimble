@@ -1,10 +1,10 @@
 # Package
 
-version       = "0.1.0"
+version       = "1.0.0"
 author        = "nirokay"
 description   = "Builder for website-project 'hzgshowaround'."
 license       = "GPL-3.0-only"
-bin           = @["webbuilder"]
+bin           = @["hzgshowaround"]
 
 
 # Dependencies

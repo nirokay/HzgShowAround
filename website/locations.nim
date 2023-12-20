@@ -1,3 +1,9 @@
+## Locations module
+## ================
+##
+## This module deals with locations and generating them from the
+## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/locations.json).
+
 import std/[tables, json, options, strutils]
 import generator, styles, client
 

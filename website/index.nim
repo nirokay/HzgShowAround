@@ -1,3 +1,8 @@
+## Main index module
+## =================
+##
+## This module generates the `index.html` file. As it is a complex site with many components, it has its own module.
+
 import std/[options, strutils, algorithm]
 import generator, styles, locations as locationModule
 

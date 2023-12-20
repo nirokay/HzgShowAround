@@ -1,3 +1,9 @@
+## HzgShowAround - Articles
+## ========================
+##
+## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
+## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
+
 import std/[strutils, options, json, algorithm]
 import generator
 import globals, styles, client

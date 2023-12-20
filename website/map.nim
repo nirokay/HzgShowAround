@@ -1,3 +1,10 @@
+## Map module
+## ==========
+##
+## This module generates the `map.html` file. It adds clickable area tags to an image to simulate a dynamic map.
+##
+## At the end: calls external proc to generate a SVG file
+
 import std/[strutils, options]
 import generator, styles, mapgenerator, locations as locationModule
 

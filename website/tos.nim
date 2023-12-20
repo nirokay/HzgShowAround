@@ -1,3 +1,8 @@
+## TOS module
+## ==========
+##
+## This module generates the TOS page (`terms-of-service.html`).
+
 import generator, globals, styles
 
 var html: HtmlDocument = newPage(

@@ -1,3 +1,10 @@
+## HzgShowAround
+## =============
+##
+## This is the builder for the [HzgSHowAround website](https://nirokay.github.io/HzgShowAround).
+##
+## The project only uses the Nim standard library and my own static HTML/CSS library `websitegenerator`.
+
 {.define: ssl.}
 
 from websitegenerator import writeFile

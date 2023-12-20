@@ -1,3 +1,8 @@
+## Http Client module
+## ==================
+##
+## This module is used to fetch data over the network during run-time.
+
 import std/[os, httpclient, json]
 from std/net import TimeoutError
 import globals

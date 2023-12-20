@@ -1,3 +1,10 @@
+## Newsfeed module
+## ===============
+##
+## This module generates a bare-bones html file. This file is used in browser-runtime to fetch from
+## [an external JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/news.json) and
+## display its elements with `div`s. The displaying of elements and their structure is handles by javascript.
+
 import generator
 import globals, styles
 

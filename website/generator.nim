@@ -1,3 +1,9 @@
+## Generator module
+## ================
+##
+## This module is a "dumbed down" `websitegenerator` module.
+## Basically when writing HTML-files it adds a footer to each page as well as modifies the HTML-head.
+
 import std/[strutils, times]
 import websitegenerator
 export websitegenerator except newDocument, writeFile

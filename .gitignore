@@ -1,8 +1,12 @@
 # Project:
 .vscode/
 
+# Docs:
+docs/
+
 # Binaries:
 webbuilder
+hzgshowaround
 *.exe
 *.out
 

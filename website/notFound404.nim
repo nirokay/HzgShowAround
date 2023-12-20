@@ -1,3 +1,8 @@
+## Not Found 404
+## =============
+##
+## This module generates a custom `404.html` file. Github uses it for displaying... well 404 pages...
+
 import generator
 import globals, styles
 

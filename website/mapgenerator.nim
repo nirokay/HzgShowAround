@@ -1,30 +1,40 @@
+## Map generator module
+## ====================
+##
+## This module genuinely hurts my eyes, so here is your trigger-warning for magic value, hardcoded SVG and many more.
+## The reasoning behind generating a SCG file on the fly is, so that you can dynamically add location markers/pins
+## and rectangle as overlays for clickable areas (because who needs to visualise the `<area>` tag anyways... right?).
+
 import std/[strutils, strformat, options]
 import client, locations as locationModule, globals
 
 const
-    viewbox: int = 200 # Hard-coded viewbox width/height, just like the gods intended
-    colour: string = "#1a1a1aff"
-    smoothing: float = 1.0
-    opacity: float = 0.25
-    svgExportPath*: string = "resources/images/map.svg"
+    viewbox: int = 200 ## Hard-coded viewbox width/height, just like the gods intended
+    colour: string = "#1a1a1aff" ## Overlay colour
+    smoothing: float = 1.0 ## Overlay rectangle corner smoothing value
+    opacity: float = 0.25 ## Overlay opacity
+    svgExportPath*: string = "resources/images/map.svg" ## Where the modified map is exported to
 
 let scale: float = float(viewbox) / float(mapResolution)
 
 type
     Rect* = object
+        ## Rectangle overlay object
         id*: string
         x*, y*, width*, height*: float
         ry*, rx*: float = 0
         fill*: string = colour
-        stroke*: string = colour
+        stroke*: string = colour ## Does this value even do something? I do not know...
     Layer*[T] = object
+        ## Inkscape layer object
         name*: string
         opacity*: float = 1.0
         shapes*: seq[T]
 
-proc `:=`[T](id: string, value: T): string = id & "=\"" & $value & "\""
+proc `:=`[T](id: string, value: T): string = id & "=\"" & $value & "\"" ## Shortcut to add quotes to `value`
 
 proc `$`*(rect: Rect): string =
+    ## Stringifies the rect object to a SVG rectangle
     # Tag:
     result = "<rect\n"
 
@@ -43,6 +53,7 @@ proc `$`*(rect: Rect): string =
     result &= " />"
 
 proc `$`*(layer: Layer): string =
+    ## Stringifies the layer object to a SVG layer
     # Header:
     result = @[
         "inkscape:groupmode" := "layer",
@@ -73,10 +84,12 @@ proc beautify() =
     svg.data = data
 
 proc appendData(data: string) =
+    ## Appends data before the closing `</svg>` tag
     beautify()
     svg.data.insert(data, svg.data.find("</svg>"))
 
 proc pin(pinId: string, x, y: float): string =
+    ## Gets svg for adding a location pin
     var
         scale: float = 0.02 # 3.7795276
         view: float = float(viewbox) * scale * 12.5
@@ -103,9 +116,6 @@ proc pin(pinId: string, x, y: float): string =
         />
     </g>
 </g>"""
-
-# 0.01129762
-# 0.01076414
 
 # Text for location (removed because of ugly/unreadable overlaying)
 #[
@@ -164,5 +174,6 @@ proc writeSvg() =
 
 
 proc generateSvg*() =
+    ## External proc to generate new, modified SVG file
     addLocationOverlay()
     writeSvg()

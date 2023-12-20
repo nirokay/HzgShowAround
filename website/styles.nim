@@ -1,3 +1,8 @@
+## Styles module
+## =============
+##
+## This module generates CSS for the general site as well as a specialised one for articles.
+
 import std/[tables]
 import websitegenerator ##! Not generator, because I need the writeFile() proc here!
 import globals
