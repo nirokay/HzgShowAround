@@ -150,7 +150,7 @@ cssArticles.add(
         textUnderline,
         textCenter
     ),
-    newCssElement("h3, h4, h5, h6, p",
+    newCssElement("h3, h4, h5, h6, p, summary, time",
         textCenter
     ),
 

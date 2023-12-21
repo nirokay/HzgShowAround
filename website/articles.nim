@@ -87,25 +87,25 @@ proc formatLine*(line: string): HtmlElement =
     # Just returns the line (if no format found)
     return p(content)
 
-proc addTopPart(html: var HtmlDocument, article: Article) =
+
+proc addArticleHeader(html: var HtmlDocument, article: Article) =
     ## Adds stuff on the top of an article (title, author, etc.)
-    html.addToBody(
-        hr(),
-        h1(article.title)
-    )
+    var header: seq[HtmlElement] = @[h1(article.title)]
 
-    var metaData: seq[string]
-    if article.author.isSome(): metaData.add $small("Autor: " & get article.author)
-    if article.date.isSome():   metaData.add $small("verfasst am " & get article.date)
-    if article.desc.isSome():   metaData.add get article.desc
+    # Author and date (on the same line):
+    var authorAndDate: seq[string]
+    if article.author.isSome():
+        authorAndDate.add "Autor: " & get article.author
+    if article.date.isSome():
+        authorAndDate.add "verfasst am " & $time(get article.date)
+    header.add pc($small(authorAndDate.join(" | ")))
 
-    html.addToBody pc(metaData.join($br()))
+    # Description/summary:
+    if article.desc.isSome():
+        header.add summary(get article.desc)
 
-    html.addToBody hr()
+    html.addToBody header(header.join("\n"))
 
-proc addBottomPart(html: var HtmlDocument, article: Article) =
-    ## Adds stuff to the bottom of an article (horizontal line)
-    html.addToBody hr()
 
 # Generate html sites:
 var articles: seq[Article]
@@ -133,26 +133,42 @@ proc generateArticleHtml(article: Article) =
         desc
     )
 
+    # Navigation buttons:
     html.addToBody `div`(
         button("← Startseite", "../index.html"),
         button("← Artikel", "../articles.html")
     ).setClass(centerClass)
 
-    html.addTopPart(article)
+    # Article header:
+    html.addArticleHeader(article)
 
-    if article.remote.isSome():
-        # Embed custom html into article:
-        let body: string = getRawHtmlArticle(get article.remote)
-        html.addToBody(text(body))
-    elif article.body.isSome():
+    # Article body:
+    var body: seq[string]
+
+    # Embed custom html into article:
+    try:
+        if article.remote.isSome():
+            let customHtml: string = getRawHtmlArticle(get article.remote)
+            body.add(customHtml)
+
         # Or generate using json:
-        for line in get article.body:
-            html.addToBody line.formatLine()
-    else:
-        # Uhm, should not happen, but maybe someone will forget it...
-        html.addToBody pc("Leerer Artikel... ups...")
+        elif article.body.isSome():
+            for line in get article.body:
+                body.add($line.formatLine())
 
-    html.addBottomPart(article)
+        # Uhm, should not happen, but maybe someone will forget it...
+        else:
+            body.add($pc("Dieser Artikel scheint leer zu sein... :("))
+
+    except CatchableError:
+        echo "⮿ Failed to write article '" & article.title & "'..."
+        body.add($pc("Dieser Artikel konnte leider nicht generiert werden..."))
+
+    html.addToBody(
+        hr(),
+        article(body.join("\n")),
+        hr()
+    )
 
     # Add css and write to disk:
     html.addToHead(stylesheet(articleCssFile))
@@ -200,7 +216,7 @@ proc generateHtmlMainPage() =
         # Footer: (author and date)
         elements.add(
             small(
-                "verfasst von " & article.author.get("Unbekannt") & (
+                "verfasst von " & article.author.get("Anonym") & (
                     if article.date.isSome(): " | am " & article.date.get() else: ""
                 )
             )
