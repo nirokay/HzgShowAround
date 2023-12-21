@@ -118,19 +118,20 @@ const
         backgroundColour(rgb(50, 30, 58)), # backgroundColour(rgb(60, 60, 60)),
         colour(White),
         ["border", "none"],
-        padding("20px 34px"),
+        padding("10px 20px"),
         textCenter,
         textNoDecoration,
         display(inlineBlock),
         fontSize(20.px),
         ["margin", "4px 2px"],
         ["cursor", "pointer"],
-        # ["transition", "0.3s"],
+        ["transition", "0.3s"],
         ["border-radius", 6.px]
     )
 
     buttonClassHover* = newCssClass("button:hover",
-        backgroundColour(colButtonHover)
+        backgroundColour(colButtonHover),
+        ["transition", "0.1s"]
     )
 
     mapElement* = newCssClass("map-element",
@@ -221,11 +222,12 @@ proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") #
 # Url formatting:
 
 proc getRelativeUrlId*(name: string): string =
+    ## Gets the url ID (replacing special characters)
     result = name.strip().toLower()
     for chars in urlConvertChars:
         result = result.replace(chars[0], chars[1])
 proc getRelativeUrlPath*(name: string): string =
-    ## Converts name into html file name
+    ## Gets the path for an html page
     name.getRelativeUrlId() & ".html"
 
 
@@ -233,11 +235,11 @@ proc getRelativeUrlPath*(name: string): string =
 
 proc isSet*[T](item: Option[T]): bool =
     ## Shortcut to `item.isSome()` and `get(item).len() != 0`
+    var emptyValue: T
     if item.isSome():
-        if item.get().len() != 0:
+        if item.get() == emptyValue:
             result = true
 
-proc getOrDefault*[T](value: Option[T], default: T): T =
+proc getOrDefault*[T](value: Option[T], default: T): T {.deprecated: "use normal `get` instead".} =
     ## Returns the Option's value or a default
-    if value.isSome(): return value.get()
-    else: return default
+    return value.get(default)

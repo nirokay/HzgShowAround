@@ -182,7 +182,7 @@ proc generateHtmlMainPage() =
     proc reverseDate(date: string): string = date.split('.').reversed().join(".")
     articlesSorted.sort do (x, y: Article) -> int:
         let default: string = "01.01.0000"
-        result = cmp(y.date.getOrDefault(default).reverseDate(), x.date.getOrDefault(default).reverseDate())
+        result = cmp(y.date.get(default).reverseDate(), x.date.get(default).reverseDate())
 
     # Add articles to html:
     var articleElements: seq[HtmlElement]
@@ -200,7 +200,7 @@ proc generateHtmlMainPage() =
         # Footer: (author and date)
         elements.add(
             small(
-                "verfasst von " & article.author.getOrDefault("Unbekannt") & (
+                "verfasst von " & article.author.get("Unbekannt") & (
                     if article.date.isSome(): " | am " & article.date.get() else: ""
                 )
             )
