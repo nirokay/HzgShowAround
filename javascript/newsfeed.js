@@ -1,6 +1,11 @@
+// HTML IDs:
 const newsfeedDivId = "news-div";
 const reloadedTimeId = "reloaded-time";
+
+// URLs:
 const remoteRepoNewsJson = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
+
+// Dates and times:
 const dayMilliseconds = 86400000;
 const weekMilliseconds = dayMilliseconds * 7;
 const dateFormatDisplay = {
@@ -9,8 +14,16 @@ const dateFormatDisplay = {
     day: "numeric"
 };
 
+// `news` gets set to `fucked` if everything is fucked
+const fucked = "fucked";
+
+// Global variables:
 let date = new Date();
 let news = [];
+
+// Global error variables:
+let networkingIssuesEncountered = false;
+let remoteJsonParsingError = false;
 
 function multilineText(array) {
     return array.join("<br />");
@@ -41,8 +54,6 @@ function getImportance(element) {
 }
 
 function getHtml(element) {
-    let level = element.level.trim().toLowerCase();
-    console.log(level)
     let cssClass = "";
     switch(getImportance(element)) {
         case 2:
@@ -76,14 +87,26 @@ function addElement(element) {
 }
 
 function fetchNews() {
+    networkingIssuesEncountered = false;
+    remoteJsonParsingError = false;
+
     fetch(remoteRepoNewsJson)
-        .then((response) => response.json())
-        .then((json) => news = json)
-        .then(console.log("Got stuff!"));
+        .then(
+            function(response) { return response.json() },
+            function(error) { networkingIssuesEncountered = true; return fucked }
+        )
+        .then(
+            function(json) { news = json },
+            function(error) { remoteJsonParsingError = true }
+        )
+        .then(
+            console.log("Got stuff!")
+        );
+    console.log(news)
 }
 
-function normalize(time) {
-    return time.replace("\*", date.getFullYear());
+function normalize(time, offset = 0) {
+    return time.replace("\*", date.getFullYear() + offset);
 }
 
 function readable(time) {
@@ -101,63 +124,92 @@ function isRelevant(element) {
 
 function refreshNews() {
     /** Refreshes `news` variable from remote repo */
+    let msg = "";
     console.log("Refreshing news from remote repo...");
+
+    // This should hopefully catch any networking issues and display an error message:
     fetchNews();
+
     getDiv().innerHTML = "";
 
-    let relevantNews = news.filter(element => isRelevant(element));
-    for(let i = 0; i < relevantNews.length; i++) {
-        console.log(relevantNews[i])
-        relevantNews[i].importance = getImportance(relevantNews[i]);
-        console.log(relevantNews[i])
+    // Band-aid solution à la javascript-style:
+    if (news === fucked) {
+        console.log("Everything is fucked, entering panic mode.")
+        networkingIssuesEncountered = true;
+        remoteJsonParsingError = true;
     }
 
-    relevantNews.sort(function(a, b) {
-        return b.importance - a.importance;
-    });
+    console.log("Issues?:  network: " + networkingIssuesEncountered + "  |  parsing: " + remoteJsonParsingError)
 
-    relevantNews.forEach(element => {
-        addElement(element);
-    });
+    // No networking errors, so continue with handling news:
+    if (!networkingIssuesEncountered && !remoteJsonParsingError) {
+        // Filtering news:
+        let relevantNews = news.filter(element => isRelevant(element));
+        for(let i = 0; i < relevantNews.length; i++) {
+            relevantNews[i].importance = getImportance(relevantNews[i]);
+        }
 
-    // Add "error" message:
-    if(relevantNews.length == 0) {
-        let msg = "";
-        // There are no relevant news:
-        if(news.length != 0) {
-            msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
+        // Sorting news by date relevance:
+        relevantNews.sort(function(a, b) {
+            return b.importance - a.importance;
+        });
+
+        // Adding news:
+        relevantNews.forEach(element => {
+            addElement(element);
+        });
+
+        // Display placeholder message, if no relevant news are there:
+        if(relevantNews.length == 0) {
+            // There are no relevant news:
+            if(news.length != 0) {
+                msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
+            }
+            // There are NO news (should not happen?):
+            else {
+                msg = p([
+                    "Derzeit keine Neuigkeiten vorhanden.",
+                    "Dies ist wahrscheinlich ein Fehler, versuche es erneut indem du auf den \"Neu laden\" Knopf drückst!"
+                ]);
+            }
         }
-        // There are NO news (probably a network error):
-        else {
-            msg = p([
-                "Derzeit keine Neuigkeiten vorhanden.",
-                "Klicke auf den \"Neu laden\" Knopf, um nochmals nach Neuigkeiten zu suchen.",
-                "Diese Fehlermeldung kann ein auf eine schlechte/nicht vorhandene Internetverbindung deuten."
-            ]);
-        }
+    }
+
+    // Networking error, so just throw an error message on the screen and let the user handle it:
+    else if(networkingIssuesEncountered) {
+        msg = p([
+            "Es konnte keine Verbindung zum externen Server hergestellt werden.",
+            "Dies kann ein einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
+            "Versuche es später noch einmal!"
+        ]);
+    }
+
+    // Network is fine, but the json was fucked in some way:
+    else if(remoteJsonParsingError) {
+        msg = p([
+            "Es ist ein Fehler bei der Datenverarbeitung passiert. JSON konnte nicht korrekt gelesen werden.",
+            "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
+        ])
+    }
+
+    // This literally cannot happen, but i am paranoid because it is javascript after all...:
+    else {
+        msg = p([
+            "Ein Fehler ist geschehen."
+        ])
+    }
+
+    // Add `msg`, if set:
+    if (msg != "") {
         addToDiv(msg);
     }
 
-    // Debug:
-    function debugPrint() {
-        const infos = [
-            "All news: ",
-            news,
-            "---------",
-            "Relevant news: ",
-            relevantNews
-        ];
-        infos.forEach(element => {
-            console.log(element)
-        });
-    }
     // Update "refreshed at `time`" text:
     function updateRefreshedAt() {
         date = new Date();
         let time = date.toLocaleTimeString("de-DE");
         document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time;
     }
-    debugPrint();
     updateRefreshedAt();
 }
 
