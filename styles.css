@@ -167,6 +167,14 @@ button:hover {
     border-width: 10px;
 }
 
+.newsfeed-element-happened {
+    border-color: Grey;
+    margin-bottom: 10px;
+    border-style: solid;
+    margin-top: 10px;
+    border-width: 10px;
+}
+
 .article-preview {
     border-color: White;
     padding: 10px;

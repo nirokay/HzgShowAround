@@ -115,6 +115,7 @@ css.add(
     newsElementGeneric,
     newsElementWarning,
     newsElementAlert,
+    newsElementHappened,
 
     #   Articles:
     articlePreviewItem,

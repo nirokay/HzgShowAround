@@ -74,7 +74,9 @@ const
 type NewsLevel = enum
     Generic = "generic",
     Warning = "warning",
-    Alert = "alert"
+    Alert = "alert",
+    Happened = "happened"
+
 proc newsElement(level: NewsLevel): CssElement =
     result = newCssClass("newsfeed-element-" & $level,
         ["border-style", "solid"],
@@ -86,6 +88,7 @@ proc newsElement(level: NewsLevel): CssElement =
         of Warning: $Yellow
         of Alert: $Red
         of Generic: $White
+        of Happened: $Grey
 
 const
     textCenter* = ["text-align", "center"]
@@ -153,6 +156,7 @@ const
     newsElementGeneric* = newsElement(Generic)
     newsElementWarning* = newsElement(Warning)
     newsElementAlert* = newsElement(Alert)
+    newsElementHappened* = newsElement(Happened)
 
     articlePreviewItem* = newCssClass("article-preview",
         textCenter,

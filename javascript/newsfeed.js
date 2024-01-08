@@ -26,18 +26,21 @@ let networkingIssuesEncountered = false;
 let remoteJsonParsingError = false;
 
 function multilineText(array) {
+    // Array of strings joined by `<br />`
     return array.join("<br />");
 }
 function p(array) {
+    // Array of strings joined by `<br />` and wrapped inside `<p> ... </p>` tags
     return "<p>" + multilineText(array) + "</p>";
 }
 
 function getDiv() {
+    // Shortcut to get the newsfeed div
     return document.getElementById(newsfeedDivId);
 }
 
 function getImportance(element) {
-    // Returns 0 .. 2 for severity
+    // Returns 0 .. 2 for severity, and -1 for already-happened events
     let severity = 0;
     switch(element.level) {
         case "alert": case "achtung": case "alarm":
@@ -50,43 +53,81 @@ function getImportance(element) {
             severity = 0;
             break;
     }
+
+    // Special case, if the event occurred in the past:
+    if (Date.parse(normalize(element.till)) + dayMilliseconds < date.getTime()) {
+        severity = -1;
+    }
+
     return severity;
 }
 
 function getHtml(element) {
-    let cssClass = "";
+    // Gets an html object for a single event
+    const classAlert = "alert";
+    const classWarning = "warning";
+    const classGeneric = "generic";
+    const classHappened = "happened";
+
+    let cssClassPrefix = "newsfeed-element-";
+    let cssClass = classGeneric;
     switch(getImportance(element)) {
         case 2:
-            cssClass = "alert";
+            cssClass = classAlert;
             break;
         case 1:
-            cssClass = "warning";
+            cssClass = classWarning;
             break;
         case 0:
-            cssClass = "generic";
+            cssClass = classGeneric;
             break;
+        case -1:
+            cssClass = classHappened;
+            break;
+        default:
+            console.log("Weird importance level of '" + getImportance(element) + "' encountered. Using generic class.");
     }
-    let html = "<div class='newsfeed-element-" + cssClass + "'>";
+    let html = "<div class='" + cssClassPrefix + cssClass + "'>";
+
+    // Additional disclaimer, if the event has already passed:
+    let disclaimer = (cssClass == classHappened) ? " <small>(Event vergangen)</small>" : "";
 
     // Title:
-    html += "<h3 style='margin-bottom:2px;'>" + element.name + "</h3>";
-    // Date range:
-    html += "<small><b>von " + readable(element.from) + " bis " + readable(element.till) + "</b></small>";
+    html += "<h3 style='margin-bottom:2px;'>" + element.name + disclaimer + "</h3>";
+
+    // Dates:
+    const readableFrom = readable(element.from);
+    const readableTill = readable(element.till);
+    if (readableFrom != readableTill) {
+        // Actual range:
+        html += "<small><b>von " + readableFrom + " bis " + readableTill + "</b></small>";
+    } else {
+        // Just one day:
+        html += "<small><b>am " + readableFrom + "</b></small>"
+    }
+
     // Details:
+    if(element.info != undefined) {
+        // Add link to external resource for more information:
+        element.details += "<a href='" + element.info + "'>mehr Infos</a>";
+    }
     html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
 
     return html + "</div>";
 }
 
 function addToDiv(content) {
+    // Appends something to the newsfeed div
     getDiv().insertAdjacentHTML('beforeend', content);
 }
 
 function addElement(element) {
+    // Appends html element to the newsfeed div
     addToDiv(getHtml(element));
 }
 
 function fetchNews() {
+    // Fetches news from remote repository
     networkingIssuesEncountered = false;
     remoteJsonParsingError = false;
 
@@ -102,14 +143,38 @@ function fetchNews() {
         .then(
             console.log("Got stuff!")
         );
-    console.log(news)
+    console.log(news);
+}
+
+function normalizeNews() {
+    // Normalizes the fields for the json fields (pretty much just backwards compatibility)
+    for(let i = 0; i < news.length; i++) {
+        let element = news[i];
+
+        // Override `from` and `till` with `on`, if defined:
+        if(element.on != undefined) {
+            element.from = element.on;
+            element.till = element.on;
+        }
+
+        // Override missing `from` or `till` fields (assume it is only on one day):
+        if(element.from == undefined) {
+            element.from = element.till;
+        } else if(element.till == undefined) {
+            element.till = element.from;
+        }
+
+        news[i] = element;
+    }
 }
 
 function normalize(time, offset = 0) {
+    // Replaces `*` with the current year
     return time.replace("\*", date.getFullYear() + offset);
 }
 
 function readable(time) {
+    // Transforms time to normal time (german notation)
     let d = new Date(Date.parse(normalize(time)));
     return d.toLocaleString("de-DE", dateFormatDisplay);
 }
@@ -129,6 +194,7 @@ function refreshNews() {
 
     // This should hopefully catch any networking issues and display an error message:
     fetchNews();
+    normalizeNews();
 
     getDiv().innerHTML = "";
 
