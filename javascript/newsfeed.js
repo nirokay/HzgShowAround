@@ -109,7 +109,7 @@ function getHtml(element) {
     // Details:
     if(element.info != undefined) {
         // Add link to external resource for more information:
-        element.details += "<a href='" + element.info + "'>mehr Infos</a>";
+        element.details[element.details.length] = "<a href='" + element.info + "'>mehr Infos</a>";
     }
     html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
 
