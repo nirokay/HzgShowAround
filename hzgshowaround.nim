@@ -10,9 +10,13 @@
 from websitegenerator import writeFile
 
 # Sub-modules:
-import website/[notFound404, tos, index, styles, tour, map, newsfeed, articles]
+import website/[tos, index, styles, tour, map, newsfeed, articles]
 # To make the compiler shut up about unused imports:
-export notFound404, tos, index, styles, tour, map, newsfeed, articles
+export tos, index, styles, tour, map, newsfeed, articles
+
+# Delay importing, because 404 page has css jammed into it to work well depth-independent
+import website/[notFound404]
+export notFound404
 
 # Write css to disk here, because modules may apply changes to the css var:
 css.writeFile()

@@ -3,6 +3,8 @@
 ##
 ## This module generates a custom `404.html` file. Github uses it for displaying... well 404 pages...
 
+import std/[strutils]
+
 import generator
 import globals, styles
 
@@ -11,6 +13,8 @@ var html: HtmlDocument = newPage(
     "404.html",
     "Diese Seite kann nicht erreicht werden..."
 )
+
+html.addToHead newElement("style", ($css).replace("\n", "  "))
 
 html.addToBody(
     h1("404 - Not found"),
@@ -31,5 +35,4 @@ html.addToBody(
     ).setClass(centerClass)
 )
 
-html.setStyle(css)
 html.generate()
