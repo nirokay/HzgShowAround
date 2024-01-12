@@ -14,7 +14,7 @@ var html: HtmlDocument = newPage(
     "Diese Seite kann nicht erreicht werden..."
 )
 
-html.addToHead newElement("style", ($css).replace("\n", "  "))
+html.addToHead newElement("style", ($css).dedent(4).replace("\n", "").replace(" {", "{"))
 
 html.addToBody(
     h1("404 - Not found"),
