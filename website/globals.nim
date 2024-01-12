@@ -241,7 +241,7 @@ proc isSet*[T](item: Option[T]): bool =
     ## Shortcut to `item.isSome()` and `get(item).len() != 0`
     var emptyValue: T
     if item.isSome():
-        if item.get() == emptyValue:
+        if item.get() != emptyValue:
             result = true
 
 proc getOrDefault*[T](value: Option[T], default: T): T {.deprecated: "use normal `get` instead".} =

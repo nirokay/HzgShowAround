@@ -155,7 +155,7 @@ proc generateLocationsHtmlPages*(locations: seq[Location]) =
 
         # Back buttons:
         html.addToBody(
-            h2("Mehr Interessantes entdecken"),
+            h2("Mehr interessante Orte entdecken"),
             `div`(
                 button("← Startseite", "../index.html"),
                 button("← Karte", "../map.html")
