@@ -192,8 +192,54 @@ proc generateLocationSvgMap*(location: Location) =
     if svg.locations.len() == 0:
         return
 
-    let filepath: string = location.getLocationSvgMapPath()
+    # "Zoom in" on the location:
+    # This code hurts my eyes, please send help
 
+    let
+        filepath: string = location.getLocationSvgMapPath()
+        rect = svg.locations[0]
+
+    let
+        viewBoxSubString: string = "viewBox=\""
+        viewBoxIndex: int = svg.data.find(viewBoxSubString)
+
+    var viewBoxInitialStateRaw: string
+    for c in svg.data[viewBoxIndex + viewBoxSubString.len() .. ^1]:
+        if c == '"': break
+        viewBoxInitialStateRaw.add c
+
+    var viewBoxInitialState: seq[int]
+    for number in viewBoxInitialStateRaw.split(" "):
+        viewBoxInitialState.add number.parseInt()
+
+    let
+        maxBoundary: int = viewbox
+        wantedScale: int = 75
+    var viewBox: seq[int] = viewBoxInitialState
+
+    let
+        x: int = int(rect.x / scale + rect.width / scale / 2) div 10
+        y: int = int(rect.y / scale + rect.height / scale / 2) div 10
+
+    viewBox[0] = x - wantedScale div 2
+    viewBox[1] = y - wantedScale div 2
+
+    echo viewBox
+
+    for i in [0, 1]:
+        if viewBox[i] < 0: viewBox[i] = 0
+        if viewBox[i] > maxBoundary: viewBox[i] = maxBoundary - wantedScale
+
+    for i in [2, 3]:
+        viewBox[i] = wantedScale
+
+    echo viewBox
+
+    echo "----"
+
+    svg.data = svg.data.replace(viewBoxSubString & viewBoxInitialStateRaw, viewBoxSubString & viewBox.join(" "))
+
+    # Add overlay stuff and write to disk:
     svg.addLocationOverlay()
     svg.writeSvg(filepath)
 
