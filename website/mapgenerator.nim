@@ -224,18 +224,12 @@ proc generateLocationSvgMap*(location: Location) =
     viewBox[0] = x - wantedScale div 2
     viewBox[1] = y - wantedScale div 2
 
-    echo viewBox
-
     for i in [0, 1]:
         if viewBox[i] < 0: viewBox[i] = 0
-        if viewBox[i] > maxBoundary: viewBox[i] = maxBoundary - wantedScale
+        if viewBox[i] > maxBoundary - wantedScale: viewBox[i] = maxBoundary - wantedScale
 
     for i in [2, 3]:
         viewBox[i] = wantedScale
-
-    echo viewBox
-
-    echo "----"
 
     svg.data = svg.data.replace(viewBoxSubString & viewBoxInitialStateRaw, viewBoxSubString & viewBox.join(" "))
 
