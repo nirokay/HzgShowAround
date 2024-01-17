@@ -35,7 +35,8 @@ proc generateLocationMap*(location: Location) =
     location.generateLocationSvgMap()
 
 proc getLocationMapPath*(location: Location): string =
-    ## Gets the relative path to the location map
+    ## Gets the relative path to the location map (from the perspective of a location page)
+    result = "../resources/images/map-locations/" & location.name.getRelativeUrlId() & ".svg"
 
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location
@@ -78,6 +79,15 @@ proc generateLocationHtml*(location: Location) =
         let pics = get(location.pics)
         if pics.footer.isSome():
             html.addToBody location.getLocationImage(imgFooter).setClass(locationImageFooter)
+
+    # Add map element (if location has coords):
+    if location.coords.isSet():
+        let path: string = location.getLocationMapPath()
+
+        html.addToBody(
+            h2("Position auf der Karte"),
+            img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageHeader)
+        )
 
     # Add similar places as links:
     if location.same.isSet():
