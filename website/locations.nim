@@ -48,7 +48,7 @@ proc generateLocationHtml*(location: Location) =
 
     # Add header:
     let headerText: string = block:
-        if location.link.isSome(): $a(get location.link, location.name)
+        if location.link.isSet(): $a(get location.link, location.name)
         else: location.name
     html.addToBody h1(headerText)
 
