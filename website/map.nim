@@ -6,7 +6,7 @@
 ## At the end: calls external proc to generate a SVG file
 
 import std/[strutils, options]
-import generator, styles, mapgenerator, locations as locationModule
+import generator, styles, mapgenerator, typedefs, locations as locationModule
 
 var html: HtmlDocument = newPage(
     "Karte von Herzogsägmühle",
@@ -74,7 +74,7 @@ html.addToBody(
     )
 )
 
+generateFullSvgMap()
 
-generateSvg()
 html.setStyle(css)
 html.generate()

@@ -6,30 +6,15 @@
 ## and rectangle as overlays for clickable areas (because who needs to visualise the `<area>` tag anyways... right?).
 
 import std/[strutils, strformat, options]
-import client, locations as locationModule, globals
+import client, globals, typedefs
 
 const
     viewbox: int = 200 ## Hard-coded viewbox width/height, just like the gods intended
-    colour: string = "#1a1a1aff" ## Overlay colour
     smoothing: float = 1.0 ## Overlay rectangle corner smoothing value
     opacity: float = 0.25 ## Overlay opacity
     svgExportPath*: string = "resources/images/map.svg" ## Where the modified map is exported to
 
 let scale: float = float(viewbox) / float(mapResolution)
-
-type
-    Rect* = object
-        ## Rectangle overlay object
-        id*: string
-        x*, y*, width*, height*: float
-        ry*, rx*: float = 0
-        fill*: string = colour
-        stroke*: string = colour ## Does this value even do something? I do not know...
-    Layer*[T] = object
-        ## Inkscape layer object
-        name*: string
-        opacity*: float = 1.0
-        shapes*: seq[T]
 
 proc `:=`[T](id: string, value: T): string = id & "=\"" & $value & "\"" ## Shortcut to add quotes to `value`
 
@@ -59,7 +44,7 @@ proc `$`*(layer: Layer): string =
         "inkscape:groupmode" := "layer",
         "id" := &"layer_{layer.name}",
         "inkscape:label" := layer.name,
-        "style" := &"opacity:{layer.opacity};fill:{colour}"
+        "style" := &"opacity:{layer.opacity};fill:{mapAreaFillColour}"
     ].join("\n")
 
     # Tag:
@@ -75,23 +60,33 @@ proc `$`*(layer: Layer): string =
     result &= "</g>"
 
 
-var svg: tuple[data: string, locations: seq[Rect]]
-svg.data = getMapSvg().strip()
+let templateSvgData: string = getMapSvg().strip()
 
-proc beautify() =
+type SvgFile* = tuple[data: string, locations: seq[Rect]]
+proc newSvgFile*(): SvgFile =
+    ## Sets `data` to `templateSvgData`
+    result.data = templateSvgData
+
+var fullMap: SvgFile = newSvgFile()
+
+proc beautify(svg: var SvgFile) =
     ## Splits closing and opening tags with a newline
     var data: string = svg.data.replace("><", ">\n<")
     svg.data = data
 
-proc appendData(data: string) =
+proc appendData(svg: var SvgFile, data: string) =
     ## Appends data before the closing `</svg>` tag
-    beautify()
-    svg.data.insert(data, svg.data.find("</svg>"))
+    svg.beautify()
+    let index: int = svg.data.find("</svg>")
+    if index < 0:
+        echo "Svg data: ```\n" & svg.data
+        echo "```\nOops, wtf happened to the svg map? Human, please debug this fuckery..."
+        # quit QuitFailure
+    svg.data.insert(data, index)
 
-proc pin(pinId: string, x, y: float): string =
+proc pin(pinId: string, x, y: float, scale: float): string =
     ## Gets svg for adding a location pin
     var
-        scale: float = 0.02 # 3.7795276
         view: float = float(viewbox) * scale * 12.5
         x: float = x * view
         y: float  = y * view
@@ -133,9 +128,10 @@ proc pin(pinId: string, x, y: float): string =
 ]#
 
 
-for location in getLocations().withCoords():
+proc toRect(location: Location): Rect =
+    ## Converts `Location` to `Rect`
     let c: Coords = get location.coords
-    var rect: Rect = Rect(
+    result = Rect(
         id: &"rect_location_{location.name}",
         x: c[0].toFloat() * scale,
         y: c[1].toFloat() * scale,
@@ -144,9 +140,13 @@ for location in getLocations().withCoords():
         rx: smoothing,
         ry: smoothing
     )
-    svg.locations.add(rect)
+proc toRects*(locations: seq[Location]): seq[Rect] =
+    ## Converts `Location`s to `Rect`s
+    for location in locations.withCoords():
+        result.add location.toRect()
 
-proc addLocationOverlay() =
+proc addLocationOverlay(svg: var SvgFile, pinScale: float = 0.02) =
+    ## Adds location overlays and pins
     # Generate new layer:
     var
         overlays: Layer[Rect] = Layer[Rect](
@@ -161,19 +161,39 @@ proc addLocationOverlay() =
     for i, rect in svg.locations:
         stdout.write(&"\rWriting svg data {i + 1}/{svg.locations.len()}")
         overlays.shapes.add rect
-        markers.shapes.add pin(rect.id[14 .. ^1], rect.x + rect.width/2, rect.y + rect.height/2)
+        markers.shapes.add pin(rect.id[14 .. ^1], rect.x + rect.width/2, rect.y + rect.height/2, pinScale)
     stdout.write("\n")
 
     # Add layers:
-    appendData($overlays)
-    appendData($markers)
+    svg.appendData($overlays)
+    svg.appendData($markers)
 
 
-proc writeSvg() =
-    svgExportPath.writeFile(svg.data)
+proc writeSvg(svg: SvgFile, path: string) =
+    ## Writes svg file to disk
+    writeFile(path, svg.data)
 
+proc generateFullSvgMap*() =
+    ## External proc to generate new, modified global svg map for all locations
+    fullMap.locations = getLocations().toRects()
+    fullMap.addLocationOverlay()
+    fullMap.writeSvg(svgExportPath)
 
-proc generateSvg*() =
-    ## External proc to generate new, modified SVG file
-    addLocationOverlay()
-    writeSvg()
+proc getLocationSvgMapPath*(location: Location): string = locationMapImagePath & getRelativeUrlId(location.name) & ".svg"
+
+proc generateLocationSvgMap*(location: Location) =
+    ## External proc to generate new svg map for a location (only the location itself is highlighted)
+    var svg: SvgFile = newSvgFile()
+
+    for l in @[location].withCoords():
+        # 100000000 IQ move, looks stupid and is stupid, as it will only run once, ...
+        # HOWEVER! I can reuse `withCoords()` this way
+        svg.locations = @[l.toRect()]
+    if svg.locations.len() == 0:
+        return
+
+    let filepath: string = location.getLocationSvgMapPath()
+
+    svg.addLocationOverlay()
+    svg.writeSvg(filepath)
+

@@ -4,11 +4,11 @@
 ## This module generates the `index.html` file. As it is a complex site with many components, it has its own module.
 
 import std/[options, strutils, algorithm]
-import generator, styles, locations as locationModule
+import generator, styles, typedefs, locations as locationModule
 
 # Parse locations from json and create html pages:
 let locations: seq[Location] = getLocations()
-locations.generateLocationsHtmlPages()
+locations.generateLocations()
 
 var html: HtmlDocument = newPage(
     "Home",
