@@ -126,7 +126,7 @@ css.add(
         textCenter,
         textUnderline
     ),
-    newCssElement("h3",
+    newCssElement("h3, h4, h5, h6",
         textCenter
     ),
 
