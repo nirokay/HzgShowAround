@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home - HzgShowAround</title>
     <meta name="description" content="HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle.">
+    <script src="javascript/index.js"> </script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,44 +22,9 @@
     <p class="generic-center">Schau dir die <b>interaktive Karte</b> der Herzogsägmühle an und/oder führe die <b>digitale Tour</b> durch...</p>
     <div class="generic-center"><a href="map.html" class="button">Karte</a>
     <a href="tour.html" class="button">Tour starten</a></div>
-    <p class="generic-center">... oder stöbere dich durch jeden Ort einzelnd:</p>
-    <div class="generic-center"><a href="location/abenteuerspielplatz.html" class="button">Abenteuerspielplatz</a>
-    <a href="location/albrecht-schnitter-berufsschule.html" class="button">Albrecht-Schnitter-Berufsschule</a>
-    <a href="location/alfons-brandl-schule.html" class="button">Alfons-Brandl-Schule</a>
-    <a href="location/beach-volleyballfeld.html" class="button">Beach-Volleyballfeld</a>
-    <a href="location/berufliches_zentrum_(bz).html" class="button">Berufliches Zentrum (BZ)</a>
-    <a href="location/berufsbildende_massnahme_(bbm).html" class="button">Berufsbildende Maßnahme (BBM)</a>
-    <a href="location/cafe_und_wirtshaus_herzog.html" class="button">Cafe und Wirtshaus Herzog</a>
-    <a href="location/deckerhalle.html" class="button">Deckerhalle</a>
-    <a href="location/elektrowerkstatt.html" class="button">Elektrowerkstatt</a>
-    <a href="location/friseur_im_muehlenmarkt.html" class="button">Friseur im MühlenMarkt</a>
-    <a href="location/fussballplatz.html" class="button">Fußballplatz</a>
-    <a href="location/gesundheits.punkt.html" class="button">gesundheits.punkt</a>
-    <a href="location/gaertnerei.html" class="button">Gärtnerei</a>
-    <a href="location/handballfeld.html" class="button">Handballfeld</a>
-    <a href="location/herzogsaegmuehler_werkstaetten.html" class="button">Herzogsägmühler Werkstätten</a>
-    <a href="location/haeuser_am_latterbach.html" class="button">Häuser Am Latterbach</a>
-    <a href="location/kfz-werkstatt.html" class="button">KFZ-Werkstatt</a>
-    <a href="location/licht-_und_wachsmanifaktur.html" class="button">Licht- und Wachsmanifaktur</a>
-    <a href="location/malerei.html" class="button">Malerei</a>
-    <a href="location/martinskirche.html" class="button">Martinskirche</a>
-    <a href="location/metzgerei_und_baeckerei.html" class="button">Metzgerei und Bäckerei</a>
-    <a href="location/minigolfanlage.html" class="button">Minigolfanlage</a>
-    <a href="location/muehlenmarkt.html" class="button">MühlenMarkt</a>
-    <a href="location/post_und_treuhand-kasse.html" class="button">Post und Treuhand-Kasse</a>
-    <a href="location/sanitaer-_und_heizungstechnik.html" class="button">Sanitär- und Heizungstechnik</a>
-    <a href="location/schlosserei.html" class="button">Schlosserei</a>
-    <a href="location/sinnespfad.html" class="button">Sinnespfad</a>
-    <a href="location/skater-park.html" class="button">Skater-Park</a>
-    <a href="location/sporthalle.html" class="button">Sporthalle</a>
-    <a href="location/sprintstrecke.html" class="button">Sprintstrecke</a>
-    <a href="location/telezentrum_-_digitale_medien.html" class="button">Telezentrum - Digitale Medien</a>
-    <a href="location/tennisplatz.html" class="button">Tennisplatz</a>
-    <a href="location/vereinsheim_sv_herzogsaegmuehle.html" class="button">Vereinsheim SV Herzogsägmühle</a>
-    <a href="location/werkstatt-laden_im_muehlenmarkt.html" class="button">Werkstatt-Laden im MühlenMarkt</a>
-    <a href="location/wuehlkiste.html" class="button">Wühlkiste</a></div>
+    <p class="generic-center"><label for="index-location-drop-down">... oder stöbere dich durch jeden Ort einzelnd:</label><br /><select name="index-location-drop-down" id="index-location-drop-down" onchange="changeToLocationPage();" onfocus="this.selectedIndex = 0;" id="index-location-drop-down" onchange="changeToLocationPage();" onfocus="this.selectedIndex = 0;" id="index-location-drop-down" onchange="changeToLocationPage();" onfocus="this.selectedIndex = 0;" id="index-location-drop-down"><option value="none" selected>-- Bitte auswählen --</option><br /><option value="location/abenteuerspielplatz.html">Abenteuerspielplatz</option><br /><option value="location/albrecht-schnitter-berufsschule.html">Albrecht-Schnitter-Berufsschule</option><br /><option value="location/alfons-brandl-schule.html">Alfons-Brandl-Schule</option><br /><option value="location/beach-volleyballfeld.html">Beach-Volleyballfeld</option><br /><option value="location/berufliches_zentrum_(bz).html">Berufliches Zentrum (BZ)</option><br /><option value="location/berufsbildende_massnahme_(bbm).html">Berufsbildende Maßnahme (BBM)</option><br /><option value="location/cafe_und_wirtshaus_herzog.html">Cafe und Wirtshaus Herzog</option><br /><option value="location/deckerhalle.html">Deckerhalle</option><br /><option value="location/elektrowerkstatt.html">Elektrowerkstatt</option><br /><option value="location/friseur_im_muehlenmarkt.html">Friseur im MühlenMarkt</option><br /><option value="location/fussballplatz.html">Fußballplatz</option><br /><option value="location/gesundheits.punkt.html">gesundheits.punkt</option><br /><option value="location/gaertnerei.html">Gärtnerei</option><br /><option value="location/handballfeld.html">Handballfeld</option><br /><option value="location/herzogsaegmuehler_werkstaetten.html">Herzogsägmühler Werkstätten</option><br /><option value="location/haeuser_am_latterbach.html">Häuser Am Latterbach</option><br /><option value="location/kfz-werkstatt.html">KFZ-Werkstatt</option><br /><option value="location/licht-_und_wachsmanifaktur.html">Licht- und Wachsmanifaktur</option><br /><option value="location/malerei.html">Malerei</option><br /><option value="location/martinskirche.html">Martinskirche</option><br /><option value="location/metzgerei_und_baeckerei.html">Metzgerei und Bäckerei</option><br /><option value="location/minigolfanlage.html">Minigolfanlage</option><br /><option value="location/muehlenmarkt.html">MühlenMarkt</option><br /><option value="location/post_und_treuhand-kasse.html">Post und Treuhand-Kasse</option><br /><option value="location/sanitaer-_und_heizungstechnik.html">Sanitär- und Heizungstechnik</option><br /><option value="location/schlosserei.html">Schlosserei</option><br /><option value="location/sinnespfad.html">Sinnespfad</option><br /><option value="location/skater-park.html">Skater-Park</option><br /><option value="location/sporthalle.html">Sporthalle</option><br /><option value="location/sprintstrecke.html">Sprintstrecke</option><br /><option value="location/telezentrum_-_digitale_medien.html">Telezentrum - Digitale Medien</option><br /><option value="location/tennisplatz.html">Tennisplatz</option><br /><option value="location/vereinsheim_sv_herzogsaegmuehle.html">Vereinsheim SV Herzogsägmühle</option><br /><option value="location/werkstatt-laden_im_muehlenmarkt.html">Werkstatt-Laden im MühlenMarkt</option><br /><option value="location/wuehlkiste.html">Wühlkiste</option></select></p>
     <p><br /></p>
-    <footer class="generic-center-100-width">🄯 by nirokay | <small>Updated at 2024-01-25 - 09:23</small> | <a href="https://github.com/nirokay/HzgShowAround">Source</a> | <a href="terms-of-service.html">Terms of Service</a></footer>
+    <footer class="generic-center-100-width">🄯 by nirokay | <small>Updated at 2024-02-02 - 13:40</small> | <a href="https://github.com/nirokay/HzgShowAround">Source</a> | <a href="terms-of-service.html">Terms of Service</a></footer>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

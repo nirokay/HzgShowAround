@@ -1,4 +1,14 @@
-// This script has all logic for the tour
+/*
+
+    Logic for Tour page
+    ===================
+
+    ATTENTION: this script itself does not fully work, I needed a little bit
+    of trickery using Nim when generating the HTML. The first location is
+    "pre-selected" so to speak.
+
+*/
+
 
 const iframeId = "location-display";
 const progressId = "tour-progress";

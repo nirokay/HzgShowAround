@@ -1,3 +1,14 @@
+/*
+
+    Logic for the Newsfeed page
+    ===========================
+
+    Do not ask me how this works please, I really do not remember, because this has been
+    such a fucking pain to code. At least now it (kinda) works :)
+
+*/
+
+
 // HTML IDs:
 const newsfeedDivId = "news-div";
 const reloadedTimeId = "reloaded-time";

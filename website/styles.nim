@@ -130,6 +130,11 @@ css.add(
         textCenter
     ),
 
+    newCssElement("select",
+        backgroundColour(colBackground),
+        colour(White)
+    ),
+
     # Images (for locations):
     locationImageHeader,
     locationImageFooter

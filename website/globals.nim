@@ -19,6 +19,8 @@ const urlConvertChars: seq[array[2, string]] = @[
     ["ß", "ss"]
 ]
 
+const indexLocationDropDownId*: string = "index-location-drop-down"
+
 
 # -----------------------------------------------------------------------------
 # Colours:
@@ -201,11 +203,19 @@ proc pc*(lines: seq[string]): HtmlElement =
     result = p(text).setClass(centerClass)
 
 proc pc*(lines: varargs[string]): HtmlElement =
-    ## Returns a centered paragraph. Join each line with a `<br />`
+    ## Returns a centered paragraph. Joins each line with a `<br />`
     var s: seq[string]
     for line in lines:
         s.add line
     result = pc(s)
+
+proc pc*(elements: varargs[HtmlElement]): HtmlElement =
+    ## Returns a centered paragraph. Joins each element with a `<br />
+    var lines: seq[string]
+    for element in elements:
+        lines.add $element
+
+    result = pc(lines)
 
 proc scriptButton*(text, onclick: string): HtmlElement =
     ## Button with script attached to it

@@ -15,8 +15,8 @@ proc convert*(desc: Description): seq[HtmlElement] =
         for line in content:
             lines.add line.replace("\n", $br())
 
-        # Set all separate lines on own `<p>...</p>`:
         result.add h2(header) # Table index as header
+        # Set all separate lines on own `<p>...</p>`:
         for line in lines:
             result.add pc(line)
 

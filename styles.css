@@ -202,6 +202,11 @@ h3, h4, h5, h6 {
     text-align: center;
 }
 
+select {
+    color: White;
+    background-color: rgb(23, 25, 33);
+}
+
 .location-image-header {
     width: 75%;
     border-radius: 10px;
