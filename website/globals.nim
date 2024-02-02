@@ -210,7 +210,7 @@ proc pc*(lines: varargs[string]): HtmlElement =
     result = pc(s)
 
 proc pc*(elements: varargs[HtmlElement]): HtmlElement =
-    ## Returns a centered paragraph. Joins each element with a `<br />
+    ## Returns a centered paragraph. Joins each element with a `<br />`
     var lines: seq[string]
     for element in elements:
         lines.add $element
