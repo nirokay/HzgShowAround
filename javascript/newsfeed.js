@@ -139,9 +139,10 @@ function addElement(element) {
 
 function fetchNews() {
     // Fetches news from remote repository
-    networkingIssuesEncountered = false;
-    remoteJsonParsingError = false;
+    
+}
 
+/*
     fetch(remoteRepoNewsJson)
         .then(
             function(response) { return response.json() },
@@ -155,7 +156,24 @@ function fetchNews() {
             console.log("Got stuff!")
         );
     console.log(news);
-}
+
+    fetch(remoteRepoNewsJson)
+        .then(
+            function(response) { return response.json() },
+            function(error) { networkingIssuesEncountered = true; return fucked }
+        )
+        .then(
+            function(json) { news = json; console.log("Got stuff!"); }
+        )
+        .catch(function(error) {
+            remoteJsonParsingError = true;
+        })
+        .finally(function() {
+            console.log(news);
+        });
+
+
+*/
 
 function normalizeNews() {
     // Normalizes the fields for the json fields (pretty much just backwards compatibility)
@@ -204,92 +222,116 @@ function refreshNews() {
     console.log("Refreshing news from remote repo...");
 
     // This should hopefully catch any networking issues and display an error message:
-    fetchNews();
-    normalizeNews();
+    networkingIssuesEncountered = false;
+    remoteJsonParsingError = false;
 
-    getDiv().innerHTML = "";
-
-    // Band-aid solution à la javascript-style:
-    if (news === fucked) {
-        console.log("Everything is fucked, entering panic mode.")
-        networkingIssuesEncountered = true;
-        remoteJsonParsingError = true;
-    }
-
-    console.log("Issues?:  network: " + networkingIssuesEncountered + "  |  parsing: " + remoteJsonParsingError)
-
-    // No networking errors, so continue with handling news:
-    if (!networkingIssuesEncountered && !remoteJsonParsingError) {
-        // Filtering news:
-        let relevantNews = news.filter(element => isRelevant(element));
-        for(let i = 0; i < relevantNews.length; i++) {
-            relevantNews[i].importance = getImportance(relevantNews[i]);
-        }
-
-        // Sorting news by date relevance:
-        relevantNews.sort(function(a, b) {
-            return b.importance - a.importance;
-        });
-
-        // Adding news:
-        relevantNews.forEach(element => {
-            addElement(element);
-        });
-
-        // Display placeholder message, if no relevant news are there:
-        if(relevantNews.length == 0) {
-            // There are no relevant news:
-            if(news.length != 0) {
-                msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
+    fetch(remoteRepoNewsJson)
+        .then(
+            function(response) {
+                return response.json()
+            },
+            function(error) {
+                networkingIssuesEncountered = true;
+                console.error("Network error encountered: " + error);
+                return Promise.reject(fucked);
             }
-            // There are NO news (should not happen?):
-            else {
+        )
+        .then(function(json) {
+            news = json;
+            console.log("Successfully got JSON!");
+        })
+        .catch(function(error) {
+            remoteJsonParsingError = true;
+            console.error("JSON Parsing error encountered: " + error);
+        })
+        .finally(function() {
+            // Normalize news and get the HTML ready to be edited:
+            normalizeNews();
+            getDiv().innerHTML = "";
+
+            // Band-aid solution à la javascript-style:
+            if (news === fucked) {
+                console.log("Everything is fucked, entering panic mode.")
+                networkingIssuesEncountered = true;
+                remoteJsonParsingError = true;
+            }
+
+            console.log("Issues?:  network: " + networkingIssuesEncountered + "  |  parsing: " + remoteJsonParsingError)
+
+            // No networking errors, so continue with handling news:
+            if (!networkingIssuesEncountered && !remoteJsonParsingError) {
+                // Filtering news:
+                let relevantNews = news.filter(element => isRelevant(element));
+                for(let i = 0; i < relevantNews.length; i++) {
+                    relevantNews[i].importance = getImportance(relevantNews[i]);
+                }
+
+                // Sorting news by date relevance:
+                relevantNews.sort(function(a, b) {
+                    return b.importance - a.importance;
+                });
+
+                // Adding news:
+                relevantNews.forEach(element => {
+                    addElement(element);
+                });
+
+                // Display placeholder message, if no relevant news are there:
+                if(relevantNews.length == 0) {
+                    // There are no relevant news:
+                    if(news.length != 0) {
+                        msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
+                    }
+                    // There are NO news (should not happen?):
+                    else {
+                        msg = p([
+                            "Derzeit keine Neuigkeiten vorhanden.",
+                            "Dies ist wahrscheinlich ein Fehler, versuche es erneut indem du auf den \"Neu laden\" Knopf drückst!"
+                        ]);
+                    }
+                }
+            }
+
+            // Networking error, so just throw an error message on the screen and let the user handle it:
+            else if(networkingIssuesEncountered) {
                 msg = p([
-                    "Derzeit keine Neuigkeiten vorhanden.",
-                    "Dies ist wahrscheinlich ein Fehler, versuche es erneut indem du auf den \"Neu laden\" Knopf drückst!"
+                    "Es konnte keine Verbindung zum externen Server hergestellt werden.",
+                    "Dies kann ein einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
+                    "Versuche es später noch einmal!"
                 ]);
             }
-        }
-    }
 
-    // Networking error, so just throw an error message on the screen and let the user handle it:
-    else if(networkingIssuesEncountered) {
-        msg = p([
-            "Es konnte keine Verbindung zum externen Server hergestellt werden.",
-            "Dies kann ein einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
-            "Versuche es später noch einmal!"
-        ]);
-    }
+            // Network is fine, but the json was fucked in some way:
+            else if(remoteJsonParsingError) {
+                msg = p([
+                    "Es ist ein Fehler bei der Datenverarbeitung passiert. JSON konnte nicht korrekt gelesen werden.",
+                    "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
+                ])
+            }
 
-    // Network is fine, but the json was fucked in some way:
-    else if(remoteJsonParsingError) {
-        msg = p([
-            "Es ist ein Fehler bei der Datenverarbeitung passiert. JSON konnte nicht korrekt gelesen werden.",
-            "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
-        ])
-    }
+            // This literally cannot happen, but i am paranoid because it is javascript after all...:
+            else {
+                msg = p([
+                    "Ein Fehler ist geschehen."
+                ])
+            }
 
-    // This literally cannot happen, but i am paranoid because it is javascript after all...:
-    else {
-        msg = p([
-            "Ein Fehler ist geschehen."
-        ])
-    }
+            // Add `msg`, if set:
+            if (msg != "") {
+                addToDiv(msg);
+            }
 
-    // Add `msg`, if set:
-    if (msg != "") {
-        addToDiv(msg);
-    }
-
-    // Update "refreshed at `time`" text:
-    function updateRefreshedAt() {
-        date = new Date();
-        let time = date.toLocaleTimeString("de-DE");
-        document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time;
-    }
-    updateRefreshedAt();
+            // Update "refreshed at `time`" text:
+            function updateRefreshedAt() {
+                date = new Date();
+                let time = date.toLocaleTimeString("de-DE");
+                document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time;
+            }
+            updateRefreshedAt();
+        });
 }
 
 // Defer this little bad-boy, because otherwise everything goes up in flames:
-document.onload =
+window.onload = function() {
     refreshNews();
+}
