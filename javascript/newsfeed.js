@@ -137,46 +137,8 @@ function addElement(element) {
     addToDiv(getHtml(element));
 }
 
-function fetchNews() {
-    // Fetches news from remote repository
-    
-}
-
-/*
-    fetch(remoteRepoNewsJson)
-        .then(
-            function(response) { return response.json() },
-            function(error) { networkingIssuesEncountered = true; return fucked }
-        )
-        .then(
-            function(json) { news = json },
-            function(error) { remoteJsonParsingError = true }
-        )
-        .then(
-            console.log("Got stuff!")
-        );
-    console.log(news);
-
-    fetch(remoteRepoNewsJson)
-        .then(
-            function(response) { return response.json() },
-            function(error) { networkingIssuesEncountered = true; return fucked }
-        )
-        .then(
-            function(json) { news = json; console.log("Got stuff!"); }
-        )
-        .catch(function(error) {
-            remoteJsonParsingError = true;
-        })
-        .finally(function() {
-            console.log(news);
-        });
-
-
-*/
-
 function normalizeNews() {
-    // Normalizes the fields for the json fields (pretty much just backwards compatibility)
+    // Normalizes the fields for the json fields (pretty much just backwards compatibility and QoL)
     for(let i = 0; i < news.length; i++) {
         let element = news[i];
 
@@ -209,7 +171,7 @@ function readable(time) {
 }
 
 function isRelevant(element) {
-    /** Filters irrelevant news (depending on the date ± 7 days) */
+    // Filters irrelevant news (depending on the date ± 7 days)
     let unixFrom = Date.parse(normalize(element.from));
     let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
@@ -217,7 +179,7 @@ function isRelevant(element) {
 }
 
 function refreshNews() {
-    /** Refreshes `news` variable from remote repo */
+    // Refreshes `news` variable from remote repo
     let msg = "";
     console.log("Refreshing news from remote repo...");
 

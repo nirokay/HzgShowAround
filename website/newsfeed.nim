@@ -20,7 +20,7 @@ var html: HtmlDocument = newPage(
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
-    h1($a("https://www.herzogsaegmuehle.de/aktuelles/aktuelles-und-termine", "Newsfeed")),
+    h1($a("https://www.herzogsaegmuehle.de/aktuelles", "Newsfeed")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten ± einer Woche."
@@ -33,7 +33,7 @@ html.addToBody(
         scriptButton("Neu laden", "refreshNews()"),
     ).setClass(centerClass),
     `div`(
-        p("nothing here...")
+        p("Events werden geladen...")
     ).setClass(newsDivClass).add(
         attr("id", newsfeedDivId)
     )
