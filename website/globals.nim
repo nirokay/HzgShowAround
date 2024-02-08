@@ -92,6 +92,18 @@ proc newsElement(level: NewsLevel): CssElement =
         of Generic: $White
         of Happened: $Grey
 
+proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: string): CssElement =
+    result = newCssClass(className,
+        width(width),
+        ["display", "block"],
+        ["max-width", maxWidth],
+        ["border-radius", "10px"],
+        ["margin-top", marginTopBottom],
+        ["margin-bottom", marginTopBottom],
+        ["margin-left", marginSides],
+        ["margin-right", marginSides]
+    )
+
 const
     textCenter* = ["text-align", "center"]
     textCenterClass* = newCssClass("center",
@@ -178,21 +190,18 @@ const
         ["flex-wrap", "wrap"]
     )
 
-    locationImageHeader* = newCssClass("location-image-header",
-        width("75%"),
-        ["display", "block"],
+    locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "auto", "auto")
+    locationImageFooter* = locationImage("location-image-footer", "50%", "175px", "2px", "2px")
+    locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "auto", "auto")
+
+    locationImageFooterDiv* = newCssClass("location-image-footer-div",
+        width("90%"),
         ["max-width", "1000px"],
-        ["border-radius", "10px"],
         ["margin-left", "auto"],
         ["margin-right", "auto"],
-    )
-    locationImageFooter* = newCssClass("location-image-footer",
-        width("50%"),
-        ["display", "block"],
-        ["max-width", "700px"],
-        ["border-radius", "10px"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
+        ["display", "flex"],
+        ["justify-content", "space-around"],
+        ["flex-wrap", "wrap"]
     )
 
 
@@ -248,12 +257,10 @@ proc getRelativeUrlPath*(name: string): string =
 # Option stuff:
 
 proc isSet*[T](item: Option[T]): bool =
-    ## Shortcut to `item.isSome()` and `get(item).len() != 0`
+    ## Shortcut to `item.isSome()` and checks against value being the same as the initial initialisation
+    ##
+    ## Basically: `string == ""; int == 0; seq[T] == @[]; ...`
     var emptyValue: T
     if item.isSome():
         if item.get() != emptyValue:
             result = true
-
-proc getOrDefault*[T](value: Option[T], default: T): T {.deprecated: "use normal `get` instead".} =
-    ## Returns the Option's value or a default
-    return value.get(default)

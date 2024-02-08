@@ -137,7 +137,9 @@ css.add(
 
     # Images (for locations):
     locationImageHeader,
-    locationImageFooter
+    locationImageFooter,
+    locationImageFooterDiv,
+    locationImageMapPreview
 )
 
 cssArticles.elements = globalCss.elements

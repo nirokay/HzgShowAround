@@ -208,19 +208,44 @@ select {
 }
 
 .location-image-header {
-    width: 75%;
+    width: 90%;
     border-radius: 10px;
     display: block;
     max-width: 1000px;
     margin-right: auto;
+    margin-bottom: auto;
     margin-left: auto;
+    margin-top: auto;
 }
 
 .location-image-footer {
     width: 50%;
     border-radius: 10px;
     display: block;
-    max-width: 700px;
+    max-width: 175px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+.location-image-footer-div {
+    width: 90%;
+    justify-content: space-around;
+    max-width: 1000px;
+    display: flex;
     margin-right: auto;
+    flex-wrap: wrap;
     margin-left: auto;
+}
+
+.location-image-map-preview {
+    width: 50%;
+    border-radius: 10px;
+    display: block;
+    max-width: 500px;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
 }

@@ -21,20 +21,28 @@ proc convert*(desc: Description): seq[HtmlElement] =
             result.add pc(line)
 
 proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
-    ## Gets the HTML for a header/footer image
+    ## Gets the HTML for a header/footer image(s)
     let
         pics: Pictures = get location.pics
-        src: string = get(
-            case img:
-                of imgHeader: pics.header
-                of imgFooter: pics.footer
-            )
         altText: string = "$1 $2 nicht vorhanden" % [location.name, $img]
-    result = img(urlLocationImages & src, altText)
+    var sources: seq[string] = block:
+        case img:
+        of imgHeader: @[pics.header.get()]
+        of imgFooter: pics.footer.get()
 
-    case img:
-    of imgHeader: result.setClass("")
-    of imgFooter: result.setClass("")
+    var imageBlock: seq[HtmlElement]
+
+    for src in sources:
+        imageBlock.add img(urlLocationImages & src, altText)
+
+    let class: CssElement = case img:
+        of imgHeader: locationImageHeader
+        of imgFooter: locationImageFooter
+
+    for index, img in imageBlock:
+        imageBlock[index] = img.setClass(class)
+
+    result = `div`(imageBlock)
 
 proc generateLocationMap*(location: Location) =
     ## Generates the location map
@@ -62,7 +70,7 @@ proc generateLocationHtml*(location: Location) =
     if location.pics.isSome():
         let pics = get location.pics
         if pics.header.isSome():
-            html.addToBody location.getLocationImage(imgHeader).setClass(locationImageHeader)
+            html.addToBody location.getLocationImage(imgHeader)
 
     if location.open.isSet():
         let open: OpeningTimes = get location.open
@@ -81,10 +89,10 @@ proc generateLocationHtml*(location: Location) =
     html.addToBody location.desc.convert()
 
     # Add footer image:
-    if location.pics.isSome():
+    if location.pics.isSet():
         let pics = get(location.pics)
         if pics.footer.isSome():
-            html.addToBody location.getLocationImage(imgFooter).setClass(locationImageFooter)
+            html.addToBody location.getLocationImage(imgFooter).setClass(locationImageFooterDiv)
 
     # Add map element (if location has coords):
     if location.coords.isSet():
@@ -92,7 +100,7 @@ proc generateLocationHtml*(location: Location) =
 
         html.addToBody(
             h2("Position auf der Karte"),
-            img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageHeader)
+            img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageMapPreview)
         )
 
     # Add similar places as links:

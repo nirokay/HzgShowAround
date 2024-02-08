@@ -8,7 +8,8 @@ const
 
 type
     Pictures* = object
-        header*, footer*: Option[string]
+        header*: Option[string]
+        footer*: Option[seq[string]]
 
     Coords* = seq[int] ## Length of 3 == circle, length of 4 == rect
 
