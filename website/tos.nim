@@ -6,28 +6,49 @@
 import generator, globals, styles
 
 var html: HtmlDocument = newPage(
-    "Terms of Service",
+    "Nutzungsbedingungen",
     "terms-of-service.html",
-    "The terms of service for this website."
+    "Nutzungsbedingungen der Website."
 )
+proc list(items: seq[string]): string =
+    var listItems: seq[HtmlElement]
+    for item in items:
+        listItems.add li(item)
+    result = $ul(listItems)
+
+proc list(items: varargs[string]): string =
+    var buffer: seq[string]
+    for item in items:
+        buffer.add item
+    result = list(buffer)
 
 html.addToBody(
-    h1("Terms of service"),
+    h1("HzgShowAround"),
 
-    h2("English [EN]"),
+    h2("Nutzungsbedingungen"),
     pc(
-        "By using this website you acknowledge, that:" & $br(),
-        "1) this website is not owned nor operated by the owners of " & $a("https://www.herzogsaegmuehle.de", "Herzogsägmühle") & ".",
-        "2) the information provided on this website may not be accurate or may include errors.",
-        "3) this website uses client-side CloudFlare Analytics to analyse traffic and page lookups. You remain the right to block these requests with an ad-blocker."
+        "Mit dem Benutzen dieser Website sind Sie sich über Folgendem im Klaren:"
     ),
 
-    h2("Deutsch [DE]"),
+    h3("Generell"),
     pc(
-        "Mit dem Benutzen dieser Website ist Ihnen bewusst, dass:" & $br(),
-        "1) diese Website nicht der " & $a("https://www.herzogsaegmuehle.de", "Herzogsägmühle") & " gehört und dass sie Diese nicht betreieben.",
-        "2) die Informationen, die hier gefunden werden können, nicht stimmen oder fehlerhaft sein können.",
-        "3) diese Website client-side CloudFlare Analytics benutzt, um Seitenaufrufe zu analysieren. Ihre Rechte diese, mit z.B. einem Ad-BLocker, zu blockieren behalten Sie bei."
+        "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung."
+    ),
+
+    h3("Datensammlung"),
+    pc(
+        "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendete Browser).",
+        "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
+    ),
+
+    h2("Lizenz"),
+    pc(
+        "Diese Website und alle ihre Inhalte sind unter der GPL-3.0 Lizenz freigegeben.",
+        "Damit haben Sie die Rechte, Inhalte frei zu ...",
+        list("verwenden...", "verändern ...", "verbreiten..."),
+        "... solange Diese unter der selben Lizenz lizensiert sind.",
+        "Eine vollständige Fassung der Lizenz ist " & $a("https://www.gnu.org/licenses/gpl-3.0.en.html", "hier auf Englisch") &
+        " und " & $a("https://www.gnu.de/documents/gpl-3.0.de.html", "hier auf Deutsch") & "aufrufbar."
     )
 )
 
