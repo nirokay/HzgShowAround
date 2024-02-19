@@ -4,11 +4,12 @@
 ## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
 ## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
 
-import std/[strutils, options, json, algorithm]
+import std/[strutils, options, json, algorithm, times]
 import generator
 import globals, styles, client
 
 const
+    defaultAuthor*: string = "Anonym" ## Default author, if none is specified
     imageTags*: seq[tuple[opening, closing: string]] = @[
         ("<img>", "</img>"),
         ("<img=", ">"),
@@ -18,19 +19,19 @@ const
 
         ("<pic>", "</pic>"),
         ("<pic=", ">")
-    ]
+    ] ## Tags for embedded images using JSON articles
     headerTags*: seq[string] = @[
         "#", "##", "###", "####", "#####", "######"
-    ]
+    ] ## Tags for heading using JSON articles
 
 type
-    ArticleBody* = seq[string]
+    ArticleBody* = seq[string] ## Article body (generated from JSON or read line-by-line from remote HTML)
 
     Article* = object
-        title*: string
-        author*, date*, desc*: Option[string]
-        remote*: Option[string]
-        body*: Option[ArticleBody]
+        title*: string ## Article Title
+        author*, date*, desc*: Option[string] ## Optional metadata about article
+        remote*: Option[string] ## [exclusive] HTML filename of remote article in Data repository (`/resources/articles/`)
+        body*: Option[ArticleBody] ## [exclusive] JSON article data
 
 var articleNames: seq[string]
 proc articleUrl(article: Article): string =
@@ -44,8 +45,25 @@ proc articleUrl(article: Article): string =
     articleNames.add(result)
     return result & ".html"
 
+proc displayDateTime*(rawDate: string): string =
+    ## Converts a `yyyy-MM-DD` date to `"dd.MM.yyyy"` and adds a `<time> ... </time>`
+    ## tag around the time, along with a `datetime` HTML attribute.
+    var display: seq[string] = rawDate.split('-')
+    display.reverse()
+    assert display.len() == 3
+
+    result = $time(display.join(".")).add(
+        attr("datetime", rawDate)
+    )
+
 proc getImageUrl(fileName: string): string = urlArticleImages & fileName
 proc formatLine*(line: string): HtmlElement =
+    ## Formats a line of the article, if tags are found. Keeps the line as is, if none of the
+    ## conditional formatting is encountered.
+    ##
+    ## ### JSON articles:
+    ## * Headers (`#`, `##`, ...)
+    ## * Images (`<img=...>`, `<img> ... </img>`, ...)
     var content: string = line.strip().replace("\n", $br())
     let words: seq[string] = content.split(' ')
 
@@ -82,7 +100,9 @@ proc formatLine*(line: string): HtmlElement =
 
             # Return image:
             let src: string = content.getImageUrl()
-            return img(src, "Bild nicht vorhanden").setClass(centerClass)
+            var srcNotFound: string = src
+            srcNotFound.removePrefix(urlArticleImages)
+            return img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass)
 
     # Just returns the line (if no format found)
     return p(content)
@@ -95,9 +115,9 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     # Author and date (on the same line):
     var authorAndDate: seq[string]
     if article.author.isSome():
-        authorAndDate.add "Autor: " & get article.author
+        authorAndDate.add "Autor: " & article.author.get(defaultAuthor)
     if article.date.isSome():
-        authorAndDate.add "verfasst am " & $time(get article.date)
+        authorAndDate.add "verfasst am " & displayDateTime(article.date.get())
     header.add pc($small(authorAndDate.join(" | ")))
 
     # Description/summary:
@@ -195,10 +215,9 @@ proc generateHtmlMainPage() =
     # Sort articles by date:
     var articlesSorted: seq[Article] = articles
 
-    proc reverseDate(date: string): string = date.split('.').reversed().join(".")
     articlesSorted.sort do (x, y: Article) -> int:
-        let default: string = "01.01.0000"
-        result = cmp(y.date.get(default).reverseDate(), x.date.get(default).reverseDate())
+        let default: string = "0001-01-01"
+        result = cmp(y.date.get(default), x.date.get(default))
 
     # Add articles to html:
     var articleElements: seq[HtmlElement]
@@ -216,8 +235,8 @@ proc generateHtmlMainPage() =
         # Footer: (author and date)
         elements.add(
             small(
-                "verfasst von " & article.author.get("Anonym") & (
-                    if article.date.isSome(): " | am " & article.date.get() else: ""
+                "verfasst von " & article.author.get(defaultAuthor) & (
+                    if article.date.isSome(): " | am " & displayDateTime(article.date.get()) else: ""
                 )
             )
         )
@@ -227,7 +246,7 @@ proc generateHtmlMainPage() =
 
     # Empty articles div, add info:
     if articleElements.len() == 0:
-        articleElements.add pc("Derzeit sind keine Artikel vorhanden...")
+        articleElements.add pc("Artikel wurden noch nicht geladen...")
 
     html.addToBody(
         h1("Artikel"),

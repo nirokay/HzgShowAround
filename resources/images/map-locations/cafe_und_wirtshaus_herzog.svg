@@ -1117,7 +1117,7 @@
 <tspan
          x="-357.63867"
          y="-59.884766"
-         id="tspan1">Lexenbach</tspan>
+         id="tspan59">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1127,7 +1127,7 @@
 <tspan
          x="-459.28906"
          y="-416.83008"
-         id="tspan2">Lech</tspan>
+         id="tspan60">Lech</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1137,7 +1137,7 @@
 <tspan
          x="574.43945"
          y="731.4668"
-         id="tspan3">Latterbach</tspan>
+         id="tspan61">Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1147,7 +1147,7 @@
 <tspan
          x="47.546875"
          y="582.21484"
-         id="tspan4">Mühlbach</tspan>
+         id="tspan62">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1157,7 +1157,7 @@
 <tspan
          x="47.546875"
          y="582.21484"
-         id="tspan5">Mühlbach</tspan>
+         id="tspan63">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1167,7 +1167,7 @@
 <tspan
          x="-357.63867"
          y="-59.884766"
-         id="tspan6">Lexenbach</tspan>
+         id="tspan64">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1177,7 +1177,7 @@
 <tspan
          x="-357.63867"
          y="-59.884766"
-         id="tspan7">Lexenbach</tspan>
+         id="tspan65">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1187,7 +1187,7 @@
 <tspan
          x="47.546875"
          y="582.21484"
-         id="tspan8">Mühlbach</tspan>
+         id="tspan66">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1197,7 +1197,7 @@
 <tspan
          x="47.546875"
          y="582.21484"
-         id="tspan9">Mühlbach</tspan>
+         id="tspan67">Mühlbach</tspan>
 </text>
 </g>
 <g
@@ -1251,7 +1251,7 @@
 <tspan
            x="654.12891"
            y="-258.625"
-           id="tspan10">Roter Berg</tspan>
+           id="tspan68">Roter Berg</tspan>
 </text>
 </g>
 </g>
@@ -3226,7 +3226,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan11">Weiherstraße</tspan>
+         id="tspan69">Weiherstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3236,7 +3236,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan12">Oblandstraße</tspan>
+         id="tspan70">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -3246,7 +3246,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan13">Oblandstraße</tspan>
+         id="tspan71">Oblandstraße</tspan>
 </text>
 </g>
 <g
@@ -4503,7 +4503,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan14">Oblandstraße</tspan>
+         id="tspan72">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4513,7 +4513,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan15">Oblandstraße</tspan>
+         id="tspan73">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4523,7 +4523,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan16">Oblandstraße</tspan>
+         id="tspan74">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4533,7 +4533,7 @@
 <tspan
          x="513.4043"
          y="471.30078"
-         id="tspan17">Unteres Kirchwegfeld</tspan>
+         id="tspan75">Unteres Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4543,7 +4543,7 @@
 <tspan
          x="513.4043"
          y="471.30078"
-         id="tspan18">Oberes Kirchwegfeld</tspan>
+         id="tspan76">Oberes Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4553,7 +4553,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan19">Am Latterbach</tspan>
+         id="tspan77">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4563,7 +4563,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan20">Am Latterbach</tspan>
+         id="tspan78">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4573,7 +4573,7 @@
 <tspan
          x="265.39258"
          y="617.75"
-         id="tspan21">Unteroblandstraße</tspan>
+         id="tspan79">Unteroblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4583,7 +4583,7 @@
 <tspan
          x="165.76562"
          y="366.41992"
-         id="tspan22">Ringstraße</tspan>
+         id="tspan80">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4593,7 +4593,7 @@
 <tspan
          x="208.30078"
          y="270.5918"
-         id="tspan23">Schulweg</tspan>
+         id="tspan81">Schulweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4603,7 +4603,7 @@
 <tspan
          x="158.31445"
          y="517.85352"
-         id="tspan24">Werkstraße</tspan>
+         id="tspan82">Werkstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4613,7 +4613,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan25">Von-Kahl-Straße</tspan>
+         id="tspan83">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4623,7 +4623,7 @@
 <tspan
          x="165.76562"
          y="366.41992"
-         id="tspan26">Ringstraße</tspan>
+         id="tspan84">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4633,7 +4633,7 @@
 <tspan
          x="241.51758"
          y="282.71289"
-         id="tspan27">Kapellenfeld</tspan>
+         id="tspan85">Kapellenfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4643,7 +4643,7 @@
 <tspan
          x="416.92188"
          y="723.0586"
-         id="tspan28">Am Latterbach</tspan>
+         id="tspan86">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4653,7 +4653,7 @@
 <tspan
          x="314.43555"
          y="590.83398"
-         id="tspan29">Koppelweg</tspan>
+         id="tspan87">Koppelweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4663,7 +4663,7 @@
 <tspan
          x="314.43555"
          y="590.83398"
-         id="tspan30">Koppelweg</tspan>
+         id="tspan88">Koppelweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4673,7 +4673,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan31">Von-Kahl-Straße</tspan>
+         id="tspan89">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4683,7 +4683,7 @@
 <tspan
          x="220.76562"
          y="475.18555"
-         id="tspan32">Von-Kahl-Straße</tspan>
+         id="tspan90">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4693,7 +4693,7 @@
 <tspan
          x="414.30469"
          y="-96.130859"
-         id="tspan33">Am Roten Berg</tspan>
+         id="tspan91">Am Roten Berg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4703,7 +4703,7 @@
 <tspan
          x="13.486328"
          y="51.119141"
-         id="tspan34">Dießener Straße</tspan>
+         id="tspan92">Dießener Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4713,7 +4713,7 @@
 <tspan
          x="286.88281"
          y="-107.04102"
-         id="tspan35">Von-Kahl-Straße</tspan>
+         id="tspan93">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4723,7 +4723,7 @@
 <tspan
          x="340.26172"
          y="-66.404297"
-         id="tspan36">Bürstlingweg</tspan>
+         id="tspan94">Bürstlingweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4733,7 +4733,7 @@
 <tspan
          x="497.14062"
          y="460.19336"
-         id="tspan37">Oblandstraße</tspan>
+         id="tspan95">Oblandstraße</tspan>
 </text>
 </g>
 <g
@@ -4748,7 +4748,7 @@
 <tspan
          x="657.67188"
          y="582.47657"
-         id="tspan38">13</tspan>
+         id="tspan96">13</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4758,7 +4758,7 @@
 <tspan
          x="638.17383"
          y="607.73438"
-         id="tspan39">14</tspan>
+         id="tspan97">14</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4768,7 +4768,7 @@
 <tspan
          x="633.88281"
          y="569.01367"
-         id="tspan40">16</tspan>
+         id="tspan98">16</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4778,7 +4778,7 @@
 <tspan
          x="624.17578"
          y="546.33985"
-         id="tspan41">18</tspan>
+         id="tspan99">18</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4788,7 +4788,7 @@
 <tspan
          x="667.81836"
          y="633.02344"
-         id="tspan42">11</tspan>
+         id="tspan100">11</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4798,7 +4798,7 @@
 <tspan
          x="651.66992"
          y="646.18555"
-         id="tspan43">9</tspan>
+         id="tspan101">9</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4808,7 +4808,7 @@
 <tspan
          x="606.42969"
          y="655.05274"
-         id="tspan44">10</tspan>
+         id="tspan102">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4818,7 +4818,7 @@
 <tspan
          x="620.65039"
          y="640.625"
-         id="tspan45">12</tspan>
+         id="tspan103">12</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4828,7 +4828,7 @@
 <tspan
          x="617.20508"
          y="517.76758"
-         id="tspan46">6</tspan>
+         id="tspan104">6</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4838,7 +4838,7 @@
 <tspan
          x="664.95703"
          y="527.21485"
-         id="tspan47">1</tspan>
+         id="tspan105">1</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4848,7 +4848,7 @@
 <tspan
          x="658.75781"
          y="482.41797"
-         id="tspan48">17</tspan>
+         id="tspan106">17</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4858,7 +4858,7 @@
 <tspan
          x="664.59766"
          y="461.06836"
-         id="tspan49">19</tspan>
+         id="tspan107">19</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4868,7 +4868,7 @@
 <tspan
          x="663.44531"
          y="435.76758"
-         id="tspan50">10</tspan>
+         id="tspan108">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4878,7 +4878,7 @@
 <tspan
          x="580.68359"
          y="436.95117"
-         id="tspan51">2</tspan>
+         id="tspan109">2</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4888,7 +4888,7 @@
 <tspan
          x="604.1543"
          y="447.39649"
-         id="tspan52">4</tspan>
+         id="tspan110">4</tspan>
 </text>
 </g>
 <g
@@ -4919,7 +4919,7 @@
 <tspan
      x="136.99805"
      y="573.77734"
-     id="tspan53">Verwaltung</tspan>
+     id="tspan111">Verwaltung</tspan>
 </text>
 </g>
 <g
@@ -4946,7 +4946,7 @@
 <tspan
      x="646.28711"
      y="435.42578"
-     id="tspan54">Oberes Kirchwegfeld</tspan>
+     id="tspan112">Oberes Kirchwegfeld</tspan>
 </text>
 </g>
 <g
@@ -4973,7 +4973,7 @@
 <tspan
      x="249.18945"
      y="34.34375"
-     id="tspan55">Am Roten Berg</tspan>
+     id="tspan113">Am Roten Berg</tspan>
 </text>
 </g>
 <g
@@ -5000,7 +5000,7 @@
 <tspan
      x="249.18945"
      y="34.34375"
-     id="tspan56">Am Roten Berg</tspan>
+     id="tspan114">Am Roten Berg</tspan>
 </text>
 </g>
 <g
@@ -5027,7 +5027,7 @@
 <tspan
      x="165.65039"
      y="381.45703"
-     id="tspan57">Kirche</tspan>
+     id="tspan115">Kirche</tspan>
 </text>
 </g>
 </g>
@@ -5053,7 +5053,7 @@
 <tspan
          x="661.36133"
          y="211.04102"
-         id="tspan58">Von-Kahl-Denkmal</tspan>
+         id="tspan116">Von-Kahl-Denkmal</tspan>
 </text>
 </g>
 <g
