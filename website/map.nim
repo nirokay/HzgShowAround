@@ -19,8 +19,8 @@ var
     locations: seq[Location] = getLocations()
     picture: HtmlElement = img(svgExportPath, "Interaktive Karte ist unverfügbar").add(
         attr("usemap", "#location-map"),
-        attr("width", $(mapScaleTo)),
-        attr("height", $(mapScaleTo))
+        attr("width", $mapScaleTo),
+        attr("height", $mapScaleTo)
     )
 
 # Dirty quick-fix for weird behaviour:
@@ -75,9 +75,8 @@ html.addToBody(
     `div`(
         picture,
         map
-    ).setClass(centerClass).add(
-        attr("style", "overflow:auto;"),
-        attr("width", "500px")
+    ).setClass(centerWidth100Class).add(
+        attr("style", "overflow:overlay;")
     )
 )
 
