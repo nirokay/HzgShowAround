@@ -24,12 +24,14 @@ html.addToHead importScript("javascript/index.js")#.add(attr("defer"))
 # -----------------------------------------------------------------------------
 
 # Disclaimer:
+#[
 html.addToBody(
     hr(),
     h3("Diese Website ist eine noch Baustelle!"),
     pc($small("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)")),
     hr()
 )
+]#
 
 html.addToBody(
     h1("HzgShowAround"),
