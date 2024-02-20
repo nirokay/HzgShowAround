@@ -14,7 +14,9 @@ proc list(items: seq[string]): string =
     var listItems: seq[HtmlElement]
     for item in items:
         listItems.add li(item)
-    result = $ul(listItems)
+    result = $ul(listItems).setClass(centerClass).add(
+        attr("margin", "auto")
+    )
 
 proc list(items: varargs[string]): string =
     var buffer: seq[string]
@@ -23,7 +25,20 @@ proc list(items: varargs[string]): string =
     result = list(buffer)
 
 html.addToBody(
+    `div`(
+        backToHomeButton("← Startseite")
+    ).setClass(centerClass),
+
     h1("HzgShowAround"),
+
+    h2("Über"),
+    pc(
+        "Diese Website soll eine einfachere, mehr lightweight (mit weniger unnötigeren Schnick-Schnack) und schnellere Alternative zu der " &
+        $a("https://www.herzogsaegmuehle.de/", "Herzogsägmühle Website") & " sein.\n" &
+        "Vorallem Neuankömmlinge können durch die Karte und Ortsbeschreibungen profitieren, und lernen sich hier auszukennen.",
+        "Die Geschwindigkeit wird durch durch vor-generierten Seiten mit minimalen Javascript erreicht. Das heißt, dein Browser muss " &
+        "weniger start arbeiten, um Informationen anzuzeigen."
+    ),
 
     h2("Nutzungsbedingungen"),
     pc(
@@ -32,7 +47,9 @@ html.addToBody(
 
     h3("Generell"),
     pc(
-        "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung."
+        "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung.",
+        "Diese Website ist gehört nicht den Betreibern der " & $a("https://www.herzogsaegmuehle.de/", "offiziellen Herzogsägmühler Website") & " und" &
+        "ist von Diesen unabhängig."
     ),
 
     h3("Datensammlung"),
@@ -43,12 +60,14 @@ html.addToBody(
 
     h2("Lizenz"),
     pc(
-        "Diese Website und alle ihre Inhalte sind unter der GPL-3.0 Lizenz freigegeben.",
-        "Damit haben Sie die Rechte, Inhalte frei zu ...",
-        list("verwenden...", "verändern ...", "verbreiten..."),
+        "Diese Website und alle ihre Inhalte, außer explizit erwähnt, sind unter der GPL-3.0 Lizenz freigegeben.",
+        "Damit haben Sie die Rechte, Inhalte frei zu ..."
+    ),
+    pc(list("verwenden...", "verändern ...", "verbreiten...")),
+    pc(
         "... solange Diese unter der selben Lizenz lizensiert sind.",
         "Eine vollständige Fassung der Lizenz ist " & $a("https://www.gnu.org/licenses/gpl-3.0.en.html", "hier auf Englisch") &
-        " und " & $a("https://www.gnu.de/documents/gpl-3.0.de.html", "hier auf Deutsch") & "aufrufbar."
+        " und " & $a("https://www.gnu.de/documents/gpl-3.0.de.html", "hier auf Deutsch") & " aufrufbar."
     )
 )
 
