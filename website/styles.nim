@@ -110,6 +110,11 @@ css.add(
     #   Map:
     mapElement,
 
+    # Vertical-Horizontal Centering:
+    divCenterOuter,
+    divCenterMiddle,
+    divCenterInner,
+
     #   News:
     newsDivClass,
     newsElementGeneric,

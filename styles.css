@@ -134,6 +134,26 @@ button:hover {
     background-color: Pink;
 }
 
+.div-outer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    display: table;
+    top: 0;
+    height: 100%;
+}
+
+.div-middle {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.div-inner {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .news-div-class {
     width: 75%;
     display: block;

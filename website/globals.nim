@@ -158,6 +158,24 @@ const
         colour(Pink)
     )
 
+    divCenterOuter* = newCssClass("div-outer",
+        display(table),
+        position(absolute),
+        top(0),
+        left(0),
+        height("100%"),
+        width("100%")
+    )
+    divCenterMiddle* = newCssClass("div-middle",
+        display(tableCell),
+        ["vertical-align", "middle"]
+    )
+    divCenterInner* = newCssClass("div-inner",
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+        width("90%")
+    )
+
     newsDivClass* = newCssClass("news-div-class",
         textCenter,
         width("75%"),
@@ -240,6 +258,22 @@ proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq
         result.add button(content, href)
 
 proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") ## Button that returns to the home page
+
+proc fullyCenter*(html: seq[HtmlElement]): HtmlElement =
+    ## Makes a (actually three divs) fully centered div
+    result = `div`(
+        `div`(
+            `div`(
+                html
+            ).setClass(divCenterInner)
+        ).setClass(divCenterMiddle)
+    ).setClass(divCenterOuter)
+proc fullyCenter*(html: varargs[HtmlElement]): HtmlElement =
+    ## Makes a (actually three divs) fully centered div
+    var elements: seq[HtmlElement]
+    for element in html:
+        elements.add element
+    result = elements.fullyCenter()
 
 
 # Url formatting:
