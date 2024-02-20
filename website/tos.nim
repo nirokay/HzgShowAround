@@ -48,7 +48,7 @@ html.addToBody(
     h3("Generell"),
     pc(
         "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung.",
-        "Diese Website ist gehört nicht den Betreibern der " & $a("https://www.herzogsaegmuehle.de/", "offiziellen Herzogsägmühler Website") & " und" &
+        "Diese Website ist gehört nicht den Betreibern der " & $a("https://www.herzogsaegmuehle.de/", "offiziellen Herzogsägmühler Website") & " und " &
         "ist von Diesen unabhängig."
     ),
 

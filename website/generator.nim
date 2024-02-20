@@ -8,6 +8,11 @@ import std/[strutils, times]
 import websitegenerator
 export websitegenerator except newDocument, writeFile
 
+# Hacky solution to a problem I cannot comprehend:
+const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
+    "map.html"
+]
+
 # -----------------------------------------------------------------------------
 # Shortcut procs:
 # -----------------------------------------------------------------------------
@@ -42,15 +47,16 @@ proc generate*(html: var HtmlDocument) =
 
     # Vertically center entire HTML body:
     # Ugly ass indentation-feast :(
-    html.body = @[
-        `div`(
+    if html.file notin pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: # amazing solution, I know... # TODO: actually fix the weird state of map.html
+        html.body = @[
             `div`(
                 `div`(
-                    html.body
-                ).setClass("div-inner")
-            ).setClass("div-middle")
-        ).setClass("div-outer")
-    ]
+                    `div`(
+                        html.body
+                    ).setClass("div-inner")
+                ).setClass("div-middle")
+            ).setClass("div-outer")
+        ]
 
     html.addToBody(
         # Footer:
