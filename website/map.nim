@@ -5,7 +5,7 @@
 ##
 ## At the end: calls external proc to generate a SVG file
 
-import std/[strutils, options]
+import std/[strutils, options, sequtils]
 import generator, styles, mapgenerator, typedefs #, locations as locationModule
 
 var html: HtmlDocument = newPage(
@@ -22,6 +22,9 @@ var
         attr("width", $mapScaleTo),
         attr("height", $mapScaleTo)
     )
+
+# Dirty quick-fix for weird behaviour:
+picture.tagAttributes = picture.tagAttributes.deduplicate()
 
 var areas: seq[string]
 
@@ -54,6 +57,9 @@ for location in locations.withCoords():
         attr("class", "map-element")
     )
 
+    # Dirty quick-fix for weird behaviour:
+    area.tagAttributes = area.tagAttributes.deduplicate()
+
     # Add to sequence:
     areas.add($area)
 
@@ -70,7 +76,7 @@ html.addToBody(
         picture,
         map
     ).setClass(centerWidth100Class).add(
-        attr("style", "overflow:auto;")
+        attr("style", "overflow:overlay;")
     )
 )
 
