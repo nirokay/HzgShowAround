@@ -167,6 +167,11 @@ cssArticles.add(
         textCenter
     ),
 
+    # Author:
+    articleAuthorDiv,
+    articleAuthorPicture,
+    articleAuthorName,
+
     # Images:
     newCssElement("img",
         width("50%"),

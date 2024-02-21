@@ -48,25 +48,28 @@ const
 
 # Urls:
 const
-    urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/"
+    urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/" ## Data repository
 
-    urlResources*: string = urlRemoteRepo & "resources/"
-    urlImages*: string = urlResources & "images/"
+    urlResources*: string = urlRemoteRepo & "resources/" ## Resources directory
+    urlImages*: string = urlResources & "images/" ## Image directory
 
-    urlArticleImages*: string = urlImages & "articles/"
-    urlArticles*: string = urlRemoteRepo & "articles.json"
-    urlCustomHtmlArticles*: string = urlResources & "articles/"
+    urlAuthors*: string = urlRemoteRepo & "authors.json" ## Author JSON file
+    urlAuthorImages*: string = urlImages & "authors/" ## Author image directory
 
-    urlLocationImages*: string = urlImages & "locations/"
-    urlJsonLocationData*: string = urlRemoteRepo & "locations.json"
-    urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json"
+    urlArticleImages*: string = urlImages & "articles/" ## Article directory
+    urlArticles*: string = urlRemoteRepo & "articles.json" ## Articles JSON file
+    urlCustomHtmlArticles*: string = urlResources & "articles/" ## Custom HTML articles repository
 
-    urlJsonNewsFeed*: string = urlRemoteRepo & "news.json"
+    urlLocationImages*: string = urlImages & "locations/" ## Location image directory
+    urlJsonLocationData*: string = urlRemoteRepo & "locations.json" ## Location JSON file
+    urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json" ## Tour location JSON file
+
+    urlJsonNewsFeed*: string = urlRemoteRepo & "news.json" ## News JSON file
 
 # Resource locations:
 const
-    articlesLocation*: string = "article/"
-    articleCssFile*: string = "article-styles.css"
+    articlesLocation*: string = "article/" ## Local article export path
+    articleCssFile*: string = "article-styles.css" ## Local article css export path
 
 
 # -----------------------------------------------------------------------------
@@ -74,6 +77,7 @@ const
 # -----------------------------------------------------------------------------
 
 type NewsLevel = enum
+    ## News relevance/importance levels
     Generic = "generic",
     Warning = "warning",
     Alert = "alert",
@@ -208,6 +212,39 @@ const
         ["flex-wrap", "wrap"]
     )
 
+    articleAuthorDiv* = newCssClass("article-author-div",
+        ["background-color", $White],
+        ["max-width", "350px"],
+        ["display", "flex"],
+        ["justify-content", "center"],
+        ["margin-left", "auto"],
+        ["margin-right", "auto"],
+        ["margin-top", "10px"],
+        ["margin-bottom", "10px"],
+        ["border-radius", "900px"],
+        ["flex", "content"],
+        ["flex-wrap", "nowrap"],
+        ["justify-content", "left"],
+        ["flex-basis", "auto"]
+    )
+
+    articleAuthorPicture* = newCssClass("article-author-picture",
+        ["max-width", "48px"],
+        ["min-width", "32px"],
+        ["flex", "content"],
+        ["border-radius", "100px"],
+        ["display", "inline-block"],
+        ["align-self", "center"]
+    )
+    articleAuthorName* = newCssClass("article-author-name-div",
+        ["color", $Black],
+        ["width", "50%"],
+        ["max-width", "200px"],
+        ["flex", "content"],
+        ["display", "inline-block"],
+        ["align-self", "center"],
+    )
+
     locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "auto", "auto")
     locationImageFooter* = locationImage("location-image-footer", "50%", "175px", "2px", "2px")
     locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "auto", "auto")
@@ -226,6 +263,7 @@ const
 # HTML stuff:
 
 proc pc*(lines: seq[string]): HtmlElement =
+    ## Returns a centered paragraph. Joins each line with a `<br />`
     let text: string = lines.join($br())
     result = p(text).setClass(centerClass)
 
@@ -237,7 +275,7 @@ proc pc*(lines: varargs[string]): HtmlElement =
     result = pc(s)
 
 proc pc*(elements: varargs[HtmlElement]): HtmlElement =
-    ## Returns a centered paragraph. Joins each element with a `<br />`
+    ## Returns a centered paragraph. Joins each line with a `<br />`
     var lines: seq[string]
     for element in elements:
         lines.add $element

@@ -4,7 +4,7 @@
 ## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
 ## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
 
-import std/[strutils, options, json, algorithm]
+import std/[strutils, options, json, tables, algorithm]
 import generator
 import globals, styles, client
 
@@ -112,6 +112,7 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     ## Adds stuff on the top of an article (title, author, etc.)
     var header: seq[HtmlElement] = @[h1(article.title)]
 
+    #[ Old author + date field in header:
     # Author and date (on the same line):
     var authorAndDate: seq[string]
     if article.author.isSome():
@@ -119,6 +120,27 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     if article.date.isSome():
         authorAndDate.add "verfasst am " & displayDateTime(article.date.get())
     header.add pc($small(authorAndDate.join(" | ")))
+    ]#
+
+    let
+        author: string = article.author.get(defaultAuthor)
+        json: JsonNode = getArticleAuthorsJson()
+        authors: Table[string, string] = json.to(Table[string, string])
+
+    var authorPicture: string = authors[defaultAuthor]
+    for key, value in authors:
+        if key.toLower() == author.toLower():
+            authorPicture = value
+
+    var
+        authorImage: HtmlElement = img(urlAuthorImages & authorPicture, "Bild nicht verfügbar").setClass(articleAuthorPicture)
+        authorName: HtmlElement = small(
+            "verfasst von " & $b(author) & (if article.date.isSome(): $br() & "verfasst am " & $b(displayDateTime(article.date.get())) else: "")
+        ).setClass(articleAuthorName)
+    header.add `div`(
+        authorImage,
+        authorName
+    ).setClass(articleAuthorDiv)
 
     # Description/summary:
     if article.desc.isSome():

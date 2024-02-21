@@ -73,4 +73,5 @@ proc requestJson*(url: string, backupPath: string = ""): JsonNode {.raises: [Fet
 proc getLocationJson*(): JsonNode = urlJsonLocationData.requestJson(path("locations.json")) ## Gets the json with all locations
 proc getTourJson*(): JsonNode = urlJsonTourData.requestJson(path("tour_locations.json")) ## Gets the json for tour locations
 proc getArticlesJson*(): JsonNode = urlArticles.requestJson(path("articles.json")) ## Gets the json with all article informations
+proc getArticleAuthorsJson*(): JsonNode = urlAuthors.requestJson(path("authors.json")) ## Gets the json with article authors
 proc getMapSvg*(): string = requestRawText(urlImages & "map.svg", path("resources/images/map.svg")) ## Gets the raw map svg
