@@ -8,6 +8,7 @@
 
 */
 
+let printDebug = false;
 
 // HTML IDs:
 const newsfeedDivId = "news-div";
@@ -220,6 +221,13 @@ function refreshNews() {
 
             console.log("Issues?:  network: " + networkingIssuesEncountered + "  |  parsing: " + remoteJsonParsingError)
 
+            if(printDebug) {
+
+                console.log("Raw news from remote repository:");
+                console.log(news);
+                console.log("--------------------------------");
+            }
+
             // No networking errors, so continue with handling news:
             if (!networkingIssuesEncountered && !remoteJsonParsingError) {
                 // Filtering news:
@@ -251,6 +259,11 @@ function refreshNews() {
                             "Dies ist wahrscheinlich ein Fehler, versuche es erneut indem du auf den \"Neu laden\" Knopf drückst!"
                         ]);
                     }
+                }
+                if (printDebug){
+                    console.log("Relevant news:");
+                    console.log(relevantNews);
+                    console.log("--------------------------------");
                 }
             }
 
