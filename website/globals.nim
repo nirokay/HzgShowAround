@@ -213,7 +213,7 @@ const
     )
 
     articleAuthorDiv* = newCssClass("article-author-div",
-        ["background-color", $White],
+        ["background-color", rgb(36, 39, 46)],
         ["max-width", "350px"],
         ["display", "flex"],
         ["justify-content", "center"],
@@ -237,7 +237,7 @@ const
         ["align-self", "center"]
     )
     articleAuthorName* = newCssClass("article-author-name-div",
-        ["color", $Black],
+        ["color", $Gainsboro],
         ["width", "50%"],
         ["max-width", "200px"],
         ["flex", "content"],

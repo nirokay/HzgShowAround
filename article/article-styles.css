@@ -153,7 +153,7 @@ h3, h4, h5, h6, p, summary, time {
     margin-right: auto;
     flex-wrap: nowrap;
     margin-bottom: 10px;
-    background-color: White;
+    background-color: rgb(36, 39, 46);
     margin-left: auto;
     margin-top: 10px;
     flex: content;
@@ -169,7 +169,7 @@ h3, h4, h5, h6, p, summary, time {
 }
 
 .article-author-name-div {
-    color: Black;
+    color: Gainsboro;
     align-self: center;
     width: 50%;
     max-width: 200px;

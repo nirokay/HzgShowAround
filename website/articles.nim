@@ -131,6 +131,7 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     for key, value in authors:
         if key.toLower() == author.toLower():
             authorPicture = value
+            break
 
     var
         authorImage: HtmlElement = img(urlAuthorImages & authorPicture, "Bild nicht verfügbar").setClass(articleAuthorPicture)
