@@ -10,6 +10,9 @@ var html: HtmlDocument = newPage(
 html.setStyle(css)
 
 html.add(
+    `div`(
+        button("← Startseite", "index.html"),
+    ).setClass(centerClass),
     h1("Mitwirkende"),
     pc("Hier siehst du Alle, die diese Website erstellt und bei ihr mitgeholfen haben!")
 )
@@ -24,7 +27,7 @@ for contributor in contributors:
         contributor.name,
             [
             "",
-            (if contributor.tasks.isSet(): contributor.tasks.get().join("; ") else: "")
+            (if contributor.tasks.isSet(): $br() & contributor.tasks.get().join("; ") else: "")
         ],
         (if contributor.link.isSet(): $a(contributor.link.get(), contributor.name) else: "")
     )

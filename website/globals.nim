@@ -235,14 +235,15 @@ const
         ["flex", "content"],
         ["border-radius", "100px"],
         ["display", "inline-block"],
+        ["margin-left", "10px"],
         ["align-self", "center"]
     )
     authorNameClass* = newCssClass("author-name-div",
         ["color", $Gainsboro],
         ["width", "50%"],
-        ["max-width", "200px"],
         ["flex", "content"],
         ["display", "inline-block"],
+        ["margin-right", "10px"],
         ["align-self", "center"],
     )
 
