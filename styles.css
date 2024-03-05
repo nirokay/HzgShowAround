@@ -127,6 +127,39 @@ button:hover {
     text-align: left;
 }
 
+.author-div {
+    flex-basis: auto;
+    justify-content: left;
+    border-radius: 900px;
+    max-width: 350px;
+    display: flex;
+    margin-right: auto;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    background-color: rgb(36, 39, 46);
+    margin-left: auto;
+    margin-top: 10px;
+    flex: content;
+}
+
+.author-picture {
+    align-self: center;
+    min-width: 32px;
+    border-radius: 100px;
+    max-width: 48px;
+    display: inline-block;
+    flex: content;
+}
+
+.author-name-div {
+    color: Gainsboro;
+    align-self: center;
+    width: 50%;
+    max-width: 200px;
+    display: inline-block;
+    flex: content;
+}
+
 .map-element {
     color: Pink;
     display: inline;

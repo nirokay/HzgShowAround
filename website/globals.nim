@@ -53,6 +53,7 @@ const
     urlResources*: string = urlRemoteRepo & "resources/" ## Resources directory
     urlImages*: string = urlResources & "images/" ## Image directory
 
+    urlContributors*: string = urlRemoteRepo & "contributors.json" ## Author JSON file
     urlAuthors*: string = urlRemoteRepo & "authors.json" ## Author JSON file
     urlAuthorImages*: string = urlImages & "authors/" ## Author image directory
 
@@ -212,7 +213,7 @@ const
         ["flex-wrap", "wrap"]
     )
 
-    articleAuthorDiv* = newCssClass("article-author-div",
+    authorDivClass* = newCssClass("author-div",
         ["background-color", rgb(36, 39, 46)],
         ["max-width", "350px"],
         ["display", "flex"],
@@ -228,7 +229,7 @@ const
         ["flex-basis", "auto"]
     )
 
-    articleAuthorPicture* = newCssClass("article-author-picture",
+    authorPictureClass* = newCssClass("author-picture",
         ["max-width", "48px"],
         ["min-width", "32px"],
         ["flex", "content"],
@@ -236,7 +237,7 @@ const
         ["display", "inline-block"],
         ["align-self", "center"]
     )
-    articleAuthorName* = newCssClass("article-author-name-div",
+    authorNameClass* = newCssClass("author-name-div",
         ["color", $Gainsboro],
         ["width", "50%"],
         ["max-width", "200px"],

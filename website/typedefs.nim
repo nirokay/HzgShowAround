@@ -33,6 +33,11 @@ type
         imgHeader = "header image",
         imgFooter = "footer image"
 
+    Contributor* = object
+        name*: string
+        link*: Option[string]
+        tasks*: Option[seq[string]]
+
 iterator withCoords*(locations: seq[Location]): Location =
     ## Filters locations only with coordinates
     for location in locations:

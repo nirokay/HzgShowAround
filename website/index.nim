@@ -4,7 +4,7 @@
 ## This module generates the `index.html` file. As it is a complex site with many components, it has its own module.
 
 import std/[options, strutils, algorithm]
-import globals, generator, styles, typedefs, locations as locationModule
+import globals, generator, styles, typedefs, locations as locationModule, contributors
 
 # Parse locations from json and create html pages:
 let locations: seq[Location] = getLocations()
@@ -104,6 +104,13 @@ html.addToBody(
             attr("id", indexLocationDropDownId)
         )
     )
+)
+
+html.addToBody(
+    h2("Sonstiges"),
+    `div`(
+        button("Mitwirkende", "contributors.html")
+    ).setClass(centerClass)
 )
 
 html.setStyle(css)

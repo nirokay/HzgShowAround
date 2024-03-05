@@ -101,7 +101,12 @@ globalCss.add(
     newCssElement("button", buttonClass.properties),
     newCssElement("button:hover", buttonClassHover.properties),
 
-    centerTableClass
+    centerTableClass,
+
+    # Author:
+    authorDivClass,
+    authorPictureClass,
+    authorNameClass
 )
 
 css.elements = globalCss.elements
@@ -166,11 +171,6 @@ cssArticles.add(
     newCssElement("h3, h4, h5, h6, p, summary, time",
         textCenter
     ),
-
-    # Author:
-    articleAuthorDiv,
-    articleAuthorPicture,
-    articleAuthorName,
 
     # Images:
     newCssElement("img",

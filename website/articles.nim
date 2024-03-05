@@ -4,12 +4,11 @@
 ## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
 ## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
 
-import std/[strutils, options, json, tables, algorithm]
+import std/[strutils, options, json, algorithm]
 import generator
-import globals, styles, client
+import globals, styles, client, htmlsnippets
 
 const
-    defaultAuthor*: string = "Anonym" ## Default author, if none is specified
     imageTags*: seq[tuple[opening, closing: string]] = @[
         ("<img>", "</img>"),
         ("<img=", ">"),
@@ -122,26 +121,10 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     header.add pc($small(authorAndDate.join(" | ")))
     ]#
 
-    let
-        author: string = article.author.get(defaultAuthor)
-        json: JsonNode = getArticleAuthorsJson()
-        authors: Table[string, string] = json.to(Table[string, string])
-
-    var authorPicture: string = authors[defaultAuthor]
-    for key, value in authors:
-        if key.toLower() == author.toLower():
-            authorPicture = value
-            break
-
-    var
-        authorImage: HtmlElement = img(urlAuthorImages & authorPicture, "Bild nicht verfügbar").setClass(articleAuthorPicture)
-        authorName: HtmlElement = small(
-            "verfasst von " & $b(author) & (if article.date.isSome(): $br() & "verfasst am " & $b(displayDateTime(article.date.get())) else: "")
-        ).setClass(articleAuthorName)
-    header.add `div`(
-        authorImage,
-        authorName
-    ).setClass(articleAuthorDiv)
+    header.add authorBubble(article.author.get(defaultAuthor), [
+        "verfasst von ",
+        (if article.date.isSome(): $br() & "verfasst am " & $b(displayDateTime(article.date.get())) else: "")
+    ])
 
     # Description/summary:
     if article.desc.isSome():
