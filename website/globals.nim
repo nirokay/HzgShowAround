@@ -236,6 +236,8 @@ const
         ["border-radius", "100px"],
         ["display", "inline-block"],
         ["margin-left", "10px"],
+        ["margin-top", "10px"],
+        ["margin-bottom", "10px"],
         ["align-self", "center"]
     )
     authorNameClass* = newCssClass("author-name-div",
@@ -244,6 +246,8 @@ const
         ["flex", "content"],
         ["display", "inline-block"],
         ["margin-right", "10px"],
+        ["margin-top", "10px"],
+        ["margin-bottom", "10px"],
         ["align-self", "center"],
     )
 
