@@ -1,6 +1,8 @@
 import std/[json, options, strutils]
 import generator, styles, client, typedefs, htmlsnippets
 
+const bulletPoint: string = "• "
+
 var html: HtmlDocument = newPage(
     "Mitwirkende",
     "contributors.html",
@@ -27,7 +29,7 @@ for contributor in contributors:
         contributor.name,
             [
             "",
-            (if contributor.tasks.isSet(): $br() & contributor.tasks.get().join("; ") else: "")
+            (if contributor.tasks.isSet(): $br() & bulletPoint & contributor.tasks.get().join($br() & bulletPoint) else: "")
         ],
         (if contributor.link.isSet(): $a(contributor.link.get(), contributor.name) else: "")
     )
