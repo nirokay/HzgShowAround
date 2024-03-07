@@ -10,15 +10,12 @@ import generator, styles, typedefs, mapgenerator
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s
     for header, content in desc:
-        # Replace `\n` with `<br />` in each line:
-        var lines: seq[string]
+        # Table index as header:
+        if header.strip() != "":
+            result.add h2(header)
+        # For each line, put in a separate `<p> ... </p>` and replace all `\n` with `<br />`:
         for line in content:
-            lines.add line.replace("\n", $br())
-
-        result.add h2(header) # Table index as header
-        # Set all separate lines on own `<p>...</p>`:
-        for line in lines:
-            result.add pc(line)
+            result.add pc(line.replace("\n", $br()))
 
 proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
     ## Gets the HTML for a header/footer image(s)
