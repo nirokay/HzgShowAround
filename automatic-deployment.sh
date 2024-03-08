@@ -9,7 +9,7 @@ function fetch() {
 }
 
 function push() {
-    echo "Pushing" # git push
+    git push
 }
 
 function commit() {
@@ -37,7 +37,7 @@ function main() {
     done
 
     # Rebuild (output from nimble to tmp file, then to `ADDITIONAL_COMMIT_MESSAGE`):
-    rebuild &> TMP_FILE
+    rebuild &> "$TMP_FILE"
     ADDITIONAL_COMMIT_MESSAGE=$(cat "$TMP_FILE")
 
     # Commit, using `ADDITIONAL_COMMIT_MESSAGE` as description:
