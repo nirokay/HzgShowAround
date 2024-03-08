@@ -14,6 +14,7 @@ function push() {
 
 function commit() {
     DATE=$(date "+%Y-%m-%d  %H:%M:%S")
+    [ "$ADDITIONAL_COMMIT_MESSAGE" == "" ] && ADDITIONAL_COMMIT_MESSAGE="no details"
     git add .
     git commit -m "Automatic deployment @ $DATE" -m "$ADDITIONAL_COMMIT_MESSAGE"
     ADDITIONAL_COMMIT_MESSAGE=""
