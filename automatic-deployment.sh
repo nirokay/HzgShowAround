@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SLEEP=$(( 20 ))
+SLEEP=$(( 10 )) # 60 * 60 * 24
 ADDITIONAL_COMMIT_MESSAGE=""
 
 function fetch() {
@@ -12,8 +12,9 @@ function push() {
 }
 
 function commit() {
+    DATE=$(date "+%Y-%m-%d  %H:%M:%S")
     git add .
-    git commit -m "Automatic deployment @ $(date \"+%Y-%m-%d  %H:%M:%S\")""$ADDITIONAL_COMMIT_MESSAGE"
+    git commit -m "Automatic deployment @ $DATE""$ADDITIONAL_COMMIT_MESSAGE"
     ADDITIONAL_COMMIT_MESSAGE=""
 }
 
