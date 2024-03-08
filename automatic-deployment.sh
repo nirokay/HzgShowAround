@@ -9,7 +9,7 @@ function fetch() {
 }
 
 function push() {
-    git push
+    echo "Pushing" # git push
 }
 
 function commit() {
