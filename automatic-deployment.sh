@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SLEEP=$(( 60 * 60 * 24 ))
+SLEEP=$(( 10 )) # 60 * 60 * 24
 ADDITIONAL_COMMIT_MESSAGE=""
 
 function fetch() {
@@ -14,7 +14,7 @@ function push() {
 function commit() {
     DATE=$(date "+%Y-%m-%d  %H:%M:%S")
     git add .
-    git commit -m "Automatic deployment @ $DATE""$ADDITIONAL_COMMIT_MESSAGE"
+    git commit -m "Automatic deployment @ $DATE" -m "$ADDITIONAL_COMMIT_MESSAGE"
     ADDITIONAL_COMMIT_MESSAGE=""
 }
 
@@ -34,10 +34,10 @@ function main() {
         sleep 10
     done
 
-    if ! rebuild; then
-        ADDITIONAL_COMMIT_MESSAGE="+ failed build!"
-    fi
+    # Rebuild and commit:
+    ADDITIONAL_COMMIT_MESSAGE=$(rebuild)
     commit
+
     PUSHING=0
     REVERT=0
     while ! push; do
