@@ -2,6 +2,7 @@
 
 SLEEP=$(( 10 )) # 60 * 60 * 24
 ADDITIONAL_COMMIT_MESSAGE=""
+TMP_FILE=$(mktemp)
 
 function fetch() {
     git pull
@@ -34,8 +35,11 @@ function main() {
         sleep 10
     done
 
-    # Rebuild and commit:
-    ADDITIONAL_COMMIT_MESSAGE=$(rebuild)
+    # Rebuild (output from nimble to tmp file, then to `ADDITIONAL_COMMIT_MESSAGE`):
+    rebuild &> TMP_FILE
+    ADDITIONAL_COMMIT_MESSAGE=$(cat "$TMP_FILE")
+
+    # Commit, using `ADDITIONAL_COMMIT_MESSAGE` as description:
     commit
 
     PUSHING=0

@@ -1,0 +1,95 @@
+  Verifying dependencies for HzgShowAround@1.0.0
+     Info:  Dependency on websitegenerator@any version already satisfied
+  Verifying dependencies for websitegenerator@0.2.3
+   Building HzgShowAround/hzgshowaround using c backend
+[1m/home/niro/Coding/GitHub/HzgShowAround/website/index.nim(7, 75) [0m[33mWarning: [0mimported and not used: 'contributors'[36m [UnusedImport][0m[0m
+Generating terms-of-service.html...Finished generation for terms-of-service.html!
+Setting up http clientSuccessfully set up http client
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/map.svg✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/map.svg
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/authors.json✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/authors.json
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/contributors.json✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/contributors.json
+Generating contributors.html...Finished generation for contributors.html!
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/locations.json✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/locations.json
+Writing svg data 1/1
+Generating location/muehlenmarkt.html...Finished generation for location/muehlenmarkt.html!
+Writing svg data 1/1
+Generating location/werkstatt-laden_im_muehlenmarkt.html...Finished generation for location/werkstatt-laden_im_muehlenmarkt.html!
+Writing svg data 1/1
+Generating location/friseur_im_muehlenmarkt.html...Finished generation for location/friseur_im_muehlenmarkt.html!
+Writing svg data 1/1
+Generating location/post_und_treuhand-kasse.html...Finished generation for location/post_und_treuhand-kasse.html!
+Writing svg data 1/1
+Generating location/gesundheits.punkt.html...Finished generation for location/gesundheits.punkt.html!
+Writing svg data 1/1
+Generating location/metzgerei_und_baeckerei.html...Finished generation for location/metzgerei_und_baeckerei.html!
+Writing svg data 1/1
+Generating location/herzogsaegmuehler_werkstaetten.html...Finished generation for location/herzogsaegmuehler_werkstaetten.html!
+Writing svg data 1/1
+Generating location/telezentrum_-_digitale_medien.html...Finished generation for location/telezentrum_-_digitale_medien.html!
+Writing svg data 1/1
+Generating location/haeuser_am_latterbach.html...Finished generation for location/haeuser_am_latterbach.html!
+Writing svg data 1/1
+Generating location/gaertnerei.html...Finished generation for location/gaertnerei.html!
+Writing svg data 1/1
+Generating location/sinnespfad.html...Finished generation for location/sinnespfad.html!
+Writing svg data 1/1
+Generating location/martinskirche.html...Finished generation for location/martinskirche.html!
+Writing svg data 1/1
+Generating location/beach-volleyballfeld.html...Finished generation for location/beach-volleyballfeld.html!
+Writing svg data 1/1
+Generating location/wuehlkiste.html...Finished generation for location/wuehlkiste.html!
+Writing svg data 1/1
+Generating location/cafe_und_wirtshaus_herzog.html...Finished generation for location/cafe_und_wirtshaus_herzog.html!
+Writing svg data 1/1
+Generating location/minigolfanlage.html...Finished generation for location/minigolfanlage.html!
+Writing svg data 1/1
+Generating location/abenteuerspielplatz.html...Finished generation for location/abenteuerspielplatz.html!
+Writing svg data 1/1
+Generating location/deckerhalle.html...Finished generation for location/deckerhalle.html!
+Writing svg data 1/1
+Generating location/skater-park.html...Finished generation for location/skater-park.html!
+Writing svg data 1/1
+Generating location/alfons-brandl-schule.html...Finished generation for location/alfons-brandl-schule.html!
+Writing svg data 1/1
+Generating location/albrecht-schnitter-berufsschule.html...Finished generation for location/albrecht-schnitter-berufsschule.html!
+Writing svg data 1/1
+Generating location/vereinsheim_sv_herzogsaegmuehle.html...Finished generation for location/vereinsheim_sv_herzogsaegmuehle.html!
+Writing svg data 1/1
+Generating location/sporthalle.html...Finished generation for location/sporthalle.html!
+Writing svg data 1/1
+Generating location/tennisplatz.html...Finished generation for location/tennisplatz.html!
+Writing svg data 1/1
+Generating location/fussballplatz.html...Finished generation for location/fussballplatz.html!
+Writing svg data 1/1
+Generating location/handballfeld.html...Finished generation for location/handballfeld.html!
+Writing svg data 1/1
+Generating location/sprintstrecke.html...Finished generation for location/sprintstrecke.html!
+Writing svg data 1/1
+Generating location/kfz-werkstatt.html...Finished generation for location/kfz-werkstatt.html!
+Writing svg data 1/1
+Generating location/elektrowerkstatt.html...Finished generation for location/elektrowerkstatt.html!
+Writing svg data 1/1
+Generating location/licht-_und_wachsmanifaktur.html...Finished generation for location/licht-_und_wachsmanifaktur.html!
+Writing svg data 1/1
+Generating location/sanitaer-_und_heizungstechnik.html...Finished generation for location/sanitaer-_und_heizungstechnik.html!
+Writing svg data 1/1
+Generating location/schlosserei.html...Finished generation for location/schlosserei.html!
+Writing svg data 1/1
+Generating location/malerei.html...Finished generation for location/malerei.html!
+Writing svg data 1/1
+Generating location/berufsbildende_massnahme_(bbm).html...Finished generation for location/berufsbildende_massnahme_(bbm).html!
+Writing svg data 1/1
+Generating location/berufliches_zentrum_(bz).html...Finished generation for location/berufliches_zentrum_(bz).html!
+Generating index.html...Finished generation for index.html!
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/tour_locations.json
+Generating tour.html...Finished generation for tour.html!
+Writing svg data 1/35Writing svg data 2/35Writing svg data 3/35Writing svg data 4/35Writing svg data 5/35Writing svg data 6/35Writing svg data 7/35Writing svg data 8/35Writing svg data 9/35Writing svg data 10/35Writing svg data 11/35Writing svg data 12/35Writing svg data 13/35Writing svg data 14/35Writing svg data 15/35Writing svg data 16/35Writing svg data 17/35Writing svg data 18/35Writing svg data 19/35Writing svg data 20/35Writing svg data 21/35Writing svg data 22/35Writing svg data 23/35Writing svg data 24/35Writing svg data 25/35Writing svg data 26/35Writing svg data 27/35Writing svg data 28/35Writing svg data 29/35Writing svg data 30/35Writing svg data 31/35Writing svg data 32/35Writing svg data 33/35Writing svg data 34/35Writing svg data 35/35
+Generating map.html...Finished generation for map.html!
+Generating newsfeed.html...Finished generation for newsfeed.html!
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/articles.json✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/articles.json
+Generating article/findus_-_katzen_von_herzogsaegmuehle.html...Finished generation for article/findus_-_katzen_von_herzogsaegmuehle.html!
+Awaiting network... Fetching https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/articles/announcement_articles_launch.html✓ Finished fetching from URL: https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/articles/announcement_articles_launch.html
+Generating article/ankuendigung_-_artikel_feature.html...Finished generation for article/ankuendigung_-_artikel_feature.html!
+Generating article/beispiel_artikel.html...Finished generation for article/beispiel_artikel.html!
+Generating articles.html...Finished generation for articles.html!
+Generating 404.html...Finished generation for 404.html!
