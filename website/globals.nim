@@ -4,49 +4,30 @@
 ## This module includes some global values. Some CSS and HTML attributes are included here instead of `website/styles`, so
 ## that they can be used type-safely.
 
-import std/[strutils, tables, options]
+import std/[strutils, tables]
 import generator
 
 # -----------------------------------------------------------------------------
-# Constants:
+# HTML IDs:
 # -----------------------------------------------------------------------------
 
-const urlConvertChars: seq[array[2, string]] = @[
+const
+    indexLocationDropDownId*: string = "index-location-drop-down" ## Element id on `index.html` (drop down menu)
+    newsfeedDivId*: string = "news-div"
+
+
+# -----------------------------------------------------------------------------
+# URLs:
+# -----------------------------------------------------------------------------
+
+const urlConvertChars*: seq[array[2, string]] = @[
     [" ", "_"],
     ["ä", "ae"],
     ["ö", "oe"],
     ["ü", "ue"],
     ["ß", "ss"]
-]
+] ## List of characters to convert [0] and their final conversion [1]
 
-const indexLocationDropDownId*: string = "index-location-drop-down"
-
-
-# -----------------------------------------------------------------------------
-# Colours:
-# -----------------------------------------------------------------------------
-
-const
-    colBackground*: string = rgb(23, 25, 33)
-
-    colButton*: string = rgb(50, 30, 58)
-    colButtonHover*: string = rgb(60, 40, 68)
-
-
-# -----------------------------------------------------------------------------
-# Variables:
-# -----------------------------------------------------------------------------
-
-const
-    mapResolution*: int = 2000
-    mapScaleTo*: int = 1000
-
-const
-    textUnderline* = ["text-decoration", "underline"]
-    textNoDecoration* = ["text-decoration", "none"]
-    # textTransparentBackground = ["background-color", "transparent"]
-
-# Urls:
 const
     urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/" ## Data repository
 
@@ -67,14 +48,38 @@ const
 
     urlJsonNewsFeed*: string = urlRemoteRepo & "news.json" ## News JSON file
 
-# Resource locations:
+
+# -----------------------------------------------------------------------------
+# Export paths:
+# -----------------------------------------------------------------------------
+
 const
     articlesLocation*: string = "article/" ## Local article export path
     articleCssFile*: string = "article-styles.css" ## Local article css export path
 
 
 # -----------------------------------------------------------------------------
-# Classes:
+# Colours:
+# -----------------------------------------------------------------------------
+
+const
+    colBackground*: string = rgb(23, 25, 33)
+
+    colButton*: string = rgb(50, 30, 58)
+    colButtonHover*: string = rgb(60, 40, 68)
+
+
+# -----------------------------------------------------------------------------
+# Map:
+# -----------------------------------------------------------------------------
+
+const
+    mapResolution*: int = 2000
+    mapScaleTo*: int = 1000
+
+
+# -----------------------------------------------------------------------------
+# CSS classes:
 # -----------------------------------------------------------------------------
 
 type NewsLevel = enum
@@ -109,8 +114,14 @@ proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: str
         ["margin-right", marginSides]
     )
 
+
 const
+    textUnderline* = ["text-decoration", "underline"]
+    textNoDecoration* = ["text-decoration", "none"]
     textCenter* = ["text-align", "center"]
+
+
+const
     textCenterClass* = newCssClass("center",
         textCenter
     )
@@ -142,7 +153,7 @@ const
         ["border", "none"],
         padding("10px 20px"),
         textCenter,
-        textNoDecoration,
+        ["text-decoration", "none"],
         display(inlineBlock),
         fontSize(20.px),
         ["margin", "4px 2px"],
@@ -264,81 +275,3 @@ const
         ["justify-content", "space-around"],
         ["flex-wrap", "wrap"]
     )
-
-
-# HTML stuff:
-
-proc pc*(lines: seq[string]): HtmlElement =
-    ## Returns a centered paragraph. Joins each line with a `<br />`
-    let text: string = lines.join($br())
-    result = p(text).setClass(centerClass)
-
-proc pc*(lines: varargs[string]): HtmlElement =
-    ## Returns a centered paragraph. Joins each line with a `<br />`
-    var s: seq[string]
-    for line in lines:
-        s.add line
-    result = pc(s)
-
-proc pc*(elements: varargs[HtmlElement]): HtmlElement =
-    ## Returns a centered paragraph. Joins each line with a `<br />`
-    var lines: seq[string]
-    for element in elements:
-        lines.add $element
-
-    result = pc(lines)
-
-proc scriptButton*(text, onclick: string): HtmlElement =
-    ## Button with script attached to it
-    newElement("button", text).add(
-        attr("onclick", onclick)
-    )
-
-proc button*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
-
-proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
-    ## List of buttons
-    for content, href in table:
-        result.add button(content, href)
-
-proc backToHomeButton*(text: string): HtmlElement = button(text, "index.html") ## Button that returns to the home page
-
-proc fullyCenter*(html: seq[HtmlElement]): HtmlElement =
-    ## Makes a (actually three divs) fully centered div
-    result = `div`(
-        `div`(
-            `div`(
-                html
-            ).setClass(divCenterInner)
-        ).setClass(divCenterMiddle)
-    ).setClass(divCenterOuter)
-proc fullyCenter*(html: varargs[HtmlElement]): HtmlElement =
-    ## Makes a (actually three divs) fully centered div
-    var elements: seq[HtmlElement]
-    for element in html:
-        elements.add element
-    result = elements.fullyCenter()
-
-
-# Url formatting:
-
-proc getRelativeUrlId*(name: string): string =
-    ## Gets the url ID (replacing special characters)
-    result = name.strip().toLower()
-    for chars in urlConvertChars:
-        result = result.replace(chars[0], chars[1])
-proc getRelativeUrlPath*(name: string): string =
-    ## Gets the path for an html page
-    name.getRelativeUrlId() & ".html"
-
-
-# Option stuff:
-
-proc isSet*[T](item: Option[T]): bool =
-    ## Shortcut to `item.isSome()` and checks against value being the same as the initial initialisation
-    ##
-    ## Basically: `string == ""; int == 0; seq[T] == @[]; ...`
-    var emptyValue: T
-    if item.isSome():
-        if item.get() != emptyValue:
-            result = true

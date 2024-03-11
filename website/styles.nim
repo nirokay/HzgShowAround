@@ -134,7 +134,7 @@ css.add(
     # Headers:
     newCssElement("h1, h2",
         textCenter,
-        textUnderline
+        ["text-decoration", "underline"]
     ),
     newCssElement("h3, h4, h5, h6",
         textCenter

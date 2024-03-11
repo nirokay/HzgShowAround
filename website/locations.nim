@@ -5,7 +5,7 @@
 ## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/locations.json).
 
 import std/[tables, options, strutils]
-import generator, styles, typedefs, mapgenerator
+import generator, styles, typedefs, mapgenerator, snippets
 
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s
@@ -17,7 +17,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
         for line in content:
             result.add pc(line.replace("\n", $br()))
 
-proc getLocationImage(location: Location, img: LocationImageType): HtmlElement =
+proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement =
     ## Gets the HTML for a header/footer image(s)
     let
         pics: Pictures = get location.pics

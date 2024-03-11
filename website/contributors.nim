@@ -1,5 +1,5 @@
 import std/[json, options, strutils]
-import generator, styles, client, typedefs, htmlsnippets
+import generator, styles, client, typedefs, snippets
 
 const bulletPoint: string = "• "
 

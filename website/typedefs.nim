@@ -1,5 +1,5 @@
 import std/[options, tables, json]
-import client, globals
+import client, snippets
 
 # Location stuff:
 

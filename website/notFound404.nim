@@ -6,7 +6,7 @@
 import std/[strutils]
 
 import generator
-import globals, styles
+import globals, styles, snippets
 
 var html: HtmlDocument = newPage(
     "404 - Not Found",

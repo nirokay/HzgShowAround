@@ -3,7 +3,7 @@
 ##
 ## This module generates the TOS page (`terms-of-service.html`).
 
-import generator, globals, styles
+import generator, globals, styles, snippets
 
 var html: HtmlDocument = newPage(
     "Nutzungsbedingungen",

@@ -6,7 +6,7 @@
 ## and rectangle as overlays for clickable areas (because who needs to visualise the `<area>` tag anyways... right?).
 
 import std/[strutils, strformat, options]
-import client, globals, typedefs
+import client, globals, typedefs, snippets
 
 const
     viewbox: int = 200 ## Hard-coded viewbox width/height, just like the gods intended

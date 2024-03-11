@@ -6,7 +6,7 @@
 
 import std/[strutils, options, json, algorithm]
 import generator
-import globals, styles, client, htmlsnippets
+import globals, styles, client, snippets
 
 const
     imageTags*: seq[tuple[opening, closing: string]] = @[

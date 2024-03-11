@@ -4,7 +4,7 @@
 ## This module generates the `tour.html` file. It is rather bare-bones, as the javascript handles all interactivity.
 
 import std/[json]
-import generator, globals, styles, client
+import generator, globals, styles, client, snippets
 
 let rawTourJson*: JsonNode = getTourJson()
 var tourIds*: seq[string] = rawTourJson.to(seq[string])

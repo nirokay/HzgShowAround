@@ -6,10 +6,7 @@
 ## display its elements with `div`s. The displaying of elements and their structure is handles by javascript.
 
 import generator
-import globals, styles
-
-const
-    newsfeedDivId*: string = "news-div"
+import globals, styles, snippets
 
 var html: HtmlDocument = newPage(
     "Newsfeed",
