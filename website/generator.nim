@@ -36,6 +36,11 @@ proc addOgTags*(html: var HtmlDocument) =
         og("description", metaData[1])
     )
 
+proc addOgImage*(html: var HtmlDocument, source: string) =
+    html.addOgTag(
+        "image", source
+    )
+
 # -----------------------------------------------------------------------------
 # Shortcut procs:
 # -----------------------------------------------------------------------------

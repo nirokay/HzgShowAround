@@ -27,6 +27,8 @@ proc fullyCenter*(html: varargs[HtmlElement]): HtmlElement =
         elements.add element
     result = elements.fullyCenter()
 
+proc divCenter*(elements: seq[HtmlElement]): HtmlElement = `div`(elements).setClass(centerClass) ## Div with `centerClass` applied
+proc divCenter*(elements: varargs[HtmlElement]): HtmlElement = `div`(elements).setClass(centerClass) ## Div with `centerClass` applied
 
 
 # =============================================================================

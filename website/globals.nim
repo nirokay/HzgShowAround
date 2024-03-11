@@ -29,6 +29,11 @@ const urlConvertChars*: seq[array[2, string]] = @[
 ] ## List of characters to convert [0] and their final conversion [1]
 
 const
+    urlDeploymentSite*: string = "https://nirokay.github.io/HzgShowAround/" ## Target deployment site directory
+    urlDeploymentResources*: string = urlDeploymentSite & "resources/" ## Target site resources directory
+    urlDeploymentImages*: string = urlDeploymentResources & "images/" ## Target site images directory
+    urlDeploymentLocationMaps*: string = urlDeploymentImages & "map-locations/" ## Target site location maps directory
+
     urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/" ## Data repository
 
     urlResources*: string = urlRemoteRepo & "resources/" ## Resources directory

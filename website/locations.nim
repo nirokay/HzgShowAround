@@ -45,9 +45,31 @@ proc generateLocationMap*(location: Location) =
     ## Generates the location map
     location.generateLocationSvgMap()
 
-proc getLocationMapPath*(location: Location): string =
-    ## Gets the relative path to the location map (from the perspective of a location page)
-    result = "../resources/images/map-locations/" & location.name.getRelativeUrlId() & ".svg"
+proc getLocationMapPath*(location: Location, absolute: bool = false): string =
+    ## Gets the relative/absolute path to the location map (from the perspective of a location page)
+    if not absolute: result = "../resources/images/map-locations/"
+    else: result = urlDeploymentLocationMaps
+    result &= location.name.getRelativeUrlId() & ".svg"
+
+proc setOgImage*(html: var HtmlDocument, location: Location) =
+    ## Sets `og:image` for a location, follows this hierarchy:
+    ## 1. header image
+    ## 2. first footer image
+    ## 3. map location
+    proc url(path: string): string =
+        ## Gets the image from remote repo
+        urlLocationImages & path
+
+    # Abomination:
+    if location.pics.get().header.isSet():
+        # Header image:
+        html.addOgImage(url location.pics.get().header.get())
+    elif location.pics.get().footer.isSet():
+        # First footer image:
+        html.addOgImage(url location.pics.get().footer.get()[0])
+    else:
+        # Map location image:
+        html.addOgImage(location.getLocationMapPath(absolute = true))
 
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location
@@ -128,6 +150,7 @@ proc generateLocationHtml*(location: Location) =
     )
     # Apply css and write to disk:
     html.addToHead(stylesheet("../styles.css"))
+    html.setOgImage(location)
     html.generate()
 
 proc generateLocations*(locations: seq[Location]) =
