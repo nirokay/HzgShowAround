@@ -28,7 +28,7 @@ type
 
     Article* = object
         title*: string ## Article Title
-        author*, date*, desc*: Option[string] ## Optional metadata about article
+        author*, date*, desc*, image*: Option[string] ## Optional metadata about article
         remote*: Option[string] ## [exclusive] HTML filename of remote article in Data repository (`/resources/articles/`)
         body*: Option[ArticleBody] ## [exclusive] JSON article data
 
@@ -197,6 +197,8 @@ proc generateArticleHtml(article: Article) =
     )
 
     # Add css and write to disk:
+    if article.image.isSet():
+        html.addOgImage(urlArticleImages & article.image.get())
     html.addToHead(stylesheet(articleCssFile))
     html.generate()
 
