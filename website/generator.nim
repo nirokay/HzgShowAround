@@ -49,7 +49,7 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     ## Shortcut to create standardized html pages
     result = newDocument(path)
     result.addToHead(
-        comment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator"),
+        comment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
         charset("utf-8"),
         viewport("width=device-width, initial-scale=1"),
         title(name & " - HzgShowAround"),
