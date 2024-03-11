@@ -27,8 +27,6 @@ function rebuild() {
 
 function main() {
     ADDITIONAL_COMMIT_MESSAGE=""
-    echo -e "Automatic deployment script started, sleeping for $SLEEP seconds..."
-    sleep $SLEEP
     echo "Automatic deployment starting @ $(date)"
 
     # Attempt to fetch from source, over and over until it works:
@@ -54,7 +52,14 @@ function main() {
     [ ! $REVERT -eq 0 ] && git reset --hard master # Give up on current push, try again on next call
 }
 
-while true; do
+if [ "$1" == "--once" ]; then
+    echo "Running once!"
     main
-done
+else
+    while true; do
+        echo -e "Automatic deployment script started, sleeping for $SLEEP seconds..."
+        sleep $SLEEP
+        main
+    done
+fi
 
