@@ -55,7 +55,9 @@ function main() {
 }
 
 if [[ "${FLAGS[*]}" =~ "--clean" ]]; then
-    rm -r ./*.html
+    echo "Clearing old .html and .css files"
+    rm -r ./*.html ./*.css
+    rm -r ./*/*.html ./*/*.css
 fi
 
 if [[ "${FLAGS[*]}" =~ "--once" ]]; then
