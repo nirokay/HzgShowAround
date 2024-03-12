@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+FLAGS=$*
+
 SLEEP=$(( 60 * 60 * 24 ))
 ADDITIONAL_COMMIT_MESSAGE=""
 TMP_FILE=$(mktemp)
@@ -52,7 +54,11 @@ function main() {
     [ ! $REVERT -eq 0 ] && git reset --hard master # Give up on current push, try again on next call
 }
 
-if [ "$1" == "--once" ]; then
+if [[ "${FLAGS[*]}" =~ "--clean" ]]; then
+    rm -r ./*.html
+fi
+
+if [[ "${FLAGS[*]}" =~ "--once" ]]; then
     echo "Running once!"
     main
 else
