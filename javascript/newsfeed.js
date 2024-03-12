@@ -27,7 +27,11 @@ const dateFormatDisplay = {
 };
 
 // `news` gets set to `fucked` if everything is fucked
-const fucked = "fucked";
+const fucked = '[{ "name": "fucked", "details": "Network issues", "on": "1970-01-01" }]';
+const fuckedParsed = [{
+    "name": "fucked",
+    "details": "Network issues"
+}];
 
 // Global variables:
 let date = new Date();
@@ -181,8 +185,21 @@ function isRelevant(element) {
 
 function refreshNews() {
     // Refreshes `news` variable from remote repo
+    function updateRefreshedAt(alt) {
+        let newText = ""
+        if(alt != "") {
+            date = new Date();
+            let time = date.toLocaleTimeString("de-DE");
+            newText = "Aktualisiert um " + time;
+        } else {
+            newText = alt;
+        }
+        document.getElementById(reloadedTimeId).innerHTML = newText
+    }
+
     let msg = "";
     console.log("Refreshing news from remote repo...");
+    updateRefreshedAt("Verbindung mit externem Server wird hergestellt...");
 
     // This should hopefully catch any networking issues and display an error message:
     networkingIssuesEncountered = false;
@@ -202,6 +219,7 @@ function refreshNews() {
         .then(function(json) {
             news = json;
             console.log("Successfully got JSON!");
+            updateRefreshedAt("Informationen werden verarbeitet...");
         })
         .catch(function(error) {
             remoteJsonParsingError = true;
@@ -211,9 +229,10 @@ function refreshNews() {
             // Normalize news and get the HTML ready to be edited:
             normalizeNews();
             getDiv().innerHTML = "";
+            updateRefreshedAt("Neuigkeiten werden verarbeitet...");
 
             // Band-aid solution à la javascript-style:
-            if (news === fucked) {
+            if (news === fuckedParsed) {
                 console.log("Everything is fucked, entering panic mode.")
                 networkingIssuesEncountered = true;
                 remoteJsonParsingError = true;
@@ -296,13 +315,7 @@ function refreshNews() {
                 addToDiv(msg);
             }
 
-            // Update "refreshed at `time`" text:
-            function updateRefreshedAt() {
-                date = new Date();
-                let time = date.toLocaleTimeString("de-DE");
-                document.getElementById(reloadedTimeId).innerHTML = "Aktualisiert um " + time;
-            }
-            updateRefreshedAt();
+            updateRefreshedAt("");
         });
 }
 
