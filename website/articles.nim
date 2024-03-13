@@ -29,6 +29,7 @@ type
     Article* = object
         title*: string ## Article Title
         author*, date*, desc*, image*: Option[string] ## Optional metadata about article
+        hidden*: Option[bool] ## Hidden articles are skipped when generating
         remote*: Option[string] ## [exclusive] HTML filename of remote article in Data repository (`/resources/articles/`)
         body*: Option[ArticleBody] ## [exclusive] JSON article data
 
@@ -133,13 +134,23 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
     html.addToBody header(header.join("\n"))
 
 
+proc isHidden(article: Article): bool =
+    ## Gets if an article is hidden or not (skipped for generation)
+    # Cheeky little "hack":
+    result = article.hidden.isSet()
+    # Why is this hacky? isSet(), checks if it isSome()
+    # if yes, then it checks if the value is the default one:
+    # bools are false by default, which means the article is visible
+
 # Generate html sites:
 var articles: seq[Article]
 proc getArticles() =
     let jsonArticles: JsonNode = getArticlesJson()
     for jsonArticle in jsonArticles.elems:
         try:
-            articles.add(jsonArticle.to(Article))
+            let article: Article = jsonArticle.to(Article)
+            if article.isHidden(): continue
+            articles.add(article)
         except CatchableError as e:
             echo "Failed to convert article. Wrong syntax? Skipping...\nMessage: " & e.msg & "\nJson: " & $jsonArticle
 
@@ -149,6 +160,9 @@ proc getRawHtmlArticle(file: string): string =
 
 proc generateArticleHtml(article: Article) =
     ## Generate single article
+    # Skip hidden article:
+    if article.isHidden(): return
+
     var desc: string = "Artikel " & article.title
     if article.desc.isSet():
         desc = get article.desc
