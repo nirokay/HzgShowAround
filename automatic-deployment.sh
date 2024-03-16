@@ -2,7 +2,7 @@
 
 FLAGS=$*
 
-SLEEP=$(( 60 * 10 * 1 ))
+SLEEP=$(( 60 * 5 * 1 ))
 ADDITIONAL_COMMIT_MESSAGE=""
 TMP_FILE=$(mktemp)
 
