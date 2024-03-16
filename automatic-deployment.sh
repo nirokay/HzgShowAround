@@ -6,6 +6,8 @@ SLEEP=$(( 60 * 60 * 24 ))
 ADDITIONAL_COMMIT_MESSAGE=""
 TMP_FILE=$(mktemp)
 
+[ "$USER" == "pi" ] && NIM_LIB_PREFIX=/home/pi/.nimble/nim/lib/
+
 function fetch() {
     git pull
 }
