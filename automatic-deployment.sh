@@ -2,9 +2,21 @@
 
 FLAGS=$*
 
+HZGSHOWAROUND_LOG_FILE=$HOME/Desktop/hzgshowaround.log # Temporarily hard-coded log file
+
 SLEEP=$(( 60 * 5 * 1 ))
 ADDITIONAL_COMMIT_MESSAGE=""
 TMP_FILE=$(mktemp)
+
+function announce() {
+	DATE=$(date "+%Y-%m-%d  %H:%M:%S")
+	MSG="$*"
+	echo -en "Announcement: $MSG"
+
+	[ ! "$HZGSHOWAROUND_LOG_FILE" == "" ] && echo -en "$DATE | $MSG" >> $HZGSHOWAROUND_LOG_FILE
+
+	return 0
+}
 
 function fetch() {
     git pull
@@ -48,7 +60,7 @@ function main() {
     while ! push; do
         sleep 10
         PUSHING=$((PUSHING + 1))
-        [ $PUSHING -eq 10 ] && REVERT=1 && break # Give up trying to push
+        [ $PUSHING -eq 10 ] && REVERT=1 && announce "Quitting attempting to push!" && break # Give up trying to push
     done
 
     [ ! $REVERT -eq 0 ] && git reset --hard master # Give up on current push, try again on next call
