@@ -126,6 +126,9 @@ function getHtml(element) {
     // Details:
     if(element.info != undefined) {
         // Add link to external resource for more information:
+        if(element.details == undefined) { // FUCK
+            element.details = []           // YOU
+        }                                  // JAVASCRIPT
         element.details[element.details.length] = "<a href='" + element.info + "'>mehr Infos</a>";
     }
     html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
