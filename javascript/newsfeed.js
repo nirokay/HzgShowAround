@@ -20,6 +20,7 @@ const remoteRepoNewsJson = "https://raw.githubusercontent.com/nirokay/HzgShowAro
 // Dates and times:
 const dayMilliseconds = 86400000;
 const weekMilliseconds = dayMilliseconds * 7;
+const monthMilliseconds = weekMilliseconds * 4;
 const dateFormatDisplay = {
     year: "numeric",
     month: "numeric",
@@ -180,7 +181,7 @@ function isRelevant(element) {
     let unixFrom = Date.parse(normalize(element.from));
     let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
-    return unixNow <= unixTill + weekMilliseconds && unixNow >= unixFrom - weekMilliseconds;
+    return unixNow <= unixTill + monthMilliseconds && unixNow >= unixFrom - weekMilliseconds;
 }
 
 function refreshNews() {
