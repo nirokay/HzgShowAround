@@ -67,15 +67,15 @@ globalCss.add(
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-bar",
-        backgroundColour(colourText),
+        backgroundColour(colourProgressBarForeground),
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-value",
-        backgroundColour(HotPink),
+        backgroundColour(colourProgressBarBackground),
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-moz-progress-bar",
-        backgroundColour(HotPink),
+        backgroundColour(colourProgressBarBackground),
         ["border-radius", "10px"]
     ),
 
@@ -89,10 +89,10 @@ globalCss.add(
 
 
     # Links:
-    link("link", HotPink),
-    link("visited", HotPink),
-    link("hover", LightPink),
-    link("active", WhiteSmoke),
+    link("link", colourLinkDefault),
+    link("visited", colourLinkVisited),
+    link("hover", colourLinkHover),
+    link("active", colourLinkClick),
 
     # Classes:
     centerClass,

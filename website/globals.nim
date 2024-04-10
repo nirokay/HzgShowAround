@@ -79,11 +79,19 @@ const
 
     # Text:
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
-    colourTextLink* = Pink
     colourAuthorNameText* = Gainsboro
+
+    colourLinkDefault* = HotPink
+    colourLinkVisited* = colourLinkDefault
+    colourLinkHover* = LightPink
+    colourLinkClick* = MistyRose
 
     # Outlines:
     colourMapElementOutline* = LightPink
+
+    # Progress bars:
+    colourProgressBarForeground* = colourText
+    colourProgressBarBackground* = HotPink
 
     # Borders:
     colourEventGeneric* = colourText
