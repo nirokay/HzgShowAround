@@ -67,12 +67,11 @@ proc generate*(html: var HtmlDocument) =
     when not defined(js): stdout.write("Generating " & html.file & "...")
 
     ## Adds a footer before writing html page to disk
-    var bottomFooter: HtmlElement = footer(
-        @[
+    var bottomFooter: HtmlElement = footer($small @[
             "🄯 nirokay",
-            $small("Updated at " & now().format("yyyy-MM-dd - HH:mm")),
+            "Updated @ " & now().format("yyyy-MM-dd - HH:mm"),
             $a("https://github.com/nirokay/HzgShowAround", "Source"),
-            $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "Terms of Service")
+            $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS")
         ].join(" | ")
     ).setClass("generic-center-100-width")
 

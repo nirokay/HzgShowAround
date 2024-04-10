@@ -32,15 +32,20 @@ var
 globalCss.add(
     # Global stuff:
     newCssElement("html",
-        backgroundColour(colBackground),
-        colour(White),
+        backgroundColour(colourBackground),
+        colour(colourText),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
+    ),
+
+    newCssElement("article > p",
+        textAlign("left"),
+        padding("10px")
     ),
 
     # Bottom footer:
     newCssElement("footer",
         position(fixed),
-        backgroundColour(colBackground),
+        backgroundColour(colourBackground),
         width("100%"),
         bottom(0),
         ["box-sizing" ,"border-box"]
@@ -62,7 +67,7 @@ globalCss.add(
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-bar",
-        backgroundColour(White),
+        backgroundColour(colourText),
         ["border-radius", "10px"]
     ),
     newCssElement("progress::-webkit-progress-value",
@@ -106,7 +111,10 @@ globalCss.add(
     # Author:
     authorDivClass,
     authorPictureClass,
-    authorNameClass
+    authorNameClass,
+
+    # Content box:
+    contentBoxClass
 )
 
 css.elements = globalCss.elements
@@ -115,7 +123,7 @@ css.add(
     #   Map:
     mapElement,
 
-    # Vertical-Horizontal Centering:
+    #   Vertical-Horizontal Centering:
     divCenterOuter,
     divCenterMiddle,
     divCenterInner,
@@ -141,8 +149,8 @@ css.add(
     ),
 
     newCssElement("select",
-        backgroundColour(colBackground),
-        colour(White)
+        backgroundColour(colourBackground),
+        colour(colourText)
     ),
 
     # Images (for locations):
@@ -156,7 +164,7 @@ cssArticles.elements = globalCss.elements
 cssArticles.add(
     # Center everything in `body`:
     newCssElement("body",
-        backgroundColour(colBackground),
+        backgroundColour(colourBackground),
         ["display", "block"],
         ["margin-left", "auto"],
         ["margin-right", "auto"],
@@ -180,3 +188,9 @@ cssArticles.add(
         ["margin", "10px"]
     )
 )
+
+# Misc.:
+
+proc contentBox*[T: varargs[HtmlElement]|seq[HtmlElement]](elements: T): HtmlElement =
+    ## Puts elements into a box
+    `div`(elements).setClass(contentBoxClass)

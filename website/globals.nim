@@ -68,10 +68,39 @@ const
 # -----------------------------------------------------------------------------
 
 const
-    colBackground*: string = rgb(23, 25, 33)
+    # Backgrounds:
+    colourBackground* = rgb(23, 25, 33) # Stolen from Nim doc generator with love <s3
+    colourContentBox* = "rgba(255, 255, 255, 0.05)"
 
-    colButton*: string = rgb(50, 30, 58)
-    colButtonHover*: string = rgb(60, 40, 68)
+    colourAuthorBubble* = colourContentBox # rgb(36, 39, 46)
+
+    colourButton* = "rgba(255, 100, 255, 0.1)" # rgb(50, 30, 58)
+    colourButtonHover* = "rgba(255, 100, 255, 0.2)" # rgb(60, 40, 68)
+
+    # Text:
+    colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
+    colourTextLink* = Pink
+    colourAuthorNameText* = Gainsboro
+
+    # Outlines:
+    colourMapElementOutline* = LightPink
+
+    # Borders:
+    colourEventGeneric* = colourText
+    colourEventWarning* = $Gold
+    colourEventAlert* = $Tomato
+    colourEventHappened* = $Grey
+
+
+# -----------------------------------------------------------------------------
+# Common CSS values:
+# -----------------------------------------------------------------------------
+
+const
+    # Text stuff:
+    textUnderline* = ["text-decoration", "underline"]
+    textNoDecoration* = ["text-decoration", "none"]
+    textCenter* = ["text-align", "center"]
 
 
 # -----------------------------------------------------------------------------
@@ -79,7 +108,7 @@ const
 # -----------------------------------------------------------------------------
 
 const
-    mapResolution*: int = 2000
+    mapResolution*: int = 2000 ## Rectangle `mapResolution x mapResolution`
     mapScaleTo*: int = 1000
 
 
@@ -98,14 +127,15 @@ proc newsElement(level: NewsLevel): CssElement =
     result = newCssClass("newsfeed-element-" & $level,
         ["border-style", "solid"],
         ["border-width", "10px"],
+        ["border-radius", "20px"],
         ["margin-top", "10px"],
         ["margin-bottom", "10px"]
     )
     result.properties["border-color"] = case(level):
-        of Warning: $Yellow
-        of Alert: $Red
-        of Generic: $White
-        of Happened: $Grey
+        of Warning: colourEventWarning
+        of Alert: colourEventAlert
+        of Generic: colourEventGeneric
+        of Happened: colourEventHappened
 
 proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: string): CssElement =
     result = newCssClass(className,
@@ -118,13 +148,6 @@ proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: str
         ["margin-left", marginSides],
         ["margin-right", marginSides]
     )
-
-
-const
-    textUnderline* = ["text-decoration", "underline"]
-    textNoDecoration* = ["text-decoration", "none"]
-    textCenter* = ["text-align", "center"]
-
 
 const
     textCenterClass* = newCssClass("center",
@@ -153,8 +176,8 @@ const
     )
 
     buttonClass* = newCssClass("button",
-        backgroundColour(rgb(50, 30, 58)), # backgroundColour(rgb(60, 60, 60)),
-        colour(White),
+        backgroundColour(colourButton), # backgroundColour(rgb(60, 60, 60)),
+        colour(colourText),
         ["border", "none"],
         padding("10px 20px"),
         textCenter,
@@ -168,15 +191,23 @@ const
     )
 
     buttonClassHover* = newCssClass("button:hover",
-        backgroundColour(colButtonHover),
+        backgroundColour(colourButtonHover),
         ["transition", "0.1s"]
     )
 
+    # Stuff inside a box (looks cool i guess):
+    contentBoxClass* = newCssClass("content-box",
+        width("100%"),
+        maxWidth("1000px"),
+        backgroundColour(colourContentBox),
+        ["border-radius", "20px"],
+        ["padding", "5px"],
+        ["margin", "10px auto"]
+    )
+
     mapElement* = newCssClass("map-element",
-        outlineColour(LightPink),
-        display(inline),
-        backgroundColour(Pink),
-        colour(Pink)
+        outlineColour(colourMapElementOutline),
+        display(inline)
     )
 
     divCenterOuter* = newCssClass("div-outer",
@@ -215,7 +246,7 @@ const
         textCenter,
         padding("10px"),
         ["border-style", "solid"],
-        ["border-color", $White],
+        ["border-color", colourText],
         ["flex", "content"] # Thanks Ika! :3
     )
 
@@ -230,7 +261,7 @@ const
     )
 
     authorDivClass* = newCssClass("author-div",
-        ["background-color", rgb(36, 39, 46)],
+        ["background-color", colourAuthorBubble],
         ["max-width", "350px"],
         ["display", "flex"],
         ["justify-content", "center"],
@@ -257,7 +288,7 @@ const
         ["align-self", "center"]
     )
     authorNameClass* = newCssClass("author-name-div",
-        ["color", $Gainsboro],
+        ["color", $colourAuthorNameText],
         ["width", "50%"],
         ["flex", "content"],
         ["display", "inline-block"],
@@ -268,7 +299,7 @@ const
     )
 
     locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "auto", "auto")
-    locationImageFooter* = locationImage("location-image-footer", "50%", "175px", "2px", "2px")
+    locationImageFooter* = locationImage("location-image-footer", "45%", "400px", "2px", "2px")
     locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "auto", "auto")
 
     locationImageFooterDiv* = newCssClass("location-image-footer-div",

@@ -17,6 +17,13 @@ proc convert*(desc: Description): seq[HtmlElement] =
         for line in content:
             result.add pc(line.replace("\n", $br()))
 
+proc has*(location: Location, img: LocationImageType): bool =
+    if not location.pics.isSome(): return false
+    let pics: Pictures = get location.pics
+    result = case img:
+        of imgHeader: pics.header.isSet()
+        of imgFooter: pics.footer.isSet()
+
 proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement =
     ## Gets the HTML for a header/footer image(s)
     let
@@ -79,48 +86,55 @@ proc generateLocationHtml*(location: Location) =
         "Infos zum Ort " & location.name
     )
 
-    # Add header:
     let headerText: string = block:
         if location.link.isSet(): $a(get location.link, location.name)
         else: location.name
-    html.addToBody h1(headerText)
+    # Add header and header image:
+    if location.has(imgHeader):
+        html.addToBody contentBox @[
+            h1(headerText),
+            location.getLocationImage(imgHeader)
+        ]
+    else:
+        html.addToBody h1(headerText)
 
-    # Add header image:
-    if location.pics.isSome():
-        let pics = get location.pics
-        if pics.header.isSome():
-            html.addToBody location.getLocationImage(imgHeader)
-
+    # Opening times:
     if location.open.isSet():
         let open: OpeningTimes = get location.open
         var elements: seq[HtmlElement]
         for day, time in open:
             elements.add(tr(@[
-                td($b(day & ": ⁣")), # Invisible, zero width, character, so stuff is spaced a tad more... # TODO: implement this properly
+                td($b(day & ": ⁣")), # Invisible and zero width character, so stuff is spaced a tad more... # TODO: implement this properly # TODO: eventually
                 td(time)
             ]))
-        html.addToBody(
+        html.addToBody(contentBox @[
             h2("Öffnungszeiten"),
             table(elements).setClass(centerTableClass)
-        )
+        ])
 
     # Add paragraphs:
-    html.addToBody location.desc.convert()
+    let description: seq[HtmlElement] = location.desc.convert()
+    if description != @[]:
+        html.addToBody contentBox description
+
+    # Insert spacing, if header and footer image are next to another:
+    if description == @[] and location.has(imgHeader) and location.has(imgFooter) and not location.open.isSet():
+        html.addToBody pc($br())
 
     # Add footer image:
-    if location.pics.isSet():
-        let pics = get(location.pics)
-        if pics.footer.isSome():
-            html.addToBody location.getLocationImage(imgFooter).setClass(locationImageFooterDiv)
+    if location.has(imgFooter):
+        html.addToBody contentBox @[
+            location.getLocationImage(imgFooter).setClass(locationImageFooterDiv)
+        ]
 
     # Add map element (if location has coords):
     if location.coords.isSet():
         let path: string = location.getLocationMapPath()
 
-        html.addToBody(
+        html.addToBody(contentBox @[
             h2("Position auf der Karte"),
             img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageMapPreview)
-        )
+        ])
 
     # Add similar places as links:
     if location.same.isSet():
@@ -135,19 +149,19 @@ proc generateLocationHtml*(location: Location) =
 
         # Only actually add if the stuff is set:
         if same.len() != 0:
-            html.addToBody(
+            html.addToBody(contentBox @[
                 h2("Das könnte dich auch interessieren"),
                 `div`(buttons).setClass(centerClass)
-            )
+            ])
 
     # Back buttons:
-    html.addToBody(
+    html.addToBody(contentBox @[
         h2("Mehr interessante Orte entdecken"),
         `div`(
             button("← Startseite", "../index.html"),
             button("← Karte", "../map.html")
         ).setClass(centerClass)
-    )
+    ])
     # Apply css and write to disk:
     html.addToHead(stylesheet("../styles.css"))
     html.setOgImage(location)

@@ -206,7 +206,7 @@ proc generateArticleHtml(article: Article) =
 
     html.addToBody(
         hr(),
-        article(body.join("\n")),
+        contentBox @[article(body.join("\n"))],
         hr()
     )
 
