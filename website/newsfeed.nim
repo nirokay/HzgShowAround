@@ -20,7 +20,7 @@ html.addToBody(
     h1($a("https://www.herzogsaegmuehle.de/aktuelles", "Newsfeed")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
-        "Einzusehen sind Neuigkeiten ± einer Woche."
+        "Einzusehen sind Neuigkeiten für den nächsten Monat und die letzten zwei Wochen."
     ),
     small("Noch nicht aktualisiert").add(
         attr("id", "reloaded-time")
