@@ -8,7 +8,7 @@
 
 */
 
-let printDebug = false;
+let printDebug = false; // Allows easy debugging in browser console
 
 // HTML IDs:
 const newsfeedDivId = "news-div";
@@ -184,7 +184,10 @@ function isRelevant(element) {
     let unixFrom = Date.parse(normalize(element.from));
     let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
-    return unixNow <= unixTill + monthMilliseconds && unixNow >= unixFrom - weekMilliseconds;
+    return (
+        unixNow <= unixTill + weekMilliseconds*2 && // Extend ending date
+        unixNow >= unixFrom - monthMilliseconds     // Extend starting date
+    )
 }
 
 function refreshNews() {
