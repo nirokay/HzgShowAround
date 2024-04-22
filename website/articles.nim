@@ -175,8 +175,8 @@ proc generateArticleHtml(article: Article) =
 
     # Navigation buttons:
     html.addToBody `div`(
-        button("← Startseite", "../index.html"),
-        button("← Artikel", "../articles.html")
+        buttonLink("← Startseite", "../index.html"),
+        buttonLink("← Artikel", "../articles.html")
     ).setClass(centerClass)
 
     # Article header:
@@ -231,7 +231,7 @@ proc generateHtmlMainPage() =
     )
 
     html.addToBody `div`(
-        button("← Startseite", "index.html"),
+        buttonLink("← Startseite", "index.html"),
     ).setClass(centerClass)
 
     # Sort articles by date:

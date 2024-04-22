@@ -36,8 +36,8 @@ html.addToBody(
         backToHomeButton("← Tour beenden")
     ).setClass(centerClass),
     `div`(
-        scriptButton("← zurück", "prevLocation()"),
-        scriptButton("weiter →", "nextLocation()")
+        buttonScript("← zurück", "prevLocation()"),
+        buttonScript("weiter →", "nextLocation()")
     ).setClass(centerClass),
     `div`(
         progress("tour-progress", tourIds.len()).add(attr("value", "1"))

@@ -46,8 +46,8 @@ html.addToBody(
 html.addToBody(
     h2("Newsfeed und Artikel"),
     `div`(
-        button("Zum Newsfeed", "newsfeed.html"),
-        button("Zu den Artikel", "articles.html")
+        buttonLink("Zum Newsfeed", "newsfeed.html"),
+        buttonLink("Zu den Artikel", "articles.html")
     ).setClass(centerClass)
 )
 
@@ -60,8 +60,8 @@ html.addToBody(
     h2("Orte"),
     pc("Schau dir die " & $b("interaktive Karte") & " der Herzogsägmühle an und/oder führe die " & $b("digitale Tour") & " durch..."),
     `div`(
-        button("Karte", "map.html"),
-        button("Tour starten", "tour.html")
+        buttonLink("Karte", "map.html"),
+        buttonLink("Tour starten", "tour.html")
     ).setClass(centerClass),
 )
 
@@ -109,7 +109,7 @@ html.addToBody(
 html.addToBody(
     h2("Sonstiges"),
     `div`(
-        button("Mitwirkende", "contributors.html")
+        buttonLink("Mitwirkende", "contributors.html")
     ).setClass(centerClass)
 )
 

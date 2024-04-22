@@ -13,7 +13,7 @@ html.setStyle(css)
 
 html.add(
     `div`(
-        button("← Startseite", "index.html"),
+        buttonLink("← Startseite", "index.html"),
     ).setClass(centerClass),
     h1("Mitwirkende"),
     pc("Hier siehst du Alle, die diese Website erstellt und bei ihr mitgeholfen haben!")

@@ -14,7 +14,7 @@ var html: HtmlDocument = newPage(
     "Diese Seite kann nicht erreicht werden..."
 )
 
-html.addToHead newElement("style", ($css).dedent(4).replace("\n", "").replace(" {", "{"))
+html.addToHead newHtmlElement("style", ($css).dedent(4).replace("\n", "").replace(" {", "{"))
 
 html.addToBody(
     h1("404 - Not found"),
@@ -28,10 +28,10 @@ html.addToBody(
     h2("Zum Ufer zurückkehren"),
     pc("Diese Gewässer sind sicher, schau doch da mal vorbei. :)"),
     `div`(
-        button("Startseite", "index.html"),
-        button("Newsfeed", "newsfeed.html"),
-        button("Interaktive Karte", "map.html"),
-        button("Artikel", "articles.html")
+        buttonLink("Startseite", "index.html"),
+        buttonLink("Newsfeed", "newsfeed.html"),
+        buttonLink("Interaktive Karte", "map.html"),
+        buttonLink("Artikel", "articles.html")
     ).setClass(centerClass)
 )
 

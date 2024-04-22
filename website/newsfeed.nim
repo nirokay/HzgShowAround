@@ -27,7 +27,7 @@ html.addToBody(
     ).setClass(centerClass),
     `div`(
         backToHomeButton("← Zurück"),
-        scriptButton("Neu laden", "refreshNews()"),
+        buttonScript("Neu laden", "refreshNews()"),
     ).setClass(centerClass),
     `div`(
         p("Events werden geladen...")

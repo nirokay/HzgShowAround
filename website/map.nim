@@ -32,7 +32,7 @@ for location in locations.withCoords():
     let
         coords: Coords = get location.coords
         scale: float = float(mapScaleTo) / float(mapResolution)
-    var area: HtmlElement = newElement("area")
+    var area: HtmlElement = newHtmlElement("area")
 
     # Shape:
     case coords.len():
@@ -63,14 +63,14 @@ for location in locations.withCoords():
     # Add to sequence:
     areas.add($area)
 
-var map: HtmlElement = newElement("map", areas.join("\n"))
+var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
     .add(attr("name", "location-map"))
 
 html.addToBody(
     h1("Karte von Herzogsägmühle"),
     pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprecheneden Ort gelangen."),
     `div`(
-        button("← Startseite", "index.html"),
+        buttonLink("← Startseite", "index.html"),
     ).setClass(centerClass),
     `div`(
         picture,

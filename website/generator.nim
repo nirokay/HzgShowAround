@@ -6,7 +6,7 @@
 
 import std/[strutils, times, tables]
 import websitegenerator
-export websitegenerator except newDocument, writeFile
+export websitegenerator except newDocument, writeFile, button
 
 # Hacky solution to a problem I cannot comprehend:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
@@ -17,10 +17,10 @@ var pageMetaDataCache: Table[string, seq[string]]
 
 proc og(property, content: string): HtmlElement =
     ## Generates an `og` meta tag
-    newElement("meta",
-        attr("property", "og:" & property),
-        attr("content", content)
-    )
+    "meta"[
+        "property" => "og:" & property,
+        "content" => content
+    ]
 
 proc addOgTag*(html: var HtmlDocument, property, content: string) =
     ## Adds a single og tag
@@ -47,7 +47,7 @@ proc addOgImage*(html: var HtmlDocument, source: string) =
 
 proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     ## Shortcut to create standardized html pages
-    result = newDocument(path)
+    result = newHtmlDocument(path)
     result.addToHead(
         comment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
         charset("utf-8"),
@@ -98,7 +98,7 @@ proc generate*(html: var HtmlDocument) =
         bottomFooter,
 
         # Cloudflare analytics:
-        text( """<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
+        rawText( """<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
     )
     html.writeFile()
 
