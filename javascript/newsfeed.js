@@ -186,7 +186,7 @@ function normalizedElement(element) {
     if(element.name == "" || element.name == undefined) {
         element.name = "Neuigkeit";
     }
-    if(element.level = "" || element.level == undefined) {
+    if(typeof(element.level) != "string") {
         element.level = "info";
     }
 
@@ -206,15 +206,6 @@ function normalizedElement(element) {
             break;
     }
 
-    if(
-        Date.parse(element.from) <= date.getTime() &&
-        Date.parse(element.till) >= date.getTime()
-    ) {
-        element.isHappening = true;
-    } else {
-        element.isHappening = false;
-    }
-
     element.importance = getImportance(element);
 
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
@@ -231,6 +222,16 @@ function normalizedElement(element) {
         news.push(duplicate(1))
         news.push(duplicate(-1))
     }
+
+    if(
+        Date.parse(element.from) <= date.getTime() &&
+        Date.parse(element.till) + dayMilliseconds >= date.getTime()
+    ) {
+        element.isHappening = true;
+    } else {
+        element.isHappening = false;
+    }
+
     return element;
 }
 
@@ -248,7 +249,7 @@ function normalizedNews() {
 }
 
 function isElementRelevant(element) {
-    if(typeof(element) != "object" || element != null) {
+    if(typeof(element) != "object" || element == null) {
         debug("Element relevancy failed, not an object or is null", element);
         return false;
     }
@@ -264,11 +265,11 @@ function isElementRelevant(element) {
 
 function getFilteredNews() {
     let result = [];
-    if(typeof(news) != "object" || news != null) {
+    if(typeof(news) != "object" || news == null) {
         debug("News is not an object or is null", news);
         return [];
     }
-    news.forEach(element => {
+    news.forEach((element) => {
         if(isElementRelevant(element)) {
             result.push(element);
         }
@@ -442,7 +443,14 @@ function refreshNews() {
         (error) => {
             errorPanicNoInternet = true;
             debug("Internet connection issues", error);
-            return Promise.resolve("[]");
+            return Promise.resolve(new Response("[]"));
+        }
+    )
+    .catch(
+        (error) => {
+            errorPanicNoInternet = true;
+            debug("Internet connection issues", error);
+            return Promise.resolve(new Response("[]"));
         }
     )
     // Parsing json:
@@ -455,7 +463,7 @@ function refreshNews() {
         (error) => {
             errorPanicParsingFuckUp = true;
             debug("Json Parsing error", error);
-            return Promise.resolve(JSON.parse("[]"));
+            return Promise.resolve(new Response(JSON.parse("[]")));
         }
     )
     // Applying json to `news`:
@@ -498,12 +506,13 @@ function refreshNews() {
 
         // Normalize all news:
         news = normalizedNews();
+        debug("Normalized news", news);
 
         // Reset HTML:
         getDiv().innerHTML = "";
 
         // Filter news:
-        relevantNews = news; //getFilteredNews();
+        relevantNews = getFilteredNews();
 
         if(relevantNews.length == 0) {
             // No relevant news:
