@@ -8,16 +8,50 @@
 
 */
 
-let printDebug = false; // Allows easy debugging in browser console
+// ----------------------------------------------------------------------------
+// Debug:
+// ----------------------------------------------------------------------------
 
+let debugPrintingEnabled = false; // Allows easy debugging in browser console
+function debug(message, element) {
+    if(!debugPrintingEnabled) {
+        return;
+    }
+    const separator = "================================================";
+    if(! element == undefined || ! element == "" || ! element == null) {
+        console.log("===== " + message + " ===== :");
+        console.log(element);
+        console.log(separator);
+    } else {
+        console.log("===== " + message + " =====");
+    }
+}
+
+
+// ----------------------------------------------------------------------------
+// Error "Handling?":
+// ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
 // HTML IDs:
-const newsfeedDivId = "news-div";
-const reloadedTimeId = "reloaded-time";
+// ----------------------------------------------------------------------------
 
+const idNewsFeed = "news-div";
+const idReloadedTime = "reloaded-time";
+
+
+// ----------------------------------------------------------------------------
 // URLs:
-const remoteRepoNewsJson = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
+// ----------------------------------------------------------------------------
 
+const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
+
+
+// ----------------------------------------------------------------------------
 // Dates and times:
+// ----------------------------------------------------------------------------
+
 const dayMilliseconds = 86400000;
 const weekMilliseconds = dayMilliseconds * 7;
 const monthMilliseconds = weekMilliseconds * 4;
@@ -27,33 +61,18 @@ const dateFormatDisplay = {
     day: "numeric"
 };
 
-// `news` gets set to `fucked` if everything is fucked
-const fucked = '[{ "name": "fucked", "details": "Network issues", "on": "1970-01-01" }]';
-const fuckedParsed = [{
-    "name": "fucked",
-    "details": "Network issues"
-}];
+let relevancyLookIntoFuture = monthMilliseconds;
+let relevancyLookIntoPast = weekMilliseconds * 2;
 
-// Global variables:
-let date = new Date();
-let news = [];
-
-// Global error variables:
-let networkingIssuesEncountered = false;
-let remoteJsonParsingError = false;
-
-function multilineText(array) {
-    // Array of strings joined by `<br />`
-    return array.join("<br />");
-}
-function p(array) {
-    // Array of strings joined by `<br />` and wrapped inside `<p> ... </p>` tags
-    return "<p>" + multilineText(array) + "</p>";
+function convertToReadable(time) {
+    // Transforms time to normal time (german notation)
+    let d = new Date(Date.parse(normalize(time)));
+    return d.toLocaleString("de-DE", dateFormatDisplay);
 }
 
-function getDiv() {
-    // Shortcut to get the newsfeed div
-    return document.getElementById(newsfeedDivId);
+function normalizeTime(time, offset = 0) {
+    // Replaces `*` with the current year
+    return time.replace("\*", date.getFullYear() + offset);
 }
 
 function getImportance(element) {
@@ -75,65 +94,33 @@ function getImportance(element) {
     if (Date.parse(normalize(element.till)) + dayMilliseconds < date.getTime()) {
         severity = -1;
     }
-
-    return severity;
 }
 
-function getHtml(element) {
-    // Gets an html object for a single event
-    const classAlert = "alert";
-    const classWarning = "warning";
-    const classGeneric = "generic";
-    const classHappened = "happened";
+function normalizeImportance(element) {
+    element.importance = getImportance(element);
+    return element;
+}
 
-    let cssClassPrefix = "newsfeed-element-";
-    let cssClass = classGeneric;
-    switch(getImportance(element)) {
-        case 2:
-            cssClass = classAlert;
-            break;
-        case 1:
-            cssClass = classWarning;
-            break;
-        case 0:
-            cssClass = classGeneric;
-            break;
-        case -1:
-            cssClass = classHappened;
-            break;
-        default:
-            console.log("Weird importance level of '" + getImportance(element) + "' encountered. Using generic class.");
+// ----------------------------------------------------------------------------
+// Global variables:
+// ----------------------------------------------------------------------------
+
+let date = new Date(); // Current datetime, gets refreshed with each new refreshNews() call
+let news = []; // All news from the remote repository
+let relevantNews = []; // Filtered news, that are relevant
+
+
+// ----------------------------------------------------------------------------
+// Html text stuff:
+// ----------------------------------------------------------------------------
+
+function getDiv() {
+    // Shortcut to get the newsfeed div
+    let result = document.getElementById(idNewsFeed);
+    if(result == null) {
+        console.error("Could not find HTML element by id: " + idNewsFeed)
     }
-    let html = "<div class='" + cssClassPrefix + cssClass + "'>";
-
-    // Additional disclaimer, if the event has already passed:
-    let disclaimer = (cssClass == classHappened) ? " <small>(Event vergangen)</small>" : "";
-
-    // Title:
-    html += "<h3 style='margin-bottom:2px;'>" + element.name + disclaimer + "</h3>";
-
-    // Dates:
-    const readableFrom = readable(element.from);
-    const readableTill = readable(element.till);
-    if (readableFrom != readableTill) {
-        // Actual range:
-        html += "<small><b>von " + readableFrom + " bis " + readableTill + "</b></small>";
-    } else {
-        // Just one day:
-        html += "<small><b>am " + readableFrom + "</b></small>"
-    }
-
-    // Details:
-    if(element.info != undefined) {
-        // Add link to external resource for more information:
-        if(element.details == undefined) { // FUCK
-            element.details = []           // YOU
-        }                                  // JAVASCRIPT
-        element.details[element.details.length] = "<a href='" + element.info + "'>mehr Infos</a>";
-    }
-    html += "<p class='generic-center'>" + multilineText(element.details) + "</p>";
-
-    return html + "</div>";
+    return result;
 }
 
 function addToDiv(content) {
@@ -146,187 +133,215 @@ function addElement(element) {
     addToDiv(getHtml(element));
 }
 
+function multilineText(array) {
+    return array.join("<br />");
+}
+function p(array) {
+    // Array of strings joined by `<br />` and wrapped inside `<p> ... </p>` tags
+    return "<p>" + multilineText(array) + "</p>";
+}
+
+function updateRefreshedAt(override) {
+    let newText = ""
+    if(override == "" || override == undefined) {
+        date = new Date();
+        let time = date.toLocaleTimeString("de-DE");
+        newText = "Aktualisiert um " + time;
+    } else {
+        newText = override;
+    }
+    document.getElementById(reloadedTimeId).innerHTML = newText;
+}
+
+
+// ----------------------------------------------------------------------------
+// News stuff:
+// ----------------------------------------------------------------------------
+
 function normalizeNews() {
     // Normalizes the fields for the json fields (pretty much just backwards compatibility and QoL)
-    for(let i = 0; i < news.length; i++) {
-        let element = news[i];
-
-        // Override `from` and `till` with `on`, if defined:
-        if(element.on != undefined) {
-            element.from = element.on;
-            element.till = element.on;
-        }
-
-        // Override missing `from` or `till` fields (assume it is only on one day):
-        if(element.from == undefined) {
-            element.from = element.till;
-        } else if(element.till == undefined) {
-            element.till = element.from;
-        }
-
-        news[i] = element;
+    if(typeof(news) != "object" || news === undefined) {
+        debug("News is not an object or is undefined", news);
+        return [];
     }
 }
 
-function normalize(time, offset = 0) {
-    // Replaces `*` with the current year
-    return time.replace("\*", date.getFullYear() + offset);
-}
-
-function readable(time) {
-    // Transforms time to normal time (german notation)
-    let d = new Date(Date.parse(normalize(time)));
-    return d.toLocaleString("de-DE", dateFormatDisplay);
-}
-
-function isRelevant(element) {
-    // Filters irrelevant news (depending on the date ± 7 days)
+function isElementRelevant(element) {
+    // Filters irrelevant news
     let unixFrom = Date.parse(normalize(element.from));
     let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
     return (
-        unixNow <= unixTill + weekMilliseconds*2 && // Extend ending date
-        unixNow >= unixFrom - monthMilliseconds     // Extend starting date
+        unixNow <= unixTill + relevancyLookIntoFuture && // Extend ending date
+        unixNow >= unixFrom - relevancyLookIntoPast      // Extend starting date
     )
 }
 
-function refreshNews() {
-    // Refreshes `news` variable from remote repo
-    function updateRefreshedAt(alt) {
-        let newText = ""
-        if(alt != "") {
-            date = new Date();
-            let time = date.toLocaleTimeString("de-DE");
-            newText = "Aktualisiert um " + time;
-        } else {
-            newText = alt;
-        }
-        document.getElementById(reloadedTimeId).innerHTML = newText
+function getFilteredNews() {
+    let result = [];
+    if(typeof(news) != "object" || news === undefined) {
+        debug("News is not an object or is undefined", news);
+        return [];
     }
-
-    let msg = "";
-    console.log("Refreshing news from remote repo...");
-    updateRefreshedAt("Verbindung mit externem Server wird hergestellt...");
-
-    // This should hopefully catch any networking issues and display an error message:
-    networkingIssuesEncountered = false;
-    remoteJsonParsingError = false;
-
-    fetch(remoteRepoNewsJson)
-        .then(
-            function(response) {
-                return response.json()
-            },
-            function(error) {
-                networkingIssuesEncountered = true;
-                console.error("Network error encountered: " + error);
-                return Promise.reject(fucked);
-            }
-        )
-        .then(function(json) {
-            news = json;
-            console.log("Successfully got JSON!");
-            updateRefreshedAt("Informationen werden verarbeitet...");
-        })
-        .catch(function(error) {
-            remoteJsonParsingError = true;
-            console.error("JSON Parsing error encountered: " + error);
-        })
-        .finally(function() {
-            // Normalize news and get the HTML ready to be edited:
-            normalizeNews();
-            getDiv().innerHTML = "";
-            updateRefreshedAt("Neuigkeiten werden verarbeitet...");
-
-            // Band-aid solution à la javascript-style:
-            if (news === fuckedParsed) {
-                console.log("Everything is fucked, entering panic mode.")
-                networkingIssuesEncountered = true;
-                remoteJsonParsingError = true;
-            }
-
-            console.log("Issues?:  network: " + networkingIssuesEncountered + "  |  parsing: " + remoteJsonParsingError)
-
-            if(printDebug) {
-
-                console.log("Raw news from remote repository:");
-                console.log(news);
-                console.log("--------------------------------");
-            }
-
-            // No networking errors, so continue with handling news:
-            if (!networkingIssuesEncountered && !remoteJsonParsingError) {
-                // Filtering news:
-                let relevantNews = news.filter(element => isRelevant(element));
-                for(let i = 0; i < relevantNews.length; i++) {
-                    relevantNews[i].importance = getImportance(relevantNews[i]);
-                }
-
-                // Sorting news by date relevance:
-                relevantNews.sort(function(a, b) {
-                    return b.importance - a.importance;
-                });
-
-                // Adding news:
-                relevantNews.forEach(element => {
-                    addElement(element);
-                });
-
-                // Display placeholder message, if no relevant news are there:
-                if(relevantNews.length == 0) {
-                    // There are no relevant news:
-                    if(news.length != 0) {
-                        msg = p(["Derzeit keine relevanten Neuigkeiten vorhanden."]);
-                    }
-                    // There are NO news (should not happen?):
-                    else {
-                        msg = p([
-                            "Derzeit keine Neuigkeiten vorhanden.",
-                            "Dies ist wahrscheinlich ein Fehler, versuche es erneut indem du auf den \"Neu laden\" Knopf drückst!"
-                        ]);
-                    }
-                }
-                if (printDebug){
-                    console.log("Relevant news:");
-                    console.log(relevantNews);
-                    console.log("--------------------------------");
-                }
-            }
-
-            // Networking error, so just throw an error message on the screen and let the user handle it:
-            else if(networkingIssuesEncountered) {
-                msg = p([
-                    "Es konnte keine Verbindung zum externen Server hergestellt werden.",
-                    "Dies kann ein einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
-                    "Versuche es später noch einmal!"
-                ]);
-            }
-
-            // Network is fine, but the json was fucked in some way:
-            else if(remoteJsonParsingError) {
-                msg = p([
-                    "Es ist ein Fehler bei der Datenverarbeitung passiert. JSON konnte nicht korrekt gelesen werden.",
-                    "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
-                ])
-            }
-
-            // This literally cannot happen, but i am paranoid because it is javascript after all...:
-            else {
-                msg = p([
-                    "Ein Fehler ist geschehen."
-                ])
-            }
-
-            // Add `msg`, if set:
-            if (msg != "") {
-                addToDiv(msg);
-            }
-
-            updateRefreshedAt("");
-        });
+    news.forEach(element => {
+        if(isElementRelevant(element)) {
+            result.push(element);
+        }
+    });
+    return result;
 }
 
-// Defer this little bad-boy, because otherwise everything goes up in flames:
+function sortElementsByDateAndRelevancy(array) {
+    // Date:
+    array.sort((a, b) => {
+        return Date.parse(a.from) - Date.parse(b.from);
+    });
+
+    // Importance:
+    array.sort((a, b) => {
+        return b.importance - a.importance;
+    });
+}
+
+
+// ----------------------------------------------------------------------------
+// Errors:
+// ----------------------------------------------------------------------------
+
+let errorMessageAdditional = "";
+
+let errorPanicNoInternet = false;
+const errorMessageNoInternet = [
+    "Es konnte keine Internetverbindung zum Server hergestellt werden.",
+    "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
+    "Überprüfe Diese und versuche es später noch einmal."
+];
+
+let errorPanicParsingFuckUp = false;
+const errorMessageParsingFuckUp = [
+    "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
+    "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
+];
+
+const errorMessageGeneric = [
+    "Es ist ein Fehler geschehen..."
+];
+
+const infoMessageNoNews = [
+    "Keine Neuigkeiten vorhanden."
+];
+const infoMessageNoRelevantNews = [
+    "Derzeit keine relevanten Neuigkeiten vorhanden."
+];
+
+function someErrorOccurred() {
+    return errorPanicNoInternet || errorPanicParsingFuckUp;
+}
+
+function displayErrorMessage(errorMessage) {
+    let msg = errorMessage;
+    if(errorMessageAdditional != "" || errorMessageAdditional == undefined){
+        msg.push(errorMessageAdditional);
+    }
+    let fullMessage = msg.join("<br />")
+    addToDiv(fullMessage);
+}
+
+
+// ----------------------------------------------------------------------------
+// Main:
+// ----------------------------------------------------------------------------
+
+function refreshNews() {
+    debug("Fetching from remote repository")
+    updateRefreshedAt("Verbindung zum Server wird hergestellt...");
+
+    // Reset error states:
+    errorMessageAdditional = "";
+    errorPanicNoInternet = false;
+    errorPanicParsingFuckUp = false;
+
+    fetch(urlRemoteRepository)
+    // Getting raw response:
+    .then(
+        (response) => {
+            return response;
+        },
+        (error) => {
+            errorPanicNoInternet = true;
+            debug("Internet connection issues", error);
+            return Promise.resolve("[]");
+        }
+    )
+    // Parsing json:
+    .then(
+        (raw) => {
+            return raw.json();
+        }
+    )
+    .catch(
+        (error) => {
+            errorPanicParsingFuckUp = true;
+            debug("Json Parsing error", error);
+            return Promise.resolve(JSON.parse("[]"));
+        }
+    )
+    // Applying json to `news`:
+    .then(
+        (json) => {
+            if(typeof(json) == "object" && json != null) {
+                news = json;
+            } else {
+                debug("Json Parsed was not valid? How does this even happen??", json);
+                news = [];
+            }
+        }
+    )
+    // Main logic after parsing:
+    .finally(() => {
+        updateRefreshedAt("Daten werden verarbeitet...");
+
+        // Error handling:
+        if(someErrorOccurred()) {
+            updateRefreshedAt("Datenverarbeitung abgebrochen.");
+            if(errorPanicNoInternet) {
+                displayErrorMessage(errorMessageNoInternet);
+            } else if(errorPanicParsingFuckUp) {
+                displayErrorMessage(errorMessageParsingFuckUp);
+            } else {
+                // This should NEVER happen:
+                displayErrorMessage(errorMessageGeneric);
+            }
+            debug("Displaying error message");
+            return;
+        }
+
+        // Empty news array:
+        if(news.length == 0) {
+            debug("No news at all found (normal? doubt it...)");
+            displayErrorMessage(infoMessageNoNews);
+            return;
+        }
+
+        // Normalize all news:
+        normalizeNews();
+
+        // Reset HTML:
+        getDiv().innerHTML = "";
+
+        // Filter news:
+        relevantNews = getFilteredNews();
+
+        // No relevant news:
+        if(relevantNews.length == 0) {
+            debug("No relevant news found.");
+            displayErrorMessage(infoMessageNoRelevantNews);
+        }
+    })
+}
+
+
+
 window.onload = function() {
     refreshNews();
 }
