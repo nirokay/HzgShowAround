@@ -61,8 +61,8 @@ const dateFormatDisplay = {
     day: "numeric"
 };
 
-let relevancyLookIntoFuture = monthMilliseconds;
-let relevancyLookIntoPast = weekMilliseconds * 2;
+let relevancyLookIntoFuture = monthMilliseconds * 2;
+let relevancyLookIntoPast = monthMilliseconds;
 
 function normalizeTime(time, offset = 0) {
     // Replaces `*` with the current year
@@ -258,8 +258,8 @@ function isElementRelevant(element) {
     let unixTill = Date.parse(element.till) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
     return (
-        unixNow <= unixTill + relevancyLookIntoFuture && // Extend ending date
-        unixNow >= unixFrom - relevancyLookIntoPast      // Extend starting date
+        unixNow - relevancyLookIntoPast <= unixTill &&
+        unixNow + relevancyLookIntoFuture >= unixFrom
     )
 }
 
