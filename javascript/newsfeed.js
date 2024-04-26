@@ -12,7 +12,7 @@
 // Debug:
 // ----------------------------------------------------------------------------
 
-let debugPrintingEnabled = false; // Allows easy debugging in browser console
+let debugPrintingEnabled = true; // Allows easy debugging in browser console
 function debug(message, element) {
     if(!debugPrintingEnabled) {
         return;
@@ -64,15 +64,15 @@ const dateFormatDisplay = {
 let relevancyLookIntoFuture = monthMilliseconds;
 let relevancyLookIntoPast = weekMilliseconds * 2;
 
-function convertToReadable(time) {
-    // Transforms time to normal time (german notation)
-    let d = new Date(Date.parse(normalize(time)));
-    return d.toLocaleString("de-DE", dateFormatDisplay);
-}
-
 function normalizeTime(time, offset = 0) {
     // Replaces `*` with the current year
     return time.replace("\*", date.getFullYear() + offset);
+}
+
+function convertToReadable(time) {
+    // Transforms time to normal time (german notation)
+    let d = new Date(Date.parse(normalizeTime(time)));
+    return d.toLocaleString("de-DE", dateFormatDisplay);
 }
 
 function getImportance(element) {
@@ -91,9 +91,11 @@ function getImportance(element) {
     }
 
     // Special case, if the event occurred in the past:
-    if (Date.parse(normalize(element.till)) + dayMilliseconds < date.getTime()) {
+    if(Date.parse(normalizeTime(element.till)) + dayMilliseconds < date.getTime()) {
         severity = -1;
     }
+
+    return severity;
 }
 
 function normalizeImportance(element) {
@@ -150,7 +152,7 @@ function updateRefreshedAt(override) {
     } else {
         newText = override;
     }
-    document.getElementById(reloadedTimeId).innerHTML = newText;
+    document.getElementById(idReloadedTime).innerHTML = newText;
 }
 
 
@@ -158,18 +160,101 @@ function updateRefreshedAt(override) {
 // News stuff:
 // ----------------------------------------------------------------------------
 
-function normalizeNews() {
+function normalizedElement(element) {
+    // No need to type-check, because it already was.
+
+    // Single-day event:
+    if(element.on != undefined) {
+        element.from = element.on;
+        element.till = element.on;
+    }
+    // Wrongly formatted events, correcting to single-day event:
+    if(element.from == undefined && element.till != undefined) {
+        // Forgot to assign `from`:
+        element.from = element.till;
+    } else if(element.from != undefined && element.till == undefined) {
+        // Forgot to assign `till`:
+        element.till = element.from;
+    } else if(element.from == undefined && element.till == undefined) {
+        // What even were you doing?!
+        element.from = "*-01-01";
+        element.till = "*-12-31";
+        element.runtimeAdditionalMessage = "Fehlendes Datum, wird als ganzjährig angezeigt.";
+    }
+
+    // Other missing fields:
+    if(element.name == "" || element.name == undefined) {
+        element.name = "Neuigkeit";
+    }
+    if(element.level = "" || element.level == undefined) {
+        element.level = "info";
+    }
+
+    // QoL type fixes and fields:
+    switch (typeof(element.details)) {
+        case "string": case "number":
+            element.details = [element.details];
+            break;
+        case "undefined":
+            element.details = [];
+            break;
+        case "object":
+            // Normal/Expected behaviour
+            break;
+        default:
+            debug("Element details field is weird...", element)
+            break;
+    }
+
+    if(
+        Date.parse(element.from) <= date.getTime() &&
+        Date.parse(element.till) >= date.getTime()
+    ) {
+        element.isHappening = true;
+    } else {
+        element.isHappening = false;
+    }
+
+    element.importance = getImportance(element);
+
+    // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
+    // You cannot do anything about it, the browser runtime is MY bitch.
+    if(element.from.includes("*") || element.till.includes("*")) {
+        // Duplicates the event for the next and previous year
+        let year = date.getFullYear();
+        function duplicate(offset) {
+            let e = element;
+            let y = year + offset;
+            e.from = element.from.replace("\*", y);
+            e.till = element.till.replace("\*", y);
+        }
+        news.push(duplicate(1))
+        news.push(duplicate(-1))
+    }
+    return element;
+}
+
+function normalizedNews() {
     // Normalizes the fields for the json fields (pretty much just backwards compatibility and QoL)
     if(typeof(news) != "object" || news === undefined) {
         debug("News is not an object or is undefined", news);
         return [];
     }
+    let result = [];
+    news.forEach((element) => {
+        result.push(normalizedElement(element));
+    });
+    return result;
 }
 
 function isElementRelevant(element) {
-    // Filters irrelevant news
-    let unixFrom = Date.parse(normalize(element.from));
-    let unixTill = Date.parse(normalize(element.till)) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
+    if(typeof(element) != "object" || element != null) {
+        debug("Element relevancy failed, not an object or is null", element);
+        return false;
+    }
+    // Filters irrelevant news:
+    let unixFrom = Date.parse(element.from);
+    let unixTill = Date.parse(element.till) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
     return (
         unixNow <= unixTill + relevancyLookIntoFuture && // Extend ending date
@@ -179,8 +264,8 @@ function isElementRelevant(element) {
 
 function getFilteredNews() {
     let result = [];
-    if(typeof(news) != "object" || news === undefined) {
-        debug("News is not an object or is undefined", news);
+    if(typeof(news) != "object" || news != null) {
+        debug("News is not an object or is null", news);
         return [];
     }
     news.forEach(element => {
@@ -191,18 +276,104 @@ function getFilteredNews() {
     return result;
 }
 
-function sortElementsByDateAndRelevancy(array) {
+function sortedElementsByDateAndRelevancy(array) {
+    if(typeof(array) != "object" || array == null) {
+        debug("Passed array for sorting by date and relevancy was not an object or is null.", array);
+        return [];
+    }
     // Date:
     array.sort((a, b) => {
         return Date.parse(a.from) - Date.parse(b.from);
     });
-
     // Importance:
     array.sort((a, b) => {
         return b.importance - a.importance;
     });
+    return array;
 }
 
+function displayTime(time) {
+    // Transforms time to normal, readable time format (german notation)
+    let d = new Date(Date.parse(time));
+    return "<b><time>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
+}
+
+function getElementClass(element) {
+    const classPrefix = "newsfeed-element-";
+    let classSuffix = "generic";
+    switch(getImportance(element)) {
+        case 2:
+            classSuffix = "alert";
+            break;
+        case 1:
+            classSuffix = "warning";
+            break;
+        case 0:
+            classSuffix = "generic";
+            break;
+        case -1:
+            classSuffix = "happened";
+            break;
+        default:
+            debug("Weird importance encountered in element, using default.", element);
+            break;
+    }
+    return classPrefix + classSuffix;
+}
+
+
+function htmlDisclaimer(element, cssClass) {
+    let result = [];
+    if(cssClass == "happened") {
+        result.push("Event vergangen")
+    }
+    if(element.isHappening) {
+        result.push("<b>Heute!</b>")
+    }
+    return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>"
+}
+function htmlHeader(element, disclaimer) {
+    let text = "";
+    if(disclaimer != undefined || disclaimer == "") {
+        text = disclaimer;
+    }
+    if(text != "") {
+        text = " " + text;
+    }
+    return "<h3 style='margin-bottom:2px;'>" + element.name + text + "</h3>"
+}
+function htmlDateSection(element) {
+    const from = displayTime(element.from);
+    const till = displayTime(element.till);
+    let result = "";
+    if(from == till) {
+        result = "am " + from;
+    } else {
+        result = "von " + from + " bis " + till;
+    }
+    return "<small>" + result + "</small>"
+}
+function htmlDetails(element) {
+    let lines = [];
+    let url = element.info;
+
+    lines = element.details;
+
+    if(url != undefined) {
+        lines.push("<a href='" + url + "'>mehr Infos</a>");
+    }
+    return "<p class='generic-center'>" + lines.join("<br />") + "</p>";
+}
+
+function generateElementHtml(element) {
+    let className = getElementClass(element);
+    let result = [
+        htmlHeader(element, htmlDisclaimer(element)),
+        htmlDateSection(element),
+        htmlDetails(element)
+    ]
+    return "<div class='" + className + "'>" + result.join("") + "</div>"
+}
 
 // ----------------------------------------------------------------------------
 // Errors:
@@ -243,8 +414,9 @@ function displayErrorMessage(errorMessage) {
     if(errorMessageAdditional != "" || errorMessageAdditional == undefined){
         msg.push(errorMessageAdditional);
     }
-    let fullMessage = msg.join("<br />")
+    let fullMessage = msg.join("<br />");
     addToDiv(fullMessage);
+    updateRefreshedAt();
 }
 
 
@@ -253,7 +425,7 @@ function displayErrorMessage(errorMessage) {
 // ----------------------------------------------------------------------------
 
 function refreshNews() {
-    debug("Fetching from remote repository")
+    debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
 
     // Reset error states:
@@ -299,6 +471,7 @@ function refreshNews() {
     )
     // Main logic after parsing:
     .finally(() => {
+        getDiv().innerHTML = "";
         updateRefreshedAt("Daten werden verarbeitet...");
 
         // Error handling:
@@ -324,23 +497,33 @@ function refreshNews() {
         }
 
         // Normalize all news:
-        normalizeNews();
+        news = normalizedNews();
 
         // Reset HTML:
         getDiv().innerHTML = "";
 
         // Filter news:
-        relevantNews = getFilteredNews();
+        relevantNews = news; //getFilteredNews();
 
-        // No relevant news:
         if(relevantNews.length == 0) {
+            // No relevant news:
             debug("No relevant news found.");
             displayErrorMessage(infoMessageNoRelevantNews);
+            return;
+        } else {
+            // Sort:
+            relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
+            debug("All relevant news", relevantNews)
         }
-    })
+
+        // Add all relevant news to HTML:
+        relevantNews.forEach((element) => {
+            addToDiv(generateElementHtml(element));
+        });
+
+        updateRefreshedAt();
+    });
 }
-
-
 
 window.onload = function() {
     refreshNews();
