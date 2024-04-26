@@ -66,7 +66,7 @@ proc pc*(elements: varargs[HtmlElement]): HtmlElement =
 
 proc buttonScript*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
-    # button(text, onclick) # Use before overwrite lol
+    button(text, onclick) # Use before overwrite lol
 
 proc buttonLink*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
 

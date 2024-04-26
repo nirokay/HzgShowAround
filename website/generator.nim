@@ -6,7 +6,7 @@
 
 import std/[strutils, times, tables]
 import websitegenerator
-export websitegenerator except newDocument, writeFile, button
+export websitegenerator except newDocument, writeFile
 
 # Hacky solution to a problem I cannot comprehend:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
