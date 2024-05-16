@@ -5,8 +5,29 @@
 ## Basically when writing HTML-files it adds a footer to each page as well as modifies the HTML-head.
 
 import std/[strutils, times, tables]
+from os import `/`, createDir
+export `/`
 import websitegenerator
-export websitegenerator except newDocument, writeFile
+export websitegenerator except newDocument, newHtmlDocument, writeFile
+
+
+# Target directory:
+const target*: string = "frontend" ## Target/Output directory
+setTargetDirectory(target)
+
+const
+    dirs: seq[string] = @[
+        "article",
+        "location",
+        "resources",
+        "resources" / "images",
+        "resources" / "images" / "map-locations"
+    ]
+for dir in dirs:
+    let path: string = target / dir
+    echo "Creating directory '" & path & "'"
+    createDir(path)
+
 
 # Hacky solution to a problem I cannot comprehend:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[

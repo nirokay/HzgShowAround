@@ -171,7 +171,10 @@ proc addLocationOverlay(svg: var SvgFile, pinScale: float = 0.02) =
 
 proc writeSvg(svg: SvgFile, path: string) =
     ## Writes svg file to disk
-    writeFile(path, svg.data)
+    try:
+        writeFile(target / path, svg.data)
+    except IOError as e:
+        echo "FUCK " & e.msg
 
 proc generateFullSvgMap*() =
     ## External proc to generate new, modified global svg map for all locations
