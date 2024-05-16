@@ -12,7 +12,8 @@ export websitegenerator except newDocument, newHtmlDocument, writeFile
 
 
 # Target directory:
-const target*: string = "frontend" ## Target/Output directory
+# Stupid thing needs to be docs for some fucking reason, amazing work github pages!!
+const target*: string = "docs" ## Target/Output directory
 setTargetDirectory(target)
 
 const
