@@ -122,6 +122,18 @@ proc generate*(html: var HtmlDocument) =
         # Cloudflare analytics:
         rawText( """<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
     )
+
+    # Html head:
+    html.addToHead(
+        # Favicon:
+        "link"[
+            "rel" => "icon",
+            "type" => "image/gif",
+            "sizes" => "512x512",
+            "href" => "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
+        ]
+    )
+
     html.writeFile()
 
     when not defined(js): stdout.write("\rFinished generation for " & html.file & "!\n")

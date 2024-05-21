@@ -43,6 +43,12 @@ const
     urlResources*: string = urlRemoteRepo & "resources/" ## Resources directory
     urlImages*: string = urlResources & "images/" ## Image directory
 
+    urlIcons*: string = urlImages & "icon/" ## Icon/Favicon directory
+    urlIconLargeSVG*: string = urlIcons & "icon.svg" ## Large icon (SVG)
+    urlIconLargePNG*: string = urlIcons & "icon.png" ## Large icon (PNG)
+    urlIconSmallSVG*: string = urlIcons & "icon_small.svg" ## Small icon (SVG)
+    urlIconSmallPNG*: string = urlIcons & "icon_small.png" ## Small icon (PNG)
+
     urlContributors*: string = urlRemoteRepo & "contributors.json" ## Author JSON file
     urlAuthors*: string = urlRemoteRepo & "authors.json" ## Author JSON file
     urlAuthorImages*: string = urlImages & "authors/" ## Author image directory
@@ -216,6 +222,12 @@ const
         ["padding", "5px"],
         ["margin", "10px auto"]
     )
+
+    iconImageClass* = "icon-display"{
+        "width" := "50%",
+        "max-width" := "500px",
+        "margin" := "auto"
+    }
 
     mapElement* = newCssClass("map-element",
         outlineColour(colourMapElementOutline),

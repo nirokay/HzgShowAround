@@ -132,6 +132,12 @@ button:hover {
     text-align: left;
 }
 
+icon-display {
+    margin: auto;
+    width: 50%;
+    max-width: 500px;
+}
+
 .author-div {
     flex-basis: auto;
     justify-content: left;

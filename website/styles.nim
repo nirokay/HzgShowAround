@@ -108,6 +108,8 @@ globalCss.add(
 
     centerTableClass,
 
+    iconImageClass,
+
     # Author:
     authorDivClass,
     authorPictureClass,
