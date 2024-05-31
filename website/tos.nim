@@ -36,7 +36,7 @@ html.addToBody(
         "Diese Website soll eine einfachere, mehr lightweight (mit weniger unnötigeren Schnick-Schnack) und schnellere Alternative zu der " &
         $a("https://www.herzogsaegmuehle.de/", "Herzogsägmühle Website") & " sein.\n" &
         "Vorallem Neuankömmlinge können durch die Karte und Ortsbeschreibungen profitieren, und lernen sich hier auszukennen.",
-        "Die Geschwindigkeit wird durch durch vor-generierten Seiten mit minimalen Javascript erreicht. Das heißt, dein Browser muss " &
+        "Die Geschwindigkeit wird durch vor-generierten Seiten mit minimalen Javascript erreicht. Das heißt, dein Browser muss " &
         "weniger start arbeiten, um Informationen anzuzeigen."
     ),
 

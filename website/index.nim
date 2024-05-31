@@ -56,7 +56,7 @@ html.addToBody(
     h2("Newsfeed und Artikel"),
     `div`(
         buttonLink("Zum Newsfeed", "newsfeed.html"),
-        buttonLink("Zu den Artikel", "articles.html")
+        buttonLink("Zu den Artikeln", "articles.html")
     ).setClass(centerClass)
 )
 
@@ -106,7 +106,7 @@ locationOptions = @[
 html.addToBody(
     # Clean drop-down list:
     pc(
-        label(indexLocationDropDownId, "... oder stöbere dich durch jeden Ort einzelnd:"),
+        label(indexLocationDropDownId, "... oder stöbere dich durch jeden Ort einzeln:"),
         select(indexLocationDropDownId, indexLocationDropDownId, locationOptions).add(
             attr("onchange", "changeToLocationPage();"),
             attr("onfocus", "this.selectedIndex = 0;"),
