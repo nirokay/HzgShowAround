@@ -206,6 +206,10 @@ function normalizedElement(element) {
             break;
     }
 
+    if(element.info === "") {
+    	element.info = undefined;
+    }
+
     element.importance = getImportance(element);
 
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
