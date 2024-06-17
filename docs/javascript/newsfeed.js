@@ -161,7 +161,12 @@ function updateRefreshedAt(override) {
 // ----------------------------------------------------------------------------
 
 function normalizedElement(element) {
-    // No need to type-check, because it already was.
+    // No need to type-check, because it already was by GitHub actions (hopefully).
+
+    // Element is just a comment:
+    if(element.COMMENT != undefined) {
+        return [];
+    }
 
     // Single-day event:
     if(element.on != undefined) {
@@ -206,8 +211,9 @@ function normalizedElement(element) {
             break;
     }
 
+    // Prevent empty links:
     if(element.info === "") {
-    	element.info = undefined;
+        element.info = undefined;
     }
 
     element.importance = getImportance(element);
@@ -247,7 +253,10 @@ function normalizedNews() {
     }
     let result = [];
     news.forEach((element) => {
-        result.push(normalizedElement(element));
+        let newElement = normalizedElement(element);
+        if(newElement != []) {
+            result.push(newElement);
+        }
     });
     return result;
 }
