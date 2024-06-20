@@ -90,7 +90,7 @@ a:active {
 .button {
     color: #e8e6e3;
     margin: 4px 2px;
-    font-size: 20px;
+    font-size: 1.2em;
     transition: 0.3s;
     border-radius: 6px;
     display: inline-block;
@@ -110,7 +110,7 @@ a:active {
 button {
     color: #e8e6e3;
     margin: 4px 2px;
-    font-size: 20px;
+    font-size: 1.2em;
     transition: 0.3s;
     border-radius: 6px;
     display: inline-block;

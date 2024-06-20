@@ -201,7 +201,7 @@ const
         textCenter,
         ["text-decoration", "none"],
         display(inlineBlock),
-        fontSize(20.px),
+        fontSize("1.2em"),
         ["margin", "4px 2px"],
         ["cursor", "pointer"],
         ["transition", "0.3s"],

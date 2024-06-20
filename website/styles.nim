@@ -152,7 +152,9 @@ css.add(
 
     newCssElement("select",
         backgroundColour(colourBackground),
-        colour(colourText)
+        colour(colourText),
+        padding("2px"),
+        ["border-radius", "10px"]
     ),
 
     # Images (for locations):
