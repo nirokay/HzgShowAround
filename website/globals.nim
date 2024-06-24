@@ -58,10 +58,12 @@ const
     urlCustomHtmlArticles*: string = urlResources & "articles/" ## Custom HTML articles repository
 
     urlLocationImages*: string = urlImages & "locations/" ## Location image directory
-    urlJsonLocationData*: string = urlRemoteRepo & "locations.json" ## Location JSON file
-    urlJsonTourData*: string = urlRemoteRepo & "tour_locations.json" ## Tour location JSON file
+    urlLocationData*: string = urlRemoteRepo & "locations.json" ## Location JSON file
+    urlTourData*: string = urlRemoteRepo & "tour_locations.json" ## Tour location JSON file
 
-    urlJsonNewsFeed*: string = urlRemoteRepo & "news.json" ## News JSON file
+    urlNewsFeed*: string = urlRemoteRepo & "news.json" ## News JSON file
+
+    urlOfferings*: string = urlRemoteRepo & "offerings.json" ## Offerings JSON file
 
 
 # -----------------------------------------------------------------------------

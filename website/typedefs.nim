@@ -38,6 +38,18 @@ type
         link*: Option[string]
         tasks*: Option[seq[string]]
 
+    OfferingPlace* = object
+        name*, id*: Option[string]
+    OfferingContact* = object
+        email*, telephone*: Option[string]
+    Offering* = object
+        name*: string
+        desc*: Option[seq[string]]
+        time*: Option[string]
+        times*: Option[seq[string]]
+        place*: Option[OfferingPlace]
+        contact*: Option[OfferingContact]
+
 iterator withCoords*(locations: seq[Location]): Location =
     ## Filters locations only with coordinates
     for location in locations:
