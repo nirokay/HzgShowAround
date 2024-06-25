@@ -32,7 +32,7 @@ var
 globalCss.add(
     # Global stuff:
     newCssElement("html",
-        backgroundColour(colourBackground),
+        backgroundColour(colourBackgroundDark),
         colour(colourText),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
     ),
@@ -45,7 +45,7 @@ globalCss.add(
     # Bottom footer:
     newCssElement("footer",
         position(fixed),
-        backgroundColour(colourBackground),
+        backgroundColour(colourBackgroundDark),
         width("100%"),
         bottom(0),
         ["box-sizing" ,"border-box"]
@@ -151,7 +151,7 @@ css.add(
     ),
 
     newCssElement("select",
-        backgroundColour(colourBackground),
+        backgroundColour(colourBackgroundDark),
         colour(colourText),
         padding("2px"),
         ["border-radius", "10px"]
@@ -168,7 +168,7 @@ cssArticles.elements = globalCss.elements
 cssArticles.add(
     # Center everything in `body`:
     newCssElement("body",
-        backgroundColour(colourBackground),
+        backgroundColour(colourBackgroundDark),
         ["display", "block"],
         ["margin-left", "auto"],
         ["margin-right", "auto"],

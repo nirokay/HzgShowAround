@@ -7,7 +7,7 @@
 import std/[json]
 
 import generator
-import globals, styles, client, typedefs
+import globals, styles, client, typedefs, snippets
 
 var html: HtmlDocument = newPage(
     "Freizeitangebote",
@@ -17,8 +17,7 @@ var html: HtmlDocument = newPage(
 
 html.add(
     h1("Freizeitangebote"),
-    p("Hier findest du freiwillige Freizeitangebote im Ort.")
-)
+    pc("Hier findest du freiwillige Freizeitangebote im Ort."))
 
 let
     jsonOfferings: JsonNode = getOfferingsJson()

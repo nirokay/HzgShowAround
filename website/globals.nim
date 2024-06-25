@@ -81,13 +81,15 @@ const
 
 const
     # Backgrounds:
-    colourBackground* = rgb(23, 25, 33) # Stolen from Nim doc generator with love <s3
-    colourContentBox* = "rgba(255, 255, 255, 0.05)"
+    colourBackgroundDark* = rgb(23, 25, 33) # Stolen from Nim doc generator with love <s3
+    colourBackgroundMiddle* = "#23252c"
+    colourBackgroundLight* = "#2f3139"
 
-    colourAuthorBubble* = colourContentBox # rgb(36, 39, 46)
+    colourContentBox* {.deprecated: "use `colourBackgroundMiddle` instead".} = colourBackgroundMiddle #rgba(255, 255, 255, 0.05)
+    colourAuthorBubble* {.deprecated: "use `colourBackgroundMiddle` instead".} = colourBackgroundMiddle
 
-    colourButton* = "rgba(255, 100, 255, 0.1)" # rgb(50, 30, 58)
-    colourButtonHover* = "rgba(255, 100, 255, 0.2)" # rgb(60, 40, 68)
+    colourButton* = rgba(255, 100, 255, 0.1) # rgb(50, 30, 58)
+    colourButtonHover* = rgba(255, 100, 255, 0.2) # rgb(60, 40, 68)
 
     # Text:
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
@@ -219,7 +221,7 @@ const
     contentBoxClass* = newCssClass("content-box",
         width("100%"),
         maxWidth("1000px"),
-        backgroundColour(colourContentBox),
+        backgroundColour(colourBackgroundMiddle),
         ["border-radius", "20px"],
         ["padding", "5px"],
         ["margin", "10px auto"]
@@ -254,6 +256,24 @@ const
         width("90%")
     )
 
+    flexContainerClass*: CssElement = ".flex-container"{
+        "align-items" := "center",
+        "display" := "flex",
+        "flex-wrap" := "wrap",
+        "justify-content" := "center"
+    }
+    flexElementClass*: CssElement = ".flex-element"{
+        "display" := "inline-block",
+        "margin" := "5px 5px",
+        "padding" := "5px",
+        "width" := "30%",
+        "max-width" := "500px",
+        "min-width" := "300px",
+        "background" := colourBackgroundMiddle,
+        "border-radius" := "10px",
+        "padding" := "10px"
+    }
+
     newsDivClass* = newCssClass("news-div-class",
         textCenter,
         width("75%"),
@@ -287,7 +307,7 @@ const
     )
 
     authorDivClass* = newCssClass("author-div",
-        ["background-color", colourAuthorBubble],
+        ["background-color", colourBackgroundMiddle],
         ["max-width", "350px"],
         ["display", "flex"],
         ["justify-content", "center"],
