@@ -87,6 +87,29 @@ globalCss.add(
         ),
     ]#
 
+    # Fieldset:
+    "fieldset"{
+        "border-color" := colourText,
+        "border-radius" := "10px",
+        "border-width" := "2.5px",
+        "display" := "inline-flex",
+        "min-width" := "100px",
+        "justify-self" := "center",
+        "flex-wrap" := "wrap",
+        "flex-basis" := "max-content"
+    },
+    "fieldset > legend"{
+        "text-decoration" := "underline"
+    },
+    "fieldset > p"{
+        "margin-top" := "2px",
+        "margin-bottom" := "2px"
+    },
+
+    # Lists:
+    "ul"{
+        "padding-left" := "20px"
+    },
 
     # Links:
     link("link", colourLinkDefault),
@@ -109,6 +132,10 @@ globalCss.add(
     centerTableClass,
 
     iconImageClass,
+
+    flexContainerClass,
+    flexContainedContainerClass,
+    flexElementClass,
 
     # Author:
     authorDivClass,

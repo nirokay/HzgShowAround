@@ -262,6 +262,11 @@ const
         "flex-wrap" := "wrap",
         "justify-content" := "center"
     }
+    flexContainedContainerClass*: CssElement = ".flex-contained-container"{
+        "display" := "flex",
+        "justify-content" := "center",
+        "flex-wrap" := "wrap"
+    }
     flexElementClass*: CssElement = ".flex-element"{
         "display" := "inline-block",
         "margin" := "5px 5px",

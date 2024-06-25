@@ -47,6 +47,30 @@ progress::-moz-progress-bar {
     background-color: HotPink;
 }
 
+fieldset {
+    border-color: #e8e6e3;
+    min-width: 100px;
+    justify-self: center;
+    flex-basis: max-content;
+    border-radius: 10px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    border-width: 2.5px;
+}
+
+fieldset > legend {
+    text-decoration: underline;
+}
+
+fieldset > p {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
 a:link {
     color: HotPink;
     text-decoration: none;
@@ -136,6 +160,30 @@ icon-display {
     margin: auto;
     width: 50%;
     max-width: 500px;
+}
+
+.flex-container {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.flex-contained-container {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-element {
+    background: #23252c;
+    margin: 5px 5px;
+    min-width: 300px;
+    width: 30%;
+    border-radius: 10px;
+    display: inline-block;
+    max-width: 500px;
+    padding: 10px;
 }
 
 .author-div {
