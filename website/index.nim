@@ -62,6 +62,22 @@ html.addToBody(
 
 
 # -----------------------------------------------------------------------------
+# Offerings
+# -----------------------------------------------------------------------------
+
+html.add(
+    h2("Freizeitangebote"),
+    pc(
+        "Verschiedene Freizeitangebote werden in der Mühle und im nahen Umfeld angeboten.",
+        "Hier kannst du eine Liste von Angeboten einsehen."
+    ),
+    `div`(
+        buttonLink("Zu den Freizeitangeboten", "offerings.html")
+    ).setClass(centerClass)
+)
+
+
+# -----------------------------------------------------------------------------
 # Locations
 # -----------------------------------------------------------------------------
 
@@ -115,12 +131,22 @@ html.addToBody(
     )
 )
 
+
+# -----------------------------------------------------------------------------
+# Other stuff
+# -----------------------------------------------------------------------------
+
 html.addToBody(
     h2("Sonstiges"),
     `div`(
         buttonLink("Mitwirkende", "contributors.html")
     ).setClass(centerClass)
 )
+
+
+# -----------------------------------------------------------------------------
+# Generate stuff beep boop
+# -----------------------------------------------------------------------------
 
 html.setStyle(css)
 html.generate()

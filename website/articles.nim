@@ -173,14 +173,14 @@ proc generateArticleHtml(article: Article) =
         desc
     )
 
+    # Article header:
+    html.addArticleHeader(article)
+
     # Navigation buttons:
     html.addToBody `div`(
         buttonLink("← Startseite", "../index.html"),
         buttonLink("← Artikel", "../articles.html")
     ).setClass(centerClass)
-
-    # Article header:
-    html.addArticleHeader(article)
 
     # Article body:
     var body: seq[string]
@@ -230,10 +230,6 @@ proc generateHtmlMainPage() =
         "Sämtliche Artikel verfasst von verschiedenen Leuten!"
     )
 
-    html.addToBody `div`(
-        buttonLink("← Startseite", "index.html"),
-    ).setClass(centerClass)
-
     # Sort articles by date:
     var articlesSorted: seq[Article] = articles
 
@@ -273,6 +269,9 @@ proc generateHtmlMainPage() =
     html.addToBody(
         h1("Artikel"),
         pc("Hier findest du verschiedene Artikel verfasst von unterschiedlichen Leuten zu Themen, die sie interessieren."),
+        `div`(
+            buttonLink("← Startseite", "index.html"),
+        ).setClass(centerClass),
         `div`(articleElements).setClass(articlePreviewBox)
     )
 
