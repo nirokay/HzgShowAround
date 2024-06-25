@@ -1,0 +1,210 @@
+html {
+    color: #e8e6e3;
+    background-color: rgb(23, 25, 33);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+article > p {
+    padding: 10px;
+    text-align: left;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-sizing: border-box;
+    background-color: rgb(23, 25, 33);
+}
+
+tbody {
+    border: 1px;
+    border-collapse: collapse;
+}
+
+td {
+    margin-right: 5px;
+}
+
+progress {
+    margin: auto 1px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    border-radius: 10px;
+    background-color: #e8e6e3;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 10px;
+    background-color: HotPink;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 10px;
+    background-color: HotPink;
+}
+
+a:link {
+    color: HotPink;
+    text-decoration: none;
+}
+
+a:visited {
+    color: HotPink;
+    text-decoration: none;
+}
+
+a:hover {
+    color: LightPink;
+    text-decoration: none;
+}
+
+a:active {
+    color: MistyRose;
+    text-decoration: none;
+}
+
+.generic-center {
+    width: 90%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.generic-center-100-width {
+    width: 100%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.button {
+    color: #e8e6e3;
+    margin: 4px 2px;
+    font-size: 1.2em;
+    transition: 0.3s;
+    border-radius: 6px;
+    display: inline-block;
+    border: none;
+    padding: 10px 20px;
+    background-color: rgba(255, 100, 255, 0.1);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.button:hover {
+    transition: 0.1s;
+    background-color: rgba(255, 100, 255, 0.2);
+}
+
+button {
+    color: #e8e6e3;
+    margin: 4px 2px;
+    font-size: 1.2em;
+    transition: 0.3s;
+    border-radius: 6px;
+    display: inline-block;
+    border: none;
+    padding: 10px 20px;
+    background-color: rgba(255, 100, 255, 0.1);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+button:hover {
+    transition: 0.1s;
+    background-color: rgba(255, 100, 255, 0.2);
+}
+
+.table-center {
+    margin: 10px auto;
+    text-align: left;
+}
+
+icon-display {
+    margin: auto;
+    width: 50%;
+    max-width: 500px;
+}
+
+.author-div {
+    flex-basis: auto;
+    justify-content: left;
+    border-radius: 900px;
+    max-width: 350px;
+    display: flex;
+    margin-right: auto;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    background-color: #23252c;
+    margin-left: auto;
+    margin-top: 10px;
+    flex: content;
+}
+
+.author-picture {
+    align-self: center;
+    min-width: 32px;
+    border-radius: 100px;
+    max-width: 48px;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    flex: content;
+}
+
+.author-name-div {
+    color: Gainsboro;
+    align-self: center;
+    width: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex: content;
+}
+
+.content-box {
+    margin: 10px auto;
+    width: 100%;
+    border-radius: 20px;
+    max-width: 1000px;
+    padding: 5px;
+    background-color: #23252c;
+}
+
+body {
+    width: 90%;
+    display: block;
+    margin-right: auto;
+    background-color: rgb(23, 25, 33);
+    margin-left: auto;
+}
+
+h1, h2 {
+    text-decoration: underline;
+    text-align: center;
+}
+
+h3, h4, h5, h6, p, summary, time {
+    text-align: center;
+}
+
+img {
+    margin: 10px;
+    width: 50%;
+    border-radius: 10px;
+    max-width: 700px;
+}
