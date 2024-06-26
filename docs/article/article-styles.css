@@ -4,6 +4,10 @@ html {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+p {
+    margin: 10px;
+}
+
 article > p {
     padding: 10px;
     text-align: left;

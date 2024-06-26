@@ -37,6 +37,10 @@ globalCss.add(
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
     ),
 
+    "p"{
+        "margin" := "10px"
+    },
+
     newCssElement("article > p",
         textAlign("left"),
         padding("10px")
@@ -171,10 +175,12 @@ css.add(
     # Headers:
     newCssElement("h1, h2",
         textCenter,
-        ["text-decoration", "underline"]
+        ["text-decoration", "underline"],
+        ["margin-bottom", "0px"]
     ),
     newCssElement("h3, h4, h5, h6",
-        textCenter
+        textCenter,
+        ["margin-bottom", "0px"]
     ),
 
     newCssElement("select",

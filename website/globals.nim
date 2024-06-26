@@ -280,7 +280,6 @@ const
     }
 
     newsDivClass* = newCssClass("news-div-class",
-        textCenter,
         width("75%"),
         ["display", "block"],
         ["margin-left", "auto"],

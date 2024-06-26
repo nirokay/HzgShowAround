@@ -5,7 +5,12 @@
 ## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/locations.json).
 
 import std/[tables, options, strutils]
-import generator, styles, typedefs, mapgenerator, snippets
+import generator, styles, typedefs, mapgenerator
+import snippets except pc
+
+proc pc(lines: varargs[string]): HtmlElement =
+    ## Override for non-centering stuff
+    result = p(lines)
 
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s

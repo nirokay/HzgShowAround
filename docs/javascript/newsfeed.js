@@ -365,18 +365,19 @@ function htmlDateSection(element) {
     } else {
         result = "von " + from + " bis " + till;
     }
-    return "<small>" + result + "</small>"
+    return "<small class='generic-center'>" + result + "</small>"
 }
 function htmlDetails(element) {
     let lines = [];
     let url = element.info;
 
     lines = element.details;
+    let result = "<p>" + lines.join("<br />") + "</p>";
 
     if(url != undefined) {
-        lines.push("<a href='" + url + "'>mehr Infos</a>");
+        result += "<p class='generic-center'><a href='" + url + "'>mehr Infos</a></p>";
     }
-    return "<p class='generic-center'>" + lines.join("<br />") + "</p>";
+    return result;
 }
 
 function generateElementHtml(element) {
