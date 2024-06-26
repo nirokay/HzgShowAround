@@ -257,7 +257,7 @@ const
     )
 
     flexContainerClass*: CssElement = ".flex-container"{
-        "align-items" := "center",
+        "align-items" := "normal",
         "display" := "flex",
         "flex-wrap" := "wrap",
         "justify-content" := "center"

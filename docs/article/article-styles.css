@@ -165,7 +165,7 @@ icon-display {
 .flex-container {
     justify-content: center;
     display: flex;
-    align-items: center;
+    align-items: normal;
     flex-wrap: wrap;
 }
 
