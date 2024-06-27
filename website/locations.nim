@@ -10,10 +10,6 @@ import snippets except pc
 
 var locationLookupTable: OrderedTable[string, LocationLookup]
 
-proc pc(lines: varargs[string]): HtmlElement {.deprecated: "replace with default `p`".} =
-    ## Override for non-centering stuff
-    result = p(lines)
-
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s
     for header, content in desc:
@@ -22,7 +18,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
             result.add h2(header)
         # For each line, put in a separate `<p> ... </p>` and replace all `\n` with `<br />`:
         for line in content:
-            result.add pc(line.replace("\n", $br()))
+            result.add p(line.replace("\n", $br()))
 
 proc has*(location: Location, img: LocationImageType): bool =
     if not location.pics.isSome(): return false
@@ -138,7 +134,7 @@ proc generateLocationHtml*(location: Location) =
 
     # Insert spacing, if header and footer image are next to another:
     if description == @[] and location.has(imgHeader) and location.has(imgFooter) and not location.open.isSet():
-        html.addToBody pc($br())
+        html.addToBody p($br())
 
     # Add footer image:
     if location.has(imgFooter):

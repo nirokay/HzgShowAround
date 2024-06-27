@@ -13,6 +13,11 @@
 // ----------------------------------------------------------------------------
 
 let debugPrintingEnabled = true; // Allows easy debugging in browser console
+/**
+ * Fancy debug printing
+ * @param {string} message
+ * @param {any?} element
+ */
 function debug(message, element) {
     if(!debugPrintingEnabled) {
         return;
@@ -26,11 +31,6 @@ function debug(message, element) {
         console.log("===== " + message + " =====");
     }
 }
-
-
-// ----------------------------------------------------------------------------
-// Error "Handling?":
-// ----------------------------------------------------------------------------
 
 
 // ----------------------------------------------------------------------------
@@ -65,19 +65,33 @@ const dateFormatDisplay = {
 let relevancyLookIntoFuture = monthMilliseconds * 2;
 let relevancyLookIntoPast = monthMilliseconds;
 
+/**
+ * Replaces `*` with the current year
+ * @param {string} time yyyy-MM-dd date-stamp
+ * @param {number} offset yearly offset
+ * @returns {string}
+ */
 function normalizeTime(time, offset = 0) {
-    // Replaces `*` with the current year
     return time.replace("\*", date.getFullYear() + offset);
 }
 
+/**
+ * Returns a readable date-stamp
+ * @param {string} time 
+ * @returns {string}
+ */
 function convertToReadable(time) {
     // Transforms time to normal time (german notation)
     let d = new Date(Date.parse(normalizeTime(time)));
     return d.toLocaleString("de-DE", dateFormatDisplay);
 }
 
+/**
+ * Returns 0 .. 2 for severity, and -1 for already-happened events
+ * @param {NewsFeedElement} element 
+ * @returns {number}
+ */
 function getImportance(element) {
-    // Returns 0 .. 2 for severity, and -1 for already-happened events
     let severity = 0;
     switch(element.level) {
         case "alert": case "achtung": case "alarm":
@@ -99,6 +113,11 @@ function getImportance(element) {
     return severity;
 }
 
+/**
+ * Updates `element.importance`
+ * @param {NewsFeedElement} element
+ * @returns {NewsFeedElement}
+ */
 function normalizeImportance(element) {
     element.importance = getImportance(element);
     return element;
@@ -117,6 +136,10 @@ let locationLookupTable = {};
 // Html text stuff:
 // ----------------------------------------------------------------------------
 
+/**
+ * Gets the newsfeed div
+ * @returns {HTMLElement | null}
+ */
 function getDiv() {
     // Shortcut to get the newsfeed div
     let result = document.getElementById(idNewsFeed);
@@ -126,24 +149,44 @@ function getDiv() {
     return result;
 }
 
+/**
+ * Adds HTML string to the div
+ * @param {string} content
+ */
 function addToDiv(content) {
-    // Appends something to the newsfeed div
     getDiv().insertAdjacentHTML('beforeend', content);
 }
 
+/**
+ * Converts `element` to HTML string and appends it to the newsfeed div
+ * @param {NewsFeedElement} element
+ */
 function addElement(element) {
-    // Appends html element to the newsfeed div
     addToDiv(getHtml(element));
 }
 
+/**
+ * Joins all strings with `<br />`
+ * @param {string[]} array
+ * @returns {string}
+ */
 function multilineText(array) {
     return array.join("<br />");
 }
+/**
+ * Calls `multilineText(array)` and adds `<p> ... </p>` around the text
+ * @param {string[]} array
+ * @returns {string}
+ */
 function p(array) {
     // Array of strings joined by `<br />` and wrapped inside `<p> ... </p>` tags
     return "<p>" + multilineText(array) + "</p>";
 }
 
+/**
+ * Updates the "Refreshed at" timestamp, optionally overrides the timestamp
+ * @param {string?} override
+ */
 function updateRefreshedAt(override) {
     let newText = ""
     if(override == "" || override == undefined) {
@@ -161,6 +204,11 @@ function updateRefreshedAt(override) {
 // News stuff:
 // ----------------------------------------------------------------------------
 
+/**
+ * Normalises a NewsFeedElement
+ * @param {NewsFeedElement} element
+ * @returns {NewsFeedElement}
+ */
 function normalizedElement(element) {
     // No need to type-check, because it already was by GitHub actions (hopefully).
 
@@ -246,6 +294,10 @@ function normalizedElement(element) {
     return element;
 }
 
+/**
+ * Gets all NewsFeedElements in a normalized state
+ * @returns {NewsFeedElement[]}
+ */
 function normalizedNews() {
     // Normalizes the fields for the json fields (pretty much just backwards compatibility and QoL)
     if(typeof(news) != "object" || news === undefined) {
@@ -262,6 +314,11 @@ function normalizedNews() {
     return result;
 }
 
+/**
+ * Determines if the element is relevant or not (based on time)
+ * @param {NewsFeedElement} element
+ * @returns {boolean}
+ */
 function isElementRelevant(element) {
     if(typeof(element) != "object" || element == null) {
         debug("Element relevancy failed, not an object or is null", element);
@@ -277,6 +334,10 @@ function isElementRelevant(element) {
     )
 }
 
+/**
+ * Filters out only the relevant elements
+ * @returns {NewsFeedElement[]}
+ */
 function getFilteredNews() {
     let result = [];
     if(typeof(news) != "object" || news == null) {
@@ -291,6 +352,11 @@ function getFilteredNews() {
     return result;
 }
 
+/**
+ * Sorts the elements firstly by date, then by relevancy
+ * @param {NewsFeedElement[]} array
+ * @returns {NewsFeedElement[]}
+ */
 function sortedElementsByDateAndRelevancy(array) {
     if(typeof(array) != "object" || array == null) {
         debug("Passed array for sorting by date and relevancy was not an object or is null.", array);
@@ -307,12 +373,21 @@ function sortedElementsByDateAndRelevancy(array) {
     return array;
 }
 
+/**
+ * Transforms time to normal, readable time format (german notation)
+ * @param {string} time
+ * @returns {HtmlString}
+ */
 function displayTime(time) {
-    // Transforms time to normal, readable time format (german notation)
     let d = new Date(Date.parse(time));
     return "<b><time>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
 }
 
+/**
+ * Gets the css class according to the elements importance
+ * @param {NewsFeedElement} element
+ * @returns {string}
+ */
 function getElementClass(element) {
     const classPrefix = "newsfeed-element-";
     let classSuffix = "generic";
@@ -336,7 +411,12 @@ function getElementClass(element) {
     return classPrefix + classSuffix;
 }
 
-
+/**
+ * Gets the disclaimer for the Html element
+ * @param {NewsFeedElement} element
+ * @param {string} cssClass Css class of News
+ * @returns {HtmlString}
+ */
 function htmlDisclaimer(element, cssClass) {
     let result = [];
     if(cssClass == "happened") {
@@ -347,6 +427,12 @@ function htmlDisclaimer(element, cssClass) {
     }
     return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>"
 }
+/**
+ * Gets the header for an element
+ * @param {NewsFeedElement} element
+ * @param {string} disclaimer Optional disclaimer (with `htmlDisclaimer(element, cssClass)`)
+ * @returns {HtmlString}
+ */
 function htmlHeader(element, disclaimer) {
     let text = "";
     if(disclaimer != undefined || disclaimer == "") {
@@ -357,6 +443,11 @@ function htmlHeader(element, disclaimer) {
     }
     return "<h3 style='margin-bottom:2px;'>" + element.name + text + "</h3>"
 }
+/**
+ * Gets the HTML for the date section
+ * @param {NewsFeedElement} element
+ * @returns {HtmlString}
+ */
 function htmlDateSection(element) {
     const from = displayTime(element.from);
     const till = displayTime(element.till);
@@ -368,6 +459,11 @@ function htmlDateSection(element) {
     }
     return "<small class='generic-center'>" + result + "</small>"
 }
+/**
+ * Gets the details section for the element
+ * @param {NewsFeedElement} element
+ * @returns {HtmlString}
+ */
 function htmlDetails(element) {
     let lines = [];
     let url = element.info;
@@ -381,6 +477,11 @@ function htmlDetails(element) {
     return result;
 }
 
+/**
+ * Converts `element` to HTML text
+ * @param {NewsFeedElement} element
+ * @returns {HtmlString}
+ */
 function generateElementHtml(element) {
     let className = getElementClass(element);
     let elements = [
@@ -391,6 +492,11 @@ function generateElementHtml(element) {
     return "<div class='" + className + "'>" + elements.join("") + "</div>";
 }
 
+/**
+ * Injects location links, mentioned in the news element
+ * @param {HtmlString} html
+ * @returns {HtmlString}
+ */
 function addLocationLinks(html) {
     let result = html;
     // Thank you javascript for being dynamic:
@@ -401,19 +507,20 @@ function addLocationLinks(html) {
         return result;
     }
 
-    for(const [name, lookupObject] of Object.entries(locationLookupTable)) {
+    // Highly efficient code to replace substrings with, I do not want to go into
+    // detail on how great nested loops are :)
+    for(const [_, lookupObject] of Object.entries(locationLookupTable)) {
         if(typeof(lookupObject) != "object") {
+            debug("Fuck, why is locationLookupTable[element] not an object?");
             continue;
         }
         let id = lookupObject.path;
-        lookupObject.names.forEach((name) =>{
-            let buffer = structuredClone(result);
-            let toReplace = name ;
+        lookupObject.names.forEach((name) => {
+            // I really like that string.replace("toReplace", "replaceWith") only replaces
+            // the first occurrence - really nice of Javascript to do that!
+            let toReplace = new RegExp(name, "g");
             let replaceWith = "<a href='" + id + "'>" + name + "</a>";
-            result = result.replace(new RegExp(toReplace, "g"), replaceWith);
-            if(result != buffer) {
-                debug("Injected link to location: " + name)
-            }
+            result = result.replace(toReplace, replaceWith);
         });
     }
     return result;
@@ -450,10 +557,18 @@ const infoMessageNoRelevantNews = [
     "Derzeit keine relevanten Neuigkeiten vorhanden."
 ];
 
+/**
+ * Checks if any errors occurred during runtime
+ * @returns {boolean}
+ */
 function someErrorOccurred() {
     return errorPanicNoInternet || errorPanicParsingFuckUp;
 }
 
+/**
+ * Displays an error message in the HTML div
+ * @param {string} errorMessage
+ */
 function displayErrorMessage(errorMessage) {
     let msg = errorMessage;
     if(errorMessageAdditional != "" || errorMessageAdditional == undefined){
@@ -469,6 +584,9 @@ function displayErrorMessage(errorMessage) {
 // Main:
 // ----------------------------------------------------------------------------
 
+/**
+ * Main function called on `document.onload` and when the refresh button is clicked
+ */
 function refreshNews() {
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
