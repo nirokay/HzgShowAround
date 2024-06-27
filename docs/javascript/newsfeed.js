@@ -46,6 +46,7 @@ const idReloadedTime = "reloaded-time";
 // ----------------------------------------------------------------------------
 
 const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
+const urlLocationLookupTable = "https://github.com/nirokay/HzgShowAround/blob/master/docs/resources/location_lookup.json";
 
 
 // ----------------------------------------------------------------------------
@@ -110,7 +111,7 @@ function normalizeImportance(element) {
 let date = new Date(); // Current datetime, gets refreshed with each new refreshNews() call
 let news = []; // All news from the remote repository
 let relevantNews = []; // Filtered news, that are relevant
-
+let locationLookupTable = {};
 
 // ----------------------------------------------------------------------------
 // Html text stuff:
@@ -382,13 +383,31 @@ function htmlDetails(element) {
 
 function generateElementHtml(element) {
     let className = getElementClass(element);
-    let result = [
+    let elements = [
         htmlHeader(element, htmlDisclaimer(element)),
         htmlDateSection(element),
         htmlDetails(element)
     ]
-    return "<div class='" + className + "'>" + result.join("") + "</div>"
+    return "<div class='" + className + "'>" + elements.join("") + "</div>";
 }
+
+function addLocationLinks(html) {
+    let result = html;
+    // Thank you javascript for being dynamic:
+    if(locationLookupTable == undefined || typeof(locationLookupTable) != "object") {
+        return result;
+    }
+    if(locationLookupTable.length == 0) {
+        return result;
+    }
+
+    for(const [name, id] of Object.entries(locationLookupTable)) {
+        result.replace(name, "<a href='" + id + "'>" + name + "</a>")
+    }
+
+    return result;
+}
+
 
 // ----------------------------------------------------------------------------
 // Errors:
@@ -406,7 +425,7 @@ const errorMessageNoInternet = [
 let errorPanicParsingFuckUp = false;
 const errorMessageParsingFuckUp = [
     "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
-    "Bitte gib uns Bescheid, indem du <a href=\"https://github.com/nirokay/HzgShowAroundData/issues/new\">ein Issue auf GitHub eröffnest</a>!"
+    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
 ];
 
 const errorMessageGeneric = [
@@ -540,8 +559,40 @@ function refreshNews() {
         }
 
         // Add all relevant news to HTML:
-        relevantNews.forEach((element) => {
-            addToDiv(generateElementHtml(element));
+        fetch(urlLocationLookupTable)
+        .then(
+            (response) => {
+                return response;
+            },
+            (error) => {
+                console.error(error);
+                return "{}";
+            }
+        )
+        .then(
+            (raw) => {
+                return raw.json();
+            }
+        )
+        .catch(
+            (error) => {
+                console.error(error);
+                return "{}".json();
+            }
+        )
+        .then(
+            (json) => {
+                if(typeof(json) != "object") {
+                    json = {};
+                }
+                locationLookupTable = json;
+            }
+        )
+        .finally(() => {
+            relevantNews.forEach((element) => {
+                let htmlElement = addLocationLinks(generateElementHtml(element));
+                addToDiv(htmlElement);
+            });
         });
 
         updateRefreshedAt();

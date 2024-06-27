@@ -73,6 +73,7 @@ const
 const
     articlesLocation*: string = "article/" ## Local article export path
     articleCssFile*: string = "article-styles.css" ## Local article css export path
+    locationLookupTableFile*: string = target / "resources" / "location_lookup.json" ## Lookup table for location names to ID
 
 
 # -----------------------------------------------------------------------------

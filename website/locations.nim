@@ -4,11 +4,13 @@
 ## This module deals with locations and generating them from the
 ## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/locations.json).
 
-import std/[tables, options, strutils]
+import std/[tables, options, strutils, json]
 import generator, styles, typedefs, mapgenerator
 import snippets except pc
 
-proc pc(lines: varargs[string]): HtmlElement =
+var nameToIdTable: OrderedTable[string, string]
+
+proc pc(lines: varargs[string]): HtmlElement {.deprecated: "replace with default `p`".} =
     ## Override for non-centering stuff
     result = p(lines)
 
@@ -90,6 +92,9 @@ proc generateLocationHtml*(location: Location) =
         location.getLocationPath(),
         "Infos zum Ort " & location.name
     )
+
+    # Add to lookup table (used by newsfeed to replace substrings):
+    nameToIdTable[location.name] = location.getLocationPath()
 
     let headerText: string = block:
         if location.link.isSet(): $a(get location.link, location.name)
@@ -177,3 +182,6 @@ proc generateLocations*(locations: seq[Location]) =
     for location in locations:
         location.generateLocationMap()
         location.generateLocationHtml()
+
+    # Write lookup-table to disk:
+    locationLookupTableFile.writeFile($%nameToIdTable)

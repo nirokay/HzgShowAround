@@ -142,3 +142,10 @@ proc isSet*[T](item: Option[T]): bool =
         if item.get() != emptyValue:
             result = true
 
+# =============================================================================
+# JSON:
+# =============================================================================
+
+proc `$%`*[T](toJson: T): string =
+    ## Converts to `JsonNode` and then to `string`
+    result = $(%toJson)
