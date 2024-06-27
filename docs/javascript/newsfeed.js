@@ -46,7 +46,7 @@ const idReloadedTime = "reloaded-time";
 // ----------------------------------------------------------------------------
 
 const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
-const urlLocationLookupTable = "https://github.com/nirokay/HzgShowAround/blob/master/docs/resources/location_lookup.json";
+const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 
 
 // ----------------------------------------------------------------------------
@@ -401,10 +401,21 @@ function addLocationLinks(html) {
         return result;
     }
 
-    for(const [name, id] of Object.entries(locationLookupTable)) {
-        result.replace(name, "<a href='" + id + "'>" + name + "</a>")
+    for(const [name, lookupObject] of Object.entries(locationLookupTable)) {
+        if(typeof(lookupObject) != "object") {
+            continue;
+        }
+        let id = lookupObject.path;
+        lookupObject.names.forEach((name) =>{
+            let buffer = structuredClone(result);
+            let toReplace = name ;
+            let replaceWith = "<a href='" + id + "'>" + name + "</a>";
+            result = result.replace(new RegExp(toReplace, "g"), replaceWith);
+            if(result != buffer) {
+                debug("Injected link to location: " + name)
+            }
+        });
     }
-
     return result;
 }
 
@@ -571,13 +582,16 @@ function refreshNews() {
         )
         .then(
             (raw) => {
+                if(typeof(raw) == "string") {
+                    return JSON.parse(raw);
+                }
                 return raw.json();
             }
         )
         .catch(
             (error) => {
-                console.error(error);
-                return "{}".json();
+                debug("Could not convert to json", error);
+                return JSON.parse("{}");
             }
         )
         .then(
@@ -586,9 +600,11 @@ function refreshNews() {
                     json = {};
                 }
                 locationLookupTable = json;
+                debug("Got locationLookupTable!", locationLookupTable);
             }
         )
         .finally(() => {
+            debug("Running replacement stuff on html elements.");
             relevantNews.forEach((element) => {
                 let htmlElement = addLocationLinks(generateElementHtml(element));
                 addToDiv(htmlElement);

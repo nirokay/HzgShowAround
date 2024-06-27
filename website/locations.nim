@@ -8,7 +8,7 @@ import std/[tables, options, strutils, json]
 import generator, styles, typedefs, mapgenerator
 import snippets except pc
 
-var nameToIdTable: OrderedTable[string, string]
+var locationLookupTable: OrderedTable[string, LocationLookup]
 
 proc pc(lines: varargs[string]): HtmlElement {.deprecated: "replace with default `p`".} =
     ## Override for non-centering stuff
@@ -87,18 +87,27 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
 
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location
+    let
+        name: string = location.name
+        path: string = location.getLocationPath()
     var html: HtmlDocument = newPage(
-        location.name,
-        location.getLocationPath(),
-        "Infos zum Ort " & location.name
+        name,
+        path,
+        "Infos zum Ort " & name
     )
 
     # Add to lookup table (used by newsfeed to replace substrings):
-    nameToIdTable[location.name] = location.getLocationPath()
+    locationLookupTable[name] = LocationLookup(
+        names: @[name],
+        path: path
+    )
+    if location.alias.isSome():
+        let aliases: seq[string] = get location.alias
+        locationLookupTable[name].names = locationLookupTable[name].names & aliases
 
     let headerText: string = block:
-        if location.link.isSet(): $a(get location.link, location.name)
-        else: location.name
+        if location.link.isSet(): $a(get location.link, name)
+        else: name
     # Add header and header image:
     if location.has(imgHeader):
         html.addToBody contentBox @[
@@ -184,4 +193,4 @@ proc generateLocations*(locations: seq[Location]) =
         location.generateLocationHtml()
 
     # Write lookup-table to disk:
-    locationLookupTableFile.writeFile($%nameToIdTable)
+    locationLookupTableFile.writeFile($%locationLookupTable)
