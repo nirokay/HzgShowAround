@@ -164,6 +164,7 @@ css.add(
     #   News:
     newsDivClass,
     newsElementGeneric,
+    newsElementHoliday,
     newsElementWarning,
     newsElementAlert,
     newsElementHappened,

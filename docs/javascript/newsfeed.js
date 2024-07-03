@@ -597,6 +597,10 @@ function displayErrorMessage(errorMessage) {
     updateRefreshedAt();
 }
 
+/**
+ * Injects holidays from the holiday API.
+ * @returns {Promise<void>}
+ */
 function injectHolidays() {
     return new Promise((resolve, reject) => {
         let rawHolidays = {};
@@ -635,9 +639,8 @@ function injectHolidays() {
             }
         )
         .finally(() => {
+            debug("Raw holidays", rawHolidays);
             for (const [name, details] of Object.entries(rawHolidays)) {
-                debug("Raw holidays", rawHolidays);
-                debug("Transforming holiday to inject it!");
                 let event = {};
                 event.name = name;
                 event.on = details.datum;
@@ -645,7 +648,6 @@ function injectHolidays() {
                 event.level = "holiday";
 
                 news.push(event);
-                debug("New event:", event);
             }
             resolve();
         });
@@ -669,6 +671,7 @@ async function refreshNews() {
     errorPanicNoInternet = false;
     errorPanicParsingFuckUp = false;
 
+    // Fetching news: =========================================================
     try {
         let response = await fetch(urlRemoteRepository);
         let raw = await response.text();
@@ -686,16 +689,19 @@ async function refreshNews() {
         news = [];
     }
 
+    // Injecting holidays into `news`: ========================================
     try {
         await injectHolidays();
     } catch (error) {
         debug("Failed to inject holidays", error);
     }
 
+    // Reset the html stuff: ==================================================
     getDiv().innerHTML = "";
     updateRefreshedAt("Daten werden verarbeitet...");
 
-    // Error handling:
+    // Error handling: ========================================================
+    // Apparent issues: -------------------------------------------------------
     if (someErrorOccurred()) {
         updateRefreshedAt("Datenverarbeitung abgebrochen.");
         if (errorPanicNoInternet) {
@@ -710,23 +716,22 @@ async function refreshNews() {
         return;
     }
 
-    // Empty news array:
+    // Empty news array encountered: ------------------------------------------
     if (news.length === 0) {
         debug("No news at all found (normal? doubt it...)");
         displayErrorMessage(infoMessageNoNews);
         return;
     }
 
-    // Normalize all news:
+    // Modify `news`: =========================================================
+    // Normalize news to have all fields in common:
     news = normalizedNews(news);
     debug("Normalized news", news);
 
-    // Reset HTML:
-    getDiv().innerHTML = "";
-
-    // Filter news:
+    // Filter news based on date:
     relevantNews = getFilteredNews();
 
+    // Sorting news:
     if (relevantNews.length === 0) {
         // No relevant news:
         debug("No relevant news found.");
@@ -738,7 +743,7 @@ async function refreshNews() {
         debug("All relevant news", relevantNews);
     }
 
-    // Add all relevant news to HTML:
+    // Fetch lookup table to inject hyperlinks into text: =====================
     try {
         let response = await fetch(urlLocationLookupTable);
         let raw = await response.text();
@@ -749,6 +754,7 @@ async function refreshNews() {
         locationLookupTable = {};
     }
 
+    // Add all elements to html and inject links: =============================
     debug("Running replacement stuff on html elements.");
     relevantNews.forEach((element) => {
         let htmlElement = addLocationLinks(generateElementHtml(element));

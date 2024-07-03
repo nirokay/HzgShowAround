@@ -279,6 +279,15 @@ icon-display {
     border-width: 10px;
 }
 
+.newsfeed-element-holiday {
+    border-color: CornflowerBlue;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    border-style: solid;
+    margin-top: 10px;
+    border-width: 10px;
+}
+
 .newsfeed-element-warning {
     border-color: Gold;
     border-radius: 20px;
