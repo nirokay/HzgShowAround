@@ -141,6 +141,11 @@ let news = []; // All news from the remote repository
 let relevantNews = []; // Filtered news, that are relevant
 let locationLookupTable = {};
 
+const holidaysToIgnore = [
+    "Augsburger Friedensfest"
+];
+
+
 // ----------------------------------------------------------------------------
 // Html text stuff:
 // ----------------------------------------------------------------------------
@@ -593,54 +598,57 @@ function displayErrorMessage(errorMessage) {
 }
 
 function injectHolidays() {
-    let rawHolidays = {};
-    debug("Injecting holidays");
-    fetch(urlHolidayApi)
-    // Getting raw response:
-    .then(
-        (response) => {
-            return response.text();
-        },
-        (error) => {
-            debug("Failed to fetch holidays from API", error);
-            return Promise.resolve(new Promise("{}"))
-        }
-    )
-    .catch(
-        (error) => {
-            debug("Failed to fetch holidays from API", error);
-            return Promise.resolve(new Response("{}"));
-        }
-    )
-    // Parsing json:
-    .then(
-        (raw) => {
-            try {
-                debug("Parsing holiday response...");
-                return JSON.parse(raw);
-            } catch {
-                debug("Failed to parse holiday response", raw);
-                return JSON.parse("{}");
-            }
-        }
-    )
-    .then(
-        (json) => {
-            rawHolidays = json;
-        }
-    )
-    .finally(() => {
-        debug("Raw holidays", rawHolidays);
-        for (const [name, details] of Object.entries(rawHolidays)) {
-            let event = {};
-            event.name = name;
-            event.on = details.datum;
-            event.details = details.hinweis;
-            event.level = "holiday";
+    return new Promise((resolve, reject) => {
+        let rawHolidays = {};
+        debug("Injecting holidays");
 
-            news.push(event);
-            debug("Added new holiday: " + event.name);
-        }
+        fetch(urlHolidayApi)
+        // Getting raw response:
+        .then(
+            (response) => response.text(),
+            (error) => {
+                debug("Failed to fetch holidays from API", error);
+                return "{}";
+            }
+        )
+        .catch(
+            (error) => {
+                debug("Failed to fetch holidays from API", error);
+                return "{}";
+            }
+        )
+        // Parsing json:
+        .then(
+            (raw) => {
+                try {
+                    debug("Parsing holiday response...");
+                    return JSON.parse(raw);
+                } catch {
+                    debug("Failed to parse holiday response", raw);
+                    return {};
+                }
+            }
+        )
+        .then(
+            (json) => {
+                rawHolidays = json;
+            }
+        )
+        .finally(() => {
+            for (const [name, details] of Object.entries(rawHolidays)) {
+                debug("Raw holidays", rawHolidays);
+                debug("Transforming holiday to inject it!");
+                let event = {};
+                event.name = name;
+                event.on = details.datum;
+                event.details = details.hinweis;
+                event.level = "holiday";
+
+                news.push(event);
+                debug("New event:", event);
+            }
+            resolve();
+        });
     });
 }
 
@@ -661,153 +669,93 @@ async function refreshNews() {
     errorPanicNoInternet = false;
     errorPanicParsingFuckUp = false;
 
-    fetch(urlRemoteRepository)
-    // Getting raw response:
-    .then(
-        (response) => {
-            return response;
-        },
-        (error) => {
-            errorPanicNoInternet = true;
-            debug("Internet connection issues", error);
-            return Promise.resolve(new Response("[]"));
-        }
-    )
-    .catch(
-        (error) => {
-            errorPanicNoInternet = true;
-            debug("Internet connection issues", error);
-            return Promise.resolve(new Response("[]"));
-        }
-    )
-    // Parsing json:
-    .then(
-        (raw) => {
-            return raw.json();
-        }
-    )
-    .catch(
-        (error) => {
-            errorPanicParsingFuckUp = true;
-            debug("Json Parsing error", error);
-            return Promise.resolve(new Response(JSON.parse("[]")));
-        }
-    )
-    // Applying json to `news`:
-    .then(
-        (json) => {
-            if(typeof(json) == "object" && json != null) {
-                news = json;
-            } else {
-                debug("Json Parsed was not valid? How does this even happen??", json);
-                news = [];
-            }
-        }
-    )
-    // Injecting holidays:
-    .then(
-        () => {
-            // Injecting holidays (i love this codebase):
-            injectHolidays();
-        }
-    )
-    .catch(
-        (error) => {
-            debug("Failed to inject holidays", error);
-        }
-    )
-    // Main logic after parsing:
-    .finally(async() => {
-        getDiv().innerHTML = "";
-        updateRefreshedAt("Daten werden verarbeitet...");
+    try {
+        let response = await fetch(urlRemoteRepository);
+        let raw = await response.text();
+        let json = JSON.parse(raw);
 
-        // Error handling:
-        if(someErrorOccurred()) {
-            updateRefreshedAt("Datenverarbeitung abgebrochen.");
-            if(errorPanicNoInternet) {
-                displayErrorMessage(errorMessageNoInternet);
-            } else if(errorPanicParsingFuckUp) {
-                displayErrorMessage(errorMessageParsingFuckUp);
-            } else {
-                // This should NEVER happen:
-                displayErrorMessage(errorMessageGeneric);
-            }
-            debug("Displaying error message");
-            return;
-        }
-
-        // Empty news array:
-        if(news.length == 0) {
-            debug("No news at all found (normal? doubt it...)");
-            displayErrorMessage(infoMessageNoNews);
-            return;
-        }
-
-        // Normalize all news:
-        news = normalizedNews(news);
-        debug("Normalized news", news);
-
-        // Reset HTML:
-        getDiv().innerHTML = "";
-
-        // Filter news:
-        relevantNews = getFilteredNews();
-
-        if(relevantNews.length == 0) {
-            // No relevant news:
-            debug("No relevant news found.");
-            displayErrorMessage(infoMessageNoRelevantNews);
-            return;
+        if (typeof(json) === "object" && json !== null) {
+            news = json;
         } else {
-            // Sort:
-            relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
-            debug("All relevant news", relevantNews)
+            debug("Json Parsed was not valid? How does this even happen??", json);
+            news = [];
         }
+    } catch (error) {
+        errorPanicNoInternet = true;
+        debug("Internet connection issues", error);
+        news = [];
+    }
 
-        // Add all relevant news to HTML:
-        fetch(urlLocationLookupTable)
-        .then(
-            (response) => {
-                return response;
-            },
-            (error) => {
-                debug("Failed to fetch lookup table", error);
-                return "{}";
-            }
-        )
-        .then(
-            (raw) => {
-                if(typeof(raw) == "string") {
-                    return JSON.parse(raw);
-                }
-                return raw.json();
-            }
-        )
-        .catch(
-            (error) => {
-                debug("Could not convert to json", error);
-                return JSON.parse("{}");
-            }
-        )
-        .then(
-            (json) => {
-                if(typeof(json) != "object") {
-                    json = {};
-                }
-                locationLookupTable = json;
-                debug("Got locationLookupTable!", locationLookupTable);
-            }
-        )
-        .finally(() => {
-            debug("Running replacement stuff on html elements.");
-            relevantNews.forEach((element) => {
-                let htmlElement = addLocationLinks(generateElementHtml(element));
-                addToDiv(htmlElement);
-            });
-        });
+    try {
+        await injectHolidays();
+    } catch (error) {
+        debug("Failed to inject holidays", error);
+    }
 
-        updateRefreshedAt();
+    getDiv().innerHTML = "";
+    updateRefreshedAt("Daten werden verarbeitet...");
+
+    // Error handling:
+    if (someErrorOccurred()) {
+        updateRefreshedAt("Datenverarbeitung abgebrochen.");
+        if (errorPanicNoInternet) {
+            displayErrorMessage(errorMessageNoInternet);
+        } else if (errorPanicParsingFuckUp) {
+            displayErrorMessage(errorMessageParsingFuckUp);
+        } else {
+            // This should NEVER happen:
+            displayErrorMessage(errorMessageGeneric);
+        }
+        debug("Displaying error message");
+        return;
+    }
+
+    // Empty news array:
+    if (news.length === 0) {
+        debug("No news at all found (normal? doubt it...)");
+        displayErrorMessage(infoMessageNoNews);
+        return;
+    }
+
+    // Normalize all news:
+    news = normalizedNews(news);
+    debug("Normalized news", news);
+
+    // Reset HTML:
+    getDiv().innerHTML = "";
+
+    // Filter news:
+    relevantNews = getFilteredNews();
+
+    if (relevantNews.length === 0) {
+        // No relevant news:
+        debug("No relevant news found.");
+        displayErrorMessage(infoMessageNoRelevantNews);
+        return;
+    } else {
+        // Sort:
+        relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
+        debug("All relevant news", relevantNews);
+    }
+
+    // Add all relevant news to HTML:
+    try {
+        let response = await fetch(urlLocationLookupTable);
+        let raw = await response.text();
+        locationLookupTable = JSON.parse(raw);
+        debug("Got locationLookupTable!", locationLookupTable);
+    } catch (error) {
+        debug("Could not fetch or parse location lookup table", error);
+        locationLookupTable = {};
+    }
+
+    debug("Running replacement stuff on html elements.");
+    relevantNews.forEach((element) => {
+        let htmlElement = addLocationLinks(generateElementHtml(element));
+        addToDiv(htmlElement);
     });
+
+    updateRefreshedAt();
 }
 
 window.onload = function() {
