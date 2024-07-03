@@ -110,6 +110,7 @@ const
 
     # Borders:
     colourEventGeneric* = colourText
+    colourEventHoliday* = $CornflowerBlue
     colourEventWarning* = $Gold
     colourEventAlert* = $Tomato
     colourEventHappened* = $Grey
@@ -141,10 +142,11 @@ const
 
 type NewsLevel = enum
     ## News relevance/importance levels
-    Generic = "generic",
-    Warning = "warning",
-    Alert = "alert",
     Happened = "happened"
+    Generic = "generic",
+    Holiday = "holiday",
+    Warning = "warning",
+    Alert = "alert"
 
 proc newsElement(level: NewsLevel): CssElement =
     result = newCssClass("newsfeed-element-" & $level,
@@ -155,10 +157,11 @@ proc newsElement(level: NewsLevel): CssElement =
         ["margin-bottom", "10px"]
     )
     result.properties["border-color"] = case(level):
+        of Happened: colourEventHappened
+        of Generic: colourEventGeneric
+        of Holiday: colourEventHoliday
         of Warning: colourEventWarning
         of Alert: colourEventAlert
-        of Generic: colourEventGeneric
-        of Happened: colourEventHappened
 
 proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: string): CssElement =
     result = newCssClass(className,
@@ -288,10 +291,11 @@ const
         padding("10px")
     )
 
+    newsElementHappened* = newsElement(Happened)
     newsElementGeneric* = newsElement(Generic)
+    newsElementHoliday* = newsElement(Holiday)
     newsElementWarning* = newsElement(Warning)
     newsElementAlert* = newsElement(Alert)
-    newsElementHappened* = newsElement(Happened)
 
     articlePreviewItem* = newCssClass("article-preview",
         textCenter,

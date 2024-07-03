@@ -30,30 +30,30 @@ type
         path*: Option[string] ## Optional, because needs not to be inserted into json file
         same*: Option[seq[string]] ## Optional similar locations
 
-    LocationLookup* = object
-        names*: seq[string]
-        path*: string
+    LocationLookup* = object ## Look-up table for alias names, will be injected into newsfeed
+        names*: seq[string] ## List of aliases
+        path*: string ## Path to location page: `location/location_name.html`
 
     LocationImageType* = enum
         imgHeader = "header image",
         imgFooter = "footer image"
 
     Contributor* = object
-        name*: string
-        link*: Option[string]
-        tasks*: Option[seq[string]]
+        name*: string ## Contributor name
+        link*: Option[string] ## Optional link to social media
+        tasks*: Option[seq[string]] ## List of tasks (displayed using unordered list)
 
     OfferingPlace* = object
         name*, id*: Option[string]
     OfferingContact* = object
         email*, telephone*: Option[string]
     Offering* = object
-        name*: string
-        desc*: Option[seq[string]]
-        time*: Option[string]
-        times*: Option[seq[string]]
-        place*: Option[OfferingPlace]
-        contact*: Option[OfferingContact]
+        name*: string ## Activity name
+        desc*: Option[seq[string]] ## Description of the activity (joined by `<br />`s)
+        time*: Option[string] ## EITHER: single time
+        times*: Option[seq[string]] ## OR: multiple times
+        place*: Option[OfferingPlace] ## Activity place
+        contact*: Option[OfferingContact] ## Contacts
 
 iterator withCoords*(locations: seq[Location]): Location =
     ## Filters locations only with coordinates
