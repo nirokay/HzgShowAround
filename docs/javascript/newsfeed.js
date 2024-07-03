@@ -51,6 +51,37 @@ const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgSho
 
 
 // ----------------------------------------------------------------------------
+// Error messages:
+// ----------------------------------------------------------------------------
+
+let errorMessageAdditional = "";
+
+let errorPanicNoInternet = false;
+const errorMessageNoInternet = [
+    "Es konnte keine Internetverbindung zum Server hergestellt werden.",
+    "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
+    "Überprüfe Diese und versuche es später noch einmal."
+];
+
+let errorPanicParsingFuckUp = false;
+const errorMessageParsingFuckUp = [
+    "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
+    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
+];
+
+const errorMessageGeneric = [
+    "Es ist ein Fehler geschehen..."
+];
+
+const infoMessageNoNews = [
+    "Keine Neuigkeiten vorhanden."
+];
+const infoMessageNoRelevantNews = [
+    "Derzeit keine relevanten Neuigkeiten vorhanden."
+];
+
+
+// ----------------------------------------------------------------------------
 // Dates and times:
 // ----------------------------------------------------------------------------
 
@@ -88,7 +119,7 @@ function convertToReadable(time) {
 }
 
 /**
- * Returns 0, 10, 20 for importance, and -10 for already-happened events
+ * Returns 0, 10, 20 for importance, -5 for holidays and -10 for already-happened events
  * @param {NewsFeedElement} element
  * @returns {number}
  */
@@ -101,10 +132,18 @@ function getImportance(element) {
         case "warning": case "warn": case "warnung":
             severity = 10;
             break;
-        case "holiday", "feiertag":
+        case "holiday": case "feiertag":
             severity = -5;
-        default:
+            break;
+        case "happened":
+            // this should never be triggered
+            severity = -10;
+            break;
+        case "info":
             severity = 0;
+            break;
+        default:
+            debug("Weird importance level of '" + element.level + "' in element (using default)", element);
             break;
     }
 
@@ -113,6 +152,7 @@ function getImportance(element) {
         severity = -10;
     }
 
+    element.importance = severity;
     return severity;
 }
 
@@ -139,8 +179,15 @@ let news = []; // All news from the remote repository
  * @type {NewsFeedElement[]}
  */
 let relevantNews = []; // Filtered news, that are relevant
+/**
+ * @type {LocationLookUpObject[]}
+ */
 let locationLookupTable = {};
 
+/**
+ * Array of holidays to ignore.
+ * @type {string[]}
+ */
 const holidaysToIgnore = [
     "Augsburger Friedensfest"
 ];
@@ -225,7 +272,6 @@ function updateRefreshedAt(override) {
  */
 function normalizedElement(element) {
     // No need to type-check, because it already was by GitHub actions (hopefully).
-
     // Element is just a comment:
     if(element.COMMENT != undefined) {
         return [];
@@ -276,7 +322,10 @@ function normalizedElement(element) {
     }
 
     // Prevent empty links:
-    if(element.info === "") {
+    if(typeof(element.info) != "string") {
+        element.info = undefined;
+    }
+    if((element.info) === "") {
         element.info = undefined;
     }
 
@@ -311,6 +360,7 @@ function normalizedElement(element) {
 
 /**
  * Gets all NewsFeedElements in a normalized state
+ * @param {NewsFeedElement[]} news
  * @returns {NewsFeedElement[]}
  */
 function normalizedNews(news) {
@@ -489,7 +539,7 @@ function htmlDetails(element) {
     lines = element.details;
     let result = "<p>" + lines.join("<br />") + "</p>";
 
-    if(url != undefined) {
+    if(url != undefined && url != "") {
         result += "<p class='generic-center'><a href='" + url + "'>mehr Infos</a></p>";
     }
     return result;
@@ -544,36 +594,50 @@ function addLocationLinks(html) {
     return result;
 }
 
+/**
+ * Injects holidays from the holiday API.
+ * @returns {Promise<void>}
+ */
+async function injectHolidays() {
+    debug("Injecting holidays");
+    return new Promise(async(resolve, reject) => {
+        for(let yearModifier = -1; yearModifier < 2; yearModifier++) {
+            const year = date.getFullYear() + yearModifier;
+            debug("Injecting holidays for year " + year);
+            let rawHolidays = {};
+            try {
+                let response = await fetch(urlHolidayApi + "&jahr=" + year);
+                let raw = await response.text();
+                let json = JSON.parse(raw);
+                rawHolidays = json;
+            } catch (error) {
+                debug("Failed to fetch/parse holidays json", error);
+            }
+
+            // Parse holidays to proper elements to be injected:
+            debug("Raw holidays", rawHolidays);
+            for (const [name, details] of Object.entries(rawHolidays)) {
+                // Skip some holidays:
+                if(holidaysToIgnore.indexOf(name) > -1) {
+                    continue;
+                }
+                let event = {};
+                event.name = name + " <small>(Feiertag)</small>";
+                event.on = details.datum;
+                event.info = undefined;
+                event.level = "holiday";
+
+                news.push(event);
+            }
+        }
+        resolve();
+    });
+}
+
 
 // ----------------------------------------------------------------------------
 // Errors:
 // ----------------------------------------------------------------------------
-
-let errorMessageAdditional = "";
-
-let errorPanicNoInternet = false;
-const errorMessageNoInternet = [
-    "Es konnte keine Internetverbindung zum Server hergestellt werden.",
-    "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
-    "Überprüfe Diese und versuche es später noch einmal."
-];
-
-let errorPanicParsingFuckUp = false;
-const errorMessageParsingFuckUp = [
-    "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
-    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
-];
-
-const errorMessageGeneric = [
-    "Es ist ein Fehler geschehen..."
-];
-
-const infoMessageNoNews = [
-    "Keine Neuigkeiten vorhanden."
-];
-const infoMessageNoRelevantNews = [
-    "Derzeit keine relevanten Neuigkeiten vorhanden."
-];
 
 /**
  * Checks if any errors occurred during runtime
@@ -597,42 +661,6 @@ function displayErrorMessage(errorMessage) {
     updateRefreshedAt();
 }
 
-/**
- * Injects holidays from the holiday API.
- * @returns {Promise<void>}
- */
-async function injectHolidays() {
-    return new Promise(async(resolve, reject) => {
-        debug("Injecting holidays");
-        let rawHolidays = {};
-        try {
-            let response = await fetch(urlHolidayApi);
-            let raw = await response.text();
-            let json = JSON.parse(raw);
-            rawHolidays = json;
-        } catch (error) {
-            debug("Failed to fetch/parse holidays json", error);
-        }
-
-        // Parse holidays to proper elements to be injected:
-        debug("Raw holidays", rawHolidays);
-        for (const [name, details] of Object.entries(rawHolidays)) {
-            // Skip hard-coded holidays:
-            if(holidaysToIgnore.indexOf(name) > -1) {
-                continue;
-            }
-            let event = {};
-            event.name = name;
-            event.on = details.datum;
-            // event.details = details.hinweis; // too much text lol
-            event.level = "holiday";
-
-            news.push(event);
-        }
-        resolve();
-    });
-}
-
 
 // ----------------------------------------------------------------------------
 // Main:
@@ -642,10 +670,11 @@ async function injectHolidays() {
  * Main function called on `document.onload` and when the refresh button is clicked
  */
 async function refreshNews() {
+    // Feedback: ==============================================================
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
 
-    // Reset error states:
+    // Reset error states: ====================================================
     errorMessageAdditional = "";
     errorPanicNoInternet = false;
     errorPanicParsingFuckUp = false;
