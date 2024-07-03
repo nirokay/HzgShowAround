@@ -601,56 +601,35 @@ function displayErrorMessage(errorMessage) {
  * Injects holidays from the holiday API.
  * @returns {Promise<void>}
  */
-function injectHolidays() {
-    return new Promise((resolve, reject) => {
-        let rawHolidays = {};
+async function injectHolidays() {
+    return new Promise(async(resolve, reject) => {
         debug("Injecting holidays");
+        let rawHolidays = {};
+        try {
+            let response = await fetch(urlHolidayApi);
+            let raw = await response.text();
+            let json = JSON.parse(raw);
+            rawHolidays = json;
+        } catch (error) {
+            debug("Failed to fetch/parse holidays json", error);
+        }
 
-        fetch(urlHolidayApi)
-        // Getting raw response:
-        .then(
-            (response) => response.text(),
-            (error) => {
-                debug("Failed to fetch holidays from API", error);
-                return "{}";
+        // Parse holidays to proper elements to be injected:
+        debug("Raw holidays", rawHolidays);
+        for (const [name, details] of Object.entries(rawHolidays)) {
+            // Skip hard-coded holidays:
+            if(holidaysToIgnore.indexOf(name) > -1) {
+                continue;
             }
-        )
-        .catch(
-            (error) => {
-                debug("Failed to fetch holidays from API", error);
-                return "{}";
-            }
-        )
-        // Parsing json:
-        .then(
-            (raw) => {
-                try {
-                    debug("Parsing holiday response...");
-                    return JSON.parse(raw);
-                } catch {
-                    debug("Failed to parse holiday response", raw);
-                    return {};
-                }
-            }
-        )
-        .then(
-            (json) => {
-                rawHolidays = json;
-            }
-        )
-        .finally(() => {
-            debug("Raw holidays", rawHolidays);
-            for (const [name, details] of Object.entries(rawHolidays)) {
-                let event = {};
-                event.name = name;
-                event.on = details.datum;
-                event.details = details.hinweis;
-                event.level = "holiday";
+            let event = {};
+            event.name = name;
+            event.on = details.datum;
+            // event.details = details.hinweis; // too much text lol
+            event.level = "holiday";
 
-                news.push(event);
-            }
-            resolve();
-        });
+            news.push(event);
+        }
+        resolve();
     });
 }
 
