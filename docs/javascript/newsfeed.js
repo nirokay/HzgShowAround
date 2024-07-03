@@ -23,7 +23,7 @@ function debug(message, element) {
         return;
     }
     const separator = "================================================";
-    if(! element == undefined || ! element == "" || ! element == null) {
+    if(element != undefined && element != "" && element != null) {
         console.log("===== " + message + " ===== :");
         console.log(element);
         console.log(separator);
@@ -45,6 +45,7 @@ const idReloadedTime = "reloaded-time";
 // URLs:
 // ----------------------------------------------------------------------------
 
+const urlHolidayApi = "https://feiertage-api.de/api/?nur_land=BY"
 const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
 const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 
@@ -77,7 +78,7 @@ function normalizeTime(time, offset = 0) {
 
 /**
  * Returns a readable date-stamp
- * @param {string} time 
+ * @param {string} time
  * @returns {string}
  */
 function convertToReadable(time) {
@@ -87,19 +88,21 @@ function convertToReadable(time) {
 }
 
 /**
- * Returns 0 .. 2 for severity, and -1 for already-happened events
- * @param {NewsFeedElement} element 
+ * Returns 0, 10, 20 for importance, and -10 for already-happened events
+ * @param {NewsFeedElement} element
  * @returns {number}
  */
 function getImportance(element) {
     let severity = 0;
     switch(element.level) {
         case "alert": case "achtung": case "alarm":
-            severity = 2;
+            severity = 20;
             break;
         case "warning": case "warn": case "warnung":
-            severity = 1;
+            severity = 10;
             break;
+        case "holiday", "feiertag":
+            severity = -5;
         default:
             severity = 0;
             break;
@@ -107,7 +110,7 @@ function getImportance(element) {
 
     // Special case, if the event occurred in the past:
     if(Date.parse(normalizeTime(element.till)) + dayMilliseconds < date.getTime()) {
-        severity = -1;
+        severity = -10;
     }
 
     return severity;
@@ -128,7 +131,13 @@ function normalizeImportance(element) {
 // ----------------------------------------------------------------------------
 
 let date = new Date(); // Current datetime, gets refreshed with each new refreshNews() call
+/**
+ * @type {NewsFeedElement[]}
+ */
 let news = []; // All news from the remote repository
+/**
+ * @type {NewsFeedElement[]}
+ */
 let relevantNews = []; // Filtered news, that are relevant
 let locationLookupTable = {};
 
@@ -257,6 +266,7 @@ function normalizedElement(element) {
             break;
         default:
             debug("Element details field is weird...", element)
+            element.details = [];
             break;
     }
 
@@ -298,7 +308,7 @@ function normalizedElement(element) {
  * Gets all NewsFeedElements in a normalized state
  * @returns {NewsFeedElement[]}
  */
-function normalizedNews() {
+function normalizedNews(news) {
     // Normalizes the fields for the json fields (pretty much just backwards compatibility and QoL)
     if(typeof(news) != "object" || news === undefined) {
         debug("News is not an object or is undefined", news);
@@ -392,16 +402,19 @@ function getElementClass(element) {
     const classPrefix = "newsfeed-element-";
     let classSuffix = "generic";
     switch(getImportance(element)) {
-        case 2:
+        case 20:
             classSuffix = "alert";
             break;
-        case 1:
+        case 10:
             classSuffix = "warning";
             break;
         case 0:
             classSuffix = "generic";
             break;
-        case -1:
+        case -5:
+            classSuffix = "holiday";
+            break;
+        case -10:
             classSuffix = "happened";
             break;
         default:
@@ -579,6 +592,58 @@ function displayErrorMessage(errorMessage) {
     updateRefreshedAt();
 }
 
+function injectHolidays() {
+    let rawHolidays = {};
+    debug("Injecting holidays");
+    fetch(urlHolidayApi)
+    // Getting raw response:
+    .then(
+        (response) => {
+            return response.text();
+        },
+        (error) => {
+            debug("Failed to fetch holidays from API", error);
+            return Promise.resolve(new Promise("{}"))
+        }
+    )
+    .catch(
+        (error) => {
+            debug("Failed to fetch holidays from API", error);
+            return Promise.resolve(new Response("{}"));
+        }
+    )
+    // Parsing json:
+    .then(
+        (raw) => {
+            try {
+                debug("Parsing holiday response...");
+                return JSON.parse(raw);
+            } catch {
+                debug("Failed to parse holiday response", raw);
+                return JSON.parse("{}");
+            }
+        }
+    )
+    .then(
+        (json) => {
+            rawHolidays = json;
+        }
+    )
+    .finally(() => {
+        debug("Raw holidays", rawHolidays);
+        for (const [name, details] of Object.entries(rawHolidays)) {
+            let event = {};
+            event.name = name;
+            event.on = details.datum;
+            event.details = details.hinweis;
+            event.level = "holiday";
+
+            news.push(event);
+            debug("Added new holiday: " + event.name);
+        }
+    });
+}
+
 
 // ----------------------------------------------------------------------------
 // Main:
@@ -587,7 +652,7 @@ function displayErrorMessage(errorMessage) {
 /**
  * Main function called on `document.onload` and when the refresh button is clicked
  */
-function refreshNews() {
+async function refreshNews() {
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
 
@@ -639,8 +704,20 @@ function refreshNews() {
             }
         }
     )
+    // Injecting holidays:
+    .then(
+        () => {
+            // Injecting holidays (i love this codebase):
+            injectHolidays();
+        }
+    )
+    .catch(
+        (error) => {
+            debug("Failed to inject holidays", error);
+        }
+    )
     // Main logic after parsing:
-    .finally(() => {
+    .finally(async() => {
         getDiv().innerHTML = "";
         updateRefreshedAt("Daten werden verarbeitet...");
 
@@ -667,7 +744,7 @@ function refreshNews() {
         }
 
         // Normalize all news:
-        news = normalizedNews();
+        news = normalizedNews(news);
         debug("Normalized news", news);
 
         // Reset HTML:
@@ -694,7 +771,7 @@ function refreshNews() {
                 return response;
             },
             (error) => {
-                console.error(error);
+                debug("Failed to fetch lookup table", error);
                 return "{}";
             }
         )
