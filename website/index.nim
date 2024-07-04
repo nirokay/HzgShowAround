@@ -139,8 +139,7 @@ html.addToBody(
 html.addToBody(
     h2("Sonstiges"),
     `div`(
-        buttonLink("Mitwirkende", "contributors.html"),
-        buttonLink("Credits", "credits.html")
+        buttonLink("Mitwirkende", "contributors.html")
     ).setClass(centerClass)
 )
 
