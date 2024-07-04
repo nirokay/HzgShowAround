@@ -54,11 +54,6 @@ function main() {
     [ ! $REVERT -eq 0 ] && git reset --hard master # Give up on current push, try again on next call
 }
 
-if [[ "${FLAGS[*]}" =~ "--clean" ]]; then
-    echo "Clearing old .html and .css files"
-    rm -r ./*.html ./*.css
-    rm -r ./*/*.html ./*/*.css
-fi
 
 if [[ "${FLAGS[*]}" =~ "--once" ]]; then
     echo "Running once!"
