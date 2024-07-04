@@ -248,7 +248,7 @@ icon-display {
     left: 0;
     display: table;
     top: 77px;
-    height: calc(100vh - 72px - 50px - 10px);
+    height: calc(100vh - 72px - 45px - 10px);
 }
 
 .div-middle {
@@ -278,8 +278,8 @@ icon-display {
     margin: auto;
     width: 100%;
     left: 0px;
-    bottom: 0px;
-    height: 50px;
+    bottom: -10px;
+    height: 55px;
     background-color: #23252c;
     text-align: center;
 }

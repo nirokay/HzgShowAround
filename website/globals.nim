@@ -142,7 +142,7 @@ const
 
 const
     heightBarTop*: int = 72 ## Height of the top bar (offset main div)
-    heightBarBottom*: int = 50 ## Height of the top bar (shrink main div)
+    heightBarBottom*: int = 45 ## Height of the top bar (shrink main div)
     heightBarMargins*: int = 5 ## Margins between content and bars
 
 # -----------------------------------------------------------------------------
@@ -282,8 +282,8 @@ const
 
     bottomPageFooterClass* = ".bottom-page-footer"{
         "left" := "0px",
-        "bottom" := "0px",
-        "height" := heightBarBottom.px,
+        "bottom" := "-10px",
+        "height" := px(heightBarBottom + 10),
         "width" := "100%",
         "margin" := "auto",
         "position" := "fixed",
