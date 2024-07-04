@@ -254,9 +254,9 @@ const
     divCenterOuter* = newCssClass("div-outer",
         display(table),
         position(absolute),
-        top(px(heightBarTop - heightBarMargins)),
+        top(px(heightBarTop + heightBarMargins)),
         left(0),
-        height("calc(100vh - " & heightBarTop.px & " - " & heightBarBottom.px & " - " & px(heightBarMargins * 2) & ")"),
+        height("calc(100vh - " & heightBarTop.px & " - " & heightBarBottom.px & " - " & px(heightBarMargins * 2) & ")"), # idk what im doing
         width("100%")
     )
     divCenterMiddle* = newCssClass("div-middle",

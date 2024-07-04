@@ -93,10 +93,10 @@ proc generate*(html: var HtmlDocument) =
         topHeader: HtmlElement = `div`(
             h2(
                 $a("/HzgShowAround", "HzgShowAround").addattr(
-                    "style", "text-decoration:none;color:#e8e6e3;"
+                    "style", "color:#e8e6e3;padding-left:10px;"
                 )
             ).addattr(
-                "style", "text-align:left;"
+                "style", "text-align:left;text-decoration:none;"
             )
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
@@ -110,7 +110,11 @@ proc generate*(html: var HtmlDocument) =
 
     html.addToBody(
         # 1_000_000 IQ move to put a buffer between end of content and footer
-        p($br())
+        `div`(
+            htmlComment("This element is a hack, please ignore my superior HTML/CSS skills")
+        ).addattr(
+            "style", "min-height:" & 52.px & ";"
+        )
     )
 
     # Vertically center entire HTML body:

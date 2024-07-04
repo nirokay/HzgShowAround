@@ -247,7 +247,7 @@ icon-display {
     width: 100%;
     left: 0;
     display: table;
-    top: 67px;
+    top: 77px;
     height: calc(100vh - 72px - 50px - 10px);
 }
 
