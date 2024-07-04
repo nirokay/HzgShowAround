@@ -87,7 +87,7 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
 
 proc generate*(html: var HtmlDocument) =
     ## Adds a header and footer before writing html page to disk
-    when not defined(js): stdout.write("Generating " & html.file & "...")
+    stdout.write("Generating " & html.file & "...")
 
     var
         topHeader: HtmlElement = `div`(
@@ -119,7 +119,7 @@ proc generate*(html: var HtmlDocument) =
 
     # Vertically center entire HTML body:
     # Ugly ass indentation-feast :(
-    if html.file notin pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: # amazing solution, I know... # TODO: actually fix the weird state of map.html
+    if html.file notin pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: # amazing solution, I know... # TODO: actually fix the weird state of map.html [Note: it has been half a year and i still do not have a clue what the fuck is wrong with it]
         html.body = @[
             `div`(
                 `div`(
@@ -137,7 +137,7 @@ proc generate*(html: var HtmlDocument) =
         bottomFooter,
 
         # Cloudflare analytics:
-        rawText( """<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
+        rawText("""<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
     )
 
     # Html head:
@@ -151,7 +151,19 @@ proc generate*(html: var HtmlDocument) =
         ]
     )
 
-    html.writeFile()
+    # OG image, if none set:
+    var hasOGImage: bool = false
+    for element in html.head:
+        if element.tag != "meta": continue
+        for attribute in element.tagAttributes:
+            if attribute.name != "property": continue
+            if attribute.value == "og:image":
+                hasOGImage = true
+                break
+    if not hasOGImage:
+        html.addOgImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
 
-    when not defined(js): stdout.write("\rFinished generation for " & html.file & "!\n")
+
+    html.writeFile()
+    stdout.write("\rFinished generation for " & html.file & "!\n")
 
