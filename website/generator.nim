@@ -86,16 +86,27 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
 
 
 proc generate*(html: var HtmlDocument) =
+    ## Adds a header and footer before writing html page to disk
     when not defined(js): stdout.write("Generating " & html.file & "...")
 
-    ## Adds a footer before writing html page to disk
-    var bottomFooter: HtmlElement = footer($small @[
-            "🄯 nirokay",
-            "Updated @ " & now().format("yyyy-MM-dd - HH:mm"),
-            $a("https://github.com/nirokay/HzgShowAround", "Source"),
-            $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS")
-        ].join(" | ")
-    ).setClass("generic-center-100-width")
+    var
+        topHeader: HtmlElement = `div`(
+            h2(
+                $a("/HzgShowAround", "HzgShowAround").addattr(
+                    "style", "text-decoration:none;color:#e8e6e3;"
+                )
+            ).addattr(
+                "style", "text-align:left;"
+            )
+        ).setClass("top-page-header")
+        bottomFooter: HtmlElement = `div`(
+            p($small @[
+                "🄯 nirokay",
+                "Updated @ " & now().format("yyyy-MM-dd - HH:mm"),
+                $a("https://github.com/nirokay/HzgShowAround", "Source"),
+                $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS")
+            ].join(" | "))
+        ).setClass("bottom-page-footer")
 
     html.addToBody(
         # 1_000_000 IQ move to put a buffer between end of content and footer
@@ -116,6 +127,8 @@ proc generate*(html: var HtmlDocument) =
         ]
 
     html.addToBody(
+        # Header:
+        topHeader,
         # Footer:
         bottomFooter,
 

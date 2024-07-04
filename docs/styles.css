@@ -247,8 +247,8 @@ icon-display {
     width: 100%;
     left: 0;
     display: table;
-    top: 0;
-    height: 100%;
+    top: 67px;
+    height: calc(100vh - 72px - 50px - 10px);
 }
 
 .div-middle {
@@ -260,6 +260,28 @@ icon-display {
     width: 90%;
     margin-right: auto;
     margin-left: auto;
+}
+
+.top-page-header {
+    position: fixed;
+    margin: auto;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    height: 72px;
+    background-color: #23252c;
+    text-align: center;
+}
+
+.bottom-page-footer {
+    position: fixed;
+    margin: auto;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    height: 50px;
+    background-color: #23252c;
+    text-align: center;
 }
 
 .news-div-class {

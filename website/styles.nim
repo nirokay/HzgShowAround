@@ -161,6 +161,9 @@ css.add(
     divCenterMiddle,
     divCenterInner,
 
+    topPageHeaderClass,
+    bottomPageFooterClass,
+
     #   News:
     newsDivClass,
     newsElementGeneric,

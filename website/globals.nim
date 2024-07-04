@@ -137,6 +137,15 @@ const
 
 
 # -----------------------------------------------------------------------------
+# Margins:
+# -----------------------------------------------------------------------------
+
+const
+    heightBarTop*: int = 72 ## Height of the top bar (offset main div)
+    heightBarBottom*: int = 50 ## Height of the top bar (shrink main div)
+    heightBarMargins*: int = 5 ## Margins between content and bars
+
+# -----------------------------------------------------------------------------
 # CSS classes:
 # -----------------------------------------------------------------------------
 
@@ -245,9 +254,9 @@ const
     divCenterOuter* = newCssClass("div-outer",
         display(table),
         position(absolute),
-        top(0),
+        top(px(heightBarTop - heightBarMargins)),
         left(0),
-        height("100%"),
+        height("calc(100vh - " & heightBarTop.px & " - " & heightBarBottom.px & " - " & px(heightBarMargins * 2) & ")"),
         width("100%")
     )
     divCenterMiddle* = newCssClass("div-middle",
@@ -259,6 +268,28 @@ const
         ["margin-right", "auto"],
         width("90%")
     )
+
+    topPageHeaderClass* = ".top-page-header"{
+        "left" := "0px",
+        "top" := "0px",
+        "height" := heightBarTop.px,
+        "width" := "100%",
+        "margin" := "auto",
+        "position" := "fixed",
+        "text-align" := "center",
+        "background-color" := colourBackgroundMiddle
+    }
+
+    bottomPageFooterClass* = ".bottom-page-footer"{
+        "left" := "0px",
+        "bottom" := "0px",
+        "height" := heightBarBottom.px,
+        "width" := "100%",
+        "margin" := "auto",
+        "position" := "fixed",
+        "text-align" := "center",
+        "background-color" := colourBackgroundMiddle
+    }
 
     flexContainerClass*: CssElement = ".flex-container"{
         "align-items" := "normal",
