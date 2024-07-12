@@ -2,7 +2,7 @@
 ## ====================
 ##
 ## This module genuinely hurts my eyes, so here is your trigger-warning for magic value, hardcoded SVG and many more.
-## The reasoning behind generating a SCG file on the fly is, so that you can dynamically add location markers/pins
+## The reasoning behind generating a SVG file on the fly is, so that you can dynamically add location markers/pins
 ## and rectangle as overlays for clickable areas (because who needs to visualise the `<area>` tag anyways... right?).
 
 import std/[strutils, strformat, options]

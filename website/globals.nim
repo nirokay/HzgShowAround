@@ -4,7 +4,7 @@
 ## This module includes some global values. Some CSS and HTML attributes are included here instead of `website/styles`, so
 ## that they can be used type-safely.
 
-import std/[strutils, tables]
+import std/[tables]
 import generator
 
 from std/os import `/`

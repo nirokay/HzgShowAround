@@ -37,9 +37,24 @@ for offering in offerings:
     elementsTop.add h3(offering.name)
 
     # Description:
+    var desc: seq[string]
     if offering.desc.isSome():
-        let desc: seq[string] = get offering.desc
-        elementsTop.add pc(desc)
+        desc = get offering.desc
+
+    # Place:
+    if offering.place.isSome():
+        let
+            place: OfferingPlace = get offering.place
+            displayName: string = place.name.get("[Ort] (ups, der fehlt)")
+            linkedName: string = (
+                if place.id.isSome(): $a("location/" & getRelativeUrlPath(get place.id), displayName)
+                else: displayName
+            )
+        desc.add("📌 " & linkedName)
+
+    # Add description stuff to `elementsTop`:
+    if elementsTop.len() != 0:
+        elementsTop.add pc(desc.join($br()))
 
     # Time(s):
     var times: seq[string]
@@ -55,22 +70,6 @@ for offering in offerings:
             fieldset(
                 legend("Zeiten"),
                 ul(points)
-            )
-        )
-
-    # Place:
-    if offering.place.isSome():
-        let
-            place: OfferingPlace = get offering.place
-            displayName: string = place.name.get("[Ort] (ups, der fehlt)")
-            linkedName: string = (
-                if place.id.isSome(): $a("location/" & getRelativeUrlPath(get place.id), displayName)
-                else: displayName
-            )
-        elementsBottom.add(
-            fieldset(
-                legend("Ort"),
-                pc(linkedName)
             )
         )
 
