@@ -49,7 +49,7 @@ const urlHolidayApi = "https://feiertage-api.de/api/?nur_land=BY"
 const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/";
 const urlRemoteNews = urlRemoteRepository + "news.json";
 const urlRemoteHealthPresentations = urlRemoteRepository + "news-health.json";
-const urlLocationLookupTable = urlRemoteRepository + "docs/resources/location_lookup.json";
+const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 
 
 // ----------------------------------------------------------------------------
@@ -655,8 +655,16 @@ async function injectHealthPresentations() {
         if(presentations.length == 0) {
             reject("Failed to fetch/parse");
         }
+        debug("Raw health presentations", presentations);
 
+        // Format and inject each news element:
         presentations.forEach((presentation) => {
+            // Slip comments:
+            if(presentation.COMMENT != undefined) {
+                return;
+            }
+
+            // An actual event:
             let event = {
                 name: "Gesundheitsbildung: " + presentation.topic,
                 on: presentation.on,
@@ -672,11 +680,12 @@ async function injectHealthPresentations() {
                 "zum Thema \"<i>" + topic + "</i>\""
             ];
 
+            // Add presenter to description, if there is one:
             if(presentation.by != undefined) {
                 desc.push("<small>Geleitet von " + presentation.by + "</small>");
             }
 
-            event.desc = desc;
+            event.details = desc;
             news.push(event);
         });
         resolve();
