@@ -663,7 +663,18 @@ async function injectHealthPresentations() {
                 level: "info"
             }
             // Description:
-            let desc = [];
+            let topic = presentation.desc;
+            if(topic == undefined) {
+                topic = presentation.topic;
+            }
+            let desc = [
+                "von <b>13.00 - 14.00 Uhr</b> im <b>Festsaal</b> (Am Latterbach 13)",
+                "zum Thema \"<i>" + topic + "</i>\""
+            ];
+
+            if(presentation.by != undefined) {
+                desc.push("<small>Geleitet von " + presentation.by + "</small>");
+            }
 
             event.desc = desc;
             news.push(event);
