@@ -46,8 +46,10 @@ const idReloadedTime = "reloaded-time";
 // ----------------------------------------------------------------------------
 
 const urlHolidayApi = "https://feiertage-api.de/api/?nur_land=BY"
-const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/news.json";
-const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
+const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/";
+const urlRemoteNews = urlRemoteRepository + "news.json";
+const urlRemoteHealthPresentations = urlRemoteRepository + "news-health.json";
+const urlLocationLookupTable = urlRemoteRepository + "docs/resources/location_lookup.json";
 
 
 // ----------------------------------------------------------------------------
@@ -610,7 +612,7 @@ async function injectHolidays() {
                 let raw = await response.text();
                 let json = JSON.parse(raw);
                 rawHolidays = json;
-            } catch (error) {
+            } catch(error) {
                 debug("Failed to fetch/parse holidays json", error);
             }
 
@@ -630,6 +632,42 @@ async function injectHolidays() {
                 news.push(event);
             }
         }
+        resolve();
+    });
+}
+
+/**
+ * Injects health presentations as news elements from remote json.
+ * @returns {Promise<void>}
+ */
+async function injectHealthPresentations() {
+    debug("Injecting health presentations");
+    return new Promise(async(resolve, reject) => {
+        let presentations = [];
+        try {
+            let response = await fetch(urlRemoteHealthPresentations);
+            let raw = await response.text();
+            let json = JSON.parse(raw);
+            presentations = json;
+        } catch(error) {
+            debug("Failed to fetch/parse health presentations json", error);
+        }
+        if(presentations.length == 0) {
+            reject("Failed to fetch/parse");
+        }
+
+        presentations.forEach((presentation) => {
+            let event = {
+                name: "Gesundheitsbildung: " + presentation.topic,
+                on: presentation.on,
+                level: "info"
+            }
+            // Description:
+            let desc = [];
+
+            event.desc = desc;
+            news.push(event);
+        });
         resolve();
     });
 }
@@ -681,7 +719,7 @@ async function refreshNews() {
 
     // Fetching news: =========================================================
     try {
-        let response = await fetch(urlRemoteRepository);
+        let response = await fetch(urlRemoteNews);
         let raw = await response.text();
         let json = JSON.parse(raw);
 
@@ -700,6 +738,12 @@ async function refreshNews() {
     // Injecting holidays into `news`: ========================================
     try {
         await injectHolidays();
+    } catch (error) {
+        debug("Failed to inject holidays", error);
+    }
+    // Injecting health presentations into `news`: ============================
+    try {
+        await injectHealthPresentations();
     } catch (error) {
         debug("Failed to inject holidays", error);
     }
