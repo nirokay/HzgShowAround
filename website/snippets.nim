@@ -150,6 +150,7 @@ proc ih4*(text: string, override: string = ""): HtmlElement = iheader(h4, text, 
 proc ih5*(text: string, override: string = ""): HtmlElement = iheader(h5, text, override) ## Header element (with ascii-friendly id)
 proc ih6*(text: string, override: string = ""): HtmlElement = iheader(h6, text, override) ## Header element (with ascii-friendly id)
 
+
 # =============================================================================
 # Options:
 # =============================================================================

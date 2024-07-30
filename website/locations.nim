@@ -108,10 +108,12 @@ proc generateLocationHtml*(location: Location) =
     if location.has(imgHeader):
         html.addToBody contentBox @[
             h1(headerText),
-            location.getLocationImage(imgHeader)
+            location.getLocationImage(imgHeader),
+            `div`().addattr("id", locationNewsfeedDivId)
         ]
     else:
         html.addToBody h1(headerText)
+        html.addToBody `div`().addattr("id", locationNewsfeedDivId)
 
     # Opening times:
     if location.open.isSet():

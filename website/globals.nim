@@ -18,6 +18,7 @@ export target
 const
     indexLocationDropDownId*: string = "index-location-drop-down" ## Element id on `index.html` (drop down menu)
     newsfeedDivId*: string = "news-div"
+    locationNewsfeedDivId*: string = "news-feed-info"
 
 
 # -----------------------------------------------------------------------------
