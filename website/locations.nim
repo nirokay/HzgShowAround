@@ -15,7 +15,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
     for header, content in desc:
         # Table index as header:
         if header.strip() != "":
-            result.add h2(header)
+            result.add ih2(header)
         # For each line, put in a separate `<p> ... </p>` and replace all `\n` with `<br />`:
         for line in content:
             result.add p(line.replace("\n", $br()))
@@ -123,7 +123,7 @@ proc generateLocationHtml*(location: Location) =
                 td(time)
             ]))
         html.addToBody(contentBox @[
-            h2("Öffnungszeiten"),
+            ih2("Öffnungszeiten"),
             table(elements).setClass(centerTableClass)
         ])
 
@@ -147,7 +147,7 @@ proc generateLocationHtml*(location: Location) =
         let path: string = location.getLocationMapPath()
 
         html.addToBody(contentBox @[
-            h2("Position auf der Karte"),
+            ih2("Position auf der Karte", "position"),
             img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageMapPreview)
         ])
 
@@ -165,13 +165,13 @@ proc generateLocationHtml*(location: Location) =
         # Only actually add if the stuff is set:
         if same.len() != 0:
             html.addToBody(contentBox @[
-                h2("Das könnte dich auch interessieren"),
+                ih2("Das könnte dich auch interessieren", "aehnliches"),
                 `div`(buttons).setClass(centerClass)
             ])
 
     # Back buttons:
     html.addToBody(contentBox @[
-        h2("Mehr interessante Orte entdecken"),
+        ih2("Mehr interessante Orte entdecken", "mehr"),
         `div`(
             buttonLink("← Startseite", "../index.html"),
             buttonLink("← Karte", "../map.html")

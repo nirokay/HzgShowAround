@@ -118,16 +118,37 @@ proc authorBubble*(authorName: string, beforeAfterText: array[2, string] = ["", 
 # URL formatting:
 # -----------------------------------------------------------------------------
 
-proc getRelativeUrlId*(name: string): string =
-    ## Gets the url ID (replacing special characters)
-    result = name.strip().toLower()
+proc formatToAscii*(text: string): string =
+    ## Formats text using `urlConvertChars` to mainly ascii characters
+    result = text
+    # Replace using custom rules:
     for chars in urlConvertChars:
         result = result.replace(chars[0], chars[1])
+
+proc getRelativeUrlId*(name: string): string =
+    ## Gets the url ID (replacing special characters)
+    result = name.strip().toLower().formatToAscii()
+
 proc getRelativeUrlPath*(name: string): string =
     ## Gets the path for an html page
     name.getRelativeUrlId() & ".html"
 
-
+proc iheader(original: proc, text: string, override: string = ""): HtmlElement =
+    var id: string
+    result = original(text)
+    if override != "":
+        id = override.toLower()
+    else:
+        id = text.toLower().formatToAscii()
+        for c in [",", ".", "!", "?", ":", ";"]:
+            id = id.replace(c, "")
+    result.addattr("id", id)
+proc ih1*(text: string, override: string = ""): HtmlElement = iheader(h1, text, override) ## Header element (with ascii-friendly id)
+proc ih2*(text: string, override: string = ""): HtmlElement = iheader(h2, text, override) ## Header element (with ascii-friendly id)
+proc ih3*(text: string, override: string = ""): HtmlElement = iheader(h3, text, override) ## Header element (with ascii-friendly id)
+proc ih4*(text: string, override: string = ""): HtmlElement = iheader(h4, text, override) ## Header element (with ascii-friendly id)
+proc ih5*(text: string, override: string = ""): HtmlElement = iheader(h5, text, override) ## Header element (with ascii-friendly id)
+proc ih6*(text: string, override: string = ""): HtmlElement = iheader(h6, text, override) ## Header element (with ascii-friendly id)
 
 # =============================================================================
 # Options:
