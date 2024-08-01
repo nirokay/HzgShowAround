@@ -33,9 +33,9 @@ function getLocationName() {
         debug("Element does not exist", idLocationNameId)
         return undefined
     }
-    return element.value
+    return element.getHTML()
 }
 
-document.onload = () => {
-    debug("Running newsfeed enclave script on location", getLocationName());
+window.onload = () => {
+    debug("Running newsfeed enclave script on location: " + getLocationName());
 }

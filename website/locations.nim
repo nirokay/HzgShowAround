@@ -92,7 +92,7 @@ proc generateLocationHtml*(location: Location) =
         "Infos zum Ort " & name
     )
 
-    html.addToHead importScript("javascript/locations.js").add(attr("defer"))
+    html.addToHead importScript("../javascript/locations.js").add(attr("defer"))
 
     let newsfeedEnclave: HtmlElement = `div`(
         `var`(name).add(
