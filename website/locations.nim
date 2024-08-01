@@ -92,6 +92,15 @@ proc generateLocationHtml*(location: Location) =
         "Infos zum Ort " & name
     )
 
+    html.addToHead importScript("javascript/locations.js").add(attr("defer"))
+
+    let newsfeedEnclave: HtmlElement = `div`(
+        `var`(name).add(
+            attr("style", "display='hidden';"),
+            attr("id", locationNewsfeedEnclaveVarId)
+        )
+    ).addattr("id", locationNewsfeedEnclaveDivId)
+
     # Add to lookup table (used by newsfeed to replace substrings):
     locationLookupTable[name] = LocationLookup(
         names: @[name],
@@ -109,11 +118,13 @@ proc generateLocationHtml*(location: Location) =
         html.addToBody contentBox @[
             h1(headerText),
             location.getLocationImage(imgHeader),
-            `div`().addattr("id", locationNewsfeedDivId)
+            newsfeedEnclave
         ]
     else:
-        html.addToBody h1(headerText)
-        html.addToBody `div`().addattr("id", locationNewsfeedDivId)
+        html.addToBody(
+            h1(headerText),
+            newsfeedEnclave
+        )
 
     # Opening times:
     if location.open.isSet():
