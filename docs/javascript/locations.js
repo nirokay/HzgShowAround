@@ -26,27 +26,43 @@ function getLocationName() {
     return element.getHTML()
 }
 
+/**
+ * Gets the newsfeed enclave
+ * @returns {HTMLElement | null}
+ */
 function getEnclave() {
     return document.getElementById(idNewsfeedEnclave);
 }
+/**
+ * Appends HTML strings to enclave
+ * @param {string} html
+ * @returns {void}
+ */
 function insertIntoEnclave(html) {
     let enclave = getEnclave();
     if(enclave == null) {
-
+        debug("Fuck, where did the enclave go??");
+        return;
     }
     enclave.insertAdjacentHTML("beforeend", html);
 }
-
+/**
+ * Filters the news and pushes them to `locationNews`.
+ * @returns {void}
+ */
 function filteredLocationNews() {
     debug("Filtering news");
     let locationName = getLocationName();
     relevantNews.forEach(newsElement => {
         try {
+            // Yippie, type checking:
             if(newsElement.locations == undefined) {return}
             let alreadyFound = false;
             newsElement.locations.forEach(location => {
+                // Do not add duplicates:
                 if(alreadyFound) {return}
-                if(location == locationName) {
+                // Add if name matches and event did not already happen:
+                if(location == locationName && newsElement.importance > -10) {
                     locationNews.push(newsElement);
                     alreadyFound = true;
                 }
@@ -57,6 +73,10 @@ function filteredLocationNews() {
     });
 }
 
+/**
+ * Injects all HTML into the newsfeed enclave.
+ * @returns {void}
+ */
 function injectIntoEnclave() {
     insertIntoEnclave("<h2><a href='../newsfeed.html'>Relevante Neuigkeiten</a></h2>")
     locationNews.forEach(element => {
