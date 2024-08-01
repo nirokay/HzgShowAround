@@ -96,7 +96,7 @@ proc generateLocationHtml*(location: Location) =
 
     let newsfeedEnclave: HtmlElement = `div`(
         `var`(name).add(
-            attr("style", "display='hidden';"),
+            attr("style", "display:none;"),
             attr("id", locationNewsfeedEnclaveVarId)
         )
     ).addattr("id", locationNewsfeedEnclaveDivId)
