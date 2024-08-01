@@ -4,24 +4,14 @@
     =================================
 
 */
-const debugPrintingEnabled = true;
 
 const idLocationNameId = "newsfeed-location-id";
 const idNewsfeedEnclave = "newsfeed-enclave";
 
-function debug(message, element) {
-    if(!debugPrintingEnabled) {
-        return;
-    }
-    const separator = "================================================";
-    if(element != undefined && element != "" && element != null) {
-        console.log("===== " + message + " ===== :");
-        console.log(element);
-        console.log(separator);
-    } else {
-        console.log("===== " + message + " =====");
-    }
-}
+/**
+ * @type {NewsFeedElement[]}
+ */
+let locationNews = [];
 
 /**
  * Returns the current location name, that is set in a `var` html element
@@ -36,6 +26,49 @@ function getLocationName() {
     return element.getHTML()
 }
 
-window.onload = () => {
+function getEnclave() {
+    return document.getElementById(idNewsfeedEnclave);
+}
+function insertIntoEnclave(html) {
+    let enclave = getEnclave();
+    if(enclave == null) {
+
+    }
+    enclave.insertAdjacentHTML("beforeend", html);
+}
+
+function filteredLocationNews() {
+    debug("Filtering news");
+    let locationName = getLocationName();
+    relevantNews.forEach(newsElement => {
+        try {
+            if(newsElement.locations == undefined) {return}
+            let alreadyFound = false;
+            newsElement.locations.forEach(location => {
+                if(alreadyFound) {return}
+                if(location == locationName) {
+                    locationNews.push(newsElement);
+                    alreadyFound = true;
+                }
+            });
+        } catch(e) {
+            debug("Failed to filter location on news element", newsElement);
+        }
+    });
+}
+
+function injectIntoEnclave() {
+    insertIntoEnclave("<h2>Relevante Neuigkeiten</h2>")
+    locationNews.forEach(element => {
+        insertIntoEnclave(generateElementHtml(element))
+    });
+}
+
+window.onload = async() => {
     debug("Running newsfeed enclave script on location: " + getLocationName());
+    await refreshNews();
+    filteredLocationNews();
+    debug("Location news", locationNews);
+    injectIntoEnclave();
+    console.log(locationNews)
 }

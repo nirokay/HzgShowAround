@@ -207,7 +207,7 @@ function getDiv() {
     // Shortcut to get the newsfeed div
     let result = document.getElementById(idNewsFeed);
     if(result == null) {
-        console.error("Could not find HTML element by id: " + idNewsFeed)
+        debug("Could not find HTML element by id: " + idNewsFeed)
     }
     return result;
 }
@@ -217,7 +217,11 @@ function getDiv() {
  * @param {string} content
  */
 function addToDiv(content) {
-    getDiv().insertAdjacentHTML('beforeend', content);
+    try {
+        getDiv().insertAdjacentHTML('beforeend', content);
+    } catch(e) {
+        // debug("Failed to insert into div", e);
+    }
 }
 
 /**
@@ -259,7 +263,11 @@ function updateRefreshedAt(override) {
     } else {
         newText = override;
     }
-    document.getElementById(idReloadedTime).innerHTML = newText;
+    try {
+        document.getElementById(idReloadedTime).innerHTML = newText;
+    } catch(e) {
+        debug("Could not update refreshed-at timer");
+    }
 }
 
 
@@ -355,6 +363,10 @@ function normalizedElement(element) {
         element.isHappening = true;
     } else {
         element.isHappening = false;
+    }
+
+    if(element.locations == undefined) {
+        element.locations = [];
     }
 
     return element;
@@ -769,7 +781,11 @@ async function refreshNews() {
     }
 
     // Reset the html stuff: ==================================================
-    getDiv().innerHTML = "";
+    try {
+        getDiv().innerHTML = "";
+    } catch(e) {
+        debug("Could not wipe html content", e);
+    }
     updateRefreshedAt("Daten werden verarbeitet...");
 
     // Error handling: ========================================================
