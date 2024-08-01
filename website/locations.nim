@@ -100,7 +100,10 @@ proc generateLocationHtml*(location: Location) =
             attr("style", "display:none;"),
             attr("id", locationNewsfeedEnclaveVarId)
         )
-    ).addattr("id", locationNewsfeedEnclaveDivId)
+    ).add(
+        attr("id", locationNewsfeedEnclaveDivId),
+        attr("style", "width: 75%;margin: auto;scale: 0.9;")
+    )
 
     # Add to lookup table (used by newsfeed to replace substrings):
     locationLookupTable[name] = LocationLookup(

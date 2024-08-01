@@ -58,7 +58,7 @@ function filteredLocationNews() {
 }
 
 function injectIntoEnclave() {
-    insertIntoEnclave("<h2>Relevante Neuigkeiten</h2>")
+    insertIntoEnclave("<h2><a href='../newsfeed.html'>Relevante Neuigkeiten</a></h2>")
     locationNews.forEach(element => {
         insertIntoEnclave(generateElementHtml(element))
     });
