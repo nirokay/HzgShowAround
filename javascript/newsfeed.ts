@@ -70,12 +70,17 @@ async function refreshNewsfeed() {
     // Updating HTML:
     newsfeed().innerHTML = "";
     updateRefreshedAt("Daten werden verarbeitet...");
-    rebuildNews();
+    await rebuildNews();
 
+    updateRefreshedAt("Daten werden angezeigt...");
     relevantNews.forEach((element) => {
         let htmlElement = addLocationLinks(generateElementHtml(element));
         addToNewsfeed(htmlElement);
     });
 
     updateRefreshedAt();
+}
+
+window.onload = async() => {
+    await refreshNewsfeed();
 }

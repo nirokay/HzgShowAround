@@ -66,10 +66,10 @@ function holidaysToNewsfeedElements(holidays) {
             continue;
         }
         let event = new NewsFeedElement;
-        event.name = name;
+        event.name = name + " <small>(Feiertag)</small>";
         event.on = details.datum;
         event.level = "holiday";
-        event.runtimeAdditionalMessage += " (Feiertag)";
+        result.push(event);
     }
     return result;
 }
@@ -103,6 +103,10 @@ function normalizedElement(news, element) {
             result.from = "*-01-01";
             result.till = "*-12-31";
             result.runtimeAdditionalMessage = "Fehlendes Datum, wird als ganzjährig angezeigt!";
+        }
+        else {
+            result.from = element.from;
+            result.till = element.till;
         }
     }
     // Single-day event:
@@ -172,6 +176,10 @@ function normalizedElement(news, element) {
 }
 function normalizedElements(news) {
     let result = [];
+    if (!Array.isArray(news)) {
+        debug("News array is not an array", news);
+        return [];
+    }
     news.forEach((element) => {
         let newElement = normalizedElement(news, element);
         if (newElement == null) {
@@ -192,7 +200,7 @@ function normalizeTime(time, offset = 0) {
     return time.replace("\*", year.toString());
 }
 function getImportance(element) {
-    var _a;
+    var _a, _b, _c;
     let result = 0;
     switch (element.level) {
         case "alert":
@@ -222,10 +230,7 @@ function getImportance(element) {
     }
     // Special case, if the event occurred in the past:
     let date = new Date;
-    let till = (_a = element.till) !== null && _a !== void 0 ? _a : getToday();
-    if (element.till == undefined) {
-        debug("`element.till` is undefined, using today", element);
-    }
+    let till = (_c = (_b = (_a = element.till) !== null && _a !== void 0 ? _a : element.on) !== null && _b !== void 0 ? _b : element.from) !== null && _c !== void 0 ? _c : getToday();
     if (Date.parse(normalizeTime(till)) + dayMilliseconds < date.getTime()) {
         result = -10;
     }

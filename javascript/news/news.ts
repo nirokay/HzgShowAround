@@ -1,6 +1,7 @@
 let date: Date = new Date;
 
 let relevantNews: NewsFeedElement[] = [];
+let normalizedNews: NewsFeedElement[] = [];
 let rawNews: NewsFeedElement[] = [];
 
 let healthPresentations: NewsFeedElement[] = [];
@@ -40,10 +41,10 @@ async function getHolidays() {
         let json = JSON.parse(text);
 
         if(typeof(json) === "object" && json !== null) {
-            rawNews = json;
+            rawHolidays = json;
         } else {
             debug("[News] Json Parsed was not valid? How does this even happen??", json);
-            rawNews = [];
+            rawHolidays = {};
         }
     } catch(error) {
         debug("Failed to fetch holidays", error);
@@ -74,21 +75,26 @@ async function getHealthPresentations() {
  * Refreshes news arrays
  */
 async function refetchNews() {
+    debug("Fetching news...");
     date = new Date;
 
     await getNews();
     await getHealthPresentations();
-    await getHolidays();}
+    await getHolidays();
+    debug("Fetching complete!")
+}
 
 /**
  * Rebuild news arrays
  */
 async function rebuildNews() {
-    rawNews = normalizedElements(rawNews);
+    debug("Rebuilding news...");
+    normalizedNews = normalizedElements(rawNews);
     holidays = normalizedElements(holidaysToNewsfeedElements(rawHolidays))
     healthPresentations = normalizedElements(healthPresentationsToNewsfeedElements(rawHealthPresentations))
 
-    let newsfeedElements: NewsFeedElement[] = rawNews.concat(healthPresentations, holidays)
-    relevantNews = sortedElementsByDateAndRelevancy(newsfeedElements);
-
+    relevantNews = relevantNews.concat(normalizedNews, healthPresentations, holidays)
+    relevantNews = getFilteredNews(relevantNews);
+    relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
+    debug("Rebuild complete!");
 }

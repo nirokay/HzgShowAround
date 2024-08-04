@@ -1,4 +1,3 @@
-"use strict";
 /*
 
     Logic for Tour page
@@ -9,38 +8,43 @@
     "pre-selected" so to speak.
 
 */
+
+
 const iframeId = "location-display";
 const progressId = "tour-progress";
-let tourLocations = [];
+
 let currentLocation = 0;
-async function fetchLocations() {
-    await fetch("https://nirokay.github.io/HzgShowAround/resources/tour_locations.json")
-        .then((response) => response.json())
-        .then((json) => tourLocations = json);
-}
-fetchLocations();
+let tourLocations = []
+let fetching = fetch('https://nirokay.github.io/HzgShowAround/resources/tour_locations.json')
+    .then((response) => response.json())
+    .then((json) => tourLocations = json);
+
+// Changes the source of the iframe:
 function setSource() {
-    let iframe = document.getElementById(iframeId);
-    let progress = document.getElementById(progressId);
-    iframe.src = "location/" + tourLocations[currentLocation] + ".html";
-    progress.value = currentLocation + 1;
+    document.getElementById(iframeId).src = ("location/" + tourLocations[currentLocation] + ".html");
+    document.getElementById(progressId).value = currentLocation + 1;
 }
+
+// Previous button function:
 function prevLocation() {
-    if (currentLocation <= 0) {
+    if(currentLocation <= 0) {
         alert("Du bist am Anfang der Tour, du kannst nicht zurückgehen...");
         currentLocation = 0;
         return;
     }
+
     currentLocation--;
     setSource();
 }
+
+// Next button function:
 function nextLocation() {
-    let max = tourLocations.length - 1;
-    if (currentLocation >= max) {
+    if(currentLocation >= tourLocations.length - 1) {
         alert("Du hast die digitale Tour durch Herzogsägmühle abgeschlossen!");
-        currentLocation = max;
+        currentLocation = tourLocations.length - 1;
         return;
     }
+
     currentLocation++;
     setSource();
 }

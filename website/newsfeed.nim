@@ -14,6 +14,10 @@ var html: HtmlDocument = newPage(
     "Neuigkeiten von und rund um die Herzogsägmühle."
 )
 
+html.addToHead importScript("javascript/commons.js").add(attr("defer"))
+html.addToHead importScript("javascript/news/typedefs.js").add(attr("defer"))
+html.addToHead importScript("javascript/news/html.js").add(attr("defer"))
+html.addToHead importScript("javascript/news/news.js").add(attr("defer"))
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
@@ -27,7 +31,7 @@ html.addToBody(
     ).setClass(centerClass),
     `div`(
         backToHomeButton("← Zurück"),
-        buttonScript("Neu laden", "refreshNews()"),
+        buttonScript("Neu laden", "refreshNewsfeed()"),
     ).setClass(centerClass),
     `div`(
         p("Events werden geladen...")

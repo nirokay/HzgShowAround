@@ -83,10 +83,10 @@ function holidaysToNewsfeedElements(holidays: object): NewsFeedElement[] {
         if(holidaysToIgnore.indexOf(name) > -1) {continue}
 
         let event = new NewsFeedElement;
-        event.name = name;
+        event.name = name + " <small>(Feiertag)</small>";
         event.on = details.datum;
         event.level = "holiday";
-        event.runtimeAdditionalMessage += " (Feiertag)"
+        result.push(event);
     }
     return result;
 }
@@ -94,9 +94,7 @@ function holidaysToNewsfeedElements(holidays: object): NewsFeedElement[] {
 
 function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): NewsFeedElement | null {
     // Disregard comments:
-    if(element.COMMENT != undefined) {
-        return null;
-    }
+    if(element.COMMENT != undefined) {return null}
 
     // Begin construction:
     let result: NewsFeedElement = new NewsFeedElement();
@@ -122,6 +120,9 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
             result.from = "*-01-01";
             result.till = "*-12-31";
             result.runtimeAdditionalMessage = "Fehlendes Datum, wird als ganzjährig angezeigt!";
+        } else {
+            result.from = element.from;
+            result.till = element.till;
         }
     }
     // Single-day event:
@@ -202,6 +203,10 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
 function normalizedElements(news: NewsFeedElement[]): NewsFeedElement[] {
     let result: NewsFeedElement[] = [];
 
+    if(!Array.isArray(news)) {
+        debug("News array is not an array", news);
+        return [];
+    }
     news.forEach((element) => {
         let newElement: NewsFeedElement | null = normalizedElement(news, element);
         if(newElement == null) {return}
@@ -254,10 +259,7 @@ function getImportance(element: NewsFeedElement): number {
 
     // Special case, if the event occurred in the past:
     let date: Date = new Date;
-    let till: string = element.till ?? getToday();
-    if(element.till == undefined) {
-        debug("`element.till` is undefined, using today", element);
-    }
+    let till: string = element.till ?? element.on ?? element.from ?? getToday();
     if(Date.parse(normalizeTime(till)) + dayMilliseconds < date.getTime()) {
         result = -10;
     }
