@@ -1,29 +1,18 @@
-const idNewsFeed = "news-div";
-const idReloadedTime = "reloaded-time";
+const idNewsFeed: string = "news-div";
+const idReloadedTime: string = "reloaded-time";
+let currentlyRefreshing: boolean = false;
 
-
-
-// ----------------------------------------------------------------------------
-// Error messages:
-// ----------------------------------------------------------------------------
 
 let errorMessageAdditional = "";
 
-let errorPanicNoInternet = false;
 const errorMessageNoInternet = [
     "Es konnte keine Internetverbindung zum Server hergestellt werden.",
     "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
     "Überprüfe Diese und versuche es später noch einmal."
 ];
-
-let errorPanicParsingFuckUp = false;
 const errorMessageParsingFuckUp = [
     "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
     "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
-];
-
-const errorMessageGeneric = [
-    "Es ist ein Fehler geschehen..."
 ];
 
 const infoMessageNoNews = [
@@ -33,13 +22,17 @@ const infoMessageNoRelevantNews = [
     "Derzeit keine relevanten Neuigkeiten vorhanden."
 ];
 
+
 function newsfeed(): HTMLElement {
     let result: HTMLElement | null = document.getElementById(idNewsFeed);
     if(result == null) {return new HTMLElement} // wtf is this, lmao
     return result;
 }
 function addToNewsfeed(content: HtmlString) {
-    newsfeed().insertAdjacentHTML('beforeend', content);
+    newsfeed().insertAdjacentHTML("beforeend", content);
+}
+function addErrorMessage(content: HtmlString[]) {
+    newsfeed().insertAdjacentHTML("afterbegin", "<p>" + content.join("<br />") + "</p>");
 }
 
 function updateRefreshedAt(override?: string) {
@@ -65,7 +58,12 @@ async function refreshNewsfeed() {
     // Fetching:
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
-    await refetchNews();
+    try {
+        await refetchNews();
+    } catch(error) {
+        updateRefreshedAt(errorMessageNoInternet.join("<br />"));
+        return;
+    }
 
     // Updating HTML:
     newsfeed().innerHTML = "";
@@ -79,7 +77,21 @@ async function refreshNewsfeed() {
     });
 
     updateRefreshedAt();
+
+    // Terminator error messages:
+    if(errorPanicNoInternet) {
+        addErrorMessage(errorMessageNoInternet);
+    } else if(errorPanicParsingFuckUp) {
+        addErrorMessage(errorMessageParsingFuckUp);
+    }
+    // "Soft" error messages:
+    if(normalizedNews.length == 0) {
+        addErrorMessage(infoMessageNoNews);
+    } else if(relevantNews.length == 0) {
+        addErrorMessage(infoMessageNoRelevantNews);
+    }
 }
+
 
 window.onload = async() => {
     await refreshNewsfeed();

@@ -5,9 +5,10 @@ const dayMilliseconds = 86400000;
 const weekMilliseconds = dayMilliseconds * 7;
 const monthMilliseconds = weekMilliseconds * 4;
 const dateFormatDisplay = {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric"
+    weekday: "long",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
 };
 let relevancyLookIntoFuture = monthMilliseconds * 2;
 let relevancyLookIntoPast = monthMilliseconds;
@@ -73,8 +74,11 @@ function holidaysToNewsfeedElements(holidays) {
     }
     return result;
 }
+/**
+ * Normalizes an element, so all fields are occupied
+ */
 function normalizedElement(news, element) {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     // Disregard comments:
     if (element.COMMENT != undefined) {
         return null;
@@ -142,13 +146,15 @@ function normalizedElement(news, element) {
     else if (element.info === "") {
         result.info = undefined;
     }
+    // Location IDs:
+    result.locations = element.locations;
     // Add importance:
     result.importance = getImportance(element);
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
     {
-        let from = (_c = result.from) !== null && _c !== void 0 ? _c : "";
-        let till = (_d = result.till) !== null && _d !== void 0 ? _d : "";
+        let from = (_d = (_c = result.from) !== null && _c !== void 0 ? _c : result.on) !== null && _d !== void 0 ? _d : "";
+        let till = (_f = (_e = result.till) !== null && _e !== void 0 ? _e : result.on) !== null && _f !== void 0 ? _f : "";
         if (from.includes("*") || till.includes("*")) {
             // Duplicates the event for the next and previous year
             let year = date.getFullYear();
@@ -164,8 +170,8 @@ function normalizedElement(news, element) {
         }
     }
     // Is happening now:
-    if (Date.parse((_e = result.from) !== null && _e !== void 0 ? _e : "") <= date.getTime() &&
-        Date.parse((_f = result.till) !== null && _f !== void 0 ? _f : "") + dayMilliseconds >= date.getTime()) {
+    if (Date.parse((_g = result.from) !== null && _g !== void 0 ? _g : "") <= date.getTime() &&
+        Date.parse((_h = result.till) !== null && _h !== void 0 ? _h : "") + dayMilliseconds >= date.getTime()) {
         element.isHappening = true;
     }
     else {
@@ -174,6 +180,9 @@ function normalizedElement(news, element) {
     // Finally done:
     return result;
 }
+/**
+ * Normalizes elements, so all fields are occupied
+ */
 function normalizedElements(news) {
     let result = [];
     if (!Array.isArray(news)) {
@@ -189,6 +198,9 @@ function normalizedElements(news) {
     });
     return result;
 }
+/**
+ * Gets todays timestamp
+ */
 function getToday() {
     let date = new Date;
     debug("Generating todays date.");
@@ -199,6 +211,9 @@ function normalizeTime(time, offset = 0) {
     let year = date.getFullYear() + offset;
     return time.replace("\*", year.toString());
 }
+/**
+ * Gets the numerical importance of an event
+ */
 function getImportance(element) {
     var _a, _b, _c;
     let result = 0;
@@ -237,6 +252,9 @@ function getImportance(element) {
     element.importance = result;
     return result;
 }
+/**
+ * Gets the Css class of an event
+ */
 function getElementClass(element) {
     const classPrefix = "newsfeed-element-";
     let classSuffix = "generic";
@@ -262,6 +280,9 @@ function getElementClass(element) {
     }
     return classPrefix + classSuffix;
 }
+/**
+ * Determines if the event is relevant based on its time
+ */
 function isElementRelevant(element) {
     var _a, _b;
     if (typeof (element) != "object" || element == null) {
@@ -276,6 +297,9 @@ function isElementRelevant(element) {
     return (unixNow - relevancyLookIntoPast <= unixTill &&
         unixNow + relevancyLookIntoFuture >= unixFrom);
 }
+/**
+ * Filters all events by relevancy (see function `isElementRelevant`)
+ */
 function getFilteredNews(news) {
     let result = [];
     if (typeof (news) != "object" || news == null) {
@@ -289,6 +313,9 @@ function getFilteredNews(news) {
     });
     return result;
 }
+/**
+ * Sorts events based on their time and then importance
+ */
 function sortedElementsByDateAndRelevancy(news) {
     if (typeof (news) != "object" || news == null) {
         debug("Passed news for sorting by date and relevancy was not an object or is null.", news);
@@ -308,5 +335,5 @@ function sortedElementsByDateAndRelevancy(news) {
 }
 function displayTime(time) {
     let d = new Date(Date.parse(time));
-    return "<b><time>" + d.toLocaleString("de-DE") + "</time></b>";
+    return "<b><time>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
 }

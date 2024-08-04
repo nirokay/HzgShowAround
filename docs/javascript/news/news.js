@@ -7,6 +7,8 @@ let healthPresentations = [];
 let rawHealthPresentations = [];
 let holidays = [];
 let rawHolidays = {};
+let errorPanicNoInternet = false;
+let errorPanicParsingFuckUp = false;
 /**
  * Fetches news
  */
@@ -14,7 +16,14 @@ async function getNews() {
     try {
         let response = await fetch(urlRemoteNews);
         let text = await response.text();
-        let json = JSON.parse(text);
+        let json = JSON.parse("[]");
+        try {
+            json = JSON.parse(text);
+        }
+        catch (error) {
+            errorPanicParsingFuckUp = true;
+            debug("[News] Failed to parse json", text);
+        }
         if (typeof (json) === "object" && json !== null) {
             rawNews = json;
         }
@@ -24,6 +33,7 @@ async function getNews() {
         }
     }
     catch (error) {
+        errorPanicNoInternet = true;
         debug("Failed to fetch news", error);
     }
 }
@@ -34,12 +44,19 @@ async function getHolidays() {
     try {
         let response = await fetch(urlHolidayApi);
         let text = await response.text();
-        let json = JSON.parse(text);
+        let json = JSON.parse("{}");
+        try {
+            json = JSON.parse(text);
+        }
+        catch (error) {
+            errorPanicParsingFuckUp = true;
+            debug("[Holidays] Failed to parse json", text);
+        }
         if (typeof (json) === "object" && json !== null) {
             rawHolidays = json;
         }
         else {
-            debug("[News] Json Parsed was not valid? How does this even happen??", json);
+            debug("[Holidays] Json Parsed was not valid? How does this even happen??", json);
             rawHolidays = {};
         }
     }
@@ -54,7 +71,14 @@ async function getHealthPresentations() {
     try {
         let response = await fetch(urlRemoteHealthPresentations);
         let text = await response.text();
-        let json = JSON.parse(text);
+        let json = JSON.parse("[]");
+        try {
+            json = JSON.parse(text);
+        }
+        catch (error) {
+            errorPanicParsingFuckUp = true;
+            debug("[Health Presentations] Failed to parse json", text);
+        }
         if (typeof (json) === "object" && json !== null) {
             rawHealthPresentations = json;
         }
@@ -73,6 +97,15 @@ async function getHealthPresentations() {
 async function refetchNews() {
     debug("Fetching news...");
     date = new Date;
+    errorPanicNoInternet = false;
+    errorPanicParsingFuckUp = false;
+    relevantNews = [];
+    normalizedNews = [];
+    rawNews = [];
+    healthPresentations = [];
+    rawHealthPresentations = [];
+    holidays = [];
+    rawHolidays = {};
     await getNews();
     await getHealthPresentations();
     await getHolidays();
