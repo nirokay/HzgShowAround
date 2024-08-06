@@ -77,3 +77,4 @@ proc getArticleAuthorsJson*(): JsonNode = urlAuthors.requestJson(path("authors.j
 proc getContributorsJson*(): JsonNode = urlContributors.requestJson(path("contributors.json")) ## Gets the json with all contributors
 proc getMapSvg*(): string = requestRawText(urlImages & "map.svg", path("resources/images/map.svg")) ## Gets the raw map svg
 proc getOfferingsJson*(): JsonNode = urlOfferings.requestJson(path("offerings.json")) ## Gets the json with offerings
+proc getChangelogJson*(): JsonNode = urlChangelog.requestJson(path("changelog.json")) ## Gets the json with the changelog

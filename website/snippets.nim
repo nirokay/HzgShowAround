@@ -3,7 +3,7 @@
 ##
 ## Just like the `globals` module but for HTML procs.
 
-import std/[strutils, json, options, tables]
+import std/[strutils, json, options, tables, times]
 import generator, globals, styles, client
 
 
@@ -115,7 +115,7 @@ proc authorBubble*(authorName: string, beforeAfterText: array[2, string] = ["", 
 
 
 # -----------------------------------------------------------------------------
-# URL formatting:
+# Formatting:
 # -----------------------------------------------------------------------------
 
 proc formatToAscii*(text: string): string =
@@ -149,6 +149,11 @@ proc ih3*(text: string, override: string = ""): HtmlElement = iheader(h3, text, 
 proc ih4*(text: string, override: string = ""): HtmlElement = iheader(h4, text, override) ## Header element (with ascii-friendly id)
 proc ih5*(text: string, override: string = ""): HtmlElement = iheader(h5, text, override) ## Header element (with ascii-friendly id)
 proc ih6*(text: string, override: string = ""): HtmlElement = iheader(h6, text, override) ## Header element (with ascii-friendly id)
+
+proc timeReadable*(dateTime: DateTime): string =
+    result = dateTime.format("dd-MM-yyyy").replace("-", ".")
+proc timeReadable*(date: string, dateFormat: string = "yyyy-MM-dd"): string =
+    result = parse(date, dateFormat).timeReadable()
 
 
 # =============================================================================

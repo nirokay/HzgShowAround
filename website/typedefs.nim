@@ -55,6 +55,10 @@ type
         place*: Option[OfferingPlace] ## Activity place
         contact*: Option[OfferingContact] ## Contacts
 
+    Changelog* = object
+        date*: string ## Date in `yyyy-MM-dd` format
+        text*: OrderedTable[string, seq[string]] ## Heading -> list
+
 iterator withCoords*(locations: seq[Location]): Location =
     ## Filters locations only with coordinates
     for location in locations:

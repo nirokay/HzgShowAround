@@ -67,6 +67,7 @@ const
 
     urlOfferings*: string = urlRemoteRepo & "offerings.json" ## Offerings JSON file
 
+    urlChangelog*: string = urlRemoteRepo & "changelog.json" ## Changelog JSON file
 
 # -----------------------------------------------------------------------------
 # Export paths:

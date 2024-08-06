@@ -9,9 +9,9 @@
 from websitegenerator import writeFile
 
 # Sub-modules:
-import website/[tos, index, styles, tour, map, newsfeed, articles, contributors, offerings]
+import website/[tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog]
 # To make the compiler shut up about unused imports:
-export tos, index, styles, tour, map, newsfeed, articles, contributors, offerings
+export tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog
 
 # Delay importing, because 404 page has css jammed into it to work well depth-independent
 import website/[notFound404]
