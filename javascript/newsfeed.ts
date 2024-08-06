@@ -2,7 +2,7 @@ const idNewsFeed: string = "news-div";
 const idReloadedTime: string = "reloaded-time";
 let currentlyRefreshing: boolean = false;
 
-
+let refreshLock: boolean = false;
 let errorMessageAdditional = "";
 
 const errorMessageNoInternet = [
@@ -55,6 +55,13 @@ function updateRefreshedAt(override?: string) {
 
 
 async function refreshNewsfeed() {
+    // Block thingy going twice (or worse: MULTIPLE times)
+    if(refreshLock) {
+        debug("Blocking refresh due to lock.");
+        return;
+    }
+    refreshLock = true;
+
     // Fetching:
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
@@ -90,6 +97,9 @@ async function refreshNewsfeed() {
     } else if(relevantNews.length == 0) {
         addErrorMessage(infoMessageNoRelevantNews);
     }
+
+    // Release lock, allow next execution:
+    refreshLock = false;
 }
 
 

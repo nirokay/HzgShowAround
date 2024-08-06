@@ -2,6 +2,7 @@
 const idNewsFeed = "news-div";
 const idReloadedTime = "reloaded-time";
 let currentlyRefreshing = false;
+let refreshLock = false;
 let errorMessageAdditional = "";
 const errorMessageNoInternet = [
     "Es konnte keine Internetverbindung zum Server hergestellt werden.",
@@ -49,6 +50,12 @@ function updateRefreshedAt(override) {
     reloadTime.innerHTML = newText;
 }
 async function refreshNewsfeed() {
+    // Block thingy going twice (or worse: MULTIPLE times)
+    if (refreshLock) {
+        debug("Blocking refresh due to lock.");
+        return;
+    }
+    refreshLock = true;
     // Fetching:
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");
@@ -83,6 +90,8 @@ async function refreshNewsfeed() {
     else if (relevantNews.length == 0) {
         addErrorMessage(infoMessageNoRelevantNews);
     }
+    // Release lock, allow next execution:
+    refreshLock = false;
 }
 window.onload = async () => {
     await refreshNewsfeed();
