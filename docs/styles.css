@@ -298,7 +298,7 @@ icon-display {
     margin-bottom: 10px;
     border-style: solid;
     margin-top: 10px;
-    border-width: 10px;
+    border-width: 5px;
 }
 
 .newsfeed-element-holiday {
@@ -307,7 +307,7 @@ icon-display {
     margin-bottom: 10px;
     border-style: solid;
     margin-top: 10px;
-    border-width: 10px;
+    border-width: 5px;
 }
 
 .newsfeed-element-warning {
@@ -316,7 +316,7 @@ icon-display {
     margin-bottom: 10px;
     border-style: solid;
     margin-top: 10px;
-    border-width: 10px;
+    border-width: 5px;
 }
 
 .newsfeed-element-alert {
@@ -325,7 +325,7 @@ icon-display {
     margin-bottom: 10px;
     border-style: solid;
     margin-top: 10px;
-    border-width: 10px;
+    border-width: 5px;
 }
 
 .newsfeed-element-happened {
@@ -334,7 +334,7 @@ icon-display {
     margin-bottom: 10px;
     border-style: solid;
     margin-top: 10px;
-    border-width: 10px;
+    border-width: 5px;
 }
 
 .article-preview {

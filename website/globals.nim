@@ -163,7 +163,7 @@ type NewsLevel = enum
 proc newsElement(level: NewsLevel): CssElement =
     result = newCssClass("newsfeed-element-" & $level,
         ["border-style", "solid"],
-        ["border-width", "10px"],
+        ["border-width", "5px"],
         ["border-radius", "20px"],
         ["margin-top", "10px"],
         ["margin-bottom", "10px"]
