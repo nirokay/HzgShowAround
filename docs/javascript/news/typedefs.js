@@ -17,6 +17,8 @@ class NewsFeedElement {
     constructor() {
         this.name = "Neuigkeit";
         this.level = "info"; // Importance as string
+        this.isHappening = false;
+        this.locations = [];
     }
 }
 const urlRemoteHealthPresentations = urlRemoteRepository + "news-health.json";
@@ -172,10 +174,10 @@ function normalizedElement(news, element) {
     // Is happening now:
     if (Date.parse((_g = result.from) !== null && _g !== void 0 ? _g : "") <= date.getTime() &&
         Date.parse((_h = result.till) !== null && _h !== void 0 ? _h : "") + dayMilliseconds >= date.getTime()) {
-        element.isHappening = true;
+        result.isHappening = true;
     }
     else {
-        element.isHappening = false;
+        result.isHappening = false;
     }
     // Finally done:
     return result;

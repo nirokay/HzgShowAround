@@ -20,12 +20,12 @@ class NewsFeedElement {
     on?: string;
     from?: string;
     till?: string;
-    level: string = "info";         // Importance as string
-    importance?: number;    // Importance as number
-    details?: string[];     // Description
-    info?: string;          // URL to external resource
-    isHappening?: boolean;
-    locations?: string[];
+    level: string = "info";            // Importance as string
+    importance?: number;               // Importance as number
+    details?: string[];                // Description
+    info?: string;                     // URL to external resource
+    isHappening?: boolean = false;
+    locations?: string[] = [];
     runtimeAdditionalMessage?: string;
 
     COMMENT?: string;
@@ -195,9 +195,9 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
         Date.parse(result.from ?? "") <= date.getTime() &&
         Date.parse(result.till ?? "") + dayMilliseconds >= date.getTime()
     ) {
-        element.isHappening = true;
+        result.isHappening = true;
     } else {
-        element.isHappening = false;
+        result.isHappening = false;
     }
 
     // Finally done:
