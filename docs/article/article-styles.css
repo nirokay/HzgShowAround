@@ -245,6 +245,28 @@ icon-display {
     background-color: #23252c;
 }
 
+.top-page-header {
+    position: fixed;
+    margin: auto;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    height: 72px;
+    background-color: #23252c;
+    text-align: center;
+}
+
+.bottom-page-footer {
+    position: fixed;
+    margin: auto;
+    width: 100%;
+    left: 0px;
+    bottom: -10px;
+    height: 55px;
+    background-color: #23252c;
+    text-align: center;
+}
+
 body {
     width: 90%;
     display: block;

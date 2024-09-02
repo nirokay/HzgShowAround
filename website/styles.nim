@@ -154,7 +154,10 @@ globalCss.add(
     authorNameClass,
 
     # Content box:
-    contentBoxClass
+    contentBoxClass,
+
+    topPageHeaderClass,
+    bottomPageFooterClass
 )
 
 css.elements = globalCss.elements
@@ -167,9 +170,6 @@ css.add(
     divCenterOuter,
     divCenterMiddle,
     divCenterInner,
-
-    topPageHeaderClass,
-    bottomPageFooterClass,
 
     #   News:
     newsDivClass,
