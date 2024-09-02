@@ -95,7 +95,6 @@ globalCss.add(
         "font-style" := "italic"
     },
     "time"{
-        "font-style" := "italic",
         "font-weight" := "bold"
     },
 

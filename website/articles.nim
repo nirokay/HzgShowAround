@@ -52,9 +52,7 @@ proc displayDateTime*(rawDate: string): string =
     display.reverse()
     assert display.len() == 3
 
-    result = $time(display.join(".")).add(
-        attr("datetime", rawDate)
-    )
+    result = $time(display.join(".")).addattr("datetime", rawDate)
 
 proc getImageUrl(fileName: string): string = urlArticleImages & fileName
 proc formatLine*(line: string): HtmlElement =
@@ -124,7 +122,7 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
 
     header.add authorBubble(article.author.get(defaultAuthor), [
         "verfasst von ",
-        (if article.date.isSome(): $br() & "verfasst am " & $b(displayDateTime(article.date.get())) else: "")
+        (if article.date.isSome(): $br() & "verfasst am " & displayDateTime(article.date.get()) else: "")
     ])
 
     # Description/summary:
@@ -254,7 +252,8 @@ proc generateHtmlMainPage() =
         elements.add(
             small(
                 "verfasst von " & article.author.get(defaultAuthor) & (
-                    if article.date.isSome(): " | am " & displayDateTime(article.date.get()) else: ""
+                    if article.date.isSome(): " | am " & displayDateTime(article.date.get())
+                    else: ""
                 )
             )
         )

@@ -92,19 +92,21 @@ proc generate*(html: var HtmlDocument) =
     var
         topHeader: HtmlElement = `div`(
             h2(
-                $a("/HzgShowAround", "HzgShowAround").addattr(
-                    "style", "color:#e8e6e3;padding-left:10px;"
+                $a("/HzgShowAround", "HzgShowAround").add(
+                    attr("style", "color:#e8e6e3;padding-left:10px;"),
+                    attr("title", "Zurück zur Startseite")
                 )
-            ).addattr(
-                "style", "text-align:left;text-decoration:none;"
+            ).addStyle(
+                "text-align" := "left",
+                "text-decoration" := "none"
             )
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
             p($small @[
                 "🄯 nirokay",
-                "Updated @ " & now().format("yyyy-MM-dd - HH:mm"),
-                $a("https://github.com/nirokay/HzgShowAround", "Source"),
-                $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS")
+                "Updated @ " & $time($now().format("yyyy-MM-dd - HH:mm")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
+                $a("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
+                $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
             ].join(" | "))
         ).setClass("bottom-page-footer")
 
@@ -112,8 +114,8 @@ proc generate*(html: var HtmlDocument) =
         # 1_000_000 IQ move to put a buffer between end of content and footer
         `div`(
             htmlComment("This element is a hack, please ignore my superior HTML/CSS skills")
-        ).addattr(
-            "style", "min-height:" & 52.px & ";"
+        ).addStyle(
+            "min-height" := 52.px
         )
     )
 

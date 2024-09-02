@@ -32,11 +32,11 @@ for change in changelog:
     # Bullet point list:
     var list: seq[HtmlElement]
     for header, points in change.text:
-        if header != "": list.add h3(header).addattr("style", "text-align:left;")
+        if header != "": list.add h3(header).addStyle("text-align" := "left")
         var allPoints: seq[HtmlElement]
         for point in points:
             allPoints.add li(point)
-        list.add ul(allPoints).addattr("style", "margin-top:5px;")
+        list.add ul(allPoints).addStyle("margin-top" := "5px")
 
     # Div:
     let header: string = block:
@@ -45,7 +45,7 @@ for change in changelog:
         except CatchableError:
             change.date
     var elements: seq[HtmlElement] = @[
-        h2(header),
+        h2($time(header).addattr("datetime", change.date)),
         `div`(list)
     ]
 
