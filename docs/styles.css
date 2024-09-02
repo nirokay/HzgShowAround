@@ -51,6 +51,15 @@ progress::-moz-progress-bar {
     background-color: HotPink;
 }
 
+q {
+    font-style: italic;
+}
+
+time {
+    font-weight: bold;
+    font-style: italic;
+}
+
 fieldset {
     border-color: #e8e6e3;
     min-width: 100px;

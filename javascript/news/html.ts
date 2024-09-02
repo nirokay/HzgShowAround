@@ -63,11 +63,22 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
     const till = displayTime(element.till ?? "?");
     let result: HtmlString = "";
     if(from == till) {
+        // Same day:
         result = "am " + from;
     } else {
-        result = "von " + from + " bis " + till;
+        if(
+            Date.parse(element.from ?? getToday()) + dayMilliseconds*1.5
+            >=
+            Date.parse(element.till ?? getToday())
+        ) { // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
+            // Two days (both dates):
+            result = "am " + from + " und am " + till;
+        } else {
+            // More than two days (span):
+            result = "von " + from + " bis " + till;
+        }
     }
-    return "<small class='generic-center'>" + result + "</small>"
+    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>"
 }
 /**
  * Generates the details/description section

@@ -42,8 +42,8 @@ function healthPresentationToNewsfeedElement(presentation) {
     result.level = "info";
     (_b = presentation.desc) !== null && _b !== void 0 ? _b : (presentation.desc = presentation.topic);
     result.details = [
-        "von <b>13.00 - 14.00 Uhr</b> im <b>Festsaal</b> (Am Latterbach 13)",
-        "zum Thema \"<i>" + presentation.desc + "</i>\""
+        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b> (Am Latterbach 13)",
+        "zum Thema <q>" + presentation.desc + "</q>"
     ];
     if (presentation.by != undefined) {
         result.details.push("<small>Geleitet von " + presentation.by + "</small>");
@@ -337,5 +337,5 @@ function sortedElementsByDateAndRelevancy(news) {
 }
 function displayTime(time) {
     let d = new Date(Date.parse(time));
-    return "<b><time>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
+    return "<b><time datetime='" + time + "'>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
 }

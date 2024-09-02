@@ -91,6 +91,14 @@ globalCss.add(
         ),
     ]#
 
+    "q"{
+        "font-style" := "italic"
+    },
+    "time"{
+        "font-style" := "italic",
+        "font-weight" := "bold"
+    },
+
     # Fieldset:
     "fieldset"{
         "border-color" := colourText,
