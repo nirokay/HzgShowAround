@@ -267,6 +267,22 @@ icon-display {
     text-align: center;
 }
 
+a:link {
+    color: HotPink;
+}
+
+a:visited {
+    color: HotPink;
+}
+
+a:hover {
+    color: LightPink;
+}
+
+a:active {
+    color: MistyRose;
+}
+
 .map-element {
     display: inline;
     outline-color: LightPink;

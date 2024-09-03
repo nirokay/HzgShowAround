@@ -9,18 +9,6 @@ import globals
 export globals
 
 # -----------------------------------------------------------------------------
-# Buttons:
-# -----------------------------------------------------------------------------
-
-proc link(which: string, colour: CssColour|string): CssElement =
-    ## Css link stuff
-    newCssElement("a:" & which,
-        ["color", $colour],
-        textNoDecoration
-    )
-
-
-# -----------------------------------------------------------------------------
 # Css:
 # ----------------------------------------------------------------------------
 
@@ -31,61 +19,61 @@ var
 
 globalCss.add(
     # Global stuff:
-    newCssElement("html",
+    "html"{
         backgroundColour(colourBackgroundDark),
         colour(colourText),
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
-    ),
+    },
 
     "p"{
         "margin" := "10px"
     },
 
-    newCssElement("article > p",
+    "article > p"{
         textAlign("left"),
         padding("10px")
-    ),
+    },
 
     # Bottom footer:
-    newCssElement("footer",
+    "footer"{
         position(fixed),
         backgroundColour(colourBackgroundDark),
         width("100%"),
         bottom(0),
         ["box-sizing" ,"border-box"]
-    ),
+    },
 
     # Tables:
-    newCssElement("tbody",
+    "tbody"{
         ["border", 1.px],
         ["border-collapse", "collapse"]
-    ),
-    newCssElement("td",
+    },
+    "td"{
         ["margin-right", "5px"]
-    ),
+    },
 
     # Progress bars:
-    newCssElement("progress",
+    "progress"{
         width("90%"),
         ["margin", "auto 1px"],
         ["border-radius", "10px"]
-    ),
-    newCssElement("progress::-webkit-progress-bar",
+    },
+    "progress::-webkit-progress-bar"{
         backgroundColour(colourProgressBarForeground),
         ["border-radius", "10px"]
-    ),
-    newCssElement("progress::-webkit-progress-value",
+    },
+    "progress::-webkit-progress-value"{
         backgroundColour(colourProgressBarBackground),
         ["border-radius", "10px"]
-    ),
-    newCssElement("progress::-moz-progress-bar",
+    },
+    "progress::-moz-progress-bar"{
         backgroundColour(colourProgressBarBackground),
         ["border-radius", "10px"]
-    ),
+    },
 
     #[
         # Does not work??
-        newCssElement("progress::-moz-progress-value",
+        "progress::-moz-progress-value",
             backgroundColour(HotPink),
             ["border-radius", "10px"]
         ),
@@ -122,11 +110,6 @@ globalCss.add(
         "padding-left" := "20px"
     },
 
-    # Links:
-    link("link", colourLinkDefault),
-    link("visited", colourLinkVisited),
-    link("hover", colourLinkHover),
-    link("active", colourLinkClick),
 
     # Classes:
     centerClass,
@@ -160,6 +143,17 @@ globalCss.add(
     bottomPageFooterClass
 )
 
+globalCss.addLinkColours(
+    colourLinkDefault,
+    colourLinkVisited,
+    colourLinkHover,
+    colourLinkClick,
+    @[
+        "text-decoration" := "none"
+    ]
+)
+
+
 css.elements = globalCss.elements
 css.add(
     # Classes:
@@ -184,22 +178,22 @@ css.add(
     articlePreviewBox,
 
     # Headers:
-    newCssElement("h1, h2",
+    "h1, h2"{
         textCenter,
-        ["text-decoration", "underline"],
-        ["margin-bottom", "0px"]
-    ),
-    newCssElement("h3, h4, h5, h6",
+        "text-decoration" := "underline",
+        "margin-bottom" := "0px"
+    },
+    "h3, h4, h5, h6"{
         textCenter,
-        ["margin-bottom", "0px"]
-    ),
+        "margin-bottom" := "0px"
+    },
 
-    newCssElement("select",
+    "select"{
         backgroundColour(colourBackgroundDark),
         colour(colourText),
         padding("2px"),
-        ["border-radius", "10px"]
-    ),
+        "border-radius" := "10px"
+    },
 
     # Images (for locations):
     locationImageHeader,
@@ -211,30 +205,30 @@ css.add(
 cssArticles.elements = globalCss.elements
 cssArticles.add(
     # Center everything in `body`:
-    newCssElement("body",
+    "body"{
         backgroundColour(colourBackgroundDark),
-        ["display", "block"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["width", "90%"]
-    ),
+        "display" := "block",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "width" := "90%"
+    },
 
     # Headers and paragraph:
-    newCssElement("h1, h2",
+    "h1, h2"{
         textUnderline,
         textCenter
-    ),
-    newCssElement("h3, h4, h5, h6, p, summary, time",
+    },
+    "h3, h4, h5, h6, p, summary, time"{
         textCenter
-    ),
+    },
 
     # Images:
-    newCssElement("img",
+    "img"{
         width("50%"),
-        ["max-width", "700px"],
-        ["border-radius", "10px"],
-        ["margin", "10px"]
-    )
+        "max-width" := "700px",
+        "border-radius" := "10px",
+        "margin" := "10px"
+    }
 )
 
 # Misc.:
