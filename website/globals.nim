@@ -125,9 +125,9 @@ const
 
 const
     # Text stuff:
-    textUnderline* = ["text-decoration", "underline"]
-    textNoDecoration* = ["text-decoration", "none"]
-    textCenter* = ["text-align", "center"]
+    textUnderline*: CssAttribute = "text-decoration" := "underline"
+    textNoDecoration*: CssAttribute = "text-decoration" := "none"
+    textCenter*: CssAttribute = "text-align" := "center"
 
 
 # -----------------------------------------------------------------------------

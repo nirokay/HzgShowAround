@@ -83,26 +83,6 @@ ul {
     padding-left: 20px;
 }
 
-a:link {
-    color: HotPink;
-    text-decoration: none;
-}
-
-a:visited {
-    color: HotPink;
-    text-decoration: none;
-}
-
-a:hover {
-    color: LightPink;
-    text-decoration: none;
-}
-
-a:active {
-    color: MistyRose;
-    text-decoration: none;
-}
-
 .generic-center {
     width: 90%;
     display: block;
@@ -269,18 +249,22 @@ icon-display {
 
 a:link {
     color: HotPink;
+    text-decoration: none;
 }
 
 a:visited {
     color: HotPink;
+    text-decoration: none;
 }
 
 a:hover {
     color: LightPink;
+    text-decoration: none;
 }
 
 a:active {
     color: MistyRose;
+    text-decoration: none;
 }
 
 .map-element {

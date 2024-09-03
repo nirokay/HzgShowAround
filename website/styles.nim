@@ -40,44 +40,36 @@ globalCss.add(
         backgroundColour(colourBackgroundDark),
         width("100%"),
         bottom(0),
-        ["box-sizing" ,"border-box"]
+        "box-sizing" := "border-box"
     },
 
     # Tables:
     "tbody"{
-        ["border", 1.px],
-        ["border-collapse", "collapse"]
+        "border" := "1px",
+        "border-collapse" := "collapse"
     },
     "td"{
-        ["margin-right", "5px"]
+        "margin-right" := "5px"
     },
 
     # Progress bars:
     "progress"{
         width("90%"),
-        ["margin", "auto 1px"],
-        ["border-radius", "10px"]
+        "margin" := "auto 1px",
+        "border-radius" := "10px"
     },
     "progress::-webkit-progress-bar"{
         backgroundColour(colourProgressBarForeground),
-        ["border-radius", "10px"]
+        "border-radius" := "10px"
     },
     "progress::-webkit-progress-value"{
         backgroundColour(colourProgressBarBackground),
-        ["border-radius", "10px"]
+        "border-radius" := "10px"
     },
     "progress::-moz-progress-bar"{
         backgroundColour(colourProgressBarBackground),
-        ["border-radius", "10px"]
+        "border-radius" := "10px"
     },
-
-    #[
-        # Does not work??
-        "progress::-moz-progress-value",
-            backgroundColour(HotPink),
-            ["border-radius", "10px"]
-        ),
-    ]#
 
     "q"{
         "font-style" := "italic"
@@ -189,9 +181,9 @@ css.add(
     },
 
     "select"{
-        backgroundColour(colourBackgroundDark),
-        colour(colourText),
-        padding("2px"),
+        "background-color" := colourBackgroundDark,
+        "color" := colourText,
+        "padding" := "2px",
         "border-radius" := "10px"
     },
 
@@ -206,7 +198,7 @@ cssArticles.elements = globalCss.elements
 cssArticles.add(
     # Center everything in `body`:
     "body"{
-        backgroundColour(colourBackgroundDark),
+        "background-color" := colourBackgroundDark,
         "display" := "block",
         "margin-left" := "auto",
         "margin-right" := "auto",
