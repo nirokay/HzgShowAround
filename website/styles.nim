@@ -56,7 +56,8 @@ globalCss.add(
     "progress"{
         width("90%"),
         "margin" := "auto 1px",
-        "border-radius" := "10px"
+        "border-radius" := "10px",
+        dropShadow
     },
     "progress::-webkit-progress-bar"{
         backgroundColour(colourProgressBarForeground),
@@ -111,9 +112,11 @@ globalCss.add(
 
     buttonClass,
     buttonClassHover,
+    buttonClassClick,
 
     newCssElement("button", buttonClass.properties),
     newCssElement("button:hover", buttonClassHover.properties),
+    newCssElement("button:active", buttonClassClick.properties),
 
     centerTableClass,
 
@@ -135,6 +138,23 @@ globalCss.add(
     bottomPageFooterClass
 )
 
+globalCss.addLinkColour(
+    "link", colourLinkDefault,
+    @["text-decoration" := "none"]
+)
+globalCss.addLinkColour(
+    "visited", colourLinkVisited,
+    @["text-decoration" := "none"]
+)
+globalCss.addLinkColour(
+    "hover", colourLinkHover,
+    @["text-decoration" := "underline"]
+)
+globalCss.addLinkColour(
+    "active", colourLinkClick,
+    @["text-decoration" := "underline"]
+)
+#[
 globalCss.addLinkColours(
     colourLinkDefault,
     colourLinkVisited,
@@ -144,7 +164,7 @@ globalCss.addLinkColours(
         "text-decoration" := "none"
     ]
 )
-
+]#
 
 css.elements = globalCss.elements
 css.add(

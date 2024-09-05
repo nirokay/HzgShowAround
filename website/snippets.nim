@@ -87,9 +87,14 @@ const
 
 proc toHtmlElement*(button: ButtonHref): HtmlElement =
     ## Converts `ButtonHref` to HTML button
+    #[
     result = "a"[
         "href" => rootUrl & button.href
     ] => button.text -> buttonClass
+    ]#
+    result = "button"[
+        "onclick" => "window.location='" & rootUrl & button.href & "';"
+    ] => button.text
     if button.title != "": result.addattr("title", button.title)
 proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =
     ## Converts `ButtonHref`s to HTML buttons
@@ -106,7 +111,10 @@ proc buttonScript*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
     button(text, onclick) # Use before overwrite lol
 
-proc buttonLink(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
+proc buttonLink*(content, href: string): HtmlElement =
+    ## Styled button-like link
+    result = (href -> [content, ""]).toHtmlElement()
+    # a(href, content).setClass(buttonClass)
 
 proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
     ## List of buttons

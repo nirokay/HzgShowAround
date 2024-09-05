@@ -92,17 +92,18 @@ const
     colourContentBox* {.deprecated: "use `colourBackgroundMiddle` instead".} = colourBackgroundMiddle #rgba(255, 255, 255, 0.05)
     colourAuthorBubble* {.deprecated: "use `colourBackgroundMiddle` instead".} = colourBackgroundMiddle
 
-    colourButton* = rgba(255, 100, 255, 0.1) # rgb(50, 30, 58)
-    colourButtonHover* = rgba(255, 100, 255, 0.2) # rgb(60, 40, 68)
+    colourButton* = colourBackgroundLight # rgba(255, 100, 255, 0.1)
+    colourButtonHover* = colourBackgroundMiddle # rgba(255, 100, 255, 0.2)
+    colourButtonClick* = colourBackgroundDark
 
     # Text:
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
     colourAuthorNameText* = Gainsboro
 
-    colourLinkDefault* = HotPink
+    colourLinkDefault* = "#FFB6C1" #HotPink
     colourLinkVisited* = colourLinkDefault
-    colourLinkHover* = LightPink
-    colourLinkClick* = MistyRose
+    colourLinkHover* = "#FFB9B6" # LightPink
+    colourLinkClick* = "#FFC1CA" # MistyRose
 
     # Outlines:
     colourMapElementOutline* = LightPink
@@ -128,6 +129,8 @@ const
     textUnderline*: CssAttribute = "text-decoration" := "underline"
     textNoDecoration*: CssAttribute = "text-decoration" := "none"
     textCenter*: CssAttribute = "text-align" := "center"
+
+const dropShadow*: CssAttribute = "filter" := "drop-shadow(5px 5px 8px Black)"
 
 
 # -----------------------------------------------------------------------------
@@ -215,7 +218,7 @@ const
     )
 
     buttonClass* = newCssClass("button",
-        backgroundColour(colourButton), # backgroundColour(rgb(60, 60, 60)),
+        backgroundColour(colourButton),
         colour(colourText),
         ["border", "none"],
         padding("10px 20px"),
@@ -234,6 +237,10 @@ const
         ["transition", "0.1s"]
     )
 
+    buttonClassClick* = ".button:active"{
+        "background-color" := colourButtonClick
+    }
+
     # Stuff inside a box (looks cool i guess):
     contentBoxClass* = newCssClass("content-box",
         width("100%"),
@@ -241,7 +248,8 @@ const
         backgroundColour(colourBackgroundMiddle),
         ["border-radius", "20px"],
         ["padding", "5px"],
-        ["margin", "10px auto"]
+        ["margin", "10px auto"],
+        dropShadow
     )
 
     iconImageClass* = "icon-display"{
@@ -299,12 +307,14 @@ const
         "align-items" := "normal",
         "display" := "flex",
         "flex-wrap" := "wrap",
-        "justify-content" := "center"
+        "justify-content" := "center",
+        dropShadow
     }
     flexContainedContainerClass*: CssElement = ".flex-contained-container"{
         "display" := "flex",
         "justify-content" := "center",
-        "flex-wrap" := "wrap"
+        "flex-wrap" := "wrap",
+        dropShadow
     }
     flexElementClass*: CssElement = ".flex-element"{
         "display" := "inline-block",
@@ -315,7 +325,8 @@ const
         "min-width" := "300px",
         "background" := colourBackgroundMiddle,
         "border-radius" := "10px",
-        "padding" := "10px"
+        "padding" := "10px",
+        dropShadow
     }
 
     newsDivClass* = newCssClass("news-div-class",
@@ -323,7 +334,8 @@ const
         ["display", "block"],
         ["margin-left", "auto"],
         ["margin-right", "auto"],
-        padding("10px")
+        padding("10px"),
+        dropShadow
     )
 
     newsElementHappened* = newsElement(Happened)

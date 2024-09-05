@@ -31,6 +31,7 @@ td {
 }
 
 progress {
+    filter: drop-shadow(5px 5px 8px Black);
     margin: auto 1px;
     width: 90%;
     border-radius: 10px;
@@ -112,7 +113,7 @@ ul {
     display: inline-block;
     border: none;
     padding: 10px 20px;
-    background-color: rgba(255, 100, 255, 0.1);
+    background-color: #2f3139;
     cursor: pointer;
     text-decoration: none;
     text-align: center;
@@ -120,7 +121,11 @@ ul {
 
 .button:hover {
     transition: 0.1s;
-    background-color: rgba(255, 100, 255, 0.2);
+    background-color: #23252c;
+}
+
+.button:active {
+    background-color: rgb(23, 25, 33);
 }
 
 button {
@@ -132,7 +137,7 @@ button {
     display: inline-block;
     border: none;
     padding: 10px 20px;
-    background-color: rgba(255, 100, 255, 0.1);
+    background-color: #2f3139;
     cursor: pointer;
     text-decoration: none;
     text-align: center;
@@ -140,7 +145,11 @@ button {
 
 button:hover {
     transition: 0.1s;
-    background-color: rgba(255, 100, 255, 0.2);
+    background-color: #23252c;
+}
+
+button:active {
+    background-color: rgb(23, 25, 33);
 }
 
 .table-center {
@@ -155,6 +164,7 @@ icon-display {
 }
 
 .flex-container {
+    filter: drop-shadow(5px 5px 8px Black);
     justify-content: center;
     display: flex;
     align-items: normal;
@@ -162,6 +172,7 @@ icon-display {
 }
 
 .flex-contained-container {
+    filter: drop-shadow(5px 5px 8px Black);
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
@@ -169,6 +180,7 @@ icon-display {
 
 .flex-element {
     background: #23252c;
+    filter: drop-shadow(5px 5px 8px Black);
     margin: 5px 5px;
     min-width: 300px;
     width: 30%;
@@ -217,6 +229,7 @@ icon-display {
 }
 
 .content-box {
+    filter: drop-shadow(5px 5px 8px Black);
     margin: 10px auto;
     width: 100%;
     border-radius: 20px;
@@ -248,23 +261,23 @@ icon-display {
 }
 
 a:link {
-    color: HotPink;
+    color: #FFB6C1;
     text-decoration: none;
 }
 
 a:visited {
-    color: HotPink;
+    color: #FFB6C1;
     text-decoration: none;
 }
 
 a:hover {
-    color: LightPink;
-    text-decoration: none;
+    color: #FFB9B6;
+    text-decoration: underline;
 }
 
 a:active {
-    color: MistyRose;
-    text-decoration: none;
+    color: #FFC1CA;
+    text-decoration: underline;
 }
 
 body {
