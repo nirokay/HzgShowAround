@@ -175,10 +175,10 @@ proc generateArticleHtml(article: Article) =
     html.addArticleHeader(article)
 
     # Navigation buttons:
-    html.addToBody `div`(
-        buttonLink("← Startseite", "../index.html"),
-        buttonLink("← Artikel", "../articles.html")
-    ).setClass(centerClass)
+    html.addToBody insertButtons(
+        hrefIndex,
+        hrefArticles
+    )
 
     # Article body:
     var body: seq[string]
@@ -268,9 +268,7 @@ proc generateHtmlMainPage() =
     html.addToBody(
         h1("Artikel"),
         pc("Hier findest du verschiedene Artikel verfasst von unterschiedlichen Leuten zu Themen, die sie interessieren."),
-        `div`(
-            buttonLink("← Startseite", "index.html"),
-        ).setClass(centerClass),
+        insertButtons(hrefIndex),
         `div`(articleElements).setClass(articlePreviewBox)
     )
 

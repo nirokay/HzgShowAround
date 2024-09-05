@@ -116,7 +116,7 @@ const
     colourEventHoliday* = $CornflowerBlue
     colourEventWarning* = $Gold
     colourEventAlert* = $Tomato
-    colourEventHappened* = $Grey
+    colourEventHappened* = colourBackgroundLight # $Grey
 
 
 # -----------------------------------------------------------------------------
@@ -161,13 +161,14 @@ type NewsLevel = enum
     Alert = "alert"
 
 proc newsElement(level: NewsLevel): CssElement =
-    result = newCssClass("newsfeed-element-" & $level,
-        ["border-style", "solid"],
-        ["border-width", "5px"],
-        ["border-radius", "20px"],
-        ["margin-top", "10px"],
-        ["margin-bottom", "10px"]
-    )
+    result = (".newsfeed-element-" & $level){
+        "border-style" := "solid",
+        "border-width" := "5px",
+        "border-radius" := "20px",
+        "margin-top" := "10px",
+        "margin-bottom" := "10px",
+        "background-color" := colourBackgroundMiddle
+    }
     result.properties["border-color"] = case(level):
         of Happened: colourEventHappened
         of Generic: colourEventGeneric

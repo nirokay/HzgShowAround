@@ -27,12 +27,12 @@ html.addToBody(
 
     h2("Zum Ufer zurückkehren"),
     pc("Diese Gewässer sind sicher, schau doch da mal vorbei. :)"),
-    `div`(
-        buttonLink("Startseite", "/HzgShowAround/index.html"),
-        buttonLink("Newsfeed", "/HzgShowAround/newsfeed.html"),
-        buttonLink("Interaktive Karte", "/HzgShowAround/map.html"),
-        buttonLink("Artikel", "/HzgShowAround/articles.html")
-    ).setClass(centerClass)
+    insertButtons(
+        hrefIndex,
+        hrefNewsfeed,
+        hrefMap,
+        hrefArticles
+    )
 )
 
 html.generate()

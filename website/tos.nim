@@ -25,9 +25,7 @@ proc list(items: varargs[string]): string =
     result = list(buffer)
 
 html.addToBody(
-    `div`(
-        backToHomeButton("← Startseite")
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
 
     h1("HzgShowAround"),
 

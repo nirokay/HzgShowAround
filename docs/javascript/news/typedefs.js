@@ -69,7 +69,7 @@ function holidaysToNewsfeedElements(holidays) {
             continue;
         }
         let event = new NewsFeedElement;
-        event.name = name + " <small>(Feiertag)</small>";
+        event.name = "Feiertag: " + name;
         event.on = details.datum;
         event.level = "holiday";
         result.push(event);

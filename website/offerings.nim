@@ -18,9 +18,7 @@ var html: HtmlDocument = newPage(
 html.add(
     h1("Freizeitangebote"),
     pc("Hier findest du freiwillige Freizeitangebote im Ort."),
-    `div`(
-        buttonLink("← Startseite", "index.html")
-    ).setClass(centerClass)
+    insertButtons(hrefIndex),
 )
 
 let

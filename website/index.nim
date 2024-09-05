@@ -54,10 +54,10 @@ html.addToBody(
 
 html.addToBody(
     h2("Newsfeed und Artikel"),
-    `div`(
-        buttonLink("Zum Newsfeed", "newsfeed.html"),
-        buttonLink("Zu den Artikeln", "articles.html")
-    ).setClass(centerClass)
+    insertButtons(
+        hrefNewsfeed,
+        hrefArticles
+    )
 )
 
 
@@ -71,9 +71,7 @@ html.add(
         "Verschiedene Freizeitangebote werden in der Mühle und im nahen Umfeld angeboten.",
         "Hier kannst du eine Liste von Angeboten einsehen."
     ),
-    `div`(
-        buttonLink("Zu den Freizeitangeboten", "offerings.html")
-    ).setClass(centerClass)
+    insertButtons(hrefOfferings)
 )
 
 
@@ -84,10 +82,10 @@ html.add(
 html.addToBody(
     h2("Orte"),
     pc("Schau dir die " & $b("interaktive Karte") & " der Herzogsägmühle an und/oder führe die " & $b("digitale Tour") & " durch..."),
-    `div`(
-        buttonLink("Karte", "map.html"),
-        buttonLink("Tour starten", "tour.html")
-    ).setClass(centerClass),
+    insertButtons(
+        hrefMap,
+        hrefTour
+    )
 )
 
 #[
@@ -138,11 +136,11 @@ html.addToBody(
 
 html.addToBody(
     h2("Sonstiges"),
-    `div`(
-        buttonLink("Kontakt", "contact.html"),
-        buttonLink("Mitwirkende", "contributors.html"),
-        buttonLink("Veränderungen", "changelog.html")
-    ).setClass(centerClass)
+    insertButtons(
+        hrefContact,
+        hrefContributors,
+        hrefChangelog
+    )
 )
 
 

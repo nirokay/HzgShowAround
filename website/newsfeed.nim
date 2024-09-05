@@ -30,7 +30,7 @@ html.addToBody(
         attr("id", "reloaded-time")
     ).setClass(centerClass),
     `div`(
-        backToHomeButton("← Zurück"),
+        hrefIndex.toHtmlElement(),
         buttonScript("Neu laden", "refreshNewsfeed()"),
     ).setClass(centerClass),
     `div`(

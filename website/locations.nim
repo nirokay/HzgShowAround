@@ -192,10 +192,10 @@ proc generateLocationHtml*(location: Location) =
     # Back buttons:
     html.addToBody(contentBox @[
         ih2("Mehr interessante Orte entdecken", "mehr"),
-        `div`(
-            buttonLink("← Startseite", "../index.html"),
-            buttonLink("← Karte", "../map.html")
-        ).setClass(centerClass)
+        insertButtons(
+            hrefIndex,
+            hrefMap
+        )
     ])
     # Apply css and write to disk:
     html.addToHead(stylesheet("../styles.css"))

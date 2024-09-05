@@ -35,7 +35,7 @@ getLocationLookupTable()
 function htmlDisclaimer(element: NewsFeedElement, cssClass: string): HtmlString {
     let result = [];
     if(cssClass.endsWith("happened")) {
-        result.push("Event vergangen")
+        result.push("<i>Event vergangen</i>")
     }
     if(element.isHappening) {
         result.push("<b>Heute!</b>")
@@ -53,7 +53,7 @@ function htmlHeader(element: NewsFeedElement, disclaimer: string): HtmlString {
     if(text != "") {
         text = " " + text;
     }
-    return "<h3 style='margin-bottom:2px;'>" + element.name + text + "</h3>"
+    return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>"
 }
 /**
  * Generates the date section

@@ -305,6 +305,7 @@ a:active {
     border-radius: 20px;
     margin-bottom: 10px;
     border-style: solid;
+    background-color: #23252c;
     margin-top: 10px;
     border-width: 5px;
 }
@@ -314,6 +315,7 @@ a:active {
     border-radius: 20px;
     margin-bottom: 10px;
     border-style: solid;
+    background-color: #23252c;
     margin-top: 10px;
     border-width: 5px;
 }
@@ -323,6 +325,7 @@ a:active {
     border-radius: 20px;
     margin-bottom: 10px;
     border-style: solid;
+    background-color: #23252c;
     margin-top: 10px;
     border-width: 5px;
 }
@@ -332,15 +335,17 @@ a:active {
     border-radius: 20px;
     margin-bottom: 10px;
     border-style: solid;
+    background-color: #23252c;
     margin-top: 10px;
     border-width: 5px;
 }
 
 .newsfeed-element-happened {
-    border-color: Grey;
+    border-color: #2f3139;
     border-radius: 20px;
     margin-bottom: 10px;
     border-style: solid;
+    background-color: #23252c;
     margin-top: 10px;
     border-width: 5px;
 }

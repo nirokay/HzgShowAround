@@ -70,9 +70,7 @@ html.addToBody(
     p("", "", ""), # TODO: Fix this dirty hack
     h1("Karte von Herzogsägmühle"),
     pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprecheneden Ort gelangen."),
-    `div`(
-        buttonLink("← Startseite", "index.html"),
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
     `div`(
         picture,
         map

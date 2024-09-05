@@ -15,9 +15,7 @@ var html: HtmlDocument = newPage(
 html.add(
     h1("Kontakt"),
     pc("Hier kannst du uns kontaktieren."),
-    `div`(
-        buttonLink("← Startseite", "index.html")
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
     h2($a("mailto:" & emailAddress, emailAddress))
 )
 

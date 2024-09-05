@@ -12,9 +12,7 @@ var html: HtmlDocument = newPage(
 html.setStyle(css)
 
 html.add(
-    `div`(
-        buttonLink("← Startseite", "index.html"),
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
     h1("Mitwirkende und Credits")
 )
 

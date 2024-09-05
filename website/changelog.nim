@@ -20,9 +20,7 @@ var html: HtmlDocument = newPage(
 html.add(
     h1("Veränderungen"),
     pc("Hier werden Veränderungen an der HzgShowAround Website aufgelistet."),
-    `div`(
-        backToHomeButton("← Zurück")
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
     hr()
 )
 

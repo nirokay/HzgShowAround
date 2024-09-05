@@ -64,19 +64,51 @@ proc pc*(elements: varargs[HtmlElement]): HtmlElement =
 # Buttons:
 # -----------------------------------------------------------------------------
 
+const rootUrl: string = "/HzgShowAround/" ## Root of the hzgshowaround host
+type ButtonHref* = tuple[text, href: string]
+proc `->`(href, text: string): ButtonHref = (
+    text: text,
+    href: href
+)
+const
+    hrefIndex*: ButtonHref = "index.html" -> "Startseite"
+    hrefMap*: ButtonHref = "map.html" -> "Karte"
+    hrefArticles*: ButtonHref = "articles.html" -> "Artikel"
+    hrefNewsfeed*: ButtonHref = "newsfeed.html" -> "Newsfeed"
+    hrefContact*: ButtonHref = "contact.html" -> "Kontakt"
+    hrefOfferings*: ButtonHref = "offerings.html" -> "Freizeitangebote"
+    hrefTour*: ButtonHref = "tour.html" -> "Dirgitale Tour"
+    hrefChangelog*: ButtonHref = "changelog.html" -> "Veränderungen"
+    hrefContributors*: ButtonHref = "contributors.html" -> "Mitwirkende"
+
+
+
+proc toHtmlElement*(button: ButtonHref): HtmlElement =
+    ## Converts `ButtonHref` to HTML button
+    result = "a"[
+        "href" => rootUrl & button.href
+    ] => button.text -> buttonClass
+proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =
+    ## Converts `ButtonHref`s to HTML buttons
+    for button in buttons:
+        result.add button.toHtmlElement()
+
+proc insertButtons*(buttons: varargs[ButtonHref]): HtmlElement =
+    ## Inserts a centered div with buttons in it
+    result = `div`(
+        buttons.toHtmlElements()
+    ).setClass(centerClass)
+
 proc buttonScript*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
     button(text, onclick) # Use before overwrite lol
 
-proc buttonLink*(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
+proc buttonLink(content, href: string): HtmlElement = a(href, content).setClass(buttonClass) ## Styled button-like link
 
 proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
     ## List of buttons
     for content, href in table:
         result.add buttonLink(content, href)
-
-proc backToHomeButton*(text: string): HtmlElement = buttonLink(text, "index.html") ## Button that returns to the home page
-
 
 # -----------------------------------------------------------------------------
 # Author bubbles:

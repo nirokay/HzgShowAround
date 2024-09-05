@@ -32,9 +32,7 @@ html.addToBody(
 # iframe of current location:
 var startingPageBecauseFuckYouJavascript: string = tourIds[0] # Fuck you javascript, this ensures that the starting page is not blank
 html.addToBody(
-    `div`(
-        backToHomeButton("← Tour beenden")
-    ).setClass(centerClass),
+    insertButtons(hrefIndex),
     `div`(
         buttonScript("← zurück", "prevLocation()"),
         buttonScript("weiter →", "nextLocation()")
