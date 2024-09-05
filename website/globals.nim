@@ -4,7 +4,7 @@
 ## This module includes some global values. Some CSS and HTML attributes are included here instead of `website/styles`, so
 ## that they can be used type-safely.
 
-import std/[tables]
+import std/[tables, strformat]
 import generator
 
 from std/os import `/`
@@ -130,8 +130,16 @@ const
     textNoDecoration*: CssAttribute = "text-decoration" := "none"
     textCenter*: CssAttribute = "text-align" := "center"
 
-const dropShadow*: CssAttribute = "filter" := "drop-shadow(5px 5px 8px Black)"
-
+const
+    # Drop shadow and highlights:
+    dropShadow*: CssAttribute = block:
+        const
+            offX: int = 5
+            offY: int = 5
+            diffusion: int = 5
+            colShadow: string = rgba(0, 0, 0, 0.9)
+            colHighlight: string = rgba(255, 255, 255, 0.1)
+        "filter" := &"drop-shadow(-{offX}px -{offY}px {diffusion}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
 
 # -----------------------------------------------------------------------------
 # Map:
@@ -168,8 +176,7 @@ proc newsElement(level: NewsLevel): CssElement =
         "border-style" := "solid",
         "border-width" := "5px",
         "border-radius" := "20px",
-        "margin-top" := "10px",
-        "margin-bottom" := "10px",
+        "margin" := "20px auto 30px auto",
         "background-color" := colourBackgroundMiddle
     }
     result.properties["border-color"] = case(level):
@@ -229,7 +236,8 @@ const
         ["margin", "4px 2px"],
         ["cursor", "pointer"],
         ["transition", "0.3s"],
-        ["border-radius", 6.px]
+        ["border-radius", 6.px],
+        dropShadow
     )
 
     buttonClassHover* = newCssClass("button:hover",
@@ -349,7 +357,9 @@ const
         padding("10px"),
         ["border-style", "solid"],
         ["border-color", colourText],
-        ["flex", "content"] # Thanks Ika! :3
+        ["flex", "content"], # Thanks Ika! :3
+        "background-color" := colourBackgroundMiddle,
+        dropShadow
     )
 
     articlePreviewBox* = newCssClass("article-preview-box",
@@ -375,7 +385,8 @@ const
         ["flex", "content"],
         ["flex-wrap", "nowrap"],
         ["justify-content", "left"],
-        ["flex-basis", "auto"]
+        ["flex-basis", "auto"],
+        dropShadow
     )
 
     authorPictureClass* = newCssClass("author-picture",

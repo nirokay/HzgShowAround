@@ -204,7 +204,8 @@ css.add(
         "background-color" := colourBackgroundDark,
         "color" := colourText,
         "padding" := "2px",
-        "border-radius" := "10px"
+        "border-radius" := "10px",
+        dropShadow
     },
 
     # Images (for locations):
@@ -239,7 +240,8 @@ cssArticles.add(
         width("50%"),
         "max-width" := "700px",
         "border-radius" := "10px",
-        "margin" := "10px"
+        "margin" := "10px",
+        dropShadow
     }
 )
 

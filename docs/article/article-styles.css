@@ -31,7 +31,7 @@ td {
 }
 
 progress {
-    filter: drop-shadow(5px 5px 8px Black);
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: auto 1px;
     width: 90%;
     border-radius: 10px;
@@ -106,6 +106,7 @@ ul {
 
 .button {
     color: #e8e6e3;
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: 4px 2px;
     font-size: 1.2em;
     transition: 0.3s;
@@ -130,6 +131,7 @@ ul {
 
 button {
     color: #e8e6e3;
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: 4px 2px;
     font-size: 1.2em;
     transition: 0.3s;
@@ -164,7 +166,7 @@ icon-display {
 }
 
 .flex-container {
-    filter: drop-shadow(5px 5px 8px Black);
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     justify-content: center;
     display: flex;
     align-items: normal;
@@ -172,7 +174,7 @@ icon-display {
 }
 
 .flex-contained-container {
-    filter: drop-shadow(5px 5px 8px Black);
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
@@ -180,7 +182,7 @@ icon-display {
 
 .flex-element {
     background: #23252c;
-    filter: drop-shadow(5px 5px 8px Black);
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: 5px 5px;
     min-width: 300px;
     width: 30%;
@@ -191,6 +193,7 @@ icon-display {
 }
 
 .author-div {
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     flex-basis: auto;
     justify-content: left;
     border-radius: 900px;
@@ -229,7 +232,7 @@ icon-display {
 }
 
 .content-box {
-    filter: drop-shadow(5px 5px 8px Black);
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: 10px auto;
     width: 100%;
     border-radius: 20px;
@@ -298,6 +301,7 @@ h3, h4, h5, h6, p, summary, time {
 }
 
 img {
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
     margin: 10px;
     width: 50%;
     border-radius: 10px;
