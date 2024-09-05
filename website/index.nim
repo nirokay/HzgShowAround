@@ -125,7 +125,7 @@ html.addToBody(
             attr("onchange", "changeToLocationPage();"),
             attr("onfocus", "this.selectedIndex = 0;"),
             attr("id", indexLocationDropDownId)
-        )
+        ).addattr("title", "Drop-Down Menü mit allen Orten")
     )
 )
 

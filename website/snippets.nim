@@ -65,21 +65,23 @@ proc pc*(elements: varargs[HtmlElement]): HtmlElement =
 # -----------------------------------------------------------------------------
 
 const rootUrl: string = "/HzgShowAround/" ## Root of the hzgshowaround host
-type ButtonHref* = tuple[text, href: string]
-proc `->`(href, text: string): ButtonHref = (
-    text: text,
-    href: href
-)
+type ButtonHref* = tuple[text ,title, href: string]
+proc `->`(href: string, texts: array[2, string]): ButtonHref =
+    result = (
+        text: texts[0],
+        title: texts[1],
+        href: href
+    )
 const
-    hrefIndex*: ButtonHref = "index.html" -> "Startseite"
-    hrefMap*: ButtonHref = "map.html" -> "Karte"
-    hrefArticles*: ButtonHref = "articles.html" -> "Artikel"
-    hrefNewsfeed*: ButtonHref = "newsfeed.html" -> "Newsfeed"
-    hrefContact*: ButtonHref = "contact.html" -> "Kontakt"
-    hrefOfferings*: ButtonHref = "offerings.html" -> "Freizeitangebote"
-    hrefTour*: ButtonHref = "tour.html" -> "Dirgitale Tour"
-    hrefChangelog*: ButtonHref = "changelog.html" -> "Veränderungen"
-    hrefContributors*: ButtonHref = "contributors.html" -> "Mitwirkende"
+    hrefIndex*: ButtonHref = "index.html" -> ["Startseite", "Navigiere zur Startseite"]
+    hrefMap*: ButtonHref = "map.html" -> ["Karte", "Navigiere zur Karte"]
+    hrefArticles*: ButtonHref = "articles.html" -> ["Artikel", "Navigiere zu den Artikeln"]
+    hrefNewsfeed*: ButtonHref = "newsfeed.html" -> ["Newsfeed", "Navigiere zum Newsfeed"]
+    hrefContact*: ButtonHref = "contact.html" -> ["Kontakt", "Navigiere zur Kontaktseite"]
+    hrefOfferings*: ButtonHref = "offerings.html" -> ["Freizeitangebote", "Navigiere zu den Freizeitangeboten"]
+    hrefTour*: ButtonHref = "tour.html" -> ["Dirgitale Tour", "Navigiere zur digitalen Tour"]
+    hrefChangelog*: ButtonHref = "changelog.html" -> ["Veränderungen", "Navigiere zu der Seite mit Veränderungen"]
+    hrefContributors*: ButtonHref = "contributors.html" -> ["Mitwirkende", "Navigiere zu den Mitwirkenden"]
 
 
 
@@ -88,6 +90,7 @@ proc toHtmlElement*(button: ButtonHref): HtmlElement =
     result = "a"[
         "href" => rootUrl & button.href
     ] => button.text -> buttonClass
+    if button.title != "": result.addattr("title", button.title)
 proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =
     ## Converts `ButtonHref`s to HTML buttons
     for button in buttons:
