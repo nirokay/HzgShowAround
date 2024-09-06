@@ -8,6 +8,7 @@ import websitegenerator ##! Not generator, because I need the writeFile() proc h
 import globals
 export globals
 
+
 # -----------------------------------------------------------------------------
 # Css:
 # ----------------------------------------------------------------------------
@@ -44,12 +45,19 @@ globalCss.add(
     },
 
     # Tables:
+    "table"{
+        "background-color" := colourBackgroundLight,
+        "padding" := "10px",
+        "margin" := "8px",
+        "border-radius" := "10px",
+        dropShadow
+    },
     "tbody"{
         "border" := "1px",
         "border-collapse" := "collapse"
     },
-    "td"{
-        "margin-right" := "5px"
+    "tr:first-child *"{
+        "maargin-right" := "10px"
     },
 
     # Progress bars:
@@ -81,14 +89,17 @@ globalCss.add(
 
     # Fieldset:
     "fieldset"{
+        "background-color" := colourBackgroundLight,
         "border-color" := colourText,
         "border-radius" := "10px",
         "border-width" := "2.5px",
         "display" := "inline-flex",
         "min-width" := "100px",
+        "margin" := "10px 5px",
         "justify-self" := "center",
         "flex-wrap" := "wrap",
-        "flex-basis" := "max-content"
+        "flex-basis" := "max-content",
+        dropShadow
     },
     "fieldset > legend"{
         "text-decoration" := "underline"
@@ -201,11 +212,18 @@ css.add(
     },
 
     "select"{
-        "background-color" := colourBackgroundDark,
+        "padding" := "4px 8px",
+        "margin" := "8px 4px",
+        "transition" := "0.3s",
+        "background-color" := colourBackgroundLight,
         "color" := colourText,
-        "padding" := "2px",
         "border-radius" := "10px",
+        "border-style" := "none",
         dropShadow
+    },
+    "select:hover"{
+        "transition" := "0.1s",
+        "background-color" := colourBackgroundMiddle
     },
 
     # Images (for locations):
@@ -244,6 +262,7 @@ cssArticles.add(
         dropShadow
     }
 )
+
 
 # Misc.:
 

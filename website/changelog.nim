@@ -20,8 +20,7 @@ var html: HtmlDocument = newPage(
 html.add(
     h1("Veränderungen"),
     pc("Hier werden Veränderungen an der HzgShowAround Website aufgelistet."),
-    insertButtons(hrefIndex),
-    hr()
+    insertButtons(hrefIndex)
 )
 
 var changes: seq[HtmlElement]

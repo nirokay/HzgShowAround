@@ -180,7 +180,7 @@ proc generateLocationHtml*(location: Location) =
         for name in same:
             table[name] = name.getRelativeUrlPath()
 
-        let buttons: seq[HtmlElement] = table.buttonList()
+        let buttons: seq[HtmlElement] = table.buttonList("location/")
 
         # Only actually add if the stuff is set:
         if same.len() != 0:

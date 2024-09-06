@@ -11,6 +11,7 @@ from std/os import `/`
 export `/`
 export target
 
+
 # -----------------------------------------------------------------------------
 # HTML IDs:
 # -----------------------------------------------------------------------------
@@ -68,6 +69,7 @@ const
     urlOfferings*: string = urlRemoteRepo & "offerings.json" ## Offerings JSON file
 
     urlChangelog*: string = urlRemoteRepo & "changelog.json" ## Changelog JSON file
+
 
 # -----------------------------------------------------------------------------
 # Export paths:
@@ -141,6 +143,7 @@ const
             colHighlight: string = rgba(255, 255, 255, 0.1)
         "filter" := &"drop-shadow(-{offX}px -{offY}px {diffusion}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
 
+
 # -----------------------------------------------------------------------------
 # Map:
 # -----------------------------------------------------------------------------
@@ -158,6 +161,7 @@ const
     heightBarTop*: int = 72 ## Height of the top bar (offset main div)
     heightBarBottom*: int = 45 ## Height of the top bar (shrink main div)
     heightBarMargins*: int = 5 ## Margins between content and bars
+
 
 # -----------------------------------------------------------------------------
 # CSS classes:
@@ -233,7 +237,7 @@ const
         ["text-decoration", "none"],
         display(inlineBlock),
         fontSize("1.2em"),
-        ["margin", "4px 2px"],
+        ["margin", "8px 4px"],
         ["cursor", "pointer"],
         ["transition", "0.3s"],
         ["border-radius", 6.px],
@@ -256,7 +260,7 @@ const
         backgroundColour(colourBackgroundMiddle),
         ["border-radius", "20px"],
         ["padding", "5px"],
-        ["margin", "10px auto"],
+        ["margin", "30px auto"],
         dropShadow
     )
 
@@ -326,7 +330,7 @@ const
     }
     flexElementClass*: CssElement = ".flex-element"{
         "display" := "inline-block",
-        "margin" := "5px 5px",
+        "margin" := "20px",
         "padding" := "5px",
         "width" := "30%",
         "max-width" := "500px",

@@ -21,13 +21,21 @@ footer {
     background-color: rgb(23, 25, 33);
 }
 
+table {
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
+    margin: 8px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #2f3139;
+}
+
 tbody {
     border: 1px;
     border-collapse: collapse;
 }
 
-td {
-    margin-right: 5px;
+tr:first-child * {
+    maargin-right: 10px;
 }
 
 progress {
@@ -61,6 +69,8 @@ time {
 }
 
 fieldset {
+    filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
+    margin: 10px 5px;
     border-color: #e8e6e3;
     min-width: 100px;
     justify-self: center;
@@ -68,6 +78,7 @@ fieldset {
     border-radius: 10px;
     display: inline-flex;
     flex-wrap: wrap;
+    background-color: #2f3139;
     border-width: 2.5px;
 }
 
@@ -107,7 +118,7 @@ ul {
 .button {
     color: #e8e6e3;
     filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
-    margin: 4px 2px;
+    margin: 8px 4px;
     font-size: 1.2em;
     transition: 0.3s;
     border-radius: 6px;
@@ -132,7 +143,7 @@ ul {
 button {
     color: #e8e6e3;
     filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
-    margin: 4px 2px;
+    margin: 8px 4px;
     font-size: 1.2em;
     transition: 0.3s;
     border-radius: 6px;
@@ -183,7 +194,7 @@ icon-display {
 .flex-element {
     background: #23252c;
     filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
-    margin: 5px 5px;
+    margin: 20px;
     min-width: 300px;
     width: 30%;
     border-radius: 10px;
@@ -233,7 +244,7 @@ icon-display {
 
 .content-box {
     filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
-    margin: 10px auto;
+    margin: 30px auto;
     width: 100%;
     border-radius: 20px;
     max-width: 1000px;
@@ -396,9 +407,17 @@ h3, h4, h5, h6 {
 select {
     color: #e8e6e3;
     filter: drop-shadow(-5px -5px 5px rgba(255, 255, 255, 0.1)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.9));
+    margin: 8px 4px;
+    transition: 0.3s;
     border-radius: 10px;
-    padding: 2px;
-    background-color: rgb(23, 25, 33);
+    padding: 4px 8px;
+    border-style: none;
+    background-color: #2f3139;
+}
+
+select:hover {
+    transition: 0.1s;
+    background-color: #23252c;
 }
 
 .location-image-header {

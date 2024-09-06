@@ -40,10 +40,15 @@ html.addToBody(
         ).setClass(
             iconImageClass
         ),
-    ).addattr(
-        "style", "max-width: 100px; max-height: 100px;" # Does not work as intended but looks cool as fuck :D (it is a feature)
+    ).addStyle(
+        "max-width" := "100px",
+        "max-height" := "100px",
+        # ^ Does not work as intended but looks cool as fuck :D (it is a feature)
+        dropShadow
     ).setClass(centerClass),
-    h1("HzgShowAround"),
+    h1("HzgShowAround").addStyle(
+        "position" := "relative"
+    ),
     pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
 )
 

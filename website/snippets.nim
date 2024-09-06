@@ -79,7 +79,7 @@ const
     hrefNewsfeed*: ButtonHref = "newsfeed.html" -> ["Newsfeed", "Navigiere zum Newsfeed"]
     hrefContact*: ButtonHref = "contact.html" -> ["Kontakt", "Navigiere zur Kontaktseite"]
     hrefOfferings*: ButtonHref = "offerings.html" -> ["Freizeitangebote", "Navigiere zu den Freizeitangeboten"]
-    hrefTour*: ButtonHref = "tour.html" -> ["Dirgitale Tour", "Navigiere zur digitalen Tour"]
+    hrefTour*: ButtonHref = "tour.html" -> ["Digitale Tour", "Navigiere zur digitalen Tour"]
     hrefChangelog*: ButtonHref = "changelog.html" -> ["Veränderungen", "Navigiere zu der Seite mit Veränderungen"]
     hrefContributors*: ButtonHref = "contributors.html" -> ["Mitwirkende", "Navigiere zu den Mitwirkenden"]
 
@@ -116,10 +116,11 @@ proc buttonLink*(content, href: string): HtmlElement =
     result = (href -> [content, ""]).toHtmlElement()
     # a(href, content).setClass(buttonClass)
 
-proc buttonList*(table: Table[string, string]|OrderedTable[string, string]): seq[HtmlElement] =
+proc buttonList*(table: Table[string, string]|OrderedTable[string, string], additionalSubUrl: string = ""): seq[HtmlElement] =
     ## List of buttons
     for content, href in table:
-        result.add buttonLink(content, href)
+        result.add buttonLink(content, additionalSubUrl & href)
+
 
 # -----------------------------------------------------------------------------
 # Author bubbles:
@@ -211,6 +212,7 @@ proc isSet*[T](item: Option[T]): bool =
     if item.isSome():
         if item.get() != emptyValue:
             result = true
+
 
 # =============================================================================
 # JSON:
