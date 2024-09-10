@@ -22,7 +22,7 @@ footer {
 }
 
 table {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px;
     border-radius: 10px;
     padding: 10px;
@@ -39,7 +39,7 @@ tr:first-child * {
 }
 
 progress {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: auto 1px;
     width: 90%;
     border-radius: 10px;
@@ -69,7 +69,7 @@ time {
 }
 
 fieldset {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 10px 5px;
     border-color: #e8e6e3;
     min-width: 100px;
@@ -117,7 +117,7 @@ ul {
 
 .button {
     color: #e8e6e3;
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px 4px;
     font-size: 1.2em;
     transition: 0.3s;
@@ -142,7 +142,7 @@ ul {
 
 button {
     color: #e8e6e3;
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px 4px;
     font-size: 1.2em;
     transition: 0.3s;
@@ -177,7 +177,7 @@ icon-display {
 }
 
 .flex-container {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     justify-content: center;
     display: flex;
     align-items: normal;
@@ -185,7 +185,7 @@ icon-display {
 }
 
 .flex-contained-container {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
@@ -193,7 +193,7 @@ icon-display {
 
 .flex-element {
     background: #23252c;
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 20px;
     min-width: 300px;
     width: 30%;
@@ -204,7 +204,7 @@ icon-display {
 }
 
 .author-div {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     flex-basis: auto;
     justify-content: left;
     border-radius: 900px;
@@ -243,7 +243,7 @@ icon-display {
 }
 
 .content-box {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 30px auto;
     width: 100%;
     border-radius: 20px;
@@ -320,7 +320,7 @@ a:active {
 }
 
 .news-div-class {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     width: 75%;
     display: block;
     margin-right: auto;
@@ -374,7 +374,7 @@ a:active {
 }
 
 .article-preview {
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     border-color: #e8e6e3;
     padding: 10px;
     border-style: solid;
@@ -406,7 +406,7 @@ h3, h4, h5, h6 {
 
 select {
     color: #e8e6e3;
-    filter: drop-shadow(-2.5px -2.5px 5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px 4px;
     transition: 0.3s;
     border-radius: 10px;
@@ -421,25 +421,19 @@ select:hover {
 }
 
 .location-image-header {
+    margin: 20px auto;
     width: 90%;
     border-radius: 10px;
     display: block;
     max-width: 1000px;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-top: auto;
 }
 
 .location-image-footer {
+    margin: 20px 5px;
     width: 45%;
     border-radius: 10px;
     display: block;
     max-width: 400px;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    margin-left: 2px;
-    margin-top: 2px;
 }
 
 .location-image-footer-div {
@@ -453,12 +447,9 @@ select:hover {
 }
 
 .location-image-map-preview {
+    margin: 20px auto;
     width: 50%;
     border-radius: 10px;
     display: block;
     max-width: 500px;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-top: auto;
 }

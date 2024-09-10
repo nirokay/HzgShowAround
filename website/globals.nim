@@ -141,7 +141,7 @@ const
             diffusion: int = 5
             colShadow: string = rgba(0, 0, 0, 0.5)
             colHighlight: string = rgba(0, 0, 0, 0.2) # rgba(255, 255, 255, 0.1)
-        "filter" := &"drop-shadow(-{offX / 2}px -{offY / 2}px {diffusion}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
+        "filter" := &"drop-shadow(-{offX / 2}px -{offY / 2}px {diffusion / 2}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
 
 
 # -----------------------------------------------------------------------------
@@ -190,16 +190,13 @@ proc newsElement(level: NewsLevel): CssElement =
         of Warning: colourEventWarning
         of Alert: colourEventAlert
 
-proc locationImage(className, width, maxWidth, marginSides, marginTopBottom: string): CssElement =
+proc locationImage(className, width, maxWidth, marginTopBottom, marginSides: string): CssElement =
     result = newCssClass(className,
         width(width),
         ["display", "block"],
         ["max-width", maxWidth],
         ["border-radius", "10px"],
-        ["margin-top", marginTopBottom],
-        ["margin-bottom", marginTopBottom],
-        ["margin-left", marginSides],
-        ["margin-right", marginSides]
+        "margin" := marginTopBottom & " " & marginSides
     )
 
 const
@@ -415,9 +412,9 @@ const
         ["align-self", "center"],
     )
 
-    locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "auto", "auto")
-    locationImageFooter* = locationImage("location-image-footer", "45%", "400px", "2px", "2px")
-    locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "auto", "auto")
+    locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "20px", "auto")
+    locationImageFooter* = locationImage("location-image-footer", "45%", "400px", "20px", "5px")
+    locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "20px", "auto")
 
     locationImageFooterDiv* = newCssClass("location-image-footer-div",
         width("90%"),
