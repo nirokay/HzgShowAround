@@ -139,9 +139,9 @@ const
             offX: int = 5
             offY: int = 5
             diffusion: int = 5
-            colShadow: string = rgba(0, 0, 0, 0.9)
-            colHighlight: string = rgba(255, 255, 255, 0.1)
-        "filter" := &"drop-shadow(-{offX}px -{offY}px {diffusion}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
+            colShadow: string = rgba(0, 0, 0, 0.5)
+            colHighlight: string = rgba(0, 0, 0, 0.2) # rgba(255, 255, 255, 0.1)
+        "filter" := &"drop-shadow(-{offX / 2}px -{offY / 2}px {diffusion}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
 
 
 # -----------------------------------------------------------------------------
