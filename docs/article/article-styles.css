@@ -52,12 +52,12 @@ progress::-webkit-progress-bar {
 
 progress::-webkit-progress-value {
     border-radius: 10px;
-    background-color: HotPink;
+    background-color: #FFB6C1;
 }
 
 progress::-moz-progress-bar {
     border-radius: 10px;
-    background-color: HotPink;
+    background-color: #FFB6C1;
 }
 
 q {
@@ -285,12 +285,12 @@ a:visited {
 }
 
 a:hover {
-    color: #FFB9B6;
+    color: #FFC1CA;
     text-decoration: underline;
 }
 
 a:active {
-    color: #FFC1CA;
+    color: #FFD7DD;
     text-decoration: underline;
 }
 

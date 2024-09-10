@@ -102,24 +102,24 @@ const
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
     colourAuthorNameText* = Gainsboro
 
-    colourLinkDefault* = "#FFB6C1" #HotPink
+    colourLinkDefault* = "#FFB6C1"
     colourLinkVisited* = colourLinkDefault
-    colourLinkHover* = "#FFB9B6" # LightPink
-    colourLinkClick* = "#FFC1CA" # MistyRose
+    colourLinkHover* = "#FFC1CA"
+    colourLinkClick* = "#FFD7DD"
 
     # Outlines:
-    colourMapElementOutline* = LightPink
+    colourMapElementOutline* = colourLinkDefault
 
     # Progress bars:
     colourProgressBarForeground* = colourText
-    colourProgressBarBackground* = HotPink
+    colourProgressBarBackground* = colourLinkDefault
 
     # Borders:
     colourEventGeneric* = colourText
-    colourEventHoliday* = $CornflowerBlue
-    colourEventWarning* = $Gold
-    colourEventAlert* = $Tomato
-    colourEventHappened* = colourBackgroundLight # $Grey
+    colourEventHoliday* = "#3399FF" # $CornflowerBlue
+    colourEventWarning* = "#FFFF33" # $Gold
+    colourEventAlert* = "#FF3333"   # $Tomato
+    colourEventHappened* = colourBackgroundLight
 
 
 # -----------------------------------------------------------------------------
