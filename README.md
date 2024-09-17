@@ -40,8 +40,7 @@ added. These maps are written to `./docs/resources/images/map-locations/`.
 
 ## Deployment
 
-This repository is deployed using GitHub Pages to
-[my homepage](https://nirokay.github.io/).
+This repository is deployed to [my homepage](https://nirokay.com/HzgShowAround/).
 
 ## Screenshots
 
