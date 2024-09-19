@@ -141,12 +141,15 @@ function normalizedElement(news, element) {
             debug("Element details field is weird...", element);
             result.details = [];
     }
-    // Prevent empty links:
+    // Prevent empty links, apply link if not empty:
     if (typeof (element.info) != "string") {
         result.info = undefined;
     }
     else if (element.info === "") {
         result.info = undefined;
+    }
+    else {
+        result.info = element.info;
     }
     // Location IDs:
     result.locations = element.locations;
@@ -180,6 +183,7 @@ function normalizedElement(news, element) {
         result.isHappening = false;
     }
     // Finally done:
+    console.log(result);
     return result;
 }
 /**

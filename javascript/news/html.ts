@@ -56,6 +56,19 @@ function htmlHeader(element: NewsFeedElement, disclaimer: string): HtmlString {
     return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>"
 }
 /**
+ * Generates a location indication
+ */
+function htmlLocationSection(element: NewsFeedElement): HtmlString {
+    let result: HtmlString = "";
+    if(element.locations != undefined) {
+        let locations: Array<string> = element.locations;
+        if(locations.length == 0) {return ""}
+        let sep: string = "📌 ";
+        result = "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" + sep + locations.join(", " + sep) + "</p>";
+    }
+    return result;
+}
+/**
  * Generates the date section
  */
 function htmlDateSection(element: NewsFeedElement): HtmlString {
@@ -78,7 +91,7 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
             result = "von " + from + " bis " + till;
         }
     }
-    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>"
+    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
 }
 /**
  * Generates the details/description section

@@ -41,6 +41,21 @@ function htmlHeader(element, disclaimer) {
     return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>";
 }
 /**
+ * Generates a location indication
+ */
+function htmlLocationSection(element) {
+    let result = "";
+    if (element.locations != undefined) {
+        let locations = element.locations;
+        if (locations.length == 0) {
+            return "";
+        }
+        let sep = "📌 ";
+        result = "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" + sep + locations.join(", " + sep) + "</p>";
+    }
+    return result;
+}
+/**
  * Generates the date section
  */
 function htmlDateSection(element) {
@@ -64,7 +79,7 @@ function htmlDateSection(element) {
             result = "von " + from + " bis " + till;
         }
     }
-    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>";
+    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
 }
 /**
  * Generates the details/description section

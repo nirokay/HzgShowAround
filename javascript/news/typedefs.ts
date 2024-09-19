@@ -157,11 +157,13 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
             result.details = [];
     }
 
-    // Prevent empty links:
+    // Prevent empty links, apply link if not empty:
     if(typeof(element.info) != "string") {
         result.info = undefined;
     } else if(element.info === "") {
         result.info = undefined;
+    } else {
+        result.info = element.info;
     }
 
     // Location IDs:
@@ -201,6 +203,7 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
     }
 
     // Finally done:
+    console.log(result);
     return result;
 }
 
