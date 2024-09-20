@@ -203,7 +203,7 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
     }
 
     // Finally done:
-    console.log(result);
+    // debug(result);
     return result;
 }
 

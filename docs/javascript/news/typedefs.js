@@ -183,7 +183,7 @@ function normalizedElement(news, element) {
         result.isHappening = false;
     }
     // Finally done:
-    console.log(result);
+    // debug(result);
     return result;
 }
 /**

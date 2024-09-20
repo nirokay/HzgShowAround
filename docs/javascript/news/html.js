@@ -2,11 +2,14 @@
 const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 let locationLookupTable = {};
 async function getLocationLookupTable() {
+    if (Object.keys(locationLookupTable).length != 0) {
+        return;
+    }
     try {
         let response = await fetch(urlLocationLookupTable);
         let raw = await response.text();
         locationLookupTable = JSON.parse(raw);
-        debug("Got locationLookupTable!", locationLookupTable);
+        debug("Got locationLookupTable!");
     }
     catch (error) {
         debug("Could not fetch or parse location lookup table", error);

@@ -10,6 +10,7 @@ const idNewsfeedEnclave: string = "newsfeed-enclave";
 
 let locationNews: NewsFeedElement[] = [];
 let locationName: string = getLocationName();
+let locationIsDeprecated: boolean = true;
 
 function getLocationName(): string {
     let variable: HTMLElement | null = document.getElementById(idLocationNameId);
@@ -63,6 +64,24 @@ function injectIntoEnclave() {
 
 
 window.onload = async() => {
+    // Deprecated location notice:
+    await getLocationLookupTable();
+    for(const [name, _] of Object.entries(locationLookupTable)) {
+        if(name == getLocationName()) {
+            locationIsDeprecated = false;
+            debug("Site is not deprecated, not showing alert.");
+            break;
+        }
+    }
+    if(locationIsDeprecated) {
+        debug("Site is deprecated, showing alert.");
+        alert(
+            "Diese Seite ist nicht mehr aktuell, schau nach ob es eine Überarbeitete gibt, " +
+            "oder sei im Klaren, dass Informationen sehr veraltet und/oder fehlerhaft sein können! :)"
+        );
+    }
+
+    // Newsfeed:
     debug("Running newsfeed enclave script on location: " + getLocationName());
     await refetchNews();
     await rebuildNews();

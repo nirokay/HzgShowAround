@@ -9,6 +9,7 @@ const idLocationNameId = "newsfeed-location-id";
 const idNewsfeedEnclave = "newsfeed-enclave";
 let locationNews = [];
 let locationName = getLocationName();
+let locationIsDeprecated = true;
 function getLocationName() {
     let variable = document.getElementById(idLocationNameId);
     if (variable == null) {
@@ -61,6 +62,21 @@ function injectIntoEnclave() {
     });
 }
 window.onload = async () => {
+    // Deprecated location notice:
+    await getLocationLookupTable();
+    for (const [name, _] of Object.entries(locationLookupTable)) {
+        if (name == getLocationName()) {
+            locationIsDeprecated = false;
+            debug("Site is not deprecated, not showing alert.");
+            break;
+        }
+    }
+    if (locationIsDeprecated) {
+        debug("Site is deprecated, showing alert.");
+        alert("Dieser Ort ist nicht mehr aktuell, schau nach ob es einen Überarbeiteten gibt, " +
+            "oder behalte im Sinne, dass hier Sachen fehlerhaft oder sehr veraltet sein können! :)");
+    }
+    // Newsfeed:
     debug("Running newsfeed enclave script on location: " + getLocationName());
     await refetchNews();
     await rebuildNews();
