@@ -67,7 +67,7 @@ var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
     .add(attr("name", "location-map"))
 
 html.addToBody(
-    p("", "", ""), # TODO: Fix this dirty hack
+    divSpacerTop, # TODO: Fix this dirty hack, someday
     h1("Karte von Herzogsägmühle"),
     pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprecheneden Ort gelangen."),
     insertButtons(hrefIndex),
@@ -78,7 +78,7 @@ html.addToBody(
         attr("style", "overflow:auto;"),
         attr("width", "500px")
     ),
-    p("", "") # TODO: Fix this dirty hack
+    divSpacerBottom # TODO: Fix this dirty hack, someday
 )
 
 generateFullSvgMap()

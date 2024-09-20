@@ -163,6 +163,16 @@ const
     heightBarBottom*: int = 45 ## Height of the top bar (shrink main div)
     heightBarMargins*: int = 5 ## Margins between content and bars
 
+proc newSpacer(height: string|int): HtmlElement =
+    result = `div`(
+        htmlComment("Ignore this - this is a spacer... I am a GOD at Html/Css")
+    ).addStyle(
+        "min-height" := $height & "px"
+    )
+
+let
+    divSpacerTop*: HtmlElement = newSpacer(heightBarTop) ## Hacky solution for some pages to keep space for the header bar
+    divSpacerBottom*: HtmlElement = newSpacer(heightBarBottom) ## Hacky solution for some pages to keep space for the footer bar
 
 # -----------------------------------------------------------------------------
 # CSS classes:
