@@ -165,6 +165,13 @@ proc generate*(html: var HtmlDocument) =
     if not hasOGImage:
         html.addOgImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
 
+    # Global body attributes:
+    html.addAttributesToBody(
+        "lang" => "de"
+    )
+    html.addAttributesToHtml(
+        "lang" => "de"
+    )
 
     html.writeFile()
     stdout.write("\rFinished generation for " & html.file & "!\n")
