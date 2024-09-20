@@ -100,6 +100,7 @@ const
 
     # Text:
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
+    colourTextUnfocused* = "#464544" # Darker text, used for unfocus/deleted elements
     colourAuthorNameText* = Gainsboro
 
     colourLinkDefault* = "#FFB6C1"

@@ -87,6 +87,12 @@ globalCss.add(
         "font-weight" := "bold"
     },
 
+    "del"{
+        "color" := colourTextUnfocused,
+        "text-decoration-color" := colourText,
+        "font-style" := "italic"
+    },
+
     # Fieldset:
     "fieldset"{
         "background-color" := colourBackgroundLight,

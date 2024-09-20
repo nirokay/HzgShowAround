@@ -68,6 +68,12 @@ time {
     font-weight: bold;
 }
 
+del {
+    color: #464544;
+    text-decoration-color: #e8e6e3;
+    font-style: italic;
+}
+
 fieldset {
     filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 10px 5px;

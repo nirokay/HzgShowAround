@@ -47,13 +47,13 @@ html.addToBody(
     pc(
         "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung.",
         "Diese Website ist gehört nicht den Betreibern der " & $a("https://www.herzogsaegmuehle.de/", "offiziellen Herzogsägmühler Website") &
-        "und ist von Diesen unabhängig."
+        " und ist von Diesen unabhängig."
     ),
 
-    h3("Datensammlung"),
+    h3($del "Datensammlung"),
     pc(
-        "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendeter Browser).",
-        "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
+        $del "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendeter Browser).",
+        $del "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
     ),
 
     h2("Lizenz"),
@@ -61,7 +61,7 @@ html.addToBody(
         "Diese Website und alle ihre Inhalte, außer explizit erwähnt, sind unter der GPL-3.0 Lizenz freigegeben.",
         "Damit haben Sie die Rechte, Inhalte frei zu ..."
     ),
-    pc(list("verwenden...", "verändern ...", "verbreiten...")),
+    pc(list("verwenden...", "verändern...", "verbreiten...")),
     pc(
         "... solange Diese unter der selben Lizenz lizensiert sind.",
         "Eine vollständige Fassung der Lizenz ist " & $a("https://www.gnu.org/licenses/gpl-3.0.en.html", "hier auf Englisch") &
