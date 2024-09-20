@@ -9,7 +9,7 @@
    id="svg1"
    xml:space="preserve"
    inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
-   sodipodi:docname="map_trace.svg"
+   sodipodi:docname="map.svg"
    inkscape:export-filename="map_new.png"
    inkscape:export-xdpi="254"
    inkscape:export-ydpi="254"
@@ -27,15 +27,15 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     inkscape:zoom="2"
-     inkscape:cx="553.5"
-     inkscape:cy="142.75"
+     inkscape:zoom="16"
+     inkscape:cx="251.53125"
+     inkscape:cy="566.78125"
      inkscape:window-width="2560"
-     inkscape:window-height="1476"
+     inkscape:window-height="1449"
      inkscape:window-x="0"
-     inkscape:window-y="32"
+     inkscape:window-y="48"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer33" />
+     inkscape:current-layer="layer4" />
 <defs
      id="defs1">
 <rect
@@ -1175,8 +1175,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect224-6);display:inline;fill:#ffffff">
 <tspan
          x="-357.63867"
-         y="-59.884766"
-         id="tspan2">Lexenbach</tspan>
+         y="-59.606726"
+         id="tspan1">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1185,8 +1185,8 @@
        style="font-size:64px;white-space:pre;shape-inside:url(#rect377);display:inline;fill:#f9f9f9">
 <tspan
          x="-459.28906"
-         y="-416.83008"
-         id="tspan3">Lech</tspan>
+         y="-414.60576"
+         id="tspan2">Lech</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1195,8 +1195,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect378);display:inline;fill:#f9f9f9">
 <tspan
          x="574.43945"
-         y="731.4668"
-         id="tspan4">Latterbach</tspan>
+         y="731.74484"
+         id="tspan3">Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1205,8 +1205,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect379);display:inline;fill:#ffffff">
 <tspan
          x="47.546875"
-         y="582.21484"
-         id="tspan5">Mühlbach</tspan>
+         y="582.49288"
+         id="tspan4">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1215,8 +1215,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect379-7);display:inline;fill:#ffffff">
 <tspan
          x="47.546875"
-         y="582.21484"
-         id="tspan6">Überflussbecken</tspan>
+         y="582.49288"
+         id="tspan5">Überflussbecken</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1225,8 +1225,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect379-4);display:inline;fill:#ffffff">
 <tspan
          x="47.546875"
-         y="582.21484"
-         id="tspan7">Mühlbach</tspan>
+         y="582.49288"
+         id="tspan6">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1235,8 +1235,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect224);display:inline;fill:#ffffff">
 <tspan
          x="-357.63867"
-         y="-59.884766"
-         id="tspan8">Lexenbach</tspan>
+         y="-59.606726"
+         id="tspan7">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1245,8 +1245,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect224-2);display:inline;fill:#ffffff">
 <tspan
          x="-357.63867"
-         y="-59.884766"
-         id="tspan9">Lexenbach</tspan>
+         y="-59.606726"
+         id="tspan8">Lexenbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1255,8 +1255,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect379-44);display:inline;fill:#ffffff">
 <tspan
          x="47.546875"
-         y="582.21484"
-         id="tspan10">Mühlbach</tspan>
+         y="582.49288"
+         id="tspan9">Mühlbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -1265,8 +1265,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect379-8);display:inline;fill:#ffffff">
 <tspan
          x="47.546875"
-         y="582.21484"
-         id="tspan11">Mühlbach</tspan>
+         y="582.49288"
+         id="tspan10">Mühlbach</tspan>
 </text>
 </g>
 <g
@@ -1319,8 +1319,8 @@
          style="font-size:8px;white-space:pre;shape-inside:url(#rect397);display:inline;fill:#000000">
 <tspan
            x="654.12891"
-           y="-258.625"
-           id="tspan12">Roter Berg</tspan>
+           y="-258.34696"
+           id="tspan11">Roter Berg</tspan>
 </text>
 </g>
 </g>
@@ -4409,7 +4409,8 @@
 </g>
 <g
        id="Barber"
-       transform="matrix(0.00530362,0,0,0.00530362,65.10716,147.7553)">
+       transform="matrix(0.00530362,0,0,0.00530362,65.10716,147.7553)"
+       style="display:none">
 <g
          id="g2564">
 <path
@@ -4457,7 +4458,7 @@
    id="path5-9" />
 </g>
 <path
-       d="m 66.769048,152.3811 h -0.310756 l -0.06623,-0.39566 c -0.02719,-0.12196 -0.119156,-0.21914 -0.239435,-0.25302 -0.05932,-0.0191 -0.121092,-0.0294 -0.183396,-0.0306 h -0.380376 c -0.06231,0.001 -0.124081,0.0115 -0.183396,0.0306 -0.120278,0.0339 -0.212248,0.13106 -0.239435,0.25302 l -0.06623,0.39566 h -0.310756 c -0.04688,-2.9e-4 -0.08513,0.0375 -0.08541,0.0844 -5.1e-5,0.009 0.0013,0.0176 0.0039,0.026 l 0.319247,1.06982 v 0 c 0.03335,0.10606 0.131655,0.17823 0.242831,0.1783 h 1.018871 c 0.110547,-6.4e-4 0.207968,-0.0728 0.241132,-0.1783 v 0 l 0.319247,-1.06982 c 0.01408,-0.0447 -0.01078,-0.0924 -0.05551,-0.10647 -0.0079,-0.003 -0.01604,-0.004 -0.0243,-0.004 z m -1.496043,0 0.06113,-0.36849 c 0.0137,-0.0616 0.06344,-0.1086 0.12566,-0.11886 0.04183,-0.0132 0.08523,-0.0206 0.129057,-0.0221 h 0.380379 c 0.04439,0.001 0.08839,0.009 0.130755,0.0221 0.06222,0.0103 0.111957,0.0573 0.125661,0.11886 l 0.05943,0.36849 h -1.018871 z"
+       d="m 66.745701,152.08609 h -0.310756 l -0.06623,-0.39566 c -0.02719,-0.12196 -0.119156,-0.21914 -0.239435,-0.25302 -0.05932,-0.0191 -0.121092,-0.0294 -0.183396,-0.0306 h -0.380376 c -0.06231,0.001 -0.124081,0.0115 -0.183396,0.0306 -0.120278,0.0339 -0.212248,0.13106 -0.239435,0.25302 l -0.06623,0.39566 h -0.310756 c -0.04688,-2.9e-4 -0.08513,0.0375 -0.08541,0.0844 -5.1e-5,0.009 0.0013,0.0176 0.0039,0.026 l 0.319247,1.06982 v 0 c 0.03335,0.10606 0.131655,0.17823 0.242831,0.1783 h 1.018871 c 0.110547,-6.4e-4 0.207968,-0.0728 0.241132,-0.1783 v 0 l 0.319247,-1.06982 c 0.01408,-0.0447 -0.01078,-0.0924 -0.05551,-0.10647 -0.0079,-0.003 -0.01604,-0.004 -0.0243,-0.004 z m -1.496043,0 0.06113,-0.36849 c 0.0137,-0.0616 0.06344,-0.1086 0.12566,-0.11886 0.04183,-0.0132 0.08523,-0.0206 0.129057,-0.0221 h 0.380379 c 0.04439,0.001 0.08839,0.009 0.130755,0.0221 0.06222,0.0103 0.111957,0.0573 0.125661,0.11886 l 0.05943,0.36849 h -1.018871 z"
        id="Muehlenmarkt-Werkladen"
        style="stroke-width:0.169812" />
 <path
@@ -4728,8 +4729,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan13">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan12">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4738,8 +4739,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-7);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan14">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan13">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4748,8 +4749,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-2);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan15">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan14">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4758,8 +4759,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect245);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="513.4043"
-         y="471.30078"
-         id="tspan16">Unteres Kirchwegfeld</tspan>
+         y="471.53248"
+         id="tspan15">Unteres Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4768,8 +4769,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect245-0);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="513.4043"
-         y="471.30078"
-         id="tspan17">Oberes Kirchwegfeld</tspan>
+         y="471.53248"
+         id="tspan16">Oberes Kirchwegfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4778,8 +4779,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect246);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="416.92188"
-         y="723.0586"
-         id="tspan18">Am Latterbach</tspan>
+         y="723.2903"
+         id="tspan17">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4788,8 +4789,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect246-9);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="416.92188"
-         y="723.0586"
-         id="tspan19">Am Latterbach</tspan>
+         y="723.2903"
+         id="tspan18">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4798,8 +4799,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect247);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="265.39258"
-         y="617.75"
-         id="tspan20">Unteroblandstraße</tspan>
+         y="617.9817"
+         id="tspan19">Unteroblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4808,8 +4809,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect249);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="165.76562"
-         y="366.41992"
-         id="tspan21">Ringstraße</tspan>
+         y="366.65162"
+         id="tspan20">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4818,8 +4819,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect250);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="208.30078"
-         y="270.5918"
-         id="tspan22">Schulweg</tspan>
+         y="270.8235"
+         id="tspan21">Schulweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4828,8 +4829,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect2);display:inline;fill:#000000">
 <tspan
          x="158.31445"
-         y="517.85352"
-         id="tspan23">Werkstraße</tspan>
+         y="518.08522"
+         id="tspan22">Werkstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4838,8 +4839,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect3);display:inline;fill:#000000">
 <tspan
          x="220.76562"
-         y="475.18555"
-         id="tspan24">Von-Kahl-Straße</tspan>
+         y="475.41725"
+         id="tspan23">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4848,8 +4849,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect249-2);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="165.76562"
-         y="366.41992"
-         id="tspan25">Ringstraße</tspan>
+         y="366.65162"
+         id="tspan24">Ringstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4858,8 +4859,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect4);display:inline;fill:#000000">
 <tspan
          x="241.51758"
-         y="282.71289"
-         id="tspan26">Kapellenfeld</tspan>
+         y="282.94459"
+         id="tspan25">Kapellenfeld</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4868,8 +4869,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect246-6);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="416.92188"
-         y="723.0586"
-         id="tspan27">Am Latterbach</tspan>
+         y="723.2903"
+         id="tspan26">Am Latterbach</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4878,8 +4879,8 @@
        style="font-size:4px;white-space:pre;shape-inside:url(#rect253);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="314.43555"
-         y="590.83398"
-         id="tspan28">Koppelweg</tspan>
+         y="590.973"
+         id="tspan27">Koppelweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4888,8 +4889,8 @@
        style="font-size:4px;white-space:pre;shape-inside:url(#rect253-3);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="314.43555"
-         y="590.83398"
-         id="tspan29">Koppelweg</tspan>
+         y="590.973"
+         id="tspan28">Koppelweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4898,8 +4899,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect3-7-2);display:inline;opacity:1;fill:#000000">
 <tspan
          x="220.76562"
-         y="475.18555"
-         id="tspan30">Von-Kahl-Straße</tspan>
+         y="475.41725"
+         id="tspan29">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4908,8 +4909,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect3-7);display:inline;opacity:1;fill:#000000">
 <tspan
          x="220.76562"
-         y="475.18555"
-         id="tspan31">Von-Kahl-Straße</tspan>
+         y="475.41725"
+         id="tspan30">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4918,8 +4919,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect5);display:inline;fill:#1a1a1a">
 <tspan
          x="414.30469"
-         y="-96.130859"
-         id="tspan32">Am Roten Berg</tspan>
+         y="-95.85282"
+         id="tspan31">Am Roten Berg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4928,8 +4929,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect45);display:inline;fill:#1a1a1a">
 <tspan
          x="13.486328"
-         y="51.119141"
-         id="tspan33">Dießener Straße</tspan>
+         y="51.39718"
+         id="tspan32">Dießener Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4938,8 +4939,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect45-2);display:inline;fill:#1a1a1a">
 <tspan
          x="13.486328"
-         y="51.119141"
-         id="tspan34">Dießener Straße</tspan>
+         y="51.39718"
+         id="tspan33">Dießener Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4948,8 +4949,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect46);display:inline;fill:#1a1a1a">
 <tspan
          x="286.88281"
-         y="-107.04102"
-         id="tspan35">Von-Kahl-Straße</tspan>
+         y="-106.76298"
+         id="tspan34">Von-Kahl-Straße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4958,8 +4959,8 @@
        style="font-size:8px;white-space:pre;shape-inside:url(#rect47);display:inline;fill:#1a1a1a">
 <tspan
          x="340.26172"
-         y="-66.404297"
-         id="tspan36">Bürstlingweg</tspan>
+         y="-66.126257"
+         id="tspan35">Bürstlingweg</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4968,8 +4969,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-29);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan37">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan36">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4978,8 +4979,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-1);display:inline;opacity:1;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan38">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan37">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4988,8 +4989,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-23);display:inline;opacity:1;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan39">Oblandstraße</tspan>
+         y="460.42506"
+         id="tspan38">Oblandstraße</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -4998,8 +4999,8 @@
        style="font-size:6.66667px;white-space:pre;shape-inside:url(#rect244-3);display:inline;opacity:1;fill:#000000;fill-opacity:1">
 <tspan
          x="497.14062"
-         y="460.19336"
-         id="tspan40">Weiherstraße</tspan>
+         y="460.42506"
+         id="tspan39">Weiherstraße</tspan>
 </text>
 </g>
 <g
@@ -5014,8 +5015,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect254);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="657.67188"
-         y="582.47657"
-         id="tspan41">13</tspan>
+         y="582.56925"
+         id="tspan40">13</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5024,8 +5025,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect255);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="638.17383"
-         y="607.73438"
-         id="tspan42">14</tspan>
+         y="607.82706"
+         id="tspan41">14</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5034,8 +5035,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect257);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="633.88281"
-         y="569.01367"
-         id="tspan43">16</tspan>
+         y="569.10635"
+         id="tspan42">16</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5044,8 +5045,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect258);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="624.17578"
-         y="546.33985"
-         id="tspan44">18</tspan>
+         y="546.43253"
+         id="tspan43">18</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5054,8 +5055,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect259);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="667.81836"
-         y="633.02344"
-         id="tspan45">11</tspan>
+         y="633.11612"
+         id="tspan44">11</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5064,8 +5065,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect260);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="651.66992"
-         y="646.18555"
-         id="tspan46">9</tspan>
+         y="646.27823"
+         id="tspan45">9</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5074,8 +5075,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect261);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="606.42969"
-         y="655.05274"
-         id="tspan47">10</tspan>
+         y="655.14542"
+         id="tspan46">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5084,8 +5085,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect262);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="620.65039"
-         y="640.625"
-         id="tspan48">12</tspan>
+         y="640.71768"
+         id="tspan47">12</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5094,8 +5095,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect263);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="617.20508"
-         y="517.76758"
-         id="tspan49">6</tspan>
+         y="517.86026"
+         id="tspan48">6</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5104,8 +5105,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect264);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="664.95703"
-         y="527.21485"
-         id="tspan50">1</tspan>
+         y="527.30753"
+         id="tspan49">1</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5114,8 +5115,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect265);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="658.75781"
-         y="482.41797"
-         id="tspan51">17</tspan>
+         y="482.51065"
+         id="tspan50">17</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5124,8 +5125,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect266);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="664.59766"
-         y="461.06836"
-         id="tspan52">19</tspan>
+         y="461.16104"
+         id="tspan51">19</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5134,8 +5135,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect268);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="663.44531"
-         y="435.76758"
-         id="tspan53">10</tspan>
+         y="435.86026"
+         id="tspan52">10</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5144,8 +5145,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect269);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="580.68359"
-         y="436.95117"
-         id="tspan54">2</tspan>
+         y="437.04385"
+         id="tspan53">2</tspan>
 </text>
 <text
        xml:space="preserve"
@@ -5154,8 +5155,8 @@
        style="font-size:2.66667px;white-space:pre;shape-inside:url(#rect270);display:inline;fill:#000000;fill-opacity:1">
 <tspan
          x="604.1543"
-         y="447.39649"
-         id="tspan55">4</tspan>
+         y="447.48917"
+         id="tspan54">4</tspan>
 </text>
 </g>
 <g
@@ -5185,8 +5186,8 @@
    style="font-size:12px;white-space:pre;shape-inside:url(#rect221);display:inline;fill:#1a1a1a">
 <tspan
      x="136.99805"
-     y="573.77734"
-     id="tspan56">Verwaltung</tspan>
+     y="574.1944"
+     id="tspan55">Verwaltung</tspan>
 </text>
 </g>
 <g
@@ -5212,8 +5213,8 @@
    style="font-size:8px;white-space:pre;shape-inside:url(#rect222);display:inline;fill:#1a1a1a">
 <tspan
      x="646.28711"
-     y="435.42578"
-     id="tspan57">Oberes Kirchwegfeld</tspan>
+     y="435.70382"
+     id="tspan56">Oberes Kirchwegfeld</tspan>
 </text>
 </g>
 <g
@@ -5239,8 +5240,8 @@
    style="font-size:12px;white-space:pre;shape-inside:url(#rect218);display:inline;fill:#1a1a1a">
 <tspan
      x="249.18945"
-     y="34.34375"
-     id="tspan58">Am Roten Berg</tspan>
+     y="34.760809"
+     id="tspan57">Am Roten Berg</tspan>
 </text>
 </g>
 <g
@@ -5266,8 +5267,8 @@
    style="font-size:12px;white-space:pre;shape-inside:url(#rect218-5);display:inline;fill:#1a1a1a">
 <tspan
      x="249.18945"
-     y="34.34375"
-     id="tspan59">Am Roten Berg</tspan>
+     y="34.760809"
+     id="tspan58">Am Roten Berg</tspan>
 </text>
 </g>
 <g
@@ -5293,8 +5294,8 @@
    style="font-size:12px;white-space:pre;shape-inside:url(#rect220);display:inline;fill:#1a1a1a">
 <tspan
      x="165.65039"
-     y="381.45703"
-     id="tspan60">Kirche</tspan>
+     y="381.87409"
+     id="tspan59">Kirche</tspan>
 </text>
 </g>
 </g>
@@ -5319,8 +5320,8 @@
        style="font-size:12px;white-space:pre;shape-inside:url(#rect219);display:inline;fill:#f9f9f9">
 <tspan
          x="661.36133"
-         y="211.04102"
-         id="tspan61">Von-Kahl-Denkmal</tspan>
+         y="211.45807"
+         id="tspan60">Von-Kahl-Denkmal</tspan>
 </text>
 </g>
 <g
@@ -5351,8 +5352,8 @@
          inkscape:label="waschen">
 <tspan
            x="607.28516"
-           y="33.775391"
-           id="tspan62">W</tspan>
+           y="34.05343"
+           id="tspan61">W</tspan>
 </text>
 <text
          xml:space="preserve"
@@ -5362,8 +5363,8 @@
          inkscape:label="seife">
 <tspan
            x="607.28516"
-           y="33.775391"
-           id="tspan63">S</tspan>
+           y="34.05343"
+           id="tspan62">S</tspan>
 </text>
 <text
          xml:space="preserve"
@@ -5373,8 +5374,8 @@
          inkscape:label="ohne">
 <tspan
            x="607.28516"
-           y="33.775391"
-           id="tspan64">O</tspan>
+           y="34.05343"
+           id="tspan63">O</tspan>
 </text>
 <text
          xml:space="preserve"
@@ -5384,8 +5385,8 @@
          inkscape:label="nie">
 <tspan
            x="607.28516"
-           y="33.775391"
-           id="tspan65">N</tspan>
+           y="34.05343"
+           id="tspan64">N</tspan>
 </text>
 </g>
 <g
