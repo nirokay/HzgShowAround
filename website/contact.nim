@@ -1,7 +1,6 @@
 ## Contact
 ## =======
 
-import std/[strutils, uri]
 import generator, styles, snippets
 
 const emailAddress: string = "nirokay-public+hzgshowaround@protonmail.com"

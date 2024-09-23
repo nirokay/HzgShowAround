@@ -71,15 +71,22 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
         urlLocationImages & path
 
     # Abomination:
-    if location.pics.get().header.isSet():
-        # Header image:
-        html.addOgImage(url location.pics.get().header.get())
-    elif location.pics.get().footer.isSet():
-        # First footer image:
-        html.addOgImage(url location.pics.get().footer.get()[0])
-    else:
-        # Map location image:
-        html.addOgImage(location.getLocationMapPath(absolute = true))
+    block settingLocationOgImage:
+        if location.pics.isSome():
+            let pics: Pictures = get location.pics
+            if pics.header.isSet():
+                # Header image:
+                html.addOgImage(url pics.header.get())
+            elif pics.footer.isSet():
+                # First footer image:
+                html.addOgImage(url pics.footer.get()[0])
+            elif location.coords.isSome():
+                # Map location image:
+                if location.coords.get().len() < 4: break settingLocationOgImage
+                html.addOgImage(location.getLocationMapPath(absolute = true))
+            else:
+                # Set no og:image, will use default favicon image
+                discard
 
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location
