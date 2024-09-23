@@ -137,9 +137,6 @@ proc generate*(html: var HtmlDocument) =
         topHeader,
         # Footer:
         bottomFooter
-
-        # Cloudflare analytics:
-        # rawText("""<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "301cf8a5a1c94af5987a04c936a8d670"}'></script><!-- End Cloudflare Web Analytics -->""")
     )
 
     # Html head:

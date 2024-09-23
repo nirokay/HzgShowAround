@@ -50,10 +50,10 @@ html.addToBody(
         " und ist von Diesen unabhängig."
     ),
 
-    h3($del "Datensammlung"),
+    h3("Datensammlung"),
     pc(
-        $del "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendeter Browser).",
-        $del "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
+        "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendeter Browser).",
+        "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
     ),
 
     h2("Lizenz"),
