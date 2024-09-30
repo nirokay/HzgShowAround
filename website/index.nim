@@ -11,7 +11,7 @@ let locations: seq[Location] = getLocations()
 locations.generateLocations()
 
 var html: HtmlDocument = newPage(
-    "Home",
+    "",
     "index.html",
     "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle."
 )

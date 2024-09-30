@@ -74,7 +74,10 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
         htmlComment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
         charset("utf-8"),
         viewport("width=device-width, initial-scale=1"),
-        title(name & " - HzgShowAround"),
+        (
+            if name == "": title(name)
+            else: title(name & " - HzgShowAround")
+        ),
         description(desc)
     )
 
