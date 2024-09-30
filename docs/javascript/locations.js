@@ -73,8 +73,8 @@ window.onload = async () => {
     }
     if (locationIsDeprecated) {
         debug("Site is deprecated, showing alert.");
-        alert("Dieser Ort ist nicht mehr aktuell, schau nach ob es einen Überarbeiteten gibt, " +
-            "oder behalte im Sinne, dass hier Sachen fehlerhaft oder sehr veraltet sein können! :)");
+        alert("Diese Seite ist nicht mehr aktuell, schau nach ob es eine Überarbeitete gibt, " +
+            "oder sei im Klaren, dass Informationen sehr veraltet und/oder fehlerhaft sein können! :)");
     }
     // Newsfeed:
     debug("Running newsfeed enclave script on location: " + getLocationName());

@@ -31,7 +31,7 @@ var areas: seq[string]
 for location in locations.withCoords():
     let
         coords: Coords = get location.coords
-        scale: float = float(mapScaleTo) / float(mapResolution)
+        scale: float = toFloat(mapScaleTo) / toFloat(mapResolution)
     var area: HtmlElement = newHtmlElement("area")
 
     # Shape:
@@ -46,7 +46,7 @@ for location in locations.withCoords():
 
     var scaledCoords: seq[int]
     for coord in coords:
-        scaledCoords.add int(float(coord) * scale)
+        scaledCoords.add int(toFloat(coord) * scale)
 
     # Coords and link:
     area.add(

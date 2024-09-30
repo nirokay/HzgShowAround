@@ -37,10 +37,10 @@ globalCss.add(
 
     # Bottom footer:
     "footer"{
-        position(fixed),
+        position($fixed),
         backgroundColour(colourBackgroundDark),
         width("100%"),
-        bottom(0),
+        bottom($0),
         "box-sizing" := "border-box"
     },
 

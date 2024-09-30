@@ -243,7 +243,7 @@ const
         padding("10px 20px"),
         textCenter,
         ["text-decoration", "none"],
-        display(inlineBlock),
+        display($inlineBlock),
         fontSize("1.2em"),
         ["margin", "8px 4px"],
         ["cursor", "pointer"],
@@ -280,19 +280,19 @@ const
 
     mapElement* = newCssClass("map-element",
         outlineColour(colourMapElementOutline),
-        display(inline)
+        display($inline)
     )
 
     divCenterOuter* = newCssClass("div-outer",
-        display(table),
-        position(absolute),
+        display($table),
+        position($absolute),
         top(px(heightBarTop + heightBarMargins)),
-        left(0),
+        left($0),
         height("calc(100vh - " & heightBarTop.px & " - " & heightBarBottom.px & " - " & px(heightBarMargins * 2) & ")"), # idk what im doing
         width("100%")
     )
     divCenterMiddle* = newCssClass("div-middle",
-        display(tableCell),
+        display($tableCell),
         ["vertical-align", "middle"]
     )
     divCenterInner* = newCssClass("div-inner",

@@ -364,7 +364,11 @@ function sortedElementsByDateAndRelevancy(news: NewsFeedElement[]): NewsFeedElem
     });
     // Importance:
     news.sort((a, b) => {
-        return (b.importance ?? -99) - (a.importance ?? -99);
+        // Normal sorting
+        // return (b.importance ?? -99) - (a.importance ?? -99);
+
+        // Actually wtf, anyways: puts "happened" events (-10) to the bottom, puts everything else in place (already sorted by date)
+        return ((b.importance ?? - 99) > -10 ? 0 : -1) - ((a.importance ?? - 99) > -10 ? 0 : -1);
     });
     return news;
 }

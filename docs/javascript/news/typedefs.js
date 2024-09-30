@@ -334,8 +334,11 @@ function sortedElementsByDateAndRelevancy(news) {
     });
     // Importance:
     news.sort((a, b) => {
+        // Normal sorting
+        // return (b.importance ?? -99) - (a.importance ?? -99);
         var _a, _b;
-        return ((_a = b.importance) !== null && _a !== void 0 ? _a : -99) - ((_b = a.importance) !== null && _b !== void 0 ? _b : -99);
+        // Actually wtf, anyways: puts "happened" events (-10) to the bottom, puts everything else in place (already sorted by date)
+        return (((_a = b.importance) !== null && _a !== void 0 ? _a : -99) > -10 ? 0 : -1) - (((_b = a.importance) !== null && _b !== void 0 ? _b : -99) > -10 ? 0 : -1);
     });
     return news;
 }

@@ -2,7 +2,7 @@
 const urlLocationLookupTable = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 let locationLookupTable = {};
 async function getLocationLookupTable() {
-    if (Object.keys(locationLookupTable).length != 0) {
+    if (Object.keys(locationLookupTable).length > 0) {
         return;
     }
     try {
