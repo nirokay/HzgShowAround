@@ -32,7 +32,7 @@ for dir in dirs:
 
 # Hacky solution to a problem I cannot comprehend:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
-    "map.html"
+    "map.html" # TODO: Fix this someday holy shit
 ]
 
 var pageMetaDataCache: Table[string, seq[string]]

@@ -19,12 +19,13 @@ var
     locations: seq[Location] = getLocations()
     picture: HtmlElement = img(svgExportPath, "Interaktive Karte ist unverfügbar").add(
         attr("usemap", "#location-map"),
-        attr("width", $(mapScaleTo)),
-        attr("height", $(mapScaleTo))
+        attr("width", px(mapScaleTo)),
+        attr("height", px(mapScaleTo))
     )
 
-# Dirty quick-fix for weird behaviour:
-picture.tagAttributes = picture.tagAttributes.deduplicate()
+picture.addStyle(
+    "border-radius" := "20px"
+)
 
 var areas: seq[string]
 
@@ -75,11 +76,13 @@ html.addToBody(
         picture,
         map
     ).setClass(centerClass).addStyle(
-        "overflow" := "auto",
+        "overflow" := "scroll",
+        "touch-action" := "pan-x pan-y pinch-zoom",
         "max-width" := "1000px",
         "max-height" := "1000px",
         "height" := "60vh",
-        "width" := "90%"
+        "width" := "90%",
+        "border-radius" := "20px"
     ),
     divSpacerBottom # TODO: Fix this dirty hack, someday
 )
