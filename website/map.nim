@@ -77,7 +77,9 @@ html.addToBody(
     ).setClass(centerClass).addStyle(
         "overflow" := "auto",
         "max-width" := "1000px",
-        "height" := "1000px"
+        "max-height" := "1000px",
+        "height" := "60vh",
+        "width" := "90%"
     ),
     divSpacerBottom # TODO: Fix this dirty hack, someday
 )
