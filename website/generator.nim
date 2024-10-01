@@ -37,31 +37,14 @@ const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
 
 var pageMetaDataCache: Table[string, seq[string]]
 
-proc og(property, content: string): HtmlElement =
-    ## Generates an `og` meta tag
-    "meta"[
-        "property" => "og:" & property,
-        "content" => content
-    ]
-
-proc addOgTag*(html: var HtmlDocument, property, content: string) =
-    ## Adds a single og tag
-    html.addToHead(
-        og(property, content)
-    )
-
 proc addOgTags*(html: var HtmlDocument) =
     ## Adds `og:...` tags to the head of an Html document, that shows when sharing a link
     let metaData: seq[string] = pageMetaDataCache[html.file]
     html.addToHead(
-        og("title", metaData[0]),
-        og("description", metaData[1])
+        ogTitle(metaData[0]),
+        ogDescription(metaData[1])
     )
 
-proc addOgImage*(html: var HtmlDocument, source: string) =
-    html.addOgTag(
-        "image", source
-    )
 
 # -----------------------------------------------------------------------------
 # Shortcut procs:
@@ -75,7 +58,7 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
         charset("utf-8"),
         viewport("width=device-width, initial-scale=1"),
         (
-            if name == "": title(name)
+            if name == "": title("HzgShowAround")
             else: title(name & " - HzgShowAround")
         ),
         description(desc)
@@ -163,7 +146,7 @@ proc generate*(html: var HtmlDocument) =
                 hasOGImage = true
                 break
     if not hasOGImage:
-        html.addOgImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
+        html.add ogImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
 
     # Global body attributes:
     html.addAttributesToBody(

@@ -74,15 +74,16 @@ html.addToBody(
     `div`(
         picture,
         map
-    ).setClass(centerClass).add(
-        attr("style", "overflow:auto;"),
-        attr("width", "500px")
+    ).setClass(centerClass).addStyle(
+        "overflow" := "auto",
+        "max-width" := "1000px",
+        "height" := "1000px"
     ),
     divSpacerBottom # TODO: Fix this dirty hack, someday
 )
 
 generateFullSvgMap()
 
-html.addOgImage(urlImages & "map.svg")
+html.add ogImage(urlImages & "map.svg")
 html.setStyle(css)
 html.generate()

@@ -210,7 +210,7 @@ proc generateArticleHtml(article: Article) =
 
     # Add css and write to disk:
     if article.image.isSet():
-        html.addOgImage(urlArticleImages & article.image.get())
+        html.add ogImage(urlArticleImages & article.image.get())
     html.addToHead(stylesheet(articleCssFile))
     html.generate()
 

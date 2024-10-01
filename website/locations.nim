@@ -76,14 +76,14 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             let pics: Pictures = get location.pics
             if pics.header.isSet():
                 # Header image:
-                html.addOgImage(url pics.header.get())
+                html.add ogImage(url pics.header.get())
             elif pics.footer.isSet():
                 # First footer image:
-                html.addOgImage(url pics.footer.get()[0])
+                html.add ogImage(url pics.footer.get()[0])
             elif location.coords.isSome():
                 # Map location image:
                 if location.coords.get().len() < 4: break settingLocationOgImage
-                html.addOgImage(location.getLocationMapPath(absolute = true))
+                html.add ogImage(location.getLocationMapPath(absolute = true))
             else:
                 # Set no og:image, will use default favicon image
                 discard
