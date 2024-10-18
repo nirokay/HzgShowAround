@@ -65,7 +65,7 @@ proc pc*(elements: varargs[HtmlElement]): HtmlElement =
 # -----------------------------------------------------------------------------
 
 const rootUrl: string = "/HzgShowAround/" ## Root of the hzgshowaround host
-type ButtonHref* = tuple[text ,title, href: string]
+type ButtonHref* = tuple[text, title, href: string]
 proc `->`(href: string, texts: array[2, string]): ButtonHref =
     result = (
         text: texts[0],
