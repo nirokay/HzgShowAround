@@ -13,6 +13,11 @@ function getElement() {
 }
 function changeToLocationPage() {
     let element = getElement();
+    if (element == null) {
+        console.log("Failed to find '" + locationDropDownId + "'...");
+        alert("Irgendwas ist schief gelaufen... :(");
+        return;
+    }
     if (element.index <= 0) {
         return;
     }

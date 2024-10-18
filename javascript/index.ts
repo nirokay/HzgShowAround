@@ -9,12 +9,17 @@
 
 const locationDropDownId = "index-location-drop-down";
 
-function getElement(): HTMLOptionElement {
+function getElement(): HTMLOptionElement | null {
     return document.getElementById(locationDropDownId) as HTMLOptionElement;
 }
 
 function changeToLocationPage(): void {
-    let element: HTMLOptionElement = getElement();
+    let element: HTMLOptionElement | null = getElement();
+    if(element == null) {
+        console.log("Failed to find '" + locationDropDownId + "'...");
+        alert("Irgendwas ist schief gelaufen... :(");
+        return;
+    }
     if(element.index <= 0) {
         return;
     }

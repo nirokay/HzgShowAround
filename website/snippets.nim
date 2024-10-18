@@ -93,7 +93,7 @@ proc toHtmlElement*(button: ButtonHref): HtmlElement =
     ] => button.text -> buttonClass
     ]#
     result = "button"[
-        "onclick" => "window.location='" & rootUrl & button.href & "';"
+        "onclick" => "window.location=\"" & rootUrl & button.href & "\";"
     ] => button.text
     if button.title != "": result.addattr("title", button.title)
 proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =

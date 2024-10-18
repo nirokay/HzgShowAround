@@ -116,7 +116,7 @@ for location in locations:
     locationOptions.add option(get location.path, location.name)
 
 locationOptions.sort do (x, y: HtmlElement) -> int:
-    result = cmp(x.content.toLower(), y.content.toLower())
+    result = cmp(toLower($x), toLower($y))
 
 locationOptions = @[
     option("none", "-- Bitte auswählen --").add(attr("selected"))
