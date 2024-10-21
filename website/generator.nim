@@ -78,13 +78,17 @@ proc generate*(html: var HtmlDocument) =
     var
         topHeader: HtmlElement = `div`(
             h2(
-                $a("/HzgShowAround", "HzgShowAround").add(
-                    attr("style", "color:#e8e6e3;padding-left:10px;"),
-                    attr("title", "Zurück zur Startseite")
+                $a("/", "nirokay.com").setTitle("Zurück zum Host").addStyle(
+                    "color" := "#e8e6e3"
+                ) &
+                " › " &
+                $a("/HzgShowAround", "HzgShowAround").setTitle("").addStyle(
+                    "color" := "#e8e6e3"
                 )
             ).addStyle(
                 "text-align" := "left",
-                "text-decoration" := "none"
+                "text-decoration" := "none",
+                "padding-left" := "10px"
             )
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
