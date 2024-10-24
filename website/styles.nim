@@ -120,6 +120,16 @@ globalCss.add(
         "padding-left" := "20px"
     },
 
+    # Images:
+    "img"{
+        width("50%"),
+        "max-width" := "700px",
+        "border-radius" := "10px",
+        "margin" := "10px",
+        "background-color" := colourBackgroundLight, # useful for images, that dont load
+        dropShadow
+    },
+
 
     # Classes:
     centerClass,
@@ -257,15 +267,6 @@ cssArticles.add(
     },
     "h3, h4, h5, h6, p, summary, time"{
         textCenter
-    },
-
-    # Images:
-    "img"{
-        width("50%"),
-        "max-width" := "700px",
-        "border-radius" := "10px",
-        "margin" := "10px",
-        dropShadow
     }
 )
 

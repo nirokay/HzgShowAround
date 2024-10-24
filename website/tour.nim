@@ -51,5 +51,5 @@ html.addToBody(
 )
 
 
-html.setStyle(css)
+html.setStylesheet(css)
 html.generate()

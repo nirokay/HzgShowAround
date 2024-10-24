@@ -177,22 +177,22 @@ proc getRelativeUrlPath*(name: string): string =
     ## Gets the path for an html page
     name.getRelativeUrlId() & ".html"
 
-proc iheader(original: proc, text: string, override: string = ""): HtmlElement =
+proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlElement =
     var id: string
-    result = original(text)
+    result = element
     if override != "":
         id = override.toLower()
     else:
         id = text.toLower().formatToAscii()
-        for c in [",", ".", "!", "?", ":", ";"]:
+        for c in [",", ".", "!", "?", ":", ";", "(", ")", "[", "]", "=", "#", "'", "\"", "§", "$", "€", "%", "/", "{", "}"]: # i should think of making this somehow a smarter system
             id = id.replace(c, "")
     result.addattr("id", id)
-proc ih1*(text: string, override: string = ""): HtmlElement = iheader(h1, text, override) ## Header element (with ascii-friendly id)
-proc ih2*(text: string, override: string = ""): HtmlElement = iheader(h2, text, override) ## Header element (with ascii-friendly id)
-proc ih3*(text: string, override: string = ""): HtmlElement = iheader(h3, text, override) ## Header element (with ascii-friendly id)
-proc ih4*(text: string, override: string = ""): HtmlElement = iheader(h4, text, override) ## Header element (with ascii-friendly id)
-proc ih5*(text: string, override: string = ""): HtmlElement = iheader(h5, text, override) ## Header element (with ascii-friendly id)
-proc ih6*(text: string, override: string = ""): HtmlElement = iheader(h6, text, override) ## Header element (with ascii-friendly id)
+proc ih1*(text: string, override: string = ""): HtmlElement = h1(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih2*(text: string, override: string = ""): HtmlElement = h2(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih3*(text: string, override: string = ""): HtmlElement = h3(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih4*(text: string, override: string = ""): HtmlElement = h4(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih5*(text: string, override: string = ""): HtmlElement = h5(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih6*(text: string, override: string = ""): HtmlElement = h6(text).iheader(text, override) ## Header element (with ascii-friendly id)
 
 proc timeReadable*(dateTime: DateTime): string =
     result = dateTime.format("dd-MM-yyyy").replace("-", ".")

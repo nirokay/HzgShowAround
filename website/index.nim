@@ -153,5 +153,5 @@ html.addToBody(
 # Generate stuff beep boop
 # -----------------------------------------------------------------------------
 
-html.setStyle(css)
+html.setStylesheet(css)
 html.generate()

@@ -54,5 +54,5 @@ html.add(
     ).setClass(flexContainerClass)
 )
 
-html.setStyle(css)
+html.setStylesheet(css)
 html.generate()

@@ -101,6 +101,15 @@ ul {
     padding-left: 20px;
 }
 
+img {
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    margin: 10px;
+    width: 50%;
+    border-radius: 10px;
+    max-width: 700px;
+    background-color: #2f3139;
+}
+
 .generic-center {
     width: 90%;
     display: block;
@@ -315,12 +324,4 @@ h1, h2 {
 
 h3, h4, h5, h6, p, summary, time {
     text-align: center;
-}
-
-img {
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    margin: 10px;
-    width: 50%;
-    border-radius: 10px;
-    max-width: 700px;
 }

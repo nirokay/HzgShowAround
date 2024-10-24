@@ -18,5 +18,5 @@ html.add(
     h2($a("mailto:" & emailAddress, emailAddress))
 )
 
-html.setStyle(css)
+html.setStylesheet(css)
 html.generate()

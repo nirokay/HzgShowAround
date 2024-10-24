@@ -272,7 +272,7 @@ proc generateHtmlMainPage() =
         `div`(articleElements).setClass(articlePreviewBox)
     )
 
-    html.setStyle(css)
+    html.setStylesheet(css)
     html.generate()
 
 generateArticlesHtmls()

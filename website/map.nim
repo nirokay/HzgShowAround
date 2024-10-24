@@ -90,5 +90,5 @@ html.addToBody(
 generateFullSvgMap()
 
 html.add ogImage(urlImages & "map.svg")
-html.setStyle(css)
+html.setStylesheet(css)
 html.generate()

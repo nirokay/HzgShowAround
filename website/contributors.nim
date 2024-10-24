@@ -9,7 +9,7 @@ var html: HtmlDocument = newPage(
     "Mitwirkende der Website"
 )
 
-html.setStyle(css)
+html.setStylesheet(css)
 
 html.add(
     insertButtons(hrefIndex),
