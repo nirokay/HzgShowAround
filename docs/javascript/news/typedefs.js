@@ -31,6 +31,19 @@ const urlHolidayApi = "https://feiertage-api.de/api/?nur_land=BY";
 const holidaysToIgnore = [
     "Augsburger Friedensfest"
 ];
+function getUrlSchoolHolidayApi(year) {
+    return "https://ferien-api.maxleistner.de/api/v1/" + year.toString() + "/BY/";
+}
+class SchoolHoliday {
+    constructor() {
+        this.start = "1970-01-01T00:00Z";
+        this.end = "1970-01-01T00:00Z";
+        this.year = 1970;
+        this.stateCode = "BY";
+        this.name = "Unbekannte Ferien";
+        this.slug = "unbekannte_ferien-1970-BY";
+    }
+}
 function healthPresentationToNewsfeedElement(presentation) {
     var _a, _b;
     if (presentation.COMMENT != undefined) {
@@ -74,6 +87,57 @@ function holidaysToNewsfeedElements(holidays) {
         event.level = "holiday";
         result.push(event);
     }
+    return result;
+}
+function schoolHolidayToNewsfeedElement(holiday) {
+    let result = new NewsFeedElement;
+    result.level = "holiday";
+    // Start and end dates:
+    let startDate = "1970-01-01";
+    let endDate = "1970-01-01";
+    try {
+        startDate = holiday.start.split("T")[0];
+        endDate = holiday.end.split("T")[0];
+    }
+    catch (error) {
+        debug("Failed to convert school holiday", error);
+    }
+    // Shift end date one day back (API returns midnight of the next working day):
+    try {
+        let unix = Date.parse(endDate).valueOf();
+        unix -= dayMilliseconds + 1;
+        let dayBefore = new Date(unix);
+        let parts = dayBefore.toLocaleDateString("de-DE").split(".");
+        endDate = parts[2] + "-" + parts[1] + "-" + parts[0]; // ignore this beauty
+    }
+    catch (error) {
+        debug("Failed to shift day back", error);
+    }
+    if (startDate == endDate) {
+        // This is a workaround for "Buß- und Bettag":
+        return null;
+    }
+    result.from = startDate;
+    result.till = endDate;
+    // Name:
+    try {
+        result.name = "Ferien: " + holiday.name[0].toUpperCase() + holiday.name.substring(1).toLowerCase();
+    }
+    catch (error) {
+        result.name = "Ferien: " + holiday.name;
+        debug("Failed to rename holiday", error);
+    }
+    return result;
+}
+function schoolHolidaysToNewsfeedElements(holidays) {
+    let result = [];
+    holidays.forEach(holiday => {
+        let converted = schoolHolidayToNewsfeedElement(holiday);
+        if (converted == null) {
+            return;
+        }
+        result.push(converted);
+    });
     return result;
 }
 /**

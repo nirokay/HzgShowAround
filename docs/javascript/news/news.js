@@ -7,6 +7,8 @@ let healthPresentations = [];
 let rawHealthPresentations = [];
 let holidays = [];
 let rawHolidays = {};
+let schoolHolidays = [];
+let rawSchoolHolidays;
 let errorPanicNoInternet = false;
 let errorPanicParsingFuckUp = false;
 /**
@@ -65,6 +67,42 @@ async function getHolidays() {
     }
 }
 /**
+ * Fetches school holidays
+ */
+async function getSchoolHolidays() {
+    let currentYear = date.getFullYear();
+    async function doThisYear(year) {
+        let url = getUrlSchoolHolidayApi(year);
+        try {
+            let response = await fetch(url);
+            let text = await response.text();
+            let json = JSON.parse("{}");
+            try {
+                json = JSON.parse(text);
+            }
+            catch (error) {
+                errorPanicParsingFuckUp = true;
+                debug("[School holidays] Failed to parse json", text);
+            }
+            if (typeof (json) === "object" && json !== null) {
+                json.forEach(holiday => {
+                    rawSchoolHolidays[rawSchoolHolidays.length] = holiday; // i want to die
+                });
+            }
+            else {
+                debug("[School holidays] Json Parsed was not valid? How does this even happen??", json);
+            }
+            console.log(json);
+        }
+        catch (error) {
+            debug("Failed to fetch school holidays", error);
+        }
+    }
+    for (let offset = -1; offset <= 1; offset++) {
+        await doThisYear(currentYear + offset);
+    }
+}
+/**
  * Fetches health presentations
  */
 async function getHealthPresentations() {
@@ -106,9 +144,12 @@ async function refetchNews() {
     rawHealthPresentations = [];
     holidays = [];
     rawHolidays = {};
+    schoolHolidays = [];
+    rawSchoolHolidays = [];
     await getNews();
     await getHealthPresentations();
     await getHolidays();
+    await getSchoolHolidays();
     debug("Fetching complete!");
 }
 /**
@@ -118,8 +159,9 @@ async function rebuildNews() {
     debug("Rebuilding news...");
     normalizedNews = normalizedElements(rawNews);
     holidays = normalizedElements(holidaysToNewsfeedElements(rawHolidays));
+    schoolHolidays = normalizedElements(schoolHolidaysToNewsfeedElements(rawSchoolHolidays));
     healthPresentations = normalizedElements(healthPresentationsToNewsfeedElements(rawHealthPresentations));
-    relevantNews = relevantNews.concat(normalizedNews, healthPresentations, holidays);
+    relevantNews = relevantNews.concat(normalizedNews, healthPresentations, holidays, schoolHolidays);
     relevantNews = getFilteredNews(relevantNews);
     relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
     debug("Rebuild complete!");
