@@ -126,7 +126,7 @@ globalCss.add(
         "max-width" := "700px",
         "border-radius" := "10px",
         "margin" := "10px",
-        "background-color" := colourBackgroundLight, # useful for images, that dont load
+        # "background-color" := colourBackgroundLight, # useful for images, that dont load
         dropShadow
     },
 
