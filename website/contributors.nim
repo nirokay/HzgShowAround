@@ -74,6 +74,9 @@ var technologies*: seq[Technology] = @[
     tech("Feriertage-API", "https://www.feiertage-api.de/", @[
         "Automatisches Einfügen von Feiertagen in den NewsFeed."
     ]),
+    tech("Ferien-API", "https://ferien-api.maxleistner.de/api/v1/2024/BY/", @[
+        "Automatisches Einfügen von Schulferien in den NewsFeed via " & $a("https://maxleistner.de", "maxleistner.de") & "."
+    ]),
     tech("CloudFlare Analytics", "https://www.cloudflare.com/web-analytics/", @[
         "Client-side Web-Analytics."
     ]),
