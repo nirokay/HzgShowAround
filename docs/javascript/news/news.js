@@ -145,10 +145,12 @@ async function refetchNews() {
     rawHolidays = {};
     schoolHolidays = [];
     rawSchoolHolidays = [];
-    await getNews();
-    await getHealthPresentations();
-    await getHolidays();
-    await getSchoolHolidays();
+    await Promise.all([
+        getNews(),
+        getHealthPresentations(),
+        getHolidays(),
+        getSchoolHolidays()
+    ]);
     debug("Fetching complete!");
 }
 /**

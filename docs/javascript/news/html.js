@@ -41,11 +41,7 @@ function htmlHeader(element, disclaimer) {
     if (text != "") {
         text = " " + text;
     }
-    let name = element.name;
-    if (element.info != undefined && element.info != "") {
-        name = "<a href='" + element.info + "'>" + element.name + "</a>";
-    }
-    return "<h3 style='margin-bottom:2px;'><u>" + name + "</u>" + text + "</h3>";
+    return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>";
 }
 /**
  * Generates a location indication
