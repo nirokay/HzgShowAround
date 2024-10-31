@@ -92,7 +92,6 @@ async function getSchoolHolidays() {
             else {
                 debug("[School holidays] Json Parsed was not valid? How does this even happen??", json);
             }
-            console.log(json);
         }
         catch (error) {
             debug("Failed to fetch school holidays", error);

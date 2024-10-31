@@ -21,11 +21,11 @@ class NewsFeedElement {
     from?: string;
     till?: string;
     level: string = "info";            // Importance as string
-    importance?: number;               // Importance as number
+    importance: number = 0;            // Importance as number
     details?: string[];                // Description
     info?: string;                     // URL to external resource
-    isHappening?: boolean = false;
-    locations?: string[] = [];
+    isHappening: boolean = false;
+    locations: string[] = [];
     runtimeAdditionalMessage?: string;
 
     COMMENT?: string;
@@ -61,15 +61,17 @@ class SchoolHoliday {
 
 function healthPresentationToNewsfeedElement(presentation: HealthPresentation): NewsFeedElement | null {
     if(presentation.COMMENT != undefined) {return null}
+    if(presentation.topic == "?") {return null}
     let result = new NewsFeedElement;
 
-    result.name = "Gesundheitsbildung: " + presentation.topic
+    result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
     result.on = presentation.on ?? getToday();
     result.level = "info";
+    result.locations = ["Am Latterbach Haus 13"];
 
     presentation.desc ??= presentation.topic
     result.details = [
-        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b> (Am Latterbach 13)",
+        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
         "zum Thema <q>" + presentation.desc + "</q>"
     ]
     if(presentation.by != undefined) {
@@ -95,7 +97,7 @@ function holidaysToNewsfeedElements(holidays: object): NewsFeedElement[] {
         if(holidaysToIgnore.indexOf(name) > -1) {continue}
 
         let event = new NewsFeedElement;
-        event.name = "Feiertag: " + name;
+        event.name = "Feiertag: <q>" + name + "</q>";
         event.on = details.datum;
         event.level = "holiday";
         result.push(event);
@@ -135,7 +137,7 @@ function schoolHolidayToNewsfeedElement(holiday: SchoolHoliday): NewsFeedElement
 
     // Name:
     try {
-        result.name = "Ferien: " + holiday.name[0].toUpperCase() + holiday.name.substring(1).toLowerCase();
+        result.name = "Ferien: <q>" + holiday.name[0].toUpperCase() + holiday.name.substring(1).toLowerCase() + "</q>";
     } catch(error) {
         result.name = "Ferien: " + holiday.name;
         debug("Failed to rename holiday", error);
@@ -436,5 +438,5 @@ function sortedElementsByDateAndRelevancy(news: NewsFeedElement[]): NewsFeedElem
 
 function displayTime(time: string) {
     let d = new Date(Date.parse(time));
-    return "<b><time datetime='" + time + "'>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
+    return "<time datetime='" + time + "'>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time>";
 }

@@ -17,6 +17,7 @@ class NewsFeedElement {
     constructor() {
         this.name = "Neuigkeit";
         this.level = "info"; // Importance as string
+        this.importance = 0; // Importance as number
         this.isHappening = false;
         this.locations = [];
     }
@@ -49,13 +50,17 @@ function healthPresentationToNewsfeedElement(presentation) {
     if (presentation.COMMENT != undefined) {
         return null;
     }
+    if (presentation.topic == "?") {
+        return null;
+    }
     let result = new NewsFeedElement;
-    result.name = "Gesundheitsbildung: " + presentation.topic;
+    result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
     result.on = (_a = presentation.on) !== null && _a !== void 0 ? _a : getToday();
     result.level = "info";
+    result.locations = ["Am Latterbach Haus 13"];
     (_b = presentation.desc) !== null && _b !== void 0 ? _b : (presentation.desc = presentation.topic);
     result.details = [
-        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b> (Am Latterbach 13)",
+        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
         "zum Thema <q>" + presentation.desc + "</q>"
     ];
     if (presentation.by != undefined) {
@@ -82,7 +87,7 @@ function holidaysToNewsfeedElements(holidays) {
             continue;
         }
         let event = new NewsFeedElement;
-        event.name = "Feiertag: " + name;
+        event.name = "Feiertag: <q>" + name + "</q>";
         event.on = details.datum;
         event.level = "holiday";
         result.push(event);
@@ -121,7 +126,7 @@ function schoolHolidayToNewsfeedElement(holiday) {
     result.till = endDate;
     // Name:
     try {
-        result.name = "Ferien: " + holiday.name[0].toUpperCase() + holiday.name.substring(1).toLowerCase();
+        result.name = "Ferien: <q>" + holiday.name[0].toUpperCase() + holiday.name.substring(1).toLowerCase() + "</q>";
     }
     catch (error) {
         result.name = "Ferien: " + holiday.name;
@@ -408,5 +413,5 @@ function sortedElementsByDateAndRelevancy(news) {
 }
 function displayTime(time) {
     let d = new Date(Date.parse(time));
-    return "<b><time datetime='" + time + "'>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time></b>";
+    return "<time datetime='" + time + "'>" + d.toLocaleString("de-DE", dateFormatDisplay) + "</time>";
 }

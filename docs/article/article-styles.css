@@ -104,9 +104,7 @@ ul {
 img {
     filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 10px;
-    width: 50%;
     border-radius: 10px;
-    max-width: 700px;
 }
 
 .generic-center {

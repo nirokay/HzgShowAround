@@ -122,8 +122,8 @@ globalCss.add(
 
     # Images:
     "img"{
-        width("50%"),
-        "max-width" := "700px",
+        # width("50%"),
+        # "max-width" := "700px",
         "border-radius" := "10px",
         "margin" := "10px",
         # "background-color" := colourBackgroundLight, # useful for images, that dont load
