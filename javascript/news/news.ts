@@ -16,32 +16,39 @@ let rawSchoolHolidays: SchoolHoliday[];
 let errorPanicNoInternet = false;
 let errorPanicParsingFuckUp = false;
 
+async function fetchNewsFeedElements<T = NewsFeedElement>(url: string): Promise<T[]> {
+    let json: JSON = JSON.parse("[]");
+    try {
+        let response: Response = await fetch(url);
+        let text: string = await response.text();
+        try {
+            json = JSON.parse(text);
+        } catch(error) {
+            errorPanicParsingFuckUp = true;
+            debug("[JSON Parse] Failed to parse json", text);
+        }
+    } catch(error) {
+        errorPanicNoInternet = true;
+        debug("[JSON Fetch] Failed to fetch json from " + url);
+    }
+    console.warn(json);
+    let result: T[] = json as unknown as T[];
+    console.warn(result);
+    return result;
+}
 
 /**
  * Fetches news
  */
 async function getNews() {
-    try {
-        let response = await fetch(urlRemoteNews);
-        let text = await response.text();
-        let json = JSON.parse("[]");
-        try {
-            json = JSON.parse(text);
-        } catch(error) {
-            errorPanicParsingFuckUp = true;
-            debug("[News] Failed to parse json", text);
-        }
+    rawNews = await fetchNewsFeedElements<NewsFeedElement>(urlRemoteNews);
+}
 
-        if(typeof(json) === "object" && json !== null) {
-            rawNews = json;
-        } else {
-            debug("[News] Json Parsed was not valid? How does this even happen??", json);
-            rawNews = [];
-        }
-    } catch(error) {
-        errorPanicNoInternet = true;
-        debug("Failed to fetch news", error);
-    }
+/**
+ * Fetches health presentations
+ */
+async function getHealthPresentations() {
+    rawHealthPresentations = await fetchNewsFeedElements<HealthPresentation>(urlRemoteHealthPresentations);
 }
 
 /**
@@ -103,32 +110,6 @@ async function getSchoolHolidays() {
 
     for (let offset = -1; offset <= 1; offset++) {
         await doThisYear(currentYear + offset);
-    }
-}
-
-/**
- * Fetches health presentations
- */
-async function getHealthPresentations() {
-    try {
-        let response = await fetch(urlRemoteHealthPresentations);
-        let text = await response.text();
-        let json = JSON.parse("[]");
-        try {
-            json = JSON.parse(text);
-        } catch(error) {
-            errorPanicParsingFuckUp = true;
-            debug("[Health Presentations] Failed to parse json", text);
-        }
-
-        if(typeof(json) === "object" && json !== null) {
-            rawHealthPresentations = json;
-        } else {
-            debug("[Health Presentations] Json Parsed was not valid? How does this even happen??", json);
-            rawHealthPresentations = [];
-        }
-    } catch(error) {
-        debug("Failed to fetch health presentations", error);
     }
 }
 

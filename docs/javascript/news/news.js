@@ -11,33 +11,39 @@ let schoolHolidays = [];
 let rawSchoolHolidays;
 let errorPanicNoInternet = false;
 let errorPanicParsingFuckUp = false;
-/**
- * Fetches news
- */
-async function getNews() {
+async function fetchNewsFeedElements(url) {
+    let json = JSON.parse("[]");
     try {
-        let response = await fetch(urlRemoteNews);
+        let response = await fetch(url);
         let text = await response.text();
-        let json = JSON.parse("[]");
         try {
             json = JSON.parse(text);
         }
         catch (error) {
             errorPanicParsingFuckUp = true;
-            debug("[News] Failed to parse json", text);
-        }
-        if (typeof (json) === "object" && json !== null) {
-            rawNews = json;
-        }
-        else {
-            debug("[News] Json Parsed was not valid? How does this even happen??", json);
-            rawNews = [];
+            debug("[JSON Parse] Failed to parse json", text);
         }
     }
     catch (error) {
         errorPanicNoInternet = true;
-        debug("Failed to fetch news", error);
+        debug("[JSON Fetch] Failed to fetch json from " + url);
     }
+    console.warn(json);
+    let result = json;
+    console.warn(result);
+    return result;
+}
+/**
+ * Fetches news
+ */
+async function getNews() {
+    rawNews = await fetchNewsFeedElements(urlRemoteNews);
+}
+/**
+ * Fetches health presentations
+ */
+async function getHealthPresentations() {
+    rawHealthPresentations = await fetchNewsFeedElements(urlRemoteHealthPresentations);
 }
 /**
  * Fetches holidays
@@ -99,33 +105,6 @@ async function getSchoolHolidays() {
     }
     for (let offset = -1; offset <= 1; offset++) {
         await doThisYear(currentYear + offset);
-    }
-}
-/**
- * Fetches health presentations
- */
-async function getHealthPresentations() {
-    try {
-        let response = await fetch(urlRemoteHealthPresentations);
-        let text = await response.text();
-        let json = JSON.parse("[]");
-        try {
-            json = JSON.parse(text);
-        }
-        catch (error) {
-            errorPanicParsingFuckUp = true;
-            debug("[Health Presentations] Failed to parse json", text);
-        }
-        if (typeof (json) === "object" && json !== null) {
-            rawHealthPresentations = json;
-        }
-        else {
-            debug("[Health Presentations] Json Parsed was not valid? How does this even happen??", json);
-            rawHealthPresentations = [];
-        }
-    }
-    catch (error) {
-        debug("Failed to fetch health presentations", error);
     }
 }
 /**
