@@ -56,7 +56,7 @@ async function getHealthPresentations() {
  */
 async function getHolidays() {
     try {
-        let response = await fetch(urlHolidayApi);
+        let response = await fetch(getUrlHolidayApi(date.getFullYear()));
         let text = await response.text();
         let json = JSON.parse("{}");
         try {

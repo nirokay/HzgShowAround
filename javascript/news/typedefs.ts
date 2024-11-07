@@ -41,12 +41,21 @@ class HealthPresentation {
     COMMENT?: string;
 }
 
-const urlHolidayApi: string = "https://feiertage-api.de/api/?nur_land=BY"
+class Holiday {
+    datum?: string;
+    hinweis?: string
+}
+interface HolidayResponse {
+    [key: string]: Holiday;
+}
+function getUrlHolidayApi(year: number): string {
+    return "https://feiertage-api.de/api/?nur_land=BY&jahr=" + year.toString();
+}
 const holidaysToIgnore: string[] = [
     "Augsburger Friedensfest"
 ];
 
-function getUrlSchoolHolidayApi(year: Number): string {
+function getUrlSchoolHolidayApi(year: number): string {
     return "https://ferien-api.maxleistner.de/api/v1/" + year.toString() + "/BY/";
 }
 class SchoolHoliday {
