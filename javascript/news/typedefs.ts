@@ -42,8 +42,15 @@ class HealthPresentation {
 }
 
 class Holiday {
+    name?: string; // Empty when fetching, will be set right after
     datum?: string;
-    hinweis?: string
+    hinweis?: string;
+
+    constructor(name: string, datum: string, hinweis: string) {
+        this.name = name;
+        this.datum = datum;
+        this.hinweis = hinweis;
+    }
 }
 interface HolidayResponse {
     [key: string]: Holiday;
@@ -99,18 +106,25 @@ function healthPresentationsToNewsfeedElements(presentations: HealthPresentation
     return result;
 }
 
-function holidaysToNewsfeedElements(holidays: object): NewsFeedElement[] {
-    let result: NewsFeedElement[] = [];
-    for (const [name, details] of Object.entries(holidays)) {
-        // Skip some holidays:
-        if(holidaysToIgnore.indexOf(name) > -1) {continue}
+function holidayToNewsfeedElement(holiday: Holiday): NewsFeedElement | null {
+    // Ignore some irrelevant holidays:
+    if(holidaysToIgnore.indexOf(holiday.name ?? "") > -1) {return null}
 
-        let event = new NewsFeedElement;
-        event.name = "Feiertag: <q>" + name + "</q>";
-        event.on = details.datum;
-        event.level = "holiday";
-        result.push(event);
-    }
+    // Build `NewsFeedElement`:
+    let element = new NewsFeedElement;
+    element.name = "Feiertag: <q>" + holiday.name + "</q>";
+    element.on = holiday.datum;
+    element.level = "holiday";
+    return element;
+}
+function holidaysToNewsfeedElements(holidays: Holiday[]): NewsFeedElement[] {
+    let result: NewsFeedElement[] = [];
+    holidays.forEach((holiday) => {
+        let element: NewsFeedElement|null = holidayToNewsfeedElement(holiday);
+        if(element != null) {
+            result.push(element);
+        }
+    })
     return result;
 }
 

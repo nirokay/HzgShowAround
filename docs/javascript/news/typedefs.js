@@ -28,7 +28,16 @@ class HealthPresentation {
         this.topic = "Gesundheitsbildung: Präsentation";
     }
 }
-const urlHolidayApi = "https://feiertage-api.de/api/?nur_land=BY";
+class Holiday {
+    constructor(name, datum, hinweis) {
+        this.name = name;
+        this.datum = datum;
+        this.hinweis = hinweis;
+    }
+}
+function getUrlHolidayApi(year) {
+    return "https://feiertage-api.de/api/?nur_land=BY&jahr=" + year.toString();
+}
 const holidaysToIgnore = [
     "Augsburger Friedensfest"
 ];
@@ -79,19 +88,27 @@ function healthPresentationsToNewsfeedElements(presentations) {
     });
     return result;
 }
+function holidayToNewsfeedElement(holiday) {
+    var _a;
+    // Ignore some irrelevant holidays:
+    if (holidaysToIgnore.indexOf((_a = holiday.name) !== null && _a !== void 0 ? _a : "") > -1) {
+        return null;
+    }
+    // Build `NewsFeedElement`:
+    let element = new NewsFeedElement;
+    element.name = "Feiertag: <q>" + holiday.name + "</q>";
+    element.on = holiday.datum;
+    element.level = "holiday";
+    return element;
+}
 function holidaysToNewsfeedElements(holidays) {
     let result = [];
-    for (const [name, details] of Object.entries(holidays)) {
-        // Skip some holidays:
-        if (holidaysToIgnore.indexOf(name) > -1) {
-            continue;
+    holidays.forEach((holiday) => {
+        let element = holidayToNewsfeedElement(holiday);
+        if (element != null) {
+            result.push(element);
         }
-        let event = new NewsFeedElement;
-        event.name = "Feiertag: <q>" + name + "</q>";
-        event.on = details.datum;
-        event.level = "holiday";
-        result.push(event);
-    }
+    });
     return result;
 }
 function schoolHolidayToNewsfeedElement(holiday) {

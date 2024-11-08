@@ -8,7 +8,7 @@ let healthPresentations: NewsFeedElement[] = [];
 let rawHealthPresentations: HealthPresentation[] = [];
 
 let holidays: NewsFeedElement[] = [];
-let rawHolidays: object = {};
+let rawHolidays: Holiday[] = [];
 
 let schoolHolidays: NewsFeedElement[] = [];
 let rawSchoolHolidays: SchoolHoliday[];
@@ -16,8 +16,8 @@ let rawSchoolHolidays: SchoolHoliday[];
 let errorPanicNoInternet = false;
 let errorPanicParsingFuckUp = false;
 
-async function fetchNewsFeedElements<T = NewsFeedElement>(url: string): Promise<T[]> {
-    let json: JSON = JSON.parse("[]");
+async function fetchJson(url: string, defaultJson: string): Promise<JSON> {
+    let json: JSON = JSON.parse(defaultJson);
     try {
         let response: Response = await fetch(url);
         let text: string = await response.text();
@@ -31,9 +31,17 @@ async function fetchNewsFeedElements<T = NewsFeedElement>(url: string): Promise<
         errorPanicNoInternet = true;
         debug("[JSON Fetch] Failed to fetch json from " + url);
     }
-    console.warn(json);
+    return json;
+}
+
+async function fetchNewsFeedElements<T = NewsFeedElement>(url: string): Promise<T[]> {
+    let json: JSON = await fetchJson(url, "[]");
     let result: T[] = json as unknown as T[];
-    console.warn(result);
+    return result;
+}
+async function fetchSchoolHolidays(url: string): Promise<SchoolHoliday[]> {
+    let json: JSON = await fetchJson(url, "[]");
+    let result: SchoolHoliday[] = json as unknown as SchoolHoliday[];
     return result;
 }
 
@@ -55,25 +63,21 @@ async function getHealthPresentations() {
  * Fetches holidays
  */
 async function getHolidays() {
-    try {
-        let response = await fetch(getUrlHolidayApi(date.getFullYear()));
-        let text = await response.text();
-        let json = JSON.parse("{}");
-        try {
-            json = JSON.parse(text);
-        } catch(error) {
-            errorPanicParsingFuckUp = true;
-            debug("[Holidays] Failed to parse json", text);
+    let currentYear: number = date.getFullYear();
+    async function doThisYear(year: number) {
+        let json: HolidayResponse = await fetchJson(getUrlHolidayApi(year), "{}") as unknown as HolidayResponse;
+        for (const name in json) {
+            try {
+                const rawHoliday = json[name];
+                let element: Holiday = new Holiday(name, rawHoliday.datum ?? "1970-01-01", rawHoliday.hinweis ?? "");
+                rawHolidays[rawHolidays.length] = element;
+            } catch(error) {
+                debug("[Holiday] Failed to convert a holiday: " + name, json);
+            }
         }
-
-        if(typeof(json) === "object" && json !== null) {
-            rawHolidays = json;
-        } else {
-            debug("[Holidays] Json Parsed was not valid? How does this even happen??", json);
-            rawHolidays = {};
-        }
-    } catch(error) {
-        debug("Failed to fetch holidays", error);
+    }
+    for (let offset = -1; offset <= 1; offset++) {
+        await doThisYear(currentYear + offset);
     }
 }
 
@@ -82,32 +86,12 @@ async function getHolidays() {
  */
 async function getSchoolHolidays() {
     let currentYear: number = date.getFullYear();
-
     async function doThisYear(year: number) {
-        let url: string = getUrlSchoolHolidayApi(year);
-        try {
-            let response = await fetch(url);
-            let text = await response.text();
-            let json: SchoolHoliday[] = JSON.parse("{}");
-            try {
-                json = JSON.parse(text);
-            } catch (error) {
-                errorPanicParsingFuckUp = true;
-                debug("[School holidays] Failed to parse json", text);
-            }
-
-            if (typeof (json) === "object" && json !== null) {
-                json.forEach(holiday => {
-                    rawSchoolHolidays[rawSchoolHolidays.length] = holiday; // i want to die
-                });
-            } else {
-                debug("[School holidays] Json Parsed was not valid? How does this even happen??", json);
-            }
-        } catch (error) {
-            debug("Failed to fetch school holidays", error);
-        }
+        let json: SchoolHoliday[] = await fetchSchoolHolidays(getUrlSchoolHolidayApi(year));
+        json.forEach(holiday => {
+            rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
+        });
     }
-
     for (let offset = -1; offset <= 1; offset++) {
         await doThisYear(currentYear + offset);
     }
@@ -131,7 +115,7 @@ async function refetchNews() {
     rawHealthPresentations = [];
 
     holidays = [];
-    rawHolidays = {};
+    rawHolidays = [];
 
     schoolHolidays = [];
     rawSchoolHolidays = [];
