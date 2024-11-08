@@ -46,7 +46,7 @@ html.addToBody(
         # ^ Does not work as intended but looks cool as fuck :D (it is a feature)
         dropShadow
     ).setClass(centerClass),
-    h1("HzgShowAround").addStyle(
+    ih1("HzgShowAround").addStyle(
         "position" := "relative"
     ),
     pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
@@ -58,7 +58,7 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    h2("Newsfeed und Artikel"),
+    ih2("Newsfeed und Artikel"),
     insertButtons(
         hrefNewsfeed,
         hrefArticles
@@ -71,7 +71,7 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.add(
-    h2("Freizeitangebote"),
+    ih2("Freizeitangebote"),
     pc(
         "Verschiedene Freizeitangebote werden in der Mühle und im nahen Umfeld angeboten.",
         "Hier kannst du eine Liste von Angeboten einsehen."
@@ -85,7 +85,7 @@ html.add(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    h2("Orte"),
+    ih2("Orte"),
     pc("Schau dir die " & $b("interaktive Karte") & " der Herzogsägmühle an und/oder führe die " & $b("digitale Tour") & " durch..."),
     insertButtons(
         hrefMap,
@@ -140,7 +140,7 @@ html.addToBody(
 # -----------------------------------------------------------------------------
 
 html.addToBody(
-    h2("Sonstiges"),
+    ih2("Sonstiges"),
     insertButtons(
         hrefContact,
         hrefContributors,

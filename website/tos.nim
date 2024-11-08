@@ -27,9 +27,9 @@ proc list(items: varargs[string]): string =
 html.addToBody(
     insertButtons(hrefIndex),
 
-    h1("HzgShowAround"),
+    ih1("HzgShowAround"),
 
-    h2("Über"),
+    ih2("Über"),
     pc(
         "Diese Website soll eine einfachere, mehr lightweight (mit weniger unnötigeren Schnick-Schnack) und schnellere Alternative zu der " &
         $a("https://www.herzogsaegmuehle.de/", "Herzogsägmühle Website") & " sein.\n" &
@@ -38,25 +38,25 @@ html.addToBody(
         "weniger start arbeiten, um Informationen anzuzeigen."
     ),
 
-    h2("Nutzungsbedingungen"),
+    ih2("Nutzungsbedingungen"),
     pc(
         "Mit dem Benutzen dieser Website sind Sie sich über Folgendem im Klaren:"
     ),
 
-    h3("Generell"),
+    ih3("Generell"),
     pc(
         "Inhalte, die auf dieser Website zu finden sind, können fehlerhaft oder unvollständig sein.\nDa wir nur ein kleines Team sind, übernehmen wir keine Haftung.",
         "Diese Website ist gehört nicht den Betreibern der " & $a("https://www.herzogsaegmuehle.de/", "offiziellen Herzogsägmühler Website") &
         " und ist von Diesen unabhängig."
     ),
 
-    h3("Datensammlung"),
+    ih3("Datensammlung"),
     pc(
         "Diese Website verwendet client-side CloudFlare Analytics, um grobes Nutzungsverhalten zu sammeln (z.B. aufgerufene Seiten, verwendeter Browser).",
         "Sie behalten ihr Recht diese Anfragen mit Hilfe z.B. eines AdBlockers zu verhindern/blockieren."
     ),
 
-    h2("Lizenz"),
+    ih2("Lizenz"),
     pc(
         "Diese Website und alle ihre Inhalte, außer explizit erwähnt, sind unter der GPL-3.0 Lizenz freigegeben.",
         "Damit haben Sie die Rechte, Inhalte frei zu ..."
