@@ -76,9 +76,11 @@ async function getHolidays() {
             }
         }
     }
-    for (let offset = -1; offset <= 1; offset++) {
-        await doThisYear(currentYear + offset);
-    }
+    await Promise.all([                                     |
+        await doThisYear(currentYear - offset),             |
+        await doThisYear(currentYear),                      |
+        await doThisYear(currentYear + offset)
+    ]);
 }
 
 /**
@@ -92,9 +94,11 @@ async function getSchoolHolidays() {
             rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
         });
     }
-    for (let offset = -1; offset <= 1; offset++) {
-        await doThisYear(currentYear + offset);
-    }
+    await Promise.all([
+        await doThisYear(currentYear - offset),
+        await doThisYear(currentYear),
+        await doThisYear(currentYear + offset)
+    ]);
 }
 
 
