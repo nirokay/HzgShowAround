@@ -122,6 +122,11 @@ const
     colourEventAlert* = "#FF3333"   # $Tomato
     colourEventHappened* = colourBackgroundLight
 
+    # Deprecation notices:
+    colourDeprecationNoticeText* = "#000000"
+    colourDeprecationNoticeHeader* = colourEventAlert
+    colourDeprecationNoticeBackground* = "#ffffb3"
+
 
 # -----------------------------------------------------------------------------
 # Common CSS values:
@@ -421,6 +426,16 @@ const
         ["margin-top", "10px"],
         ["margin-bottom", "10px"],
         ["align-self", "center"],
+    )
+
+    locationDeprecationDisclaimerHeaderClass* = newCssClass("location-deprecation-notice-header",
+        "color" := colourDeprecationNoticeHeader
+    )
+    locationDeprecationDisclaimerDivClass* = newCssClass("location-deprecation-notice-div",
+        "color" := colourDeprecationNoticeText,
+        "background-color" := colourDeprecationNoticeBackground,
+        "border-radius" := "10px",
+        "padding" := "10px"
     )
 
     locationImageHeader* = locationImage("location-image-header", "90%", "1000px", "20px", "auto")

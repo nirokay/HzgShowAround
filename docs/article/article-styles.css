@@ -264,6 +264,17 @@ icon-display {
     background-color: #23252c;
 }
 
+.location-deprecation-notice-header {
+    color: #FF3333;
+}
+
+.location-deprecation-notice-div {
+    color: #000000;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffffb3;
+}
+
 .top-page-header {
     position: fixed;
     margin: auto;

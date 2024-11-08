@@ -161,6 +161,11 @@ globalCss.add(
     # Content box:
     contentBoxClass,
 
+    # Location:
+    locationDeprecationDisclaimerHeaderClass,
+    locationDeprecationDisclaimerDivClass,
+
+    # Bars:
     topPageHeaderClass,
     bottomPageFooterClass
 )

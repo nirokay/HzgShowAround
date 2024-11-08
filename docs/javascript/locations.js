@@ -7,6 +7,8 @@
 */
 const idLocationNameId = "newsfeed-location-id";
 const idNewsfeedEnclave = "newsfeed-enclave";
+const classDeprecationDiv = "location-deprecation-notice-div";
+const classDeprecationHeader = "location-deprecation-notice-header";
 let locationNews = [];
 let locationName = getLocationName();
 let locationIsDeprecated = true;
@@ -61,6 +63,14 @@ function injectIntoEnclave() {
         appendToEnclave(generateElementHtml(element));
     });
 }
+function displayDeprecationNotice() {
+    appendToEnclave("<div class='" + classDeprecationDiv + "'>" +
+        "<h2 class='" + classDeprecationHeader + "'>Nicht aktuelle Seite</h2>" + "<p>" + [
+        "Diese Seite ist nicht mehr aktuell und ist nur für Abwärtskompatibilität da.",
+        "Informationen können hier veraltet oder inkorrekt sein.",
+        "In den meisten Fällen gibt es eine überarbeitete Seite mit aktuellen Informationen, schau doch mal bei der <a href='../index.html#orte'>Übersicht der Orte</a> vorbei! :)"
+    ].join("<br>") + "</p>" + "</div>");
+}
 window.onload = async () => {
     // Deprecated location notice:
     await getLocationLookupTable();
@@ -73,8 +83,11 @@ window.onload = async () => {
     }
     if (locationIsDeprecated) {
         debug("Site is deprecated, showing alert.");
-        alert("Diese Seite ist nicht mehr aktuell, schau nach ob es eine Überarbeitete gibt, " +
-            "oder sei im Klaren, dass Informationen sehr veraltet und/oder fehlerhaft sein können! :)");
+        displayDeprecationNotice();
+        // alert(
+        //     "Diese Seite ist nicht mehr aktuell, schau nach ob es eine Überarbeitete gibt, " +
+        //     "oder sei im Klaren, dass Informationen sehr veraltet und/oder fehlerhaft sein können! :)"
+        // );
     }
     // Newsfeed:
     debug("Running newsfeed enclave script on location: " + getLocationName());
