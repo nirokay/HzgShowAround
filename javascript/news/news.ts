@@ -16,6 +16,35 @@ let rawSchoolHolidays: SchoolHoliday[];
 let errorPanicNoInternet = false;
 let errorPanicParsingFuckUp = false;
 
+const placeHolderIdentifier: string = "--{placeholder}--"
+let placeholderNewsFeedElement: NewsFeedElement = new NewsFeedElement();
+placeholderNewsFeedElement.level = "happened";
+placeholderNewsFeedElement.from = "1970-01-01";
+placeholderNewsFeedElement.till = "2170-12-31"; // future-proof date (i hope) // !!! remind me in 53378 days to update this variable !!!
+placeholderNewsFeedElement.name = placeHolderIdentifier;
+placeholderNewsFeedElement.details = [];
+placeholderNewsFeedElement = normalizedElement([], placeholderNewsFeedElement) ?? new NewsFeedElement();
+
+function placePlaceholdersIntoRelevantNews() {
+    relevantNews = [
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement,
+        placeholderNewsFeedElement // This is my favourite function
+    ];
+}
+
+
 async function fetchJson(url: string, defaultJson: string): Promise<JSON> {
     let json: JSON = JSON.parse(defaultJson);
     try {
@@ -76,10 +105,10 @@ async function getHolidays() {
             }
         }
     }
-    await Promise.all([                                     |
-        await doThisYear(currentYear - offset),             |
-        await doThisYear(currentYear),                      |
-        await doThisYear(currentYear + offset)
+    await Promise.all([
+        doThisYear(currentYear - 1),
+        doThisYear(currentYear),
+        doThisYear(currentYear + 1)
     ]);
 }
 
@@ -95,19 +124,16 @@ async function getSchoolHolidays() {
         });
     }
     await Promise.all([
-        await doThisYear(currentYear - offset),
-        await doThisYear(currentYear),
-        await doThisYear(currentYear + offset)
+        doThisYear(currentYear - 1),
+        doThisYear(currentYear),
+        doThisYear(currentYear + 1)
     ]);
 }
 
-
 /**
- * Refreshes news arrays
+ * Reset the news arrays and error variables to an empty/default state
  */
-async function refetchNews() {
-    debug("Fetching news...");
-    date = new Date;
+function resetNewsArrays() {
     errorPanicNoInternet = false;
     errorPanicParsingFuckUp = false;
 
@@ -123,6 +149,16 @@ async function refetchNews() {
 
     schoolHolidays = [];
     rawSchoolHolidays = [];
+}
+
+
+/**
+ * Refreshes news arrays
+ */
+async function refetchNews() {
+    debug("Fetching news...");
+    date = new Date;
+    resetNewsArrays();
 
     await Promise.all([
         getNews(),
@@ -147,5 +183,7 @@ async function rebuildNews() {
     relevantNews = relevantNews.concat(normalizedNews, healthPresentations, holidays, schoolHolidays);
     relevantNews = getFilteredNews(relevantNews);
     relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
+
+    newsfeed().innerHTML = "";
     debug("Rebuild complete!");
 }

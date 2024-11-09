@@ -32,10 +32,18 @@ async function getLocationLookupTable() {
 getLocationLookupTable()
 
 
+const htmlHeaderPlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
+const htmlDatePlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
+const htmlDescriptionPlaceholder: HtmlString = [
+    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'> </pre>",
+    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'> </pre>"
+].join(" ");
+
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
  */
 function htmlDisclaimer(element: NewsFeedElement, cssClass: string): HtmlString {
+    if(element.name == placeHolderIdentifier) {return ""}
     let result = [];
     if(cssClass.endsWith("happened")) {
         result.push("<i>Event vergangen</i>")
@@ -43,7 +51,9 @@ function htmlDisclaimer(element: NewsFeedElement, cssClass: string): HtmlString 
     if(element.isHappening) {
         result.push("<b>Heute!</b>")
     }
+
     return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>"
+
 }
 /**
  * Generates the html header (event title/name, etc.)
@@ -56,12 +66,20 @@ function htmlHeader(element: NewsFeedElement, disclaimer: string): HtmlString {
     if(text != "") {
         text = " " + text;
     }
-    return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>"
+
+    let result: HtmlString
+    if(element.name == placeHolderIdentifier) {
+        result = htmlHeaderPlaceholder;
+    } else {
+        result = "<u>" + element.name + "</u>" + text;
+    }
+    return "<h3 style='margin-bottom:2px;'>" + result + "</h3>"
 }
 /**
  * Generates a location indication
  */
 function htmlLocationSection(element: NewsFeedElement): HtmlString {
+    if(element.name == placeHolderIdentifier) {return ""}
     let result: HtmlString = "";
     if(element.locations != undefined) {
         let locations: Array<string> = element.locations;
@@ -94,12 +112,19 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
             result = "von " + from + " bis " + till;
         }
     }
+    if(element.name == placeHolderIdentifier) {
+        result = htmlDatePlaceholder;
+    }
     return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
 }
 /**
  * Generates the details/description section
  */
 function htmlDetails(element: NewsFeedElement): HtmlString {
+    if(element.name == placeHolderIdentifier) {
+        return htmlDescriptionPlaceholder;
+    }
+
     let lines: HtmlString[] = [];
     let url = element.info;
 

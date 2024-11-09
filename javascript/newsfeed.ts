@@ -62,6 +62,15 @@ async function refreshNewsfeed() {
     }
     refreshLock = true;
 
+    // Place placeholders:
+    resetNewsArrays();
+    placePlaceholdersIntoRelevantNews();
+    rebuildNews();
+    relevantNews.forEach((element) => {
+        let htmlElement = generateElementHtml(element);
+        addToNewsfeed(htmlElement);
+    });
+
     // Fetching:
     debug("Fetching from remote repository");
     updateRefreshedAt("Verbindung zum Server wird hergestellt...");

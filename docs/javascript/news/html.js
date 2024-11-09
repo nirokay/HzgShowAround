@@ -17,10 +17,19 @@ async function getLocationLookupTable() {
     }
 }
 getLocationLookupTable();
+const htmlHeaderPlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
+const htmlDatePlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
+const htmlDescriptionPlaceholder = [
+    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'> </pre>",
+    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'> </pre>"
+].join(" ");
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
  */
 function htmlDisclaimer(element, cssClass) {
+    if (element.name == placeHolderIdentifier) {
+        return "";
+    }
     let result = [];
     if (cssClass.endsWith("happened")) {
         result.push("<i>Event vergangen</i>");
@@ -41,12 +50,22 @@ function htmlHeader(element, disclaimer) {
     if (text != "") {
         text = " " + text;
     }
-    return "<h3 style='margin-bottom:2px;'><u>" + element.name + "</u>" + text + "</h3>";
+    let result;
+    if (element.name == placeHolderIdentifier) {
+        result = htmlHeaderPlaceholder;
+    }
+    else {
+        result = "<u>" + element.name + "</u>" + text;
+    }
+    return "<h3 style='margin-bottom:2px;'>" + result + "</h3>";
 }
 /**
  * Generates a location indication
  */
 function htmlLocationSection(element) {
+    if (element.name == placeHolderIdentifier) {
+        return "";
+    }
     let result = "";
     if (element.locations != undefined) {
         let locations = element.locations;
@@ -82,6 +101,9 @@ function htmlDateSection(element) {
             result = "von " + from + " bis " + till;
         }
     }
+    if (element.name == placeHolderIdentifier) {
+        result = htmlDatePlaceholder;
+    }
     return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
 }
 /**
@@ -89,6 +111,9 @@ function htmlDateSection(element) {
  */
 function htmlDetails(element) {
     var _a;
+    if (element.name == placeHolderIdentifier) {
+        return htmlDescriptionPlaceholder;
+    }
     let lines = [];
     let url = element.info;
     // Entire description:
