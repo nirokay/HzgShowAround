@@ -97,7 +97,7 @@ proc toHtml(techs: seq[Technology]): seq[HtmlElement] =
 
 html.add(
     h2("Credits"),
-    pc("Alle benuzte Technologien und Resourcen werden hier für Transparenz und \"Shout-Out\" aufgelistet."),
+    pc("Alle benutzte Technologien und Ressourcen werden hier für Transparenz und \"Shout-Out\" aufgelistet."),
     `div`(
         technologies.toHtml()
     ).setClass(flexContainerClass)

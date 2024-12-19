@@ -70,7 +70,7 @@ var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
 html.addToBody(
     divSpacerTop, # TODO: Fix this dirty hack, someday
     h1("Karte von Herzogsägmühle"),
-    pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprecheneden Ort gelangen."),
+    pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprechenden Ort gelangen."),
     insertButtons(hrefIndex),
     `div`(
         picture,

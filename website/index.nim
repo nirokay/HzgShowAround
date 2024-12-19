@@ -93,25 +93,7 @@ html.addToBody(
     )
 )
 
-#[
-#! DISABLED in favor of drop-down menu
-var locationButtons: seq[HtmlElement]
-
-for location in locations:
-    locationButtons.add button(location.name, get location.path)
-
-locationButtons.sort do (x, y: HtmlElement) -> int:
-    result = cmp(x.content.toLower(), y.content.toLower())
-
-html.addToBody(
-    # Massive wall of buttons:
-    pc("... oder stöbere dich durch jeden Ort einzelnd:"),
-    `div`(locationButtons).setClass(centerClass)
-)
-]#
-
 var locationOptions: seq[HtmlElement]
-
 for location in locations:
     locationOptions.add option(get location.path, location.name)
 
