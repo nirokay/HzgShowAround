@@ -68,6 +68,12 @@ time {
     font-weight: bold;
 }
 
+del {
+    color: #464544;
+    text-decoration-color: #e8e6e3;
+    font-style: italic;
+}
+
 fieldset {
     filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 10px 5px;
@@ -93,6 +99,12 @@ fieldset > p {
 
 ul {
     padding-left: 20px;
+}
+
+img {
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    margin: 10px;
+    border-radius: 10px;
 }
 
 .generic-center {
@@ -250,6 +262,17 @@ icon-display {
     max-width: 1000px;
     padding: 5px;
     background-color: #23252c;
+}
+
+.location-deprecation-notice-header {
+    color: #FF3333;
+}
+
+.location-deprecation-notice-div {
+    color: #000000;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffffb3;
 }
 
 .top-page-header {
