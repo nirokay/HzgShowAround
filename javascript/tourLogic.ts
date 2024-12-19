@@ -9,6 +9,8 @@
 
 */
 
+const urlTourLocations: string = "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/tour_locations.json"
+
 const iframeId: string = "location-display";
 const progressId: string = "tour-progress";
 
@@ -16,9 +18,17 @@ let tourLocations: string[] = [];
 let currentLocation: number = 0;
 
 async function fetchLocations() {
-    await fetch("https://nirokay.github.io/HzgShowAround/resources/tour_locations.json")
-        .then((response) => response.json())
-        .then((json) => tourLocations = json);
+    let response: Response;
+    try {
+        response = await fetch(urlTourLocations);
+    } catch(e) {
+        console.error(e);
+        alert("Liste der Orte konnte nicht geladen werden :( Überprüfe deine Internetverbindung, und falls das Problem besteht, melde es gerne hier: https://github.com/nirokay/HzgShowAround/issues");
+        return;
+    }
+    let raw: string = await response.text();
+    let json = JSON.parse(raw) as string[];
+    tourLocations = json ;
 }
 fetchLocations();
 

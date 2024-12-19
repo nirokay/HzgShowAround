@@ -184,6 +184,10 @@ async function rebuildNews() {
     relevantNews = getFilteredNews(relevantNews);
     relevantNews = sortedElementsByDateAndRelevancy(relevantNews);
 
-    newsfeed().innerHTML = "";
+    try {
+        newsfeed().innerHTML = "";
+    } catch(e) {
+        console.warn("Caught undefined newsfeed() call, ignoring...");
+    }
     debug("Rebuild complete!");
 }

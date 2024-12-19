@@ -9,14 +9,26 @@
     "pre-selected" so to speak.
 
 */
+const urlTourLocations = "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/tour_locations.json";
 const iframeId = "location-display";
 const progressId = "tour-progress";
 let tourLocations = [];
 let currentLocation = 0;
 async function fetchLocations() {
-    await fetch("https://nirokay.github.io/HzgShowAround/resources/tour_locations.json")
-        .then((response) => response.json())
-        .then((json) => tourLocations = json);
+    let response;
+    try {
+        response = await fetch(urlTourLocations);
+        let a = [];
+        console.log(a[2]);
+    }
+    catch (e) {
+        console.error(e);
+        alert("Liste der Orte konnte nicht geladen werden :( Überprüfe deine Internetverbindung, und falls das Problem besteht, melde es gerne hier: https://github.com/nirokay/HzgShowAround/issues");
+        return;
+    }
+    let raw = await response.text();
+    let json = JSON.parse(raw);
+    tourLocations = json;
 }
 fetchLocations();
 function setSource() {
