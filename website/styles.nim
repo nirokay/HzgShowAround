@@ -56,9 +56,6 @@ globalCss.add(
         "border" := "1px",
         "border-collapse" := "collapse"
     },
-    "tr:first-child *"{
-        "maargin-right" := "10px"
-    },
 
     # Progress bars:
     "progress"{

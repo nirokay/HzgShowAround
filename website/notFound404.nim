@@ -8,16 +8,21 @@ import std/[strutils]
 import generator
 import globals, styles, snippets
 
-var html: HtmlDocument = newPage(
+let stylesheetCompressed: HtmlElement = newHtmlElement("style", ($css).dedent(4).replace("\n", "").replace(" {", "{"))
+
+# Default 404 page:
+# -----------------
+
+var default404: HtmlDocument = newPage(
     "404 - Not Found",
     "404.html",
     "Diese Seite kann nicht erreicht werden..."
 )
 
-html.addToHead newHtmlElement("style", ($css).dedent(4).replace("\n", "").replace(" {", "{"))
+default404.addToHead stylesheetCompressed
 
-html.addToBody(
-    h1("404 - Not found"),
+default404.addToBody(
+    h1("404: Not found"),
     pc("Das Gewässer, das du erforschen willst, ist zu tief und gruselig, du wirst aufgehalten!"),
     `div`(
         img(urlImages & "404.svg", "Ironisch... dieses Bild kann nicht angezeigt werden...").add(
@@ -35,4 +40,27 @@ html.addToBody(
     )
 )
 
-html.generate()
+default404.generate()
+
+
+# Location 404 page:
+# ------------------
+
+var location404: HtmlDocument = newPage(
+    "404 - Not Found",
+    "location/404.html",
+    "Dieser Ort kann nicht gefunden werden..."
+)
+
+location404.addToHead stylesheetCompressed
+
+location404.addToBody(
+    h1("404: Not Found"),
+    pc("Der aufgerufene Ort kann nicht aufgerufen werden."),
+    insertButtons(
+        hrefIndex,
+        hrefMap
+    )
+)
+
+location404.generate()

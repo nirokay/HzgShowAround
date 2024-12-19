@@ -71,7 +71,7 @@ var technologies*: seq[Technology] = @[
     tech("WebsiteGenerator", "https://github.com/nirokay/websitegenerator/", @[
         "Meine eigene HTML/CSS library - für HTML und CSS, lol."
     ]),
-    tech("Feriertage-API", "https://www.feiertage-api.de/", @[
+    tech("Feiertage-API", "https://www.feiertage-api.de/", @[
         "Automatisches Einfügen von Feiertagen in den NewsFeed."
     ]),
     tech("Ferien-API", "https://ferien-api.maxleistner.de/api/v1/2024/BY/", @[
