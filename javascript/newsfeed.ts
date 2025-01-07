@@ -79,6 +79,7 @@ async function refreshNewsfeed() {
             await refetchNews();
         } catch(error) {
             updateRefreshedAt(errorMessageNoInternet.join("<br />"));
+            console.error(error);
             return;
         }
 

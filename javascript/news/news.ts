@@ -45,7 +45,7 @@ function placePlaceholdersIntoRelevantNews() {
 }
 
 
-async function fetchJson(url: string, defaultJson: string): Promise<JSON> {
+async function fetchJson(url: string, defaultJson: string, softFail: boolean = false): Promise<JSON> {
     let json: JSON = JSON.parse(defaultJson);
     try {
         let response: Response = await fetch(url);
@@ -53,11 +53,13 @@ async function fetchJson(url: string, defaultJson: string): Promise<JSON> {
         try {
             json = JSON.parse(text);
         } catch(error) {
-            errorPanicParsingFuckUp = true;
+            if(!softFail) errorPanicParsingFuckUp = true;
+            console.warn(url);
             debug("[JSON Parse] Failed to parse json", text);
         }
     } catch(error) {
-        errorPanicNoInternet = true;
+        if(!softFail) errorPanicNoInternet = true;
+        console.warn(url);
         debug("[JSON Fetch] Failed to fetch json from " + url);
     }
     return json;
@@ -69,7 +71,7 @@ async function fetchNewsFeedElements<T = NewsFeedElement>(url: string): Promise<
     return result;
 }
 async function fetchSchoolHolidays(url: string): Promise<SchoolHoliday[]> {
-    let json: JSON = await fetchJson(url, "[]");
+    let json: JSON = await fetchJson(url, "[]", true);
     let result: SchoolHoliday[] = json as unknown as SchoolHoliday[];
     return result;
 }
@@ -94,7 +96,7 @@ async function getHealthPresentations() {
 async function getHolidays() {
     let currentYear: number = date.getFullYear();
     async function doThisYear(year: number) {
-        let json: HolidayResponse = await fetchJson(getUrlHolidayApi(year), "{}") as unknown as HolidayResponse;
+        let json: HolidayResponse = await fetchJson(getUrlHolidayApi(year), "{}", true) as unknown as HolidayResponse;
         for (const name in json) {
             try {
                 const rawHoliday = json[name];
@@ -119,9 +121,14 @@ async function getSchoolHolidays() {
     let currentYear: number = date.getFullYear();
     async function doThisYear(year: number) {
         let json: SchoolHoliday[] = await fetchSchoolHolidays(getUrlSchoolHolidayApi(year));
-        json.forEach(holiday => {
-            rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
-        });
+        // Error object returned, when year is not yet defined on server:
+        try {
+            json.forEach(holiday => {
+                rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
+            });
+        } catch(e) {
+            console.error(e);
+        }
     }
     await Promise.all([
         doThisYear(currentYear - 1),

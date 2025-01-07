@@ -18,8 +18,6 @@ async function fetchLocations() {
     let response;
     try {
         response = await fetch(urlTourLocations);
-        let a = [];
-        console.log(a[2]);
     }
     catch (e) {
         console.error(e);

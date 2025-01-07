@@ -38,7 +38,7 @@ function placePlaceholdersIntoRelevantNews() {
         placeholderNewsFeedElement // This is my favourite function
     ];
 }
-async function fetchJson(url, defaultJson) {
+async function fetchJson(url, defaultJson, softFail = false) {
     let json = JSON.parse(defaultJson);
     try {
         let response = await fetch(url);
@@ -47,12 +47,16 @@ async function fetchJson(url, defaultJson) {
             json = JSON.parse(text);
         }
         catch (error) {
-            errorPanicParsingFuckUp = true;
+            if (!softFail)
+                errorPanicParsingFuckUp = true;
+            console.warn(url);
             debug("[JSON Parse] Failed to parse json", text);
         }
     }
     catch (error) {
-        errorPanicNoInternet = true;
+        if (!softFail)
+            errorPanicNoInternet = true;
+        console.warn(url);
         debug("[JSON Fetch] Failed to fetch json from " + url);
     }
     return json;
@@ -63,7 +67,7 @@ async function fetchNewsFeedElements(url) {
     return result;
 }
 async function fetchSchoolHolidays(url) {
-    let json = await fetchJson(url, "[]");
+    let json = await fetchJson(url, "[]", true);
     let result = json;
     return result;
 }
@@ -86,7 +90,7 @@ async function getHolidays() {
     let currentYear = date.getFullYear();
     async function doThisYear(year) {
         var _a, _b;
-        let json = await fetchJson(getUrlHolidayApi(year), "{}");
+        let json = await fetchJson(getUrlHolidayApi(year), "{}", true);
         for (const name in json) {
             try {
                 const rawHoliday = json[name];
@@ -111,9 +115,14 @@ async function getSchoolHolidays() {
     let currentYear = date.getFullYear();
     async function doThisYear(year) {
         let json = await fetchSchoolHolidays(getUrlSchoolHolidayApi(year));
-        json.forEach(holiday => {
-            rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
-        });
+        try {
+            json.forEach(holiday => {
+                rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
+            });
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
     await Promise.all([
         doThisYear(currentYear - 1),

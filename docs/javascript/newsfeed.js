@@ -73,6 +73,7 @@ async function refreshNewsfeed() {
         }
         catch (error) {
             updateRefreshedAt(errorMessageNoInternet.join("<br />"));
+            console.error(error);
             return;
         }
         // Updating HTML:
