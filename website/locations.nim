@@ -125,7 +125,7 @@ proc generateLocationHtml*(location: Location) =
         locationLookupTable[name].names = locationLookupTable[name].names & aliases
 
     let headerText: string = block:
-        if location.link.isSet(): $a(get location.link, name)
+        if location.link.isSet(): $aNewTab(get location.link, name)
         else: name
     # Add header and header image:
     if location.has(imgHeader):

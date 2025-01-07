@@ -45,7 +45,7 @@ for offering in offerings:
             place: OfferingPlace = get offering.place
             displayName: string = place.name.get("[Ort] (ups, der fehlt)")
             linkedName: string = (
-                if place.id.isSome(): $a("location/" & getRelativeUrlPath(get place.id), displayName)
+                if place.id.isSome(): $aNewTab("location/" & getRelativeUrlPath(get place.id), displayName)
                 else: displayName
             )
         desc.add("📌 " & linkedName)

@@ -134,7 +134,7 @@ function htmlDetails(element: NewsFeedElement): HtmlString {
 
     // Adds a little "more infos" link at the bottom:
     if(url != undefined && url != "") {
-        result += "<p class='generic-center'><a href='" + url + "'>mehr Infos</a></p>";
+        result += "<p class='generic-center'><a href='" + url + "' target='_blank'>mehr Infos</a></p>";
     }
     return result;
 }
