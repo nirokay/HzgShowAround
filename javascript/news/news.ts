@@ -127,7 +127,7 @@ async function getSchoolHolidays() {
                 rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
             });
         } catch(e) {
-            console.error(e);
+            debug("[School Holiday] Failed to convert holidays: ", json);
         }
     }
     await Promise.all([

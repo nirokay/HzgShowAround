@@ -115,13 +115,14 @@ async function getSchoolHolidays() {
     let currentYear = date.getFullYear();
     async function doThisYear(year) {
         let json = await fetchSchoolHolidays(getUrlSchoolHolidayApi(year));
+        // Error object returned, when year is not yet defined on server:
         try {
             json.forEach(holiday => {
                 rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
             });
         }
         catch (e) {
-            console.error(e);
+            debug("[School Holiday] Failed to convert holidays: ", json);
         }
     }
     await Promise.all([
