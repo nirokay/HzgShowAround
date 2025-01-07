@@ -56,50 +56,54 @@ async function refreshNewsfeed() {
         return;
     }
     refreshLock = true;
-    // Place placeholders:
-    resetNewsArrays();
-    placePlaceholdersIntoRelevantNews();
-    rebuildNews();
-    relevantNews.forEach((element) => {
-        let htmlElement = generateElementHtml(element);
-        addToNewsfeed(htmlElement);
-    });
-    // Fetching:
-    debug("Fetching from remote repository");
-    updateRefreshedAt("Verbindung zum Server wird hergestellt...");
     try {
-        await refetchNews();
+        // Place placeholders:
+        resetNewsArrays();
+        placePlaceholdersIntoRelevantNews();
+        rebuildNews();
+        relevantNews.forEach((element) => {
+            let htmlElement = generateElementHtml(element);
+            addToNewsfeed(htmlElement);
+        });
+        // Fetching:
+        debug("Fetching from remote repository");
+        updateRefreshedAt("Verbindung zum Server wird hergestellt...");
+        try {
+            await refetchNews();
+        }
+        catch (error) {
+            updateRefreshedAt(errorMessageNoInternet.join("<br />"));
+            return;
+        }
+        // Updating HTML:
+        newsfeed().innerHTML = "";
+        updateRefreshedAt("Daten werden verarbeitet...");
+        await rebuildNews();
+        updateRefreshedAt("Daten werden angezeigt...");
+        relevantNews.forEach((element) => {
+            let htmlElement = addLocationLinks(generateElementHtml(element));
+            addToNewsfeed(htmlElement);
+        });
+        updateRefreshedAt();
+        // Terminator error messages:
+        if (errorPanicNoInternet) {
+            addErrorMessage(errorMessageNoInternet);
+        }
+        else if (errorPanicParsingFuckUp) {
+            addErrorMessage(errorMessageParsingFuckUp);
+        }
+        // "Soft" error messages:
+        if (normalizedNews.length == 0) {
+            addErrorMessage(infoMessageNoNews);
+        }
+        else if (relevantNews.length == 0) {
+            addErrorMessage(infoMessageNoRelevantNews);
+        }
     }
-    catch (error) {
-        updateRefreshedAt(errorMessageNoInternet.join("<br />"));
-        return;
+    finally {
+        // Release lock, allow next execution:
+        refreshLock = false;
     }
-    // Updating HTML:
-    newsfeed().innerHTML = "";
-    updateRefreshedAt("Daten werden verarbeitet...");
-    await rebuildNews();
-    updateRefreshedAt("Daten werden angezeigt...");
-    relevantNews.forEach((element) => {
-        let htmlElement = addLocationLinks(generateElementHtml(element));
-        addToNewsfeed(htmlElement);
-    });
-    updateRefreshedAt();
-    // Terminator error messages:
-    if (errorPanicNoInternet) {
-        addErrorMessage(errorMessageNoInternet);
-    }
-    else if (errorPanicParsingFuckUp) {
-        addErrorMessage(errorMessageParsingFuckUp);
-    }
-    // "Soft" error messages:
-    if (normalizedNews.length == 0) {
-        addErrorMessage(infoMessageNoNews);
-    }
-    else if (relevantNews.length == 0) {
-        addErrorMessage(infoMessageNoRelevantNews);
-    }
-    // Release lock, allow next execution:
-    refreshLock = false;
 }
 window.onload = async () => {
     await refreshNewsfeed();
