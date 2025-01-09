@@ -16,7 +16,7 @@ var html: HtmlDocument = newPage(
 
 var
     pictureDimensions: tuple[width, height, maxWidth, maxHeight: int] = (
-        90, 60, 1000, 1000
+        90, 85, 1500, 1500
     )
     locations: seq[Location] = getLocations()
     picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
