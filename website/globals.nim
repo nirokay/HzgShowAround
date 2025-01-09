@@ -156,7 +156,7 @@ const
 
 const
     mapResolution*: int = 4000 ## Rectangle `mapResolution x mapResolution`
-    mapScaleTo*: int = 2000
+    mapScaleTo*: int = 1500
 
 
 # -----------------------------------------------------------------------------
