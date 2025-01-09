@@ -14,7 +14,7 @@ const
     opacity: float = 0.25 ## Overlay opacity
     svgExportPath*: string = "resources/images/map.svg" ## Where the modified map is exported to
 
-let scale: float = float(viewbox) / float(mapResolution)
+let scale: float = float(viewbox) / 2000 # wtf does this do??
 
 proc `:=`[T](id: string, value: T): string = id & "=\"" & $value & "\"" ## Shortcut to add quotes to `value`
 
