@@ -216,7 +216,7 @@ proc generateLocationSvgMap*(location: Location) =
         viewBoxInitialState.add number.parseInt()
 
     let
-        maxBoundary: int = viewbox
+        maxBoundary: int = viewbox * 2 # stupid fix here, as changing viewbox would fuck placement of markers on the grand map
         wantedScale: int = 75
     var viewBox: seq[int] = viewBoxInitialState
 
