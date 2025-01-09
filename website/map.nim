@@ -14,21 +14,25 @@ var html: HtmlDocument = newPage(
     "Interaktive Karte von Herzogsägmühle."
 )
 
-
 var
+    pictureDimensions: tuple[width, height, maxWidth, maxHeight: int] = (
+        90, 60, 1000, 1000
+    )
     locations: seq[Location] = getLocations()
-    picture: HtmlElement = img(svgExportPath, "Interaktive Karte ist unverfügbar").add(
-        attr("usemap", "#location-map"),
-        attr("width", px(mapScaleTo)),
-        attr("height", px(mapScaleTo))
+    picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
+        "usemap" => "#location-map",
+        "width" => px(mapScaleTo),
+        "height" => px(mapScaleTo)
+    ).addStyle(
+        "border-radius" := "20px",
+        "text-align" := "center",
+        "color" := colourText,
+        "width" := px(mapScaleTo),
+        "height" := px(mapScaleTo),
+        "margin" := px(0)
     )
 
-picture.addStyle(
-    "border-radius" := "20px"
-)
-
 var areas: seq[string]
-
 for location in locations.withCoords():
     let
         coords: Coords = get location.coords
@@ -78,10 +82,10 @@ html.addToBody(
     ).setClass(centerClass).addStyle(
         "overflow" := "scroll",
         "touch-action" := "pan-x pan-y pinch-zoom",
-        "max-width" := "1000px",
-        "max-height" := "1000px",
-        "height" := "60vh",
-        "width" := "90%",
+        "max-width" := px(pictureDimensions.maxWidth),
+        "max-height" := px(pictureDimensions.maxHeight),
+        "width" := $(pictureDimensions.width) & "%",
+        "height" := $(pictureDimensions.height) & "vh",
         "border-radius" := "20px"
     ),
     divSpacerBottom # TODO: Fix this dirty hack, someday

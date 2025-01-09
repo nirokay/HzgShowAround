@@ -146,7 +146,7 @@ proc generateLocationHtml*(location: Location) =
         var elements: seq[HtmlElement]
         for day, time in open:
             elements.add(tr(@[
-                td($b(day & ": ⁣")), # Invisible and zero width character, so stuff is spaced a tad more... # TODO: implement this properly # TODO: eventually
+                td($b(day & ": ⁣")), # Invisible and zero width character, so stuff is spaced a tad more... # TODO: implement this properly # TODO: eventually # TODO: not today, but seriously do this someday
                 td(time)
             ]))
         html.addToBody(contentBox @[
