@@ -36,16 +36,6 @@ proc divCenter*(elements: varargs[HtmlElement]): HtmlElement = `div`(elements).s
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Links:
-# -----------------------------------------------------------------------------
-
-when not defined(aNewTab):
-    proc aNewTab*(href, content: string): HtmlElement = a(href, content).addattr("target", "_blank") ## Anchor element to new browser tab
-else:
-    {.warn: "custom `aNewTab` definition can be removed".}
-
-
-# -----------------------------------------------------------------------------
 # Paragraphs:
 # -----------------------------------------------------------------------------
 

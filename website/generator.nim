@@ -10,6 +10,10 @@ export `/`
 import websitegenerator
 export websitegenerator except newDocument, newHtmlDocument, writeFile
 
+when not defined(aNewTab):
+    proc aNewTab*(href, content: string): HtmlElement = a(href, content).addattr("target", "_blank") ## Anchor element to new browser tab
+else:
+    {.warn: "custom `aNewTab` definition in generator can be removed".}
 
 # Target directory:
 # Stupid thing needs to be docs for some fucking reason, amazing work github pages!!
@@ -95,7 +99,7 @@ proc generate*(html: var HtmlDocument) =
             p($small @[
                 "🄯 nirokay",
                 "Updated @ " & $time($now().format("yyyy-MM-dd - HH:mm")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
-                $a("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
+                $aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
                 $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
             ].join(" | "))
         ).setClass("bottom-page-footer")
