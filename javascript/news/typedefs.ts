@@ -23,6 +23,7 @@ class NewsFeedElement {
     level: string = "info";            // Importance as string
     importance: number = 0;            // Importance as number
     details?: string[];                // Description
+    image?: string;                    // Image
     info?: string;                     // URL to external resource
     isHappening: boolean = false;
     locations: string[] = [];
@@ -222,6 +223,7 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
     // Other missing fields:
     result.name = element.name ?? "Neuigkeit";
     result.level = element.level ?? "info";
+    result.image = element.image ?? "";
 
     // Details fixes:
     switch(typeof(element.details)) {
@@ -374,7 +376,7 @@ function getImportance(element: NewsFeedElement): number {
  * Gets the Css class of an event
  */
 function getElementClass(element: NewsFeedElement): string {
-    const classPrefix: string = "newsfeed-element-";
+    const classPrefix: string = "newsfeed-element-relevancy-";
     let classSuffix: string = "generic";
     switch(getImportance(element)) {
         case 20:
@@ -396,7 +398,7 @@ function getElementClass(element: NewsFeedElement): string {
             debug("Weird importance encountered in element, using default.", element);
             break;
     }
-    return classPrefix + classSuffix;
+    return "newsfeed-element " + classPrefix + classSuffix;
 }
 
 /**

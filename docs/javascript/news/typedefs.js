@@ -166,7 +166,7 @@ function schoolHolidaysToNewsfeedElements(holidays) {
  * Normalizes an element, so all fields are occupied
  */
 function normalizedElement(news, element) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
     // Disregard comments:
     if (element.COMMENT != undefined) {
         return null;
@@ -208,6 +208,7 @@ function normalizedElement(news, element) {
     // Other missing fields:
     result.name = (_a = element.name) !== null && _a !== void 0 ? _a : "Neuigkeit";
     result.level = (_b = element.level) !== null && _b !== void 0 ? _b : "info";
+    result.image = (_c = element.image) !== null && _c !== void 0 ? _c : "";
     // Details fixes:
     switch (typeof (element.details)) {
         case "string":
@@ -244,8 +245,8 @@ function normalizedElement(news, element) {
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
     {
-        let from = (_d = (_c = result.from) !== null && _c !== void 0 ? _c : result.on) !== null && _d !== void 0 ? _d : "";
-        let till = (_f = (_e = result.till) !== null && _e !== void 0 ? _e : result.on) !== null && _f !== void 0 ? _f : "";
+        let from = (_e = (_d = result.from) !== null && _d !== void 0 ? _d : result.on) !== null && _e !== void 0 ? _e : "";
+        let till = (_g = (_f = result.till) !== null && _f !== void 0 ? _f : result.on) !== null && _g !== void 0 ? _g : "";
         if (from.includes("*") || till.includes("*")) {
             // Duplicates the event for the next and previous year
             let year = date.getFullYear();
@@ -261,8 +262,8 @@ function normalizedElement(news, element) {
         }
     }
     // Is happening now:
-    if (Date.parse((_g = result.from) !== null && _g !== void 0 ? _g : "") <= date.getTime() &&
-        Date.parse((_h = result.till) !== null && _h !== void 0 ? _h : "") + dayMilliseconds >= date.getTime()) {
+    if (Date.parse((_h = result.from) !== null && _h !== void 0 ? _h : "") <= date.getTime() &&
+        Date.parse((_j = result.till) !== null && _j !== void 0 ? _j : "") + dayMilliseconds >= date.getTime()) {
         result.isHappening = true;
     }
     else {
@@ -348,7 +349,7 @@ function getImportance(element) {
  * Gets the Css class of an event
  */
 function getElementClass(element) {
-    const classPrefix = "newsfeed-element-";
+    const classPrefix = "newsfeed-element-relevancy-";
     let classSuffix = "generic";
     switch (getImportance(element)) {
         case 20:
@@ -370,7 +371,7 @@ function getElementClass(element) {
             debug("Weird importance encountered in element, using default.", element);
             break;
     }
-    return classPrefix + classSuffix;
+    return "newsfeed-element " + classPrefix + classSuffix;
 }
 /**
  * Determines if the event is relevant based on its time

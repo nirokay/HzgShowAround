@@ -191,20 +191,17 @@ type NewsLevel = enum
     Warning = "warning",
     Alert = "alert"
 
-proc newsElement(level: NewsLevel): CssElement =
-    result = (".newsfeed-element-" & $level){
-        "border-style" := "solid",
-        "border-width" := "5px",
-        "border-radius" := "20px",
-        "margin" := "20px auto 30px auto",
-        "background-color" := colourBackgroundMiddle
+proc newsElementRelevance(level: NewsLevel): CssElement =
+    result = (".newsfeed-element-relevancy-" & $level){
+        "border-color" := (
+            case(level):
+            of Happened: colourEventHappened
+            of Generic: colourEventGeneric
+            of Holiday: colourEventHoliday
+            of Warning: colourEventWarning
+            of Alert: colourEventAlert
+        )
     }
-    result.properties["border-color"] = case(level):
-        of Happened: colourEventHappened
-        of Generic: colourEventGeneric
-        of Holiday: colourEventHoliday
-        of Warning: colourEventWarning
-        of Alert: colourEventAlert
 
 proc locationImage(className, width, maxWidth, marginTopBottom, marginSides: string): CssElement =
     result = newCssClass(className,
@@ -356,18 +353,39 @@ const
 
     newsDivClass* = newCssClass("news-div-class",
         width("75%"),
-        ["display", "block"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        padding("10px"),
+        "min-width" := "300px",
+        "display" := "block",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "padding" := "10px",
         dropShadow
     )
 
-    newsElementHappened* = newsElement(Happened)
-    newsElementGeneric* = newsElement(Generic)
-    newsElementHoliday* = newsElement(Holiday)
-    newsElementWarning* = newsElement(Warning)
-    newsElementAlert* = newsElement(Alert)
+    newsElementBasis* = ".newsfeed-element"{
+        "border-style" := "solid",
+        "border-width" := "5px",
+        "border-radius" := "20px",
+        "margin" := "20px auto 30px auto",
+        "background-color" := colourBackgroundMiddle
+    }
+
+    newsElementHeaderSegment* = ".newsfeed-element-segment-header"{}
+    newsElementBodySegment* = ".newsfeed-element-segment-body"{
+        "display" := "flex",
+        "flex-wrap" := "wrap-reverse"
+    }
+
+    newsElementTextSegment* = ".newsfeed-element-segment-text"{}
+    newsElementPictureSegment* = ".newsfeed-element-segment-picture"{}
+    newsElementPicture* = ".newsfeed-element-picture"{
+        "max-height" := "8em"
+    }
+
+    newsElementHappened* = newsElementRelevance(Happened)
+    newsElementGeneric* = newsElementRelevance(Generic)
+    newsElementHoliday* = newsElementRelevance(Holiday)
+    newsElementWarning* = newsElementRelevance(Warning)
+    newsElementAlert* = newsElementRelevance(Alert)
 
     articlePreviewItem* = newCssClass("article-preview",
         textCenter,

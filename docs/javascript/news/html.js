@@ -20,8 +20,8 @@ getLocationLookupTable();
 const htmlHeaderPlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
 const htmlDatePlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
 const htmlDescriptionPlaceholder = [
-    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'> </pre>",
-    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'> </pre>"
+    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>              </pre>",
+    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>              </pre>"
 ].join(" ");
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
@@ -126,16 +126,52 @@ function htmlDetails(element) {
     return result;
 }
 /**
+ * URL -> <img> tag
+ */
+function htmlImage(element) {
+    var _a;
+    let result = "";
+    if (element.image != "" && element.image != undefined && element.image != null) {
+        let url = (_a = element.image) !== null && _a !== void 0 ? _a : "";
+        // Locally hosted image:
+        if (!url.startsWith("https://") && !url.startsWith("/")) {
+            let subdir = "";
+            if (!url.includes("/"))
+                subdir = "newsfeed/";
+            url = "../resources/images/" + subdir + url;
+        }
+        result = "<img class='newsfeed-element-picture' src='" + url + "' />";
+    }
+    return result;
+}
+function newDiv(className, elements) {
+    var result = "<div";
+    if (className != "" || className != null || className != undefined) {
+        result += " class='" + className + "'";
+    }
+    result += ">";
+    elements.forEach(element => {
+        result += element;
+    });
+    result += "</div>";
+    return result;
+}
+/**
  * Generates the HTML for the entire element
  */
 function generateElementHtml(element) {
     let className = getElementClass(element);
     let elements = [
-        htmlHeader(element, htmlDisclaimer(element, className)),
-        htmlDateSection(element),
-        htmlDetails(element)
+        newDiv("newsfeed-element-segment-header", [
+            htmlHeader(element, htmlDisclaimer(element, className)),
+            htmlDateSection(element),
+        ]),
+        newDiv("newsfeed-element-segment-body", [
+            newDiv("newsfeed-element-segment-image", [htmlImage(element)]),
+            htmlDetails(element)
+        ])
     ];
-    return "<div class='" + className + "'>" + elements.join("") + "</div>";
+    return newDiv(className, elements);
 }
 /**
  * Replaces location substrings with links to the locations

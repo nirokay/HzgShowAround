@@ -35,8 +35,8 @@ getLocationLookupTable()
 const htmlHeaderPlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
 const htmlDatePlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
 const htmlDescriptionPlaceholder: HtmlString = [
-    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'> </pre>",
-    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'> </pre>"
+    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>              </pre>",
+    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>              </pre>"
 ].join(" ");
 
 /**
@@ -140,16 +140,53 @@ function htmlDetails(element: NewsFeedElement): HtmlString {
 }
 
 /**
+ * URL -> <img> tag
+ */
+function htmlImage(element: NewsFeedElement): HtmlString {
+    let result: HtmlString = "";
+    if(element.image != "" && element.image != undefined && element.image != null) {
+        let url: string = element.image ?? "";
+        // Locally hosted image:
+        if(!url.startsWith("https://") && !url.startsWith("/")) {
+            let subdir: string = "";
+            if(!url.includes("/")) subdir = "newsfeed/";
+            url = "../resources/images/" + subdir + url;
+        }
+        result = "<img class='newsfeed-element-picture' src='" + url + "' />"
+    }
+    return result;
+}
+
+function newDiv(className: string, elements: HtmlString[]): HtmlString {
+    var result: HtmlString = "<div";
+    if(className != "" || className != null || className != undefined) {
+        result += " class='" + className + "'";
+    }
+    result += ">";
+    elements.forEach(element => {
+        result += element;
+    });
+
+    result += "</div>";
+    return result;
+}
+
+/**
  * Generates the HTML for the entire element
  */
 function generateElementHtml(element: NewsFeedElement): HtmlString {
     let className: string = getElementClass(element);
     let elements: HtmlString[] = [
-        htmlHeader(element, htmlDisclaimer(element, className)),
-        htmlDateSection(element),
-        htmlDetails(element)
+        newDiv("newsfeed-element-segment-header", [
+            htmlHeader(element, htmlDisclaimer(element, className)),
+            htmlDateSection(element),
+        ]),
+        newDiv("newsfeed-element-segment-body", [
+            newDiv("newsfeed-element-segment-image", [htmlImage(element)]),
+            htmlDetails(element)
+        ])
     ];
-    return "<div class='" + className + "'>" + elements.join("") + "</div>";
+    return newDiv(className, elements);
 }
 
 /**

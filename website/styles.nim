@@ -208,6 +208,15 @@ css.add(
 
     #   News:
     newsDivClass,
+    newsElementBasis,
+
+    newsElementPicture,
+
+    newsElementHeaderSegment,
+    newsElementBodySegment,
+        newsElementTextSegment,
+        newsElementPictureSegment,
+
     newsElementGeneric,
     newsElementHoliday,
     newsElementWarning,
