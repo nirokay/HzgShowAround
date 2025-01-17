@@ -58,6 +58,7 @@ function htmlHeader(element, disclaimer) {
     else {
         result = "<u>" + element.name + "</u>" + text;
     }
+    result = addLocationLinks(result);
     return "<h3 style='margin-bottom:2px;'>" + result + "</h3>";
 }
 /**
@@ -76,6 +77,7 @@ function htmlLocationSection(element) {
         let sep = "📌 ";
         result = "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" + sep + locations.join(", " + sep) + "</p>";
     }
+    result = addLocationLinks(result);
     return result;
 }
 /**
@@ -116,13 +118,20 @@ function htmlDetails(element) {
         return htmlDescriptionPlaceholder;
     }
     let lines = [];
-    let url = element.info;
     // Entire description:
     lines = (_a = element.details) !== null && _a !== void 0 ? _a : [];
     let result = "";
     if (lines.length != 0) {
         result = "<p>" + lines.join("<br />") + "</p>";
     }
+    return result;
+}
+/**
+ * Generates the footer section
+ */
+function htmlFooter(element) {
+    let result = "";
+    let url = element.info;
     // Adds a little "more infos" link at the bottom:
     if (url != undefined && url != "") {
         result += "<p class='generic-center'><a href='" + url + "' target='_blank'>mehr Infos</a></p>";
@@ -178,7 +187,7 @@ function newDiv(className, elements, attributes = undefined) {
  */
 function generateElementHtml(element) {
     let className = getElementClass(element);
-    let detailsDiv = htmlDetails(element);
+    let detailsDiv = addLocationLinks(htmlDetails(element));
     let imageDivAttributes = [];
     if (detailsDiv == "") {
         imageDivAttributes = ["style='margin:auto;'"];
@@ -192,7 +201,8 @@ function generateElementHtml(element) {
         newDiv("newsfeed-element-segment-body", [
             imageDiv,
             detailsDiv
-        ])
+        ]),
+        htmlFooter(element)
     ];
     return newDiv(className, elements);
 }

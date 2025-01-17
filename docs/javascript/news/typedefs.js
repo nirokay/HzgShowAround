@@ -253,12 +253,10 @@ function normalizedElement(news, element) {
             case 20:
                 // Alerts without image:
                 result.image = "newsfeed/icons/generic-alert.svg";
-                debug("alert");
                 break;
             case 10:
                 // Warnings without image:
                 result.image = "newsfeed/icons/generic-warning.svg";
-                debug("warning");
                 break;
             default:
                 break;

@@ -82,7 +82,7 @@ async function refreshNewsfeed() {
         await rebuildNews();
         updateRefreshedAt("Daten werden angezeigt...");
         relevantNews.forEach((element) => {
-            let htmlElement = addLocationLinks(generateElementHtml(element));
+            let htmlElement = generateElementHtml(element);
             addToNewsfeed(htmlElement);
         });
         updateRefreshedAt();
