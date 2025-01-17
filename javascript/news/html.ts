@@ -12,6 +12,7 @@ type HtmlString = string;
  */
 type LocationLookupDictionary = object;
 
+const urlImagesDirectory: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/";
 const urlLocationLookupTable: string = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 
 let locationLookupTable: LocationLookupDictionary = {};
@@ -34,10 +35,10 @@ getLocationLookupTable()
 
 const htmlHeaderPlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
 const htmlDatePlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
-const htmlDescriptionPlaceholder: HtmlString = [
-    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>              </pre>",
-    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>              </pre>"
-].join(" ");
+const htmlDescriptionPlaceholder: HtmlString = "<div>" + [
+    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
+    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>"
+].join("") + "</div>";
 
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
@@ -130,7 +131,10 @@ function htmlDetails(element: NewsFeedElement): HtmlString {
 
     // Entire description:
     lines = element.details ?? [];
-    let result = "<p>" + lines.join("<br />") + "</p>";
+    let result: HtmlString = "";
+    if(lines.length != 0) {
+        result = "<p>" + lines.join("<br />") + "</p>";
+    }
 
     // Adds a little "more infos" link at the bottom:
     if(url != undefined && url != "") {
@@ -146,21 +150,32 @@ function htmlImage(element: NewsFeedElement): HtmlString {
     let result: HtmlString = "";
     if(element.image != "" && element.image != undefined && element.image != null) {
         let url: string = element.image ?? "";
-        // Locally hosted image:
-        if(!url.startsWith("https://") && !url.startsWith("/")) {
+        // Images from data repository:
+        if(! url.startsWith("https://") && ! url.startsWith("/")) {
             let subdir: string = "";
-            if(!url.includes("/")) subdir = "newsfeed/";
-            url = "../resources/images/" + subdir + url;
+            if(! url.includes("/")) subdir = "newsfeed/";
+            url = urlImagesDirectory + subdir + url;
         }
         result = "<img class='newsfeed-element-picture' src='" + url + "' />"
     }
     return result;
 }
 
-function newDiv(className: string, elements: HtmlString[]): HtmlString {
-    var result: HtmlString = "<div";
+function newDiv(className: string, elements: HtmlString[], attributes: string[]|undefined = undefined): HtmlString {
+    let result: HtmlString = "<div";
     if(className != "" || className != null || className != undefined) {
         result += " class='" + className + "'";
+    }
+    if(attributes != undefined && attributes != null) {
+        try {
+            if(attributes.length != 0){
+                let attributeInjection: HtmlString = " " + attributes.join(" ");
+                result += attributeInjection;
+            };
+        } catch(e) {
+            debug("Caught exception in `newDiv` with attributes arg: " + attributes.toString());
+            console.warn(e);
+        }
     }
     result += ">";
     elements.forEach(element => {
@@ -176,14 +191,21 @@ function newDiv(className: string, elements: HtmlString[]): HtmlString {
  */
 function generateElementHtml(element: NewsFeedElement): HtmlString {
     let className: string = getElementClass(element);
+    let detailsDiv: HtmlString = htmlDetails(element);
+    let imageDivAttributes: HtmlString[] = [];
+    if(detailsDiv == "") {
+        imageDivAttributes = ["style='margin:auto;'"];
+    }
+    let imageDiv: HtmlString = newDiv("newsfeed-element-segment-image", [htmlImage(element)], imageDivAttributes);
+
     let elements: HtmlString[] = [
         newDiv("newsfeed-element-segment-header", [
             htmlHeader(element, htmlDisclaimer(element, className)),
             htmlDateSection(element),
         ]),
         newDiv("newsfeed-element-segment-body", [
-            newDiv("newsfeed-element-segment-image", [htmlImage(element)]),
-            htmlDetails(element)
+            imageDiv,
+            detailsDiv
         ])
     ];
     return newDiv(className, elements);

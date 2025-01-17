@@ -116,6 +116,10 @@ function holidayToNewsfeedElement(holiday: Holiday): NewsFeedElement | null {
     element.name = "Feiertag: <q>" + holiday.name + "</q>";
     element.on = holiday.datum;
     element.level = "holiday";
+
+    // Icon:
+    element.image = "newsfeed/icons/holidays.svg"
+
     return element;
 }
 function holidaysToNewsfeedElements(holidays: Holiday[]): NewsFeedElement[] {
@@ -166,6 +170,9 @@ function schoolHolidayToNewsfeedElement(holiday: SchoolHoliday): NewsFeedElement
         result.name = "Ferien: " + holiday.name;
         debug("Failed to rename holiday", error);
     }
+
+    // Icon:
+    result.image = "newsfeed/icons/holidays-school.svg"
 
     return result;
 }
