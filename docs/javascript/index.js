@@ -23,3 +23,4 @@ function changeToLocationPage() {
     }
     window.location.href = element.value;
 }
+// Auto-completing 

@@ -16,7 +16,9 @@ var html: HtmlDocument = newPage(
     "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle."
 )
 
-html.addToHead importScript("javascript/index.js")#.add(attr("defer"))
+html.addToHead importScript("javascript/news/html.js").add(attr("defer")) # Only used for `getLocationLookupTable()`
+html.addToHead importScript("javascript/index-autocomplete.js").add(attr("defer"))
+html.addToHead importScript("javascript/index.js").add(attr("defer"))
 
 
 # -----------------------------------------------------------------------------
@@ -105,9 +107,20 @@ locationOptions = @[
 ] & locationOptions
 
 html.addToBody(
+    # Location search bar:
+    pc(
+        label(indexLocationSearchBarId, "..., suche nach einem Ort, ..."),
+        input("text", indexLocationSearchBarId, "").add(
+            attr("placeholder", "Name des Orts")
+        ),
+        input("button", indexLocationSearchBarSubmitButtonId).setOnclick("searchBarButtonClick();"),
+    )
+)
+
+html.addToBody(
     # Clean drop-down list:
     pc(
-        label(indexLocationDropDownId, "... oder stöbere dich durch jeden Ort einzeln:"),
+        label(indexLocationDropDownId, "... oder stöbere dich durch die Liste der Orte:"),
         select(indexLocationDropDownId, indexLocationDropDownId, locationOptions).add(
             attr("onchange", "changeToLocationPage();"),
             attr("onfocus", "this.selectedIndex = 0;"),

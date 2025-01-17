@@ -10,7 +10,12 @@ type HtmlString = string;
  * },
  * ...
  */
-type LocationLookupDictionary = object;
+interface LocationLookupDictionary {
+    [key: string]: {
+        names: string[],
+        path: string
+    }
+}
 
 const urlImagesDirectory: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/";
 const urlLocationLookupTable: string = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
