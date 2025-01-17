@@ -67,6 +67,7 @@ function healthPresentationToNewsfeedElement(presentation) {
     result.on = (_a = presentation.on) !== null && _a !== void 0 ? _a : getToday();
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
+    result.image = "newsfeed/icons/presentation.svg";
     (_b = presentation.desc) !== null && _b !== void 0 ? _b : (presentation.desc = presentation.topic);
     result.details = [
         "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
@@ -246,6 +247,23 @@ function normalizedElement(news, element) {
     result.locations = element.locations;
     // Add importance:
     result.importance = getImportance(element);
+    // Default images:
+    if (result.image == "") {
+        switch (getImportance(element)) {
+            case 20:
+                // Alerts without image:
+                result.image = "newsfeed/icons/generic-alert.svg";
+                debug("alert");
+                break;
+            case 10:
+                // Warnings without image:
+                result.image = "newsfeed/icons/generic-warning.svg";
+                debug("warning");
+                break;
+            default:
+                break;
+        }
+    }
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
     {

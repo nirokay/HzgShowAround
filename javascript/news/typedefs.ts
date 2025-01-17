@@ -86,6 +86,8 @@ function healthPresentationToNewsfeedElement(presentation: HealthPresentation): 
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
 
+    result.image = "newsfeed/icons/presentation.svg";
+
     presentation.desc ??= presentation.topic
     result.details = [
         "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
@@ -266,6 +268,22 @@ function normalizedElement(news: NewsFeedElement[], element: NewsFeedElement): N
 
     // Add importance:
     result.importance = getImportance(element);
+
+    // Default images:
+    if(result.image == "") {
+        switch(getImportance(element)) {
+            case 20:
+                // Alerts without image:
+                result.image = "newsfeed/icons/generic-alert.svg";
+                break;
+            case 10:
+                // Warnings without image:
+                result.image = "newsfeed/icons/generic-warning.svg";
+                break;
+            default:
+                break;
+        }
+    }
 
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
