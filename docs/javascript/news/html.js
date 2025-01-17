@@ -33,10 +33,10 @@ function htmlDisclaimer(element, cssClass) {
     }
     let result = [];
     if (cssClass.endsWith("happened")) {
-        result.push("<i>Event vergangen</i>");
+        result.push("<i>vergangen</i>");
     }
     if (element.isHappening) {
-        result.push("<b>Heute!</b>");
+        result.push("<b>heute</b>");
     }
     return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>";
 }
