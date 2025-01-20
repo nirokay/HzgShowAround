@@ -17,8 +17,23 @@ var html: HtmlDocument = newPage(
 )
 
 html.addToHead importScript("javascript/news/html.js").add(attr("defer")) # Only used for `getLocationLookupTable()`
+html.addToHead importScript("javascript/commons.js").add(attr("defer"))
 html.addToHead importScript("javascript/index-autocomplete.js").add(attr("defer"))
 html.addToHead importScript("javascript/index.js").add(attr("defer"))
+
+proc locationSearchBar(): HtmlElement =
+    # Location search bar:
+    result = `div`(
+        form(
+            h3("Ort-Schnellsuche"),
+            `div`(
+                input("text", indexLocationSearchBarId, "").add(
+                    attr("placeholder", "Name des Ortes")
+                ).setClass(locationSearchBar),
+                button("Suche", "searchBarButtonClick();").setId(indexLocationSearchBarSubmitButtonId)
+            ).setClass("autocomplete"),
+        ).setAction("javascript:searchBarButtonClick();")
+    ).setClass(locationSearchBarDiv)
 
 
 # -----------------------------------------------------------------------------
@@ -36,6 +51,7 @@ addToBody(
 ]#
 
 html.addToBody(
+    locationSearchBar(),
     `div`(
         img(urlIconLargeSVG, "Icon kann nicht geladen werden :(").addattr(
             "style", "max-width: 200px; max-height: 200px;"
@@ -105,17 +121,6 @@ locationOptions.sort do (x, y: HtmlElement) -> int:
 locationOptions = @[
     option("none", "-- Bitte auswählen --").add(attr("selected"))
 ] & locationOptions
-
-html.addToBody(
-    # Location search bar:
-    pc(
-        label(indexLocationSearchBarId, "..., suche nach einem Ort, ..."),
-        input("text", indexLocationSearchBarId, "").add(
-            attr("placeholder", "Name des Orts")
-        ),
-        input("button", indexLocationSearchBarSubmitButtonId).setOnclick("searchBarButtonClick();"),
-    )
-)
 
 html.addToBody(
     # Clean drop-down list:

@@ -1,4 +1,5 @@
 // Function is graciously stolen from https://www.w3schools.com/howto/howto_js_autocomplete.asp
+
 function autocompleteLocationSearchBar(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/

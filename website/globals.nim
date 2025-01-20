@@ -471,3 +471,57 @@ const
         ["justify-content", "space-around"],
         ["flex-wrap", "wrap"]
     )
+
+    locationSearchBarAutocomplete*: CssElement = ".autocomplete"{
+        "position" := "relative",
+        "display" := "inline-block"
+    }
+    locationSearchBarAutocompleteItems*: CssElement = ".autocomplete-items"{
+        "position" := "absolute",
+        "z-index" := "99",
+        "top" := "100%",
+        "left" := "0",
+        "right" := "0",
+        "background-color" := colourBackgroundMiddle,
+        "border" := "2px solid " & colourBackgroundLight
+    }
+    locationSearchBarAutocompleteActive*: CssElement = ".autocomplete-active"{
+        "background-color" := colourBackgroundLight & " !important"
+    }
+    locationSearchBarDiv*: CssElement = ".autocomplete-floating-island"{
+        "z-index" := "98",
+        "position" := "fixed",
+        "margin-top" := "10px",
+        "padding" := "5px",
+        "background-color" := colourBackgroundMiddle,
+        "border-width" := "5px",
+        "border-color" := colourBackgroundLight,
+        "border-radius" := "10px"
+    }
+    locationSearchBar*: CssElement = ".autocomplete-search-bar"{
+        "width" := "50%",
+        "min-width" := "200px",
+        "max-width" := "600px"
+    }
+#[
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+]#

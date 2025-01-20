@@ -1,28 +1,4 @@
 "use strict";
-/*
-
-    Logic for Index page
-    ====================
-
-    This script basically only handles the drop-down menu.
-
-*/
-const locationDropDownId = "index-location-drop-down";
-function getElement() {
-    return document.getElementById(locationDropDownId);
-}
-function changeToLocationPage() {
-    let element = getElement();
-    if (element == null) {
-        console.log("Failed to find '" + locationDropDownId + "'...");
-        alert("Irgendwas ist schief gelaufen... :(");
-        return;
-    }
-    if (element.index <= 0) {
-        return;
-    }
-    window.location.href = element.value;
-}
 // Location search with auto-completion:
 const locationSearchBarId = "index-location-search-bar";
 const locationSearchBarSubmitButtonId = "index-location-search-bar-submit-button";
@@ -76,7 +52,7 @@ function searchBarButtonClick() {
     let path = getPathFor(locationName);
     if (path == null)
         return;
-    window.location.href = path;
+    console.warn("Navigating to '" + path + "'!");
 }
 window.onload = async () => {
     await getLocationLookupTable();

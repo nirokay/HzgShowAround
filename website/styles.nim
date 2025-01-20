@@ -8,6 +8,8 @@ import websitegenerator ##! Not generator, because I need the writeFile() proc h
 import globals
 export globals
 
+proc copyProperty(origin: CssElement, property: string): CssAttribute =
+    property := origin.properties[property]
 
 # -----------------------------------------------------------------------------
 # Css:
@@ -142,6 +144,15 @@ globalCss.add(
     newCssElement("button:hover", buttonClassHover.properties),
     newCssElement("button:active", buttonClassClick.properties),
 
+    "input"{
+        buttonClass.copyProperty("background-color"),
+        buttonClass.copyProperty("color"),
+        buttonClass.copyProperty("border-radius"),
+        "border" := "none",
+        "padding" := "5px",
+        dropShadow
+    },
+
     centerTableClass,
 
     iconImageClass,
@@ -252,6 +263,35 @@ css.add(
         "transition" := "0.1s",
         "background-color" := colourBackgroundMiddle
     },
+
+    # Search Bar:
+    locationSearchBarAutocomplete,
+    locationSearchBarAutocompleteItems,
+    locationSearchBarAutocompleteActive,
+
+    locationSearchBarDiv,
+    locationSearchBar,
+
+    newCssElement(".autocomplete-items div",
+        "padding" := "10px",
+        "cursor" := "pointer",
+        "background-color" := colourBackgroundMiddle
+    ),
+    newCssElement(".autocomplete-items div:hover",
+        "background-color" := colourBackgroundLight
+    ),
+#[
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+]#
 
     # Images (for locations):
     locationImageHeader,

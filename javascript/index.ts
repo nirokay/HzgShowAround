@@ -35,34 +35,58 @@ const locationSearchBarSubmitButtonId: string = "index-location-search-bar-submi
 let locationArray: string[];
 
 function populateLocationArray() {
+    let result: string[] = [];
     for (let locationName in locationLookupTable) {
         // Add human-readable names to list:
         let obj = locationLookupTable[locationName];
         let alias: string[] = obj.names;
         let humanNames: string[] = [locationName].concat(alias);
-        locationArray.concat(humanNames);
+        result = result.concat(humanNames);
     }
+
+    // Deduplicate entries:
+    result.forEach(item => {
+        let newItem: string = item.toLowerCase();
+        if(locationArray.includes(newItem)) return;
+        locationArray = locationArray.concat([newItem]);
+    });
 }
 
 function getPathFor(location: string): string|null {
     if (! locationArray.includes(location)) return null;
-    let result: string = "";
+    let result: string|null = null;
     for (let locationName in locationLookupTable) {
         let obj = locationLookupTable[locationName];
-        let alias: string[] = obj.names;
+        let alias: string[] = [];
+        obj.names.forEach(name => {
+            alias = alias.concat([name.toLowerCase()]);
+        });
         let path: string = obj.path;
-        if (location == locationName || alias.includes(location)) {
+        if (location.toLowerCase() == locationName.toLowerCase() || alias.includes(location)) {
             result = path;
-            return path;
+            return result;
         }
     }
     return result;
 }
+function getPathForSelectedLocation(): string|null {
+    let searchBar: HTMLInputElement|null = document.getElementById(locationSearchBarId) as HTMLInputElement;
+    if(searchBar == null) return null;
+    let locationName: string = searchBar.value;
+    return locationName.toLowerCase();
+}
 
-function searchBarButtonClick() {}
+function searchBarButtonClick() {
+    let locationName: string|null = getPathForSelectedLocation();
+    if(locationName == null) return;
+    let path: string|null = getPathFor(locationName);
+    if(path == null) return;
+    window.location.href = path;
+}
 
 window.onload = async() => {
     await getLocationLookupTable();
+    locationArray = [];
     populateLocationArray();
     autocompleteLocationSearchBar(document.getElementById(locationSearchBarId), locationArray);
 }
