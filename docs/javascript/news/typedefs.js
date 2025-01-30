@@ -56,12 +56,10 @@ class SchoolHoliday {
 }
 function healthPresentationToNewsfeedElement(presentation) {
     var _a, _b;
-    if (presentation.COMMENT != undefined) {
+    if (presentation.COMMENT != undefined)
         return null;
-    }
-    if (presentation.topic == "?") {
+    if (presentation.topic == "?")
         return null;
-    }
     let result = new NewsFeedElement;
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
     result.on = (_a = presentation.on) !== null && _a !== void 0 ? _a : getToday();
@@ -70,12 +68,13 @@ function healthPresentationToNewsfeedElement(presentation) {
     result.image = "newsfeed/icons/presentation.svg";
     (_b = presentation.desc) !== null && _b !== void 0 ? _b : (presentation.desc = presentation.topic);
     result.details = [
-        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
+        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00/14.30 Uhr</time> im <b>Festsaal</b>",
         "zum Thema <q>" + presentation.desc + "</q>"
     ];
-    if (presentation.by != undefined) {
+    if (presentation.by != undefined)
         result.details.push("<small>Geleitet von " + presentation.by + "</small>");
-    }
+    if (presentation.required != undefined && presentation.required === true)
+        result.details.push("<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach 14.</i></small>");
     return result;
 }
 function healthPresentationsToNewsfeedElements(presentations) {

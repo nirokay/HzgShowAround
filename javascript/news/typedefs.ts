@@ -38,6 +38,7 @@ class HealthPresentation {
     desc?: string;
     on?: string;
     by?: string;
+    required?: boolean;
 
     COMMENT?: string;
 }
@@ -77,8 +78,8 @@ class SchoolHoliday {
 
 
 function healthPresentationToNewsfeedElement(presentation: HealthPresentation): NewsFeedElement | null {
-    if(presentation.COMMENT != undefined) {return null}
-    if(presentation.topic == "?") {return null}
+    if(presentation.COMMENT != undefined) return null;
+    if(presentation.topic == "?") return null;
     let result = new NewsFeedElement;
 
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
@@ -90,12 +91,11 @@ function healthPresentationToNewsfeedElement(presentation: HealthPresentation): 
 
     presentation.desc ??= presentation.topic
     result.details = [
-        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00 Uhr</time> im <b>Festsaal</b>",
+        "von <time datetime='" + presentation.on + " 13:00'>13.00 - 14.00/14.30 Uhr</time> im <b>Festsaal</b>",
         "zum Thema <q>" + presentation.desc + "</q>"
     ]
-    if(presentation.by != undefined) {
-        result.details.push("<small>Geleitet von " + presentation.by + "</small>");
-    }
+    if(presentation.by != undefined) result.details.push("<small>Geleitet von " + presentation.by + "</small>");
+    if(presentation.required != undefined && presentation.required === true) result.details.push("<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach 14.</i></small>");
 
     return result;
 }
