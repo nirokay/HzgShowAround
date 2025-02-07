@@ -4,7 +4,7 @@
 ## This module includes some global values. Some CSS and HTML attributes are included here instead of `website/styles`, so
 ## that they can be used type-safely.
 
-import std/[tables, strformat]
+import std/[strformat]
 import generator
 
 from std/os import `/`
@@ -162,26 +162,6 @@ const
 
 
 # -----------------------------------------------------------------------------
-# Margins:
-# -----------------------------------------------------------------------------
-
-const
-    heightBarTop*: int = 72 ## Height of the top bar (offset main div)
-    heightBarBottom*: int = 45 ## Height of the top bar (shrink main div)
-    heightBarMargins*: int = 5 ## Margins between content and bars
-
-proc newSpacer(height: string|int): HtmlElement =
-    result = `div`(
-        htmlComment("Ignore this - this is a spacer... I am a GOD at Html/Css")
-    ).addStyle(
-        "min-height" := $height & "px"
-    )
-
-let
-    divSpacerTop*: HtmlElement = newSpacer(heightBarTop) ## Hacky solution for some pages to keep space for the header bar
-    divSpacerBottom*: HtmlElement = newSpacer(heightBarBottom) ## Hacky solution for some pages to keep space for the footer bar
-
-# -----------------------------------------------------------------------------
 # CSS classes:
 # -----------------------------------------------------------------------------
 
@@ -219,20 +199,12 @@ const
         textCenter
     )
 
-    centerWidth100Class* = newCssClass("generic-center-100-width",
-        textCenter,
-        ["display", "block"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["width", "100%"]
-    )
-
     centerClass* = newCssClass("generic-center",
         textCenter,
         ["display", "block"],
         ["margin-left", "auto"],
         ["margin-right", "auto"],
-        ["width", "90%"]
+        # ["width", "90%"]
     )
 
     centerTableClass* = newCssClass("table-center",

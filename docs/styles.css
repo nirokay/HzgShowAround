@@ -24,6 +24,7 @@ footer {
 table {
     background-color: #2f3139;
     border-radius: 10px;
+    border-spacing: 20px 5px;
     filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px;
     padding: 10px;
@@ -108,19 +109,10 @@ img {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    width: 90%;
 }
 
 .center {
     text-align: center;
-}
-
-.generic-center-100-width {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 100%;
 }
 
 .button {

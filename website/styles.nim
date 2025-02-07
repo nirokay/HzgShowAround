@@ -52,6 +52,7 @@ globalCss.add(
         "padding" := "10px",
         "margin" := "8px",
         "border-radius" := "10px",
+        "border-spacing" := "20px 5px", # yippie, this fixed a funky annoying thing i was doing hehe
         dropShadow
     },
     "tbody"{
@@ -134,7 +135,6 @@ globalCss.add(
     centerClass,
 
     textCenterClass,
-    centerWidth100Class,
 
     buttonClass,
     buttonClassHover,
@@ -280,18 +280,6 @@ css.add(
     newCssElement(".autocomplete-items div:hover",
         "background-color" := colourBackgroundLight
     ),
-#[
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
-}
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9;
-}
-]#
 
     # Images (for locations):
     locationImageHeader,
@@ -316,8 +304,13 @@ cssArticles.add(
         textUnderline,
         textCenter
     },
-    "h3, h4, h5, h6, p, summary, time"{
+    "h3, h4, h5, h6, summary, time"{
         textCenter
+    },
+    "img"{
+        "margin" := "20px",
+        "max-height" := "70vh",
+        "max-width" := "90%"
     }
 )
 
