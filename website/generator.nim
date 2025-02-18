@@ -32,11 +32,6 @@ let
     divSpacerBottom*: HtmlElement = newSpacer(heightBarBottom) ## Hacky solution for some pages to keep space for the footer bar
 
 
-when not defined(aNewTab):
-    proc aNewTab*(href, content: string): HtmlElement = a(href, content).addattr("target", "_blank") ## Anchor element to new browser tab
-else:
-    {.warn: "custom `aNewTab` definition in generator can be removed".}
-
 # Target directory:
 # Stupid thing needs to be docs for some fucking reason, amazing work github pages!!
 const target*: string = "docs" ## Target/Output directory

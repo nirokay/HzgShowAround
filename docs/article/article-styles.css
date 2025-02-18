@@ -9,36 +9,36 @@ p {
 }
 
 article > p {
-    padding: 10px;
     text-align: left;
+    padding: 10px;
 }
 
 footer {
     background-color: rgb(23, 25, 33);
+    position: fixed;
     bottom: 0;
     box-sizing: border-box;
-    position: fixed;
     width: 100%;
 }
 
 table {
     background-color: #2f3139;
-    border-radius: 10px;
-    border-spacing: 20px 5px;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 8px;
     padding: 10px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 10px;
+    border-spacing: 20px 5px;
 }
 
 tbody {
-    border-collapse: collapse;
     border: 1px;
+    border-collapse: collapse;
 }
 
 progress {
-    border-radius: 10px;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: auto 1px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 10px;
     width: 90%;
 }
 
@@ -66,23 +66,23 @@ time {
 }
 
 del {
+    text-decoration-color: #e8e6e3;
     color: #464544;
     font-style: italic;
-    text-decoration-color: #e8e6e3;
 }
 
 fieldset {
     background-color: #2f3139;
-    border-color: #e8e6e3;
-    border-radius: 10px;
-    border-width: 2.5px;
-    display: inline-flex;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    flex-basis: max-content;
-    flex-wrap: wrap;
-    justify-self: center;
     margin: 10px 5px;
+    flex-wrap: wrap;
+    border-width: 2.5px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 10px;
+    border-color: #e8e6e3;
+    flex-basis: max-content;
     min-width: 100px;
+    display: inline-flex;
+    justify-self: center;
 }
 
 fieldset > legend {
@@ -90,8 +90,8 @@ fieldset > legend {
 }
 
 fieldset > p {
-    margin-bottom: 2px;
     margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 ul {
@@ -99,16 +99,16 @@ ul {
 }
 
 img {
-    border-radius: 10px;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 10px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 10px;
 }
 
 .generic-center {
+    text-align: center;
+    margin-right: auto;
     display: block;
     margin-left: auto;
-    margin-right: auto;
-    text-align: center;
 }
 
 .center {
@@ -117,18 +117,18 @@ img {
 
 .button {
     background-color: #2f3139;
-    border-radius: 6px;
-    border: none;
+    text-align: center;
     color: #e8e6e3;
-    cursor: pointer;
-    display: inline-block;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    font-size: 1.2em;
     margin: 8px 4px;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     transition: 0.3s;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    font-size: 1.2em;
 }
 
 .button:hover {
@@ -142,18 +142,18 @@ img {
 
 button {
     background-color: #2f3139;
-    border-radius: 6px;
-    border: none;
+    text-align: center;
     color: #e8e6e3;
-    cursor: pointer;
-    display: inline-block;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    font-size: 1.2em;
     margin: 8px 4px;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     transition: 0.3s;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    border: none;
+    font-size: 1.2em;
 }
 
 button:hover {
@@ -167,16 +167,16 @@ button:active {
 
 input {
     background-color: #2f3139;
+    color: #e8e6e3;
+    padding: 5px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     border-radius: 6px;
     border: none;
-    color: #e8e6e3;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    padding: 5px;
 }
 
 .table-center {
-    margin: 10px auto;
     text-align: left;
+    margin: 10px auto;
 }
 
 icon-display {
@@ -186,78 +186,78 @@ icon-display {
 }
 
 .flex-container {
+    flex-wrap: wrap;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    justify-content: center;
     align-items: normal;
     display: flex;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .flex-contained-container {
-    display: flex;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     flex-wrap: wrap;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     justify-content: center;
+    display: flex;
 }
 
 .flex-element {
-    background: #23252c;
-    border-radius: 10px;
-    display: inline-block;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 20px;
-    max-width: 500px;
-    min-width: 300px;
     padding: 10px;
+    max-width: 500px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 10px;
+    background: #23252c;
+    min-width: 300px;
+    display: inline-block;
     width: 30%;
 }
 
 .author-div {
     background-color: #23252c;
-    border-radius: 900px;
-    display: flex;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
-    flex-basis: auto;
+    max-width: 350px;
     flex-wrap: nowrap;
-    flex: content;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     justify-content: left;
+    border-radius: 900px;
+    margin-top: 10px;
+    flex: content;
+    margin-right: auto;
+    flex-basis: auto;
+    display: flex;
     margin-bottom: 10px;
     margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    max-width: 350px;
 }
 
 .author-picture {
-    align-self: center;
+    max-width: 48px;
     border-radius: 100px;
-    display: inline-block;
     flex: content;
+    margin-top: 10px;
+    min-width: 32px;
+    display: inline-block;
+    align-self: center;
     margin-bottom: 10px;
     margin-left: 10px;
-    margin-top: 10px;
-    max-width: 48px;
-    min-width: 32px;
 }
 
 .author-name-div {
-    align-self: center;
     color: Gainsboro;
-    display: inline-block;
     flex: content;
-    margin-bottom: 10px;
-    margin-right: 10px;
     margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    align-self: center;
+    margin-bottom: 10px;
     width: 50%;
 }
 
 .content-box {
     background-color: #23252c;
-    border-radius: 20px;
-    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
     margin: 30px auto;
-    max-width: 1000px;
     padding: 5px;
+    max-width: 1000px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    border-radius: 20px;
     width: 100%;
 }
 
@@ -267,30 +267,30 @@ icon-display {
 
 .location-deprecation-notice-div {
     background-color: #ffffb3;
-    border-radius: 10px;
     color: #000000;
     padding: 10px;
+    border-radius: 10px;
 }
 
 .top-page-header {
-    background-color: #23252c;
-    height: 72px;
     left: 0px;
+    background-color: #23252c;
     margin: auto;
-    position: fixed;
     text-align: center;
     top: 0px;
+    height: 72px;
+    position: fixed;
     width: 100%;
 }
 
 .bottom-page-footer {
-    background-color: #23252c;
-    bottom: -10px;
-    height: 55px;
     left: 0px;
+    background-color: #23252c;
     margin: auto;
-    position: fixed;
     text-align: center;
+    height: 55px;
+    position: fixed;
+    bottom: -10px;
     width: 100%;
 }
 
@@ -316,10 +316,10 @@ a:active {
 
 body {
     background-color: rgb(23, 25, 33);
-    display: block;
-    margin-left: auto;
     margin-right: auto;
+    display: block;
     width: 90%;
+    margin-left: auto;
 }
 
 h1, h2 {
@@ -333,6 +333,6 @@ h3, h4, h5, h6, summary, time {
 
 img {
     margin: 20px;
-    max-height: 70vh;
     max-width: 90%;
+    max-height: 70vh;
 }
