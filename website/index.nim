@@ -147,12 +147,14 @@ html.addToBody(
     ih2("Sonstiges"),
     pc(
         "Diese Seite ist von einem kleinen Team geführt und ist komplett " & $a("https://de.wiktionary.org/wiki/quelloffen", "quelloffen") & ".",
-        "Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein " & $a("https://github.com/", "GutHub") & "-Account."
+        "Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein " & $a("https://github.com/", "GitHub") & "-Account."
     ),
-    ul(@[
-        li(a("https://github.com/nirokay/HzgShowAround", "Website Repository")),
-        li(a("https://github.com/nirokay/HzgShowAround", "Website-Data Repository"))
-    ]),
+    `div`(
+        ul(@[
+            li(a("https://github.com/nirokay/HzgShowAround", "Website Repository")),
+            li(a("https://github.com/nirokay/HzgShowAround", "Website-Data Repository"))
+        ])
+    ).setClass(centerClass),
     insertButtons(
         hrefContact,
         hrefContributors,
