@@ -92,9 +92,13 @@ proc toHtmlElement*(button: ButtonHref): HtmlElement =
         "href" => rootUrl & button.href
     ] => button.text -> buttonClass
     ]#
-    result = "button"[
-        "onclick" => "window.location=\"" & rootUrl & button.href & "\";"
-    ] => button.text
+    #result = "button"[
+    #    "onclick" => "window.location=\"" & rootUrl & button.href & "\";"
+    #] => button.text
+    result = a(rootUrl & button.href, button.text).setTitle(button.title).setClass("button").addStyle(
+        "color" := "#e8e6e3"
+    )
+
     if button.title != "": result.addattr("title", button.title)
 proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =
     ## Converts `ButtonHref`s to HTML buttons

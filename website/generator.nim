@@ -155,13 +155,19 @@ proc generate*(html: var HtmlDocument) =
     )
 
     # Html head:
+    let faviconUrl: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
     html.addToHead(
         # Favicon:
         "link"[
             "rel" => "icon",
             "type" => "image/gif",
             "sizes" => "512x512",
-            "href" => "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
+            "href" => faviconUrl
+        ],
+        # Favicon 2.0:
+        "link"[
+            "rel" => "apple-touch-icon",
+            "href" => faviconUrl
         ]
     )
 

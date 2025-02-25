@@ -214,6 +214,7 @@ const
 
     buttonClass* = newCssClass("button",
         backgroundColour(colourButton),
+        color(colourText),
         colour(colourText),
         ["border", "none"],
         padding("10px 20px"),
