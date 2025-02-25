@@ -11,9 +11,13 @@ let locations: seq[Location] = getLocations()
 locations.generateLocations()
 
 var html: HtmlDocument = newPage(
-    "",
+    "Startseite",
     "index.html",
-    "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Mühle."
+    @[
+        "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Diakonie Herzogsägmühle",
+        "in Peiting! Entdecke verschiedene Orte, den NewsFeed, der alle Neuigkeiten für Rehabilitanden",
+        "anzeigt, und die interaktive Karte des Ortes."
+    ].join(" ")
 )
 
 html.addToHead importScript("javascript/news/html.js").add(attr("defer")) # Only used for `getLocationLookupTable()`
@@ -64,7 +68,7 @@ html.addToBody(
         # ^ Does not work as intended but looks cool as fuck :D (it is a feature)
         dropShadow
     ).setClass(centerClass),
-    ih1("HzgShowAround").addStyle(
+    ih1("HzgShowAround für die Diakonie Herzogsägmühle").addStyle(
         "position" := "relative"
     ),
     pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
@@ -92,7 +96,7 @@ html.add(
     ih2("Freizeitangebote"),
     pc(
         "Verschiedene Freizeitangebote werden in der Mühle und im nahen Umfeld angeboten.",
-        "Hier kannst du eine Liste von Angeboten einsehen."
+        "Hier kannst du eine Liste von Angeboten einsehen und Kontakt aufnehmen, falls Informationen angegeben sind."
     ),
     insertButtons(hrefOfferings)
 )
@@ -141,6 +145,14 @@ html.addToBody(
 
 html.addToBody(
     ih2("Sonstiges"),
+    pc(
+        "Diese Seite ist von einem kleinen Team geführt und ist komplett " & $a("https://de.wiktionary.org/wiki/quelloffen", "quelloffen") & ".",
+        "Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein " & $a("https://github.com/", "GutHub") & "-Account."
+    ),
+    ul(@[
+        li(a("https://github.com/nirokay/HzgShowAround", "Website Repository")),
+        li(a("https://github.com/nirokay/HzgShowAround", "Website-Data Repository"))
+    ]),
     insertButtons(
         hrefContact,
         hrefContributors,

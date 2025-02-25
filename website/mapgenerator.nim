@@ -7,6 +7,7 @@
 
 import std/[strutils, strformat, options]
 import client, globals, typedefs, snippets
+import ../utils/logging
 
 const
     viewbox: int = 200 ## Hard-coded viewbox width/height, just like the gods intended
@@ -62,7 +63,7 @@ proc `$`*(layer: Layer): string =
 
 let templateSvgData: string = getMapSvg().strip()
 
-type SvgFile* = tuple[data: string, locations: seq[Rect]]
+type SvgFile* = tuple[data: string, locations: seq[Rect], forHtml: string]
 proc newSvgFile*(): SvgFile =
     ## Sets `data` to `templateSvgData`
     result.data = templateSvgData
@@ -159,10 +160,9 @@ proc addLocationOverlay(svg: var SvgFile, pinScale: float = 0.02) =
         )
 
     for i, rect in svg.locations:
-        stdout.write(&"\rWriting svg data {i + 1}/{svg.locations.len()}")
+        logger.addGeneratedSvg(svg.forHtml, i + 1, svg.locations.len())
         overlays.shapes.add rect
         markers.shapes.add pin(rect.id[14 .. ^1], rect.x + rect.width/2, rect.y + rect.height/2, pinScale)
-    stdout.write("\n")
 
     # Add layers:
     svg.appendData($overlays)
@@ -187,6 +187,7 @@ proc getLocationSvgMapPath*(location: Location): string = locationMapImagePath &
 proc generateLocationSvgMap*(location: Location) =
     ## External proc to generate new svg map for a location (only the location itself is highlighted)
     var svg: SvgFile = newSvgFile()
+    svg.forHtml = location.name
 
     for l in @[location].withCoords():
         # 100000000 IQ move, looks stupid and is stupid, as it will only run once, ...

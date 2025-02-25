@@ -12,9 +12,9 @@ type
     FetchError* = object of CatchableError
 
 proc initClient(): HttpClient =
-    stdout.write "Setting up http client"
+    stdout.write "🛜  Setting up http client"
     result = newHttpClient()
-    stdout.write "\rSuccessfully set up http client\n"
+    stdout.write "\r🛜  Successfully set up http client\n"
 var http*: HttpClient = initClient()
 
 
@@ -54,9 +54,9 @@ proc write(text: string) =
 
 proc requestRawText*(url: string, backupPath: string = ""): string {.raises: FetchError.} =
     ## Requests raw text from a source or a fallback
-    write("Awaiting network... Fetching " & url)
+    write("🛜  Awaiting network... Fetching " & url)
     result = url.tryNetworkOrPath(backupPath)
-    write("\r✓ Finished fetching from URL: " & url & "\n")
+    write("\r🛜  Finished fetching from URL: " & url & "\n")
 
 proc requestJson*(url: string, backupPath: string = ""): JsonNode {.raises: [FetchError, JsonParsingError].} =
     ## Requests json from a source or a fallback

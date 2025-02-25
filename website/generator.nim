@@ -10,6 +10,8 @@ export `/`
 import websitegenerator
 export websitegenerator except newDocument, newHtmlDocument, writeFile
 
+import ../utils/logging
+
 
 # -----------------------------------------------------------------------------
 # Margins:
@@ -53,7 +55,7 @@ for dir in dirs:
 
 # Hacky solution to a problem I cannot comprehend:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
-    "map.html" # TODO: Fix this someday holy shit
+    "map.html" # TODO: Fix this someday holy shit # TODO: idk how, maybe later me will know more
 ]
 
 var pageMetaDataCache: Table[string, seq[string]]
@@ -73,6 +75,9 @@ proc addOgTags*(html: var HtmlDocument) =
 
 proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     ## Shortcut to create standardized html pages
+    pageMetaDataCache[path] = @[
+        name, desc
+    ]
     result = newHtmlDocument(path)
     result.addToHead(
         htmlComment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
@@ -80,21 +85,16 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
         viewport("width=device-width, initial-scale=1"),
         (
             if name == "": title("HzgShowAround")
-            else: title(name & " - HzgShowAround")
+            else: title(name & " | HzgShowAround")
         ),
         description(desc)
     )
-
-    pageMetaDataCache[path] = @[
-        name, desc
-    ]
-
     result.addOgTags()
 
 
 proc generate*(html: var HtmlDocument) =
     ## Adds a header and footer before writing html page to disk
-    stdout.write("Generating " & html.file & "...")
+    logger.announceGeneration(html)
 
     var
         topHeader: HtmlElement = `div`(
@@ -192,5 +192,9 @@ proc generate*(html: var HtmlDocument) =
     )
 
     html.writeFile()
-    stdout.write("\rFinished generation for " & html.file & "!\n")
+    logger.addGenerated(html)
 
+proc generate*(css: var CssStyleSheet) =
+    ## Injects logging stuff
+    css.writeFile()
+    logger.addGenerated(css)

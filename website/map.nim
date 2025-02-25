@@ -92,6 +92,8 @@ html.addToBody(
 )
 
 generateFullSvgMap()
+stdout.write "\r📌 Finished generating big map\n"
+stdout.flushFile()
 
 html.add ogImage(urlImages & "map.svg")
 html.setStylesheet(css)

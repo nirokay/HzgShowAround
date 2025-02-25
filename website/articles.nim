@@ -7,6 +7,8 @@
 import std/[strutils, options, json, algorithm]
 import generator
 import globals, styles, client, snippets
+import ../utils/logging
+
 
 const
     imageTags*: seq[tuple[opening, closing: string]] = @[
@@ -197,10 +199,12 @@ proc generateArticleHtml(article: Article) =
         # Uhm, should not happen, but maybe someone will forget it...
         else:
             body.add($pc("Dieser Artikel scheint leer zu sein... :("))
+            logger.addFailure(html, "Article - Empty body")
 
     except CatchableError:
         echo "⮿ Failed to write article '" & article.title & "'..."
         body.add($pc("Dieser Artikel konnte leider nicht generiert werden..."))
+        logger.addFailure(html, "Article - Could not generate")
 
     html.addToBody(
         hr(),

@@ -96,7 +96,7 @@ proc generateLocationHtml*(location: Location) =
     var html: HtmlDocument = newPage(
         name,
         path,
-        "Infos zum Ort " & name
+        "Infos zum Ort '" & name & "' in der Diakonie Herzogsägmühle."
     )
 
     html.addToHead importScript("../javascript/commons.js").add(attr("defer"))
@@ -217,9 +217,14 @@ proc generateLocationHtml*(location: Location) =
 
 proc generateLocations*(locations: seq[Location]) =
     ## Generates all html sites for all locations
+    # Separated for better logging:
+    for location in locations:
+        location.generateLocationHtml()
     for location in locations:
         location.generateLocationMap()
-        location.generateLocationHtml()
+    stdout.write "\r📌 Finished generating all SVGs for every locations\n"
+    stdout.flushFile()
+
 
     # Write lookup-table to disk:
     locationLookupTableFile.writeFile($%locationLookupTable)
