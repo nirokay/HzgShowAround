@@ -169,6 +169,10 @@ globalCss.add(
     # Content box:
     contentBoxClass,
 
+    # Image paragraph:
+    imageParagraphClass,
+    imageParagraphContentClass,
+
     # Location:
     locationDeprecationDisclaimerHeaderClass,
     locationDeprecationDisclaimerDivClass,
@@ -313,10 +317,3 @@ cssArticles.add(
         "max-width" := "90%"
     }
 )
-
-
-# Misc.:
-
-proc contentBox*[T: varargs[HtmlElement]|seq[HtmlElement]](elements: T): HtmlElement =
-    ## Puts elements into a box
-    `div`(elements).setClass(contentBoxClass)

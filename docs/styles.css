@@ -261,6 +261,15 @@ icon-display {
     width: 100%;
 }
 
+.image-paragraph {
+    display: flex;
+}
+
+.image-paragraph-content {
+    margin-top: 0;
+    margin-left: 5px;
+}
+
 .location-deprecation-notice-header {
     color: #FF3333;
 }

@@ -3,9 +3,8 @@
 ##
 ## Just like the `globals` module but for HTML procs.
 
-import std/[strutils, json, options, tables, times]
+import std/[strutils, sequtils, json, options, tables, times]
 import generator, globals, styles, client
-
 
 # =============================================================================
 # CSS:
@@ -205,6 +204,24 @@ proc timeReadable*(dateTime: DateTime): string =
 proc timeReadable*(date: string, dateFormat: string = "yyyy-MM-dd"): string =
     result = parse(date, dateFormat).timeReadable()
 
+proc contentBox*(elements: seq[HtmlElement]): HtmlElement =
+    ## Puts elements into a box
+    `div`(elements).setClass(contentBoxClass)
+proc contentBox*(elements: varargs[HtmlElement]): HtmlElement =
+    ## Puts elements into a box
+    contentBox(elements.toSeq())
+proc addContentBox*(document: var HtmlDocument, elements: seq[HtmlElement]) =
+    document.add(contentBox(elements))
+proc addContentBox*(document: var HtmlDocument, elements: varargs[HtmlElement]) =
+    document.addContentBox(elements.toSeq())
+
+proc imageParagraph*(image: HtmlElement, content: seq[HtmlElement]): HtmlElement =
+    result = `div`().setClass(imageParagraphClass)
+    result.add image
+    for item in content:
+        result.add item.setClass(imageParagraphContentClass)
+proc imageParagraph*(image: HtmlElement, content: varargs[HtmlElement]): HtmlElement =
+    result = imageParagraph(image, content.toSeq())
 
 # =============================================================================
 # Options:

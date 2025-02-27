@@ -44,21 +44,11 @@ proc locationSearchBar(): HtmlElement =
 # Introduction
 # -----------------------------------------------------------------------------
 
-# Disclaimer:
-#[
-addToBody(
-    hr(),
-    h3("Diese Website ist eine noch Baustelle!"),
-    pc($small("Informationen sind unvollständig, Platzhalter oder falsch. Dies dient nur als Prototyp. Danke :)")),
-    hr()
-)
-]#
-
 html.addToBody(
     locationSearchBar(),
     `div`(
         img(urlIconLargeSVG, "Icon kann nicht geladen werden :(").addattr(
-            "style", "max-width: 200px; max-height: 200px;"
+            "style", "max-width: 190px; max-height: 190px;"
         ).setClass(
             iconImageClass
         ),
@@ -68,6 +58,7 @@ html.addToBody(
         # ^ Does not work as intended but looks cool as fuck :D (it is a feature)
         dropShadow
     ).setClass(centerClass),
+
     ih1("HzgShowAround für die Diakonie Herzogsägmühle").addStyle(
         "position" := "relative"
     ),
@@ -79,8 +70,12 @@ html.addToBody(
 # Newsfeed and Articles
 # -----------------------------------------------------------------------------
 
-html.addToBody(
+html.addContentBox(
     ih2("Newsfeed und Artikel"),
+    p(
+        "Im Newsfeed sind alle, für Rehabilitanden relevanten, Events und Neuigkeiten eingetragen! Du kannst da gerne regelmäßig vorbeischauen, denn neue Events werden regelmäßig eingetragen.",
+        "Auch bei den Artikeln kannst du gerne vorbeischauen. Diese sind von Rehabilitanden geschrieben, die wichtig erscheinen, etwas mit der Mühle zu Tun haben, oder einfach nur zum Spaß geschrieben wurden!"
+    ),
     insertButtons(
         hrefNewsfeed,
         hrefArticles
@@ -89,31 +84,8 @@ html.addToBody(
 
 
 # -----------------------------------------------------------------------------
-# Offerings
-# -----------------------------------------------------------------------------
-
-html.add(
-    ih2("Freizeitangebote"),
-    pc(
-        "Verschiedene Freizeitangebote werden in der Mühle und im nahen Umfeld angeboten.",
-        "Hier kannst du eine Liste von Angeboten einsehen und Kontakt aufnehmen, falls Informationen angegeben sind."
-    ),
-    insertButtons(hrefOfferings)
-)
-
-
-# -----------------------------------------------------------------------------
 # Locations
 # -----------------------------------------------------------------------------
-
-html.addToBody(
-    ih2("Orte"),
-    pc("Schau dir die " & $b("interaktive Karte") & " der Herzogsägmühle an und/oder führe die " & $b("digitale Tour") & " durch..."),
-    insertButtons(
-        hrefMap,
-        hrefTour
-    )
-)
 
 var locationOptions: seq[HtmlElement]
 for location in locations:
@@ -126,16 +98,45 @@ locationOptions = @[
     option("none", "-- Bitte auswählen --").add(attr("selected"))
 ] & locationOptions
 
-html.addToBody(
+html.addContentBox(
+    ih2("Orte"),
+    imageParagraph(
+        # Inline image:
+        a(hrefMap.href, $img("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/map.svg", "Ortskarte").addStyle("max-width" := "200px")),
+        # Text:
+        p(
+            "Alle wichtigen Orte sind online abrufbar; Es gibt eine interaktive Karte von der Diakonie Herzogsägmühle, wo die eingetragenen Orte anklickbar sind.",
+            "Keine Lust selbstständig dir Orte anzuschauen? Dann führe doch die Digitale Tour durch den Ort durch. Da siehst du die wichtigsten Orte und deren Beschreibungen."
+        ),
+    ),
     # Clean drop-down list:
-    pc(
-        label(indexLocationDropDownId, "... oder stöbere dich durch die Liste der Orte:"),
+    p(
+        label(indexLocationDropDownId, $u"Drop-Down Liste aller Orte:"),
+        br(),
         select(indexLocationDropDownId, indexLocationDropDownId, locationOptions).add(
             attr("onchange", "changeToLocationPage();"),
             attr("onfocus", "this.selectedIndex = 0;"),
             attr("id", indexLocationDropDownId)
-        ).addattr("title", "Drop-Down Menü mit allen Orten")
+        ).addattr("title", "Drop-Down Menü mit allen Orten"),
+    ),
+    insertButtons(
+        hrefMap,
+        hrefTour
     )
+)
+
+
+# -----------------------------------------------------------------------------
+# Offerings
+# -----------------------------------------------------------------------------
+
+html.addContentBox(
+    ih2("Freizeitangebote"),
+    p(
+        "Verschiedene Freizeitangebote werden in der Herzogsägmühle und im nahen Umfeld angeboten.",
+        "Hier kannst du eine Liste von Angeboten einsehen und ggf. Kontakt mit den Anbietern aufnehmen, falls diese Informationen angegeben sind."
+    ),
+    insertButtons(hrefOfferings)
 )
 
 
@@ -143,18 +144,16 @@ html.addToBody(
 # Other stuff
 # -----------------------------------------------------------------------------
 
-html.addToBody(
+html.addContentBox(
     ih2("Sonstiges"),
-    pc(
+    p(
         "Diese Seite ist von einem kleinen Team geführt und ist komplett " & $a("https://de.wiktionary.org/wiki/quelloffen", "quelloffen") & ".",
         "Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein " & $a("https://github.com/", "GitHub") & "-Account."
     ),
-    `div`(
-        ul(@[
-            li(a("https://github.com/nirokay/HzgShowAround", "Website Repository")),
-            li(a("https://github.com/nirokay/HzgShowAround", "Website-Data Repository"))
-        ])
-    ).setClass(centerClass),
+    ul(@[
+        li(a("https://github.com/nirokay/HzgShowAround", "Website Repository")),
+        li(a("https://github.com/nirokay/HzgShowAroundData", "Website-Data Repository"))
+    ]),
     insertButtons(
         hrefContact,
         hrefContributors,

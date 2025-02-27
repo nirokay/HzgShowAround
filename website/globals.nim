@@ -249,6 +249,14 @@ const
         dropShadow
     )
 
+    imageParagraphClass* = ".image-paragraph"{
+        "display" := "flex"
+    }
+    imageParagraphContentClass* = ".image-paragraph-content"{
+        "margin-left" := "5px",
+        "margin-top" := "0"
+    }
+
     iconImageClass* = "icon-display"{
         "width" := "50%",
         "max-width" := "500px",
