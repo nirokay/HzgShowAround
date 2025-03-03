@@ -8,7 +8,7 @@
 {.define: ssl.}
 import website/generator
 
-import utils/logging
+import utils/[logging, xmlSiteMap]
 
 # Sub-modules:
 import website/[tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog, contact]
@@ -23,4 +23,5 @@ export notFound404
 css.generate()
 cssArticles.generate()
 
+generateXmlSiteMap()
 logger.postGenerationLog()
