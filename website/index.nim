@@ -7,7 +7,7 @@ import std/[options, strutils, algorithm]
 import globals, generator, styles, typedefs, locations as locationModule, snippets
 
 # Parse locations from json and create html pages:
-let locations: seq[Location] = getLocations()
+let locations: seq[Location] = getLocationsSorted()
 locations.generateLocations()
 
 var html: HtmlDocument = newPage(
@@ -15,8 +15,7 @@ var html: HtmlDocument = newPage(
     "index.html",
     @[
         "HzgShowAround ermöglicht dir eine digitale Rundschau rund um die Diakonie Herzogsägmühle",
-        "in Peiting! Entdecke verschiedene Orte, den NewsFeed, der alle Neuigkeiten für Rehabilitanden",
-        "anzeigt, und die interaktive Karte des Ortes."
+        "in Peiting! Entdecke Orte, den NewsFeed und die interaktive Karte des Ortes."
     ].join(" ")
 )
 
@@ -87,16 +86,13 @@ html.addContentBox(
 # Locations
 # -----------------------------------------------------------------------------
 
-var locationOptions: seq[HtmlElement]
+var locationSortedOptions: seq[HtmlElement]
 for location in locations:
-    locationOptions.add option(get location.path, location.name)
+    locationSortedOptions.add option(get location.path, location.name)
 
-locationOptions.sort do (x, y: HtmlElement) -> int:
-    result = cmp(toLower($x), toLower($y))
-
-locationOptions = @[
+locationSortedOptions = @[
     option("none", "-- Bitte auswählen --").add(attr("selected"))
-] & locationOptions
+] & locationSortedOptions
 
 html.addContentBox(
     ih2("Orte"),
@@ -113,7 +109,7 @@ html.addContentBox(
     p(
         label(indexLocationDropDownId, $u"Drop-Down Liste aller Orte:"),
         br(),
-        select(indexLocationDropDownId, indexLocationDropDownId, locationOptions).add(
+        select(indexLocationDropDownId, indexLocationDropDownId, locationSortedOptions).add(
             attr("onchange", "changeToLocationPage();"),
             attr("onfocus", "this.selectedIndex = 0;"),
             attr("id", indexLocationDropDownId)

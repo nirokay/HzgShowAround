@@ -18,7 +18,7 @@ var
     pictureDimensions: tuple[width, height, maxWidth, maxHeight: int] = (
         90, 85, 1500, 1500
     )
-    locations: seq[Location] = getLocations()
+    locations: seq[Location] = getLocationsSorted()
     picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
         "usemap" => "#location-map",
         "width" => px(mapScaleTo),
@@ -71,6 +71,10 @@ for location in locations.withCoords():
 var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
     .add(attr("name", "location-map"))
 
+var locationButtons: seq[HtmlElement]
+for location in locations:
+    locationButtons.add a(location.path.get("404.html"), location.name).setClass(buttonClass).addStyle("color" := colourText)
+
 html.addToBody(
     divSpacerTop, # TODO: Fix this dirty hack, someday
     h1("Karte von Herzogsägmühle"),
@@ -86,8 +90,12 @@ html.addToBody(
         "max-height" := px(pictureDimensions.maxHeight),
         "width" := $(pictureDimensions.width) & "%",
         "height" := $(pictureDimensions.height) & "vh",
-        "border-radius" := "20px"
+        "border-radius" := "20px",
+        "margin" := "10px auto"
     ),
+    `div`(
+        locationButtons
+    ).setClass(flexContainerClass),
     divSpacerBottom # TODO: Fix this dirty hack, someday
 )
 

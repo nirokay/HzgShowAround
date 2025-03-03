@@ -1,7 +1,9 @@
-import std/[options, tables, json]
+import std/[options, tables, json, strutils, algorithm]
 import client, snippets
 
-# Location stuff:
+# =============================================================================
+# Locations:
+# =============================================================================
 
 const
     locationHtmlPath*: string = "location/" ## Path to directory with all location HTML files
@@ -94,7 +96,23 @@ proc getLocations*(): seq[Location] =
     buffer = some result
 
 
-# Map stuff:
+# =============================================================================
+# Sorting:
+# =============================================================================
+
+proc sortAlphabetically*(x, y: Location): int =
+    result = cmp(x.name.toLower(), y.name.toLower())
+
+proc getLocationsSorted*(): seq[Location] =
+    ## Gets an alphabetically sorted sequence of all locations
+    result = getLocations()
+    result.sort(sortAlphabetically)
+
+
+# =============================================================================
+# Map:
+# =============================================================================
+
 
 const
     mapAreaFillColour*: string = "#1a1a1aff" ## Overlay colour
