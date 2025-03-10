@@ -3,7 +3,7 @@
 ##
 ## This module generates the `index.html` file. As it is a complex site with many components, it has its own module.
 
-import std/[options, strutils, algorithm]
+import std/[options, strutils]
 import globals, generator, styles, typedefs, locations as locationModule, snippets
 
 # Parse locations from json and create html pages:
@@ -19,10 +19,12 @@ var html: HtmlDocument = newPage(
     ].join(" ")
 )
 
-html.addToHead importScript("javascript/news/html.js").add(attr("defer")) # Only used for `getLocationLookupTable()`
-html.addToHead importScript("javascript/commons.js").add(attr("defer"))
-html.addToHead importScript("javascript/index-autocomplete.js").add(attr("defer"))
-html.addToHead importScript("javascript/index.js").add(attr("defer"))
+html.addToHead(
+    importScript("javascript/news/html.js").add(attr("defer")), # Only used for `getLocationLookupTable()`
+    importScript("javascript/commons.js").add(attr("defer")),
+    importScript("javascript/index-autocomplete.js").add(attr("defer")),
+    importScript("javascript/index.js").add(attr("defer"))
+)
 
 proc locationSearchBar(): HtmlElement =
     # Location search bar:

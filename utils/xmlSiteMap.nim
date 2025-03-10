@@ -18,12 +18,11 @@ proc urlEntries(urls: seq[string]): seq[HtmlElement] =
         result.add urlEntry(url)
 
 proc generateXmlSiteMap*() =
-    var document: HtmlDocument = newHtmlDocument(sitemapPath)
+    var document: XmlDocument = newXmlDocument(sitemapPath)
     logger.announceGeneration(document)
     document.add(
-        rawText"<?xml version='1.0' encoding='UTF-8'?>",
         "urlset"[
-            "xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9"
+            "xmlns" -= "http://www.sitemaps.org/schemas/sitemap/0.9"
         ].add(
             urlEntries(logger.generatedHtml)
         )
