@@ -8,11 +8,12 @@
 let debugPrintingEnabled: boolean = true; // Allows easy debugging in browser console
 
 function debug(message: string, element: any = undefined): void {
-    if(!debugPrintingEnabled) {
+    if (!debugPrintingEnabled) {
         return;
     }
-    const separator: string = "================================================";
-    if(element != undefined && element != "" && element != null) {
+    const separator: string =
+        "================================================";
+    if (element != undefined && element != "" && element != null) {
         console.log("===== " + message + " ===== :");
         console.log(element);
         console.log(separator);

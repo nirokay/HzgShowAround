@@ -7,22 +7,20 @@ let errorMessageAdditional = "";
 const errorMessageNoInternet = [
     "Es konnte keine Internetverbindung zum Server hergestellt werden.",
     "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
-    "Überprüfe Diese und versuche es später noch einmal."
+    "Überprüfe Diese und versuche es später noch einmal.",
 ];
 const errorMessageParsingFuckUp = [
     "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
-    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
+    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!",
 ];
-const infoMessageNoNews = [
-    "Keine Neuigkeiten vorhanden."
-];
+const infoMessageNoNews = ["Keine Neuigkeiten vorhanden."];
 const infoMessageNoRelevantNews = [
-    "Derzeit keine relevanten Neuigkeiten vorhanden."
+    "Derzeit keine relevanten Neuigkeiten vorhanden.",
 ];
 function newsfeed() {
     let result = document.getElementById(idNewsFeed);
     if (result == null) {
-        return new HTMLElement;
+        return new HTMLElement();
     } // wtf is this, lmao
     return result;
 }

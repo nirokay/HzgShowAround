@@ -37,7 +37,7 @@ function populateLocationArray() {
         result = result.concat(humanNames);
     }
     // Deduplicate entries:
-    result.forEach(item => {
+    result.forEach((item) => {
         let newItem = item.toLowerCase();
         if (locationArray.includes(newItem))
             return;
@@ -51,11 +51,12 @@ function getPathFor(location) {
     for (let locationName in locationLookupTable) {
         let obj = locationLookupTable[locationName];
         let alias = [];
-        obj.names.forEach(name => {
+        obj.names.forEach((name) => {
             alias = alias.concat([name.toLowerCase()]);
         });
         let path = obj.path;
-        if (location.toLowerCase() == locationName.toLowerCase() || alias.includes(location)) {
+        if (location.toLowerCase() == locationName.toLowerCase() ||
+            alias.includes(location)) {
             result = path;
             return result;
         }

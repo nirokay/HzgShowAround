@@ -26,11 +26,11 @@ function changeToLocationPage(): void {
     window.location.href = element.value;
 }
 
-
 // Location search with auto-completion:
 
 const locationSearchBarId: string = "index-location-search-bar";
-const locationSearchBarSubmitButtonId: string = "index-location-search-bar-submit-button";
+const locationSearchBarSubmitButtonId: string =
+    "index-location-search-bar-submit-button";
 
 let locationArray: string[];
 
@@ -45,48 +45,56 @@ function populateLocationArray() {
     }
 
     // Deduplicate entries:
-    result.forEach(item => {
+    result.forEach((item) => {
         let newItem: string = item.toLowerCase();
-        if(locationArray.includes(newItem)) return;
+        if (locationArray.includes(newItem)) return;
         locationArray = locationArray.concat([newItem]);
     });
 }
 
-function getPathFor(location: string): string|null {
-    if (! locationArray.includes(location)) return null;
-    let result: string|null = null;
+function getPathFor(location: string): string | null {
+    if (!locationArray.includes(location)) return null;
+    let result: string | null = null;
     for (let locationName in locationLookupTable) {
         let obj = locationLookupTable[locationName];
         let alias: string[] = [];
-        obj.names.forEach(name => {
+        obj.names.forEach((name) => {
             alias = alias.concat([name.toLowerCase()]);
         });
         let path: string = obj.path;
-        if (location.toLowerCase() == locationName.toLowerCase() || alias.includes(location)) {
+        if (
+            location.toLowerCase() == locationName.toLowerCase() ||
+            alias.includes(location)
+        ) {
             result = path;
             return result;
         }
     }
     return result;
 }
-function getPathForSelectedLocation(): string|null {
-    let searchBar: HTMLInputElement|null = document.getElementById(locationSearchBarId) as HTMLInputElement;
-    if(searchBar == null) return null;
+function getPathForSelectedLocation(): string | null {
+    let searchBar: HTMLInputElement | null = document.getElementById(
+        locationSearchBarId,
+    ) as HTMLInputElement;
+    if (searchBar == null) return null;
     let locationName: string = searchBar.value;
     return locationName.toLowerCase();
 }
 
 function searchBarButtonClick() {
-    let locationName: string|null = getPathForSelectedLocation();
-    if(locationName == null) return;
-    let path: string|null = getPathFor(locationName);
-    if(path == null) return;
+    let locationName: string | null = getPathForSelectedLocation();
+    if (locationName == null) return;
+    let path: string | null = getPathFor(locationName);
+    if (path == null) return;
     window.location.href = path;
 }
 
-window.onload = async() => {
+window.onload = async () => {
     await getLocationLookupTable();
     locationArray = [];
     populateLocationArray();
-    autocompleteLocationSearchBar(document.getElementById(locationSearchBarId), locationArray);
-}
+    autocompleteLocationSearchBar(
+        document.getElementById(locationSearchBarId),
+        locationArray,
+    );
+};

@@ -16,8 +16,9 @@ let locationName: string = getLocationName();
 let locationIsDeprecated: boolean = true;
 
 function getLocationName(): string {
-    let variable: HTMLElement | null = document.getElementById(idLocationNameId);
-    if(variable == null) {
+    let variable: HTMLElement | null =
+        document.getElementById(idLocationNameId);
+    if (variable == null) {
         debug("Missing location variable " + idLocationNameId);
         return "";
     }
@@ -25,8 +26,9 @@ function getLocationName(): string {
 }
 
 function appendToEnclave(html: HtmlString) {
-    let enclave: HTMLElement | null = document.getElementById(idNewsfeedEnclave);
-    if(enclave == null) {
+    let enclave: HTMLElement | null =
+        document.getElementById(idNewsfeedEnclave);
+    if (enclave == null) {
         debug("Missing newsfeed enclave " + idNewsfeedEnclave);
         return;
     }
@@ -36,20 +38,27 @@ function appendToEnclave(html: HtmlString) {
 function filteredLocationNews(elements: NewsFeedElement[]): NewsFeedElement[] {
     debug("Filtering location news...");
     let result: NewsFeedElement[] = [];
-    elements.forEach(element => {
+    elements.forEach((element) => {
         try {
-            if(element.locations == undefined) {return}
+            if (element.locations == undefined) {
+                return;
+            }
             let alreadyFound: boolean = false;
-            element.locations.forEach(location => {
+            element.locations.forEach((location) => {
                 // Do not add duplicates:
-                if(alreadyFound) {return}
+                if (alreadyFound) {
+                    return;
+                }
                 // Add if name matches and event did not already happen:
-                if(location == locationName && (element.importance ?? -99) > -10) {
+                if (
+                    location == locationName &&
+                    (element.importance ?? -99) > -10
+                ) {
                     result.push(element);
                     alreadyFound = true;
                 }
             });
-        } catch(error) {
+        } catch (error) {
             debug("Failed to filter location on news element ", element);
         }
     });
@@ -57,36 +66,45 @@ function filteredLocationNews(elements: NewsFeedElement[]): NewsFeedElement[] {
     return result;
 }
 
-
 function injectIntoEnclave() {
-    appendToEnclave("<h2><a href='../newsfeed.html'>Relevante Neuigkeiten</a></h2>")
-    locationNews.forEach(element => {
-        appendToEnclave(generateElementHtml(element))
+    appendToEnclave(
+        "<h2><a href='../newsfeed.html'>Relevante Neuigkeiten</a></h2>",
+    );
+    locationNews.forEach((element) => {
+        appendToEnclave(generateElementHtml(element));
     });
 }
 
 function displayDeprecationNotice() {
-    appendToEnclave("<div class='" + classDeprecationDiv + "'>" +
-        "<h2 class='" + classDeprecationHeader + "'>Nicht aktuelle Seite</h2>" + "<p>" + [
-            "Diese Seite ist nicht mehr aktuell und ist nur für Abwärtskompatibilität da.",
-            "Informationen können hier veraltet oder inkorrekt sein.",
-            "In den meisten Fällen gibt es eine überarbeitete Seite mit aktuellen Informationen, schau doch mal bei der <a href='../index.html#orte'>Übersicht der Orte</a> vorbei! :)"
-        ].join("<br>") + "</p>" + "</div>"
+    appendToEnclave(
+        "<div class='" +
+            classDeprecationDiv +
+            "'>" +
+            "<h2 class='" +
+            classDeprecationHeader +
+            "'>Nicht aktuelle Seite</h2>" +
+            "<p>" +
+            [
+                "Diese Seite ist nicht mehr aktuell und ist nur für Abwärtskompatibilität da.",
+                "Informationen können hier veraltet oder inkorrekt sein.",
+                "In den meisten Fällen gibt es eine überarbeitete Seite mit aktuellen Informationen, schau doch mal bei der <a href='../index.html#orte'>Übersicht der Orte</a> vorbei! :)",
+            ].join("<br>") +
+            "</p>" +
+            "</div>",
     );
 }
 
-
-window.onload = async() => {
+window.onload = async () => {
     // Deprecated location notice:
     await getLocationLookupTable();
-    for(const [name, _] of Object.entries(locationLookupTable)) {
-        if(name == getLocationName()) {
+    for (const [name, _] of Object.entries(locationLookupTable)) {
+        if (name == getLocationName()) {
             locationIsDeprecated = false;
             debug("Site is not deprecated, not showing alert.");
             break;
         }
     }
-    if(locationIsDeprecated) {
+    if (locationIsDeprecated) {
         debug("Site is deprecated, showing alert.");
         displayDeprecationNotice();
         // alert(
@@ -100,9 +118,9 @@ window.onload = async() => {
     await refetchNews();
     await rebuildNews();
     locationNews = filteredLocationNews(relevantNews);
-    if(locationNews.length != 0) {
+    if (locationNews.length != 0) {
         debug("Location news", locationNews);
         injectIntoEnclave();
     }
     debug("Finished newsfeed enclave script.");
-}
+};

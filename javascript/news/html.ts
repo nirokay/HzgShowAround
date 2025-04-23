@@ -12,17 +12,19 @@ type HtmlString = string;
  */
 interface LocationLookupDictionary {
     [key: string]: {
-        names: string[],
-        path: string
-    }
+        names: string[];
+        path: string;
+    };
 }
 
-const urlImagesDirectory: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/";
-const urlLocationLookupTable: string = "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
+const urlImagesDirectory: string =
+    "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/";
+const urlLocationLookupTable: string =
+    "https://raw.githubusercontent.com/nirokay/HzgShowAround/master/docs/resources/location_lookup.json";
 
 let locationLookupTable: LocationLookupDictionary = {};
 async function getLocationLookupTable() {
-    if(Object.keys(locationLookupTable).length > 0) {
+    if (Object.keys(locationLookupTable).length > 0) {
         return;
     }
     try {
@@ -35,64 +37,82 @@ async function getLocationLookupTable() {
         locationLookupTable = {};
     }
 }
-getLocationLookupTable()
+getLocationLookupTable();
 
-
-const htmlHeaderPlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
-const htmlDatePlaceholder: HtmlString = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
-const htmlDescriptionPlaceholder: HtmlString = "<div>" + [
-    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
-    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>"
-].join("") + "</div>";
+const htmlHeaderPlaceholder: HtmlString =
+    "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
+const htmlDatePlaceholder: HtmlString =
+    "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
+const htmlDescriptionPlaceholder: HtmlString =
+    "<div>" +
+    [
+        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
+        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>",
+    ].join("") +
+    "</div>";
 
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
  */
-function htmlDisclaimer(element: NewsFeedElement, cssClass: string): HtmlString {
-    if(element.name == placeHolderIdentifier) {return ""}
+function htmlDisclaimer(
+    element: NewsFeedElement,
+    cssClass: string,
+): HtmlString {
+    if (element.name == placeHolderIdentifier) {
+        return "";
+    }
     let result = [];
-    if(cssClass.endsWith("happened")) {
-        result.push("<i>vergangen</i>")
+    if (cssClass.endsWith("happened")) {
+        result.push("<i>vergangen</i>");
     }
-    if(element.isHappening) {
-        result.push("<b>heute</b>")
+    if (element.isHappening) {
+        result.push("<b>heute</b>");
     }
 
-    return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>"
-
+    return result.length == 0
+        ? ""
+        : "<small>(" + result.join(", ") + ")</small>";
 }
 /**
  * Generates the html header (event title/name, etc.)
  */
 function htmlHeader(element: NewsFeedElement, disclaimer: string): HtmlString {
     let text = "";
-    if(disclaimer != undefined || disclaimer == "") {
+    if (disclaimer != undefined || disclaimer == "") {
         text = disclaimer;
     }
-    if(text != "") {
+    if (text != "") {
         text = " " + text;
     }
 
-    let result: HtmlString
-    if(element.name == placeHolderIdentifier) {
+    let result: HtmlString;
+    if (element.name == placeHolderIdentifier) {
         result = htmlHeaderPlaceholder;
     } else {
         result = "<u>" + element.name + "</u>" + text;
     }
     result = addLocationLinks(result);
-    return "<h3 style='margin-bottom:2px;'>" + result + "</h3>"
+    return "<h3 style='margin-bottom:2px;'>" + result + "</h3>";
 }
 /**
  * Generates a location indication
  */
 function htmlLocationSection(element: NewsFeedElement): HtmlString {
-    if(element.name == placeHolderIdentifier) {return ""}
+    if (element.name == placeHolderIdentifier) {
+        return "";
+    }
     let result: HtmlString = "";
-    if(element.locations != undefined) {
+    if (element.locations != undefined) {
         let locations: Array<string> = element.locations;
-        if(locations.length == 0) {return ""}
+        if (locations.length == 0) {
+            return "";
+        }
         let sep: string = "📌 ";
-        result = "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" + sep + locations.join(", " + sep) + "</p>";
+        result =
+            "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" +
+            sep +
+            locations.join(", " + sep) +
+            "</p>";
     }
     result = addLocationLinks(result);
     return result;
@@ -104,15 +124,15 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
     const from = displayTime(element.from ?? "?");
     const till = displayTime(element.till ?? "?");
     let result: HtmlString = "";
-    if(from == till) {
+    if (from == till) {
         // Same day:
         result = "am " + from;
     } else {
-        if(
-            Date.parse(element.from ?? getToday()) + dayMilliseconds*1.5
-            >=
+        if (
+            Date.parse(element.from ?? getToday()) + dayMilliseconds * 1.5 >=
             Date.parse(element.till ?? getToday())
-        ) { // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
+        ) {
+            // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
             // Two days (both dates):
             result = "am " + from + " und am " + till;
         } else {
@@ -120,16 +140,21 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
             result = "von " + from + " bis " + till;
         }
     }
-    if(element.name == placeHolderIdentifier) {
+    if (element.name == placeHolderIdentifier) {
         result = htmlDatePlaceholder;
     }
-    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
+    return (
+        "<small class='generic-center' title='Datum des Events'>" +
+        result +
+        "</small>" +
+        htmlLocationSection(element)
+    );
 }
 /**
  * Generates the details/description section
  */
 function htmlDetails(element: NewsFeedElement): HtmlString {
-    if(element.name == placeHolderIdentifier) {
+    if (element.name == placeHolderIdentifier) {
         return htmlDescriptionPlaceholder;
     }
 
@@ -138,7 +163,7 @@ function htmlDetails(element: NewsFeedElement): HtmlString {
     // Entire description:
     lines = element.details ?? [];
     let result: HtmlString = "";
-    if(lines.length != 0) {
+    if (lines.length != 0) {
         result = "<p>" + lines.join("<br />") + "</p>";
     }
 
@@ -152,8 +177,11 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
     let result: HtmlString = "";
     let url = element.info;
     // Adds a little "more infos" link at the bottom:
-    if(url != undefined && url != "") {
-        result += "<p class='generic-center'><a href='" + url + "' target='_blank'>mehr Infos</a></p>";
+    if (url != undefined && url != "") {
+        result +=
+            "<p class='generic-center'><a href='" +
+            url +
+            "' target='_blank'>mehr Infos</a></p>";
     }
     return result;
 }
@@ -163,37 +191,48 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
  */
 function htmlImage(element: NewsFeedElement): HtmlString {
     let result: HtmlString = "";
-    if(element.image != "" && element.image != undefined && element.image != null) {
+    if (
+        element.image != "" &&
+        element.image != undefined &&
+        element.image != null
+    ) {
         let url: string = element.image ?? "";
         // Images from data repository:
-        if(! url.startsWith("https://") && ! url.startsWith("/")) {
+        if (!url.startsWith("https://") && !url.startsWith("/")) {
             let subdir: string = "";
-            if(! url.includes("/")) subdir = "newsfeed/";
+            if (!url.includes("/")) subdir = "newsfeed/";
             url = urlImagesDirectory + subdir + url;
         }
-        result = "<img class='newsfeed-element-picture' src='" + url + "' />"
+        result = "<img class='newsfeed-element-picture' src='" + url + "' />";
     }
     return result;
 }
 
-function newDiv(className: string, elements: HtmlString[], attributes: string[]|undefined = undefined): HtmlString {
+function newDiv(
+    className: string,
+    elements: HtmlString[],
+    attributes: string[] | undefined = undefined,
+): HtmlString {
     let result: HtmlString = "<div";
-    if(className != "" || className != null || className != undefined) {
+    if (className != "" || className != null || className != undefined) {
         result += " class='" + className + "'";
     }
-    if(attributes != undefined && attributes != null) {
+    if (attributes != undefined && attributes != null) {
         try {
-            if(attributes.length != 0){
+            if (attributes.length != 0) {
                 let attributeInjection: HtmlString = " " + attributes.join(" ");
                 result += attributeInjection;
-            };
-        } catch(e) {
-            debug("Caught exception in `newDiv` with attributes arg: " + attributes.toString());
+            }
+        } catch (e) {
+            debug(
+                "Caught exception in `newDiv` with attributes arg: " +
+                    attributes.toString(),
+            );
             console.warn(e);
         }
     }
     result += ">";
-    elements.forEach(element => {
+    elements.forEach((element) => {
         result += element;
     });
 
@@ -208,21 +247,22 @@ function generateElementHtml(element: NewsFeedElement): HtmlString {
     let className: string = getElementClass(element);
     let detailsDiv: HtmlString = addLocationLinks(htmlDetails(element));
     let imageDivAttributes: HtmlString[] = [];
-    if(detailsDiv == "") {
+    if (detailsDiv == "") {
         imageDivAttributes = ["style='margin:auto;'"];
     }
-    let imageDiv: HtmlString = newDiv("newsfeed-element-segment-image", [htmlImage(element)], imageDivAttributes);
+    let imageDiv: HtmlString = newDiv(
+        "newsfeed-element-segment-image",
+        [htmlImage(element)],
+        imageDivAttributes,
+    );
 
     let elements: HtmlString[] = [
         newDiv("newsfeed-element-segment-header", [
             htmlHeader(element, htmlDisclaimer(element, className)),
             htmlDateSection(element),
         ]),
-        newDiv("newsfeed-element-segment-body", [
-            imageDiv,
-            detailsDiv
-        ]),
-        htmlFooter(element)
+        newDiv("newsfeed-element-segment-body", [imageDiv, detailsDiv]),
+        htmlFooter(element),
     ];
     return newDiv(className, elements);
 }
@@ -233,17 +273,20 @@ function generateElementHtml(element: NewsFeedElement): HtmlString {
 function addLocationLinks(html: HtmlString): HtmlString {
     let result: HtmlString = html;
     // Thank you javascript for being dynamic:
-    if(locationLookupTable == undefined || typeof(locationLookupTable) != "object") {
+    if (
+        locationLookupTable == undefined ||
+        typeof locationLookupTable != "object"
+    ) {
         return result;
     }
-    if(Object.keys(locationLookupTable).length == 0) {
+    if (Object.keys(locationLookupTable).length == 0) {
         return result;
     }
 
     // Highly efficient code to replace substrings with, I do not want to go into
     // detail on how great nested loops are :)
-    for(const [_name, lookupObject] of Object.entries(locationLookupTable)) {
-        if(typeof(lookupObject) != "object") {
+    for (const [_name, lookupObject] of Object.entries(locationLookupTable)) {
+        if (typeof lookupObject != "object") {
             debug("Fuck, why is locationLookupTable[element] not an object?");
             continue;
         }

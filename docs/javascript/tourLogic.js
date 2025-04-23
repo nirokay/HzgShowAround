@@ -21,7 +21,8 @@ async function fetchLocations() {
     }
     catch (e) {
         console.error(e);
-        alert("Liste der Orte konnte nicht geladen werden :( Überprüfe deine Internetverbindung, und falls das Problem besteht, melde es gerne hier: https://github.com/nirokay/HzgShowAround/issues");
+        alert("Liste der Orte konnte nicht geladen werden :( Überprüfe deine Internetverbindung, " +
+            "und falls das Problem besteht, melde es gerne hier: https://github.com/nirokay/HzgShowAround/issues");
         return;
     }
     let raw = await response.text();

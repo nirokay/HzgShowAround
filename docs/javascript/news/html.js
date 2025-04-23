@@ -20,10 +20,12 @@ async function getLocationLookupTable() {
 getLocationLookupTable();
 const htmlHeaderPlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 25%;border-radius: 10px;'> </pre>";
 const htmlDatePlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
-const htmlDescriptionPlaceholder = "<div>" + [
-    "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
-    "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>"
-].join("") + "</div>";
+const htmlDescriptionPlaceholder = "<div>" +
+    [
+        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
+        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>",
+    ].join("") +
+    "</div>";
 /**
  * Adds a disclaimer to the title (called by `htmlHeader` function)
  */
@@ -38,7 +40,9 @@ function htmlDisclaimer(element, cssClass) {
     if (element.isHappening) {
         result.push("<b>heute</b>");
     }
-    return result.length == 0 ? "" : "<small>(" + result.join(", ") + ")</small>";
+    return result.length == 0
+        ? ""
+        : "<small>(" + result.join(", ") + ")</small>";
 }
 /**
  * Generates the html header (event title/name, etc.)
@@ -75,7 +79,11 @@ function htmlLocationSection(element) {
             return "";
         }
         let sep = "📌 ";
-        result = "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" + sep + locations.join(", " + sep) + "</p>";
+        result =
+            "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" +
+                sep +
+                locations.join(", " + sep) +
+                "</p>";
     }
     result = addLocationLinks(result);
     return result;
@@ -93,9 +101,9 @@ function htmlDateSection(element) {
         result = "am " + from;
     }
     else {
-        if (Date.parse((_c = element.from) !== null && _c !== void 0 ? _c : getToday()) + dayMilliseconds * 1.5
-            >=
-                Date.parse((_d = element.till) !== null && _d !== void 0 ? _d : getToday())) { // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
+        if (Date.parse((_c = element.from) !== null && _c !== void 0 ? _c : getToday()) + dayMilliseconds * 1.5 >=
+            Date.parse((_d = element.till) !== null && _d !== void 0 ? _d : getToday())) {
+            // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
             // Two days (both dates):
             result = "am " + from + " und am " + till;
         }
@@ -107,7 +115,10 @@ function htmlDateSection(element) {
     if (element.name == placeHolderIdentifier) {
         result = htmlDatePlaceholder;
     }
-    return "<small class='generic-center' title='Datum des Events'>" + result + "</small>" + htmlLocationSection(element);
+    return ("<small class='generic-center' title='Datum des Events'>" +
+        result +
+        "</small>" +
+        htmlLocationSection(element));
 }
 /**
  * Generates the details/description section
@@ -134,7 +145,10 @@ function htmlFooter(element) {
     let url = element.info;
     // Adds a little "more infos" link at the bottom:
     if (url != undefined && url != "") {
-        result += "<p class='generic-center'><a href='" + url + "' target='_blank'>mehr Infos</a></p>";
+        result +=
+            "<p class='generic-center'><a href='" +
+                url +
+                "' target='_blank'>mehr Infos</a></p>";
     }
     return result;
 }
@@ -144,7 +158,9 @@ function htmlFooter(element) {
 function htmlImage(element) {
     var _a;
     let result = "";
-    if (element.image != "" && element.image != undefined && element.image != null) {
+    if (element.image != "" &&
+        element.image != undefined &&
+        element.image != null) {
         let url = (_a = element.image) !== null && _a !== void 0 ? _a : "";
         // Images from data repository:
         if (!url.startsWith("https://") && !url.startsWith("/")) {
@@ -168,15 +184,15 @@ function newDiv(className, elements, attributes = undefined) {
                 let attributeInjection = " " + attributes.join(" ");
                 result += attributeInjection;
             }
-            ;
         }
         catch (e) {
-            debug("Caught exception in `newDiv` with attributes arg: " + attributes.toString());
+            debug("Caught exception in `newDiv` with attributes arg: " +
+                attributes.toString());
             console.warn(e);
         }
     }
     result += ">";
-    elements.forEach(element => {
+    elements.forEach((element) => {
         result += element;
     });
     result += "</div>";
@@ -198,11 +214,8 @@ function generateElementHtml(element) {
             htmlHeader(element, htmlDisclaimer(element, className)),
             htmlDateSection(element),
         ]),
-        newDiv("newsfeed-element-segment-body", [
-            imageDiv,
-            detailsDiv
-        ]),
-        htmlFooter(element)
+        newDiv("newsfeed-element-segment-body", [imageDiv, detailsDiv]),
+        htmlFooter(element),
     ];
     return newDiv(className, elements);
 }
@@ -212,7 +225,8 @@ function generateElementHtml(element) {
 function addLocationLinks(html) {
     let result = html;
     // Thank you javascript for being dynamic:
-    if (locationLookupTable == undefined || typeof (locationLookupTable) != "object") {
+    if (locationLookupTable == undefined ||
+        typeof locationLookupTable != "object") {
         return result;
     }
     if (Object.keys(locationLookupTable).length == 0) {
@@ -221,7 +235,7 @@ function addLocationLinks(html) {
     // Highly efficient code to replace substrings with, I do not want to go into
     // detail on how great nested loops are :)
     for (const [_name, lookupObject] of Object.entries(locationLookupTable)) {
-        if (typeof (lookupObject) != "object") {
+        if (typeof lookupObject != "object") {
             debug("Fuck, why is locationLookupTable[element] not an object?");
             continue;
         }

@@ -1,6 +1,6 @@
 "use strict";
 var _a;
-let date = new Date;
+let date = new Date();
 let relevantNews = [];
 let normalizedNews = [];
 let rawNews = [];
@@ -19,7 +19,8 @@ placeholderNewsFeedElement.from = "1970-01-01";
 placeholderNewsFeedElement.till = "2170-12-31"; // future-proof date (i hope) // !!! remind me in 53378 days to update this variable !!!
 placeholderNewsFeedElement.name = placeHolderIdentifier;
 placeholderNewsFeedElement.details = [];
-placeholderNewsFeedElement = (_a = normalizedElement([], placeholderNewsFeedElement)) !== null && _a !== void 0 ? _a : new NewsFeedElement();
+placeholderNewsFeedElement =
+    (_a = normalizedElement([], placeholderNewsFeedElement)) !== null && _a !== void 0 ? _a : new NewsFeedElement();
 function placePlaceholdersIntoRelevantNews() {
     relevantNews = [
         placeholderNewsFeedElement,
@@ -35,7 +36,7 @@ function placePlaceholdersIntoRelevantNews() {
         placeholderNewsFeedElement,
         placeholderNewsFeedElement,
         placeholderNewsFeedElement,
-        placeholderNewsFeedElement // This is my favourite function
+        placeholderNewsFeedElement, // This is my favourite function
     ];
 }
 async function fetchJson(url, defaultJson, softFail = false) {
@@ -90,7 +91,7 @@ async function getHolidays() {
     let currentYear = date.getFullYear();
     async function doThisYear(year) {
         var _a, _b;
-        let json = await fetchJson(getUrlHolidayApi(year), "{}", true);
+        let json = (await fetchJson(getUrlHolidayApi(year), "{}", true));
         for (const name in json) {
             try {
                 const rawHoliday = json[name];
@@ -105,7 +106,7 @@ async function getHolidays() {
     await Promise.all([
         doThisYear(currentYear - 1),
         doThisYear(currentYear),
-        doThisYear(currentYear + 1)
+        doThisYear(currentYear + 1),
     ]);
 }
 /**
@@ -117,7 +118,7 @@ async function getSchoolHolidays() {
         let json = await fetchSchoolHolidays(getUrlSchoolHolidayApi(year));
         // Error object returned, when year is not yet defined on server:
         try {
-            json.forEach(holiday => {
+            json.forEach((holiday) => {
                 rawSchoolHolidays[rawSchoolHolidays.length] = holiday;
             });
         }
@@ -128,7 +129,7 @@ async function getSchoolHolidays() {
     await Promise.all([
         doThisYear(currentYear - 1),
         doThisYear(currentYear),
-        doThisYear(currentYear + 1)
+        doThisYear(currentYear + 1),
     ]);
 }
 /**
@@ -152,13 +153,13 @@ function resetNewsArrays() {
  */
 async function refetchNews() {
     debug("Fetching news...");
-    date = new Date;
+    date = new Date();
     resetNewsArrays();
     await Promise.all([
         getNews(),
         getHealthPresentations(),
         getHolidays(),
-        getSchoolHolidays()
+        getSchoolHolidays(),
     ]);
     debug("Fetching complete!");
 }

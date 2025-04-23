@@ -8,36 +8,38 @@ let errorMessageAdditional = "";
 const errorMessageNoInternet = [
     "Es konnte keine Internetverbindung zum Server hergestellt werden.",
     "Dies kann an einer schlechten oder nicht vorhandenen Internetverbindung liegen.",
-    "Überprüfe Diese und versuche es später noch einmal."
+    "Überprüfe Diese und versuche es später noch einmal.",
 ];
 const errorMessageParsingFuckUp = [
     "Es ist ein Fehler bei der Datenverarbeitung geschehen.",
-    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!"
+    "Bitte gib uns Bescheid, indem du <a href='https://github.com/nirokay/HzgShowAroundData/issues/new'>ein Issue auf GitHub eröffnest</a>!",
 ];
 
-const infoMessageNoNews = [
-    "Keine Neuigkeiten vorhanden."
-];
+const infoMessageNoNews = ["Keine Neuigkeiten vorhanden."];
 const infoMessageNoRelevantNews = [
-    "Derzeit keine relevanten Neuigkeiten vorhanden."
+    "Derzeit keine relevanten Neuigkeiten vorhanden.",
 ];
-
 
 function newsfeed(): HTMLElement {
     let result: HTMLElement | null = document.getElementById(idNewsFeed);
-    if(result == null) {return new HTMLElement} // wtf is this, lmao
+    if (result == null) {
+        return new HTMLElement();
+    } // wtf is this, lmao
     return result;
 }
 function addToNewsfeed(content: HtmlString) {
     newsfeed().insertAdjacentHTML("beforeend", content);
 }
 function addErrorMessage(content: HtmlString[]) {
-    newsfeed().insertAdjacentHTML("afterbegin", "<p>" + content.join("<br />") + "</p>");
+    newsfeed().insertAdjacentHTML(
+        "afterbegin",
+        "<p>" + content.join("<br />") + "</p>",
+    );
 }
 
 function updateRefreshedAt(override?: string) {
-    let newText: string = ""
-    if(override == "" || override == undefined) {
+    let newText: string = "";
+    if (override == "" || override == undefined) {
         date = new Date();
         let time = date.toLocaleTimeString("de-DE");
         newText = "Aktualisiert um " + time;
@@ -46,17 +48,16 @@ function updateRefreshedAt(override?: string) {
     }
 
     let reloadTime = document.getElementById(idReloadedTime);
-    if(reloadTime == null) {
+    if (reloadTime == null) {
         debug("Could not find reloadTime element");
         return;
     }
     reloadTime.innerHTML = newText;
 }
 
-
 async function refreshNewsfeed() {
     // Block thingy going twice (or worse: MULTIPLE times)
-    if(refreshLock) {
+    if (refreshLock) {
         debug("Blocking refresh due to lock.");
         return;
     }
@@ -77,7 +78,7 @@ async function refreshNewsfeed() {
         updateRefreshedAt("Verbindung zum Server wird hergestellt...");
         try {
             await refetchNews();
-        } catch(error) {
+        } catch (error) {
             updateRefreshedAt(errorMessageNoInternet.join("<br />"));
             console.error(error);
             return;
@@ -97,15 +98,15 @@ async function refreshNewsfeed() {
         updateRefreshedAt();
 
         // Terminator error messages:
-        if(errorPanicNoInternet) {
+        if (errorPanicNoInternet) {
             addErrorMessage(errorMessageNoInternet);
-        } else if(errorPanicParsingFuckUp) {
+        } else if (errorPanicParsingFuckUp) {
             addErrorMessage(errorMessageParsingFuckUp);
         }
         // "Soft" error messages:
-        if(normalizedNews.length == 0) {
+        if (normalizedNews.length == 0) {
             addErrorMessage(infoMessageNoNews);
-        } else if(relevantNews.length == 0) {
+        } else if (relevantNews.length == 0) {
             addErrorMessage(infoMessageNoRelevantNews);
         }
     } finally {
@@ -114,7 +115,6 @@ async function refreshNewsfeed() {
     }
 }
 
-
-window.onload = async() => {
+window.onload = async () => {
     await refreshNewsfeed();
-}
+};
