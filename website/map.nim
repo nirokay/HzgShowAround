@@ -20,9 +20,9 @@ var
     )
     locations: seq[Location] = getLocationsSorted()
     picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
-        "usemap" => "#location-map",
-        "width" => px(mapScaleTo),
-        "height" => px(mapScaleTo)
+        "usemap" -= "#location-map",
+        "width" -= px(mapScaleTo),
+        "height" -= px(mapScaleTo)
     ).addStyle(
         "border-radius" := "20px",
         "text-align" := "center",
@@ -55,11 +55,12 @@ for location in locations.withCoords():
 
     # Coords and link:
     area.add(
-        attr("coords", scaledCoords.join(",")),
-        attr("alt", location.name),
-        attr("href", location.getLocationPath()),
-        attr("tabindex", "0"),
-        attr("class", "map-element")
+        "coords" -= scaledCoords.join(","),
+        "alt" -= location.name,
+        "href" -= location.getLocationPath(),
+        "tabindex" -= "0",
+        "class" -= "map-element",
+        "title" -= location.name
     )
 
     # Dirty quick-fix for weird behaviour:
