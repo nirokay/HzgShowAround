@@ -16,11 +16,22 @@ let relevancyLookIntoFuture: number = monthMilliseconds * 2;
 let relevancyLookIntoPast: number = monthMilliseconds;
 
 const urlRemoteNews: string = urlRemoteRepository + "news.json";
+enum EventType {
+    fullDay,
+    timeSpan,
+}
 class NewsFeedElement {
     name: string = "Neuigkeit";
+
+    // Display time:
     on?: string;
     from?: string;
     till?: string;
+
+    // ICal times:
+    icalEventType: EventType = EventType.timeSpan;
+    icalDateOrTimes: string[] = [];
+
     level: string = "info"; // Importance as string
     importance: number = 0; // Importance as number
     details?: string[]; // Description
@@ -225,43 +236,72 @@ function normalizedElement(
     element: NewsFeedElement,
 ): NewsFeedElement | null {
     // Disregard comments:
-    if (element.COMMENT != undefined) {
-        return null;
-    }
+    if (element.COMMENT != undefined) return null;
 
     // Begin construction:
     let result: NewsFeedElement = new NewsFeedElement();
     let date: Date = new Date();
 
+    let fromTimes: string[] | undefined =
+        element.from == undefined ? [] : element.from.split("T");
+    let tillTimes: string[] | undefined =
+        element.till == undefined ? [] : element.till.split("T");
+
     // Single-day events:
     if (element.on != undefined) {
+        result.icalEventType = EventType.fullDay;
         result.on = element.on;
         result.from = element.on;
         result.till = element.on;
     }
 
     // Correct wrongly formatted event dates:
+
     if (element.on == undefined) {
-        if (element.from == undefined && element.till != undefined) {
+        result.icalEventType = EventType.timeSpan;
+        if (fromTimes[0] == undefined && tillTimes[0] != undefined) {
             // Forgot to assign `from`:
-            result.from = element.till;
-        } else if (element.from != undefined && element.till == undefined) {
+            result.from = tillTimes[0];
+        } else if (fromTimes[0] != undefined && tillTimes[0] == undefined) {
             // Forgot to assign `till`:
-            result.till = element.from;
-        } else if (element.from == undefined && element.till == undefined) {
+            result.till = fromTimes[0];
+        } else if (fromTimes[0] == undefined && tillTimes[0] == undefined) {
             // Wtf happened here??
             result.from = "*-01-01";
             result.till = "*-12-31";
             result.runtimeAdditionalMessage =
                 "Fehlendes Datum, wird als ganzjährig angezeigt!";
         } else {
-            result.from = element.from;
-            result.till = element.till;
+            result.from = fromTimes[0];
+            result.till = tillTimes[0];
         }
     }
     // Single-day event:
     if (result.on == undefined && result.from == result.till) {
+        result.icalEventType = EventType.fullDay;
         result.on = result.from;
+    }
+
+    // Populating ical fields:
+    let icalDate: string = getIcalDateFormat(result.on ?? "1970-01-01");
+    let icalTimeStart: string = fromTimes[1] ?? "000000";
+    let icalTimeEnd: string = tillTimes[1] ?? "235959";
+    switch (result.icalEventType) {
+        case EventType.fullDay:
+            result.icalDateOrTimes = [
+                getIcalDateFormat(result.on ?? "1970-01-01"),
+            ];
+            break;
+        case EventType.timeSpan:
+            result.icalDateOrTimes = [
+                getIcalDateFormat(result.from ?? "1970-01-01") +
+                    "T" +
+                    icalTimeStart,
+                getIcalDateFormat(result.till ?? result.from ?? "1970-01-01") +
+                    "T" +
+                    icalTimeEnd,
+            ];
+            break;
     }
 
     // Other missing fields:
