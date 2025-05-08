@@ -13,9 +13,17 @@ const dateFormatDisplay = {
 let relevancyLookIntoFuture = monthMilliseconds * 2;
 let relevancyLookIntoPast = monthMilliseconds;
 const urlRemoteNews = urlRemoteRepository + "news.json";
+var EventType;
+(function (EventType) {
+    EventType[EventType["fullDay"] = 0] = "fullDay";
+    EventType[EventType["timeSpan"] = 1] = "timeSpan";
+})(EventType || (EventType = {}));
 class NewsFeedElement {
     constructor() {
         this.name = "Neuigkeit";
+        // ICal times:
+        this.icalEventType = EventType.timeSpan;
+        this.icalDateOrTimes = [];
         this.level = "info"; // Importance as string
         this.importance = 0; // Importance as number
         this.isHappening = false;
@@ -174,31 +182,34 @@ function schoolHolidaysToNewsfeedElements(holidays) {
  * Normalizes an element, so all fields are occupied
  */
 function normalizedElement(news, element) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
     // Disregard comments:
-    if (element.COMMENT != undefined) {
+    if (element.COMMENT != undefined)
         return null;
-    }
     // Begin construction:
     let result = new NewsFeedElement();
     let date = new Date();
+    let fromTimes = element.from == undefined ? [] : element.from.split("T");
+    let tillTimes = element.till == undefined ? [] : element.till.split("T");
     // Single-day events:
     if (element.on != undefined) {
+        result.icalEventType = EventType.fullDay;
         result.on = element.on;
         result.from = element.on;
         result.till = element.on;
     }
     // Correct wrongly formatted event dates:
     if (element.on == undefined) {
-        if (element.from == undefined && element.till != undefined) {
+        result.icalEventType = EventType.timeSpan;
+        if (fromTimes[0] == undefined && tillTimes[0] != undefined) {
             // Forgot to assign `from`:
-            result.from = element.till;
+            result.from = tillTimes[0];
         }
-        else if (element.from != undefined && element.till == undefined) {
+        else if (fromTimes[0] != undefined && tillTimes[0] == undefined) {
             // Forgot to assign `till`:
-            result.till = element.from;
+            result.till = fromTimes[0];
         }
-        else if (element.from == undefined && element.till == undefined) {
+        else if (fromTimes[0] == undefined && tillTimes[0] == undefined) {
             // Wtf happened here??
             result.from = "*-01-01";
             result.till = "*-12-31";
@@ -206,18 +217,40 @@ function normalizedElement(news, element) {
                 "Fehlendes Datum, wird als ganzjährig angezeigt!";
         }
         else {
-            result.from = element.from;
-            result.till = element.till;
+            result.from = fromTimes[0];
+            result.till = tillTimes[0];
         }
     }
     // Single-day event:
     if (result.on == undefined && result.from == result.till) {
+        result.icalEventType = EventType.fullDay;
         result.on = result.from;
     }
+    // Populating ical fields:
+    let icalDate = getIcalDateFormat((_a = result.on) !== null && _a !== void 0 ? _a : "1970-01-01");
+    let icalTimeStart = (_b = fromTimes[1]) !== null && _b !== void 0 ? _b : "000000";
+    let icalTimeEnd = (_c = tillTimes[1]) !== null && _c !== void 0 ? _c : "235959";
+    switch (result.icalEventType) {
+        case EventType.fullDay:
+            result.icalDateOrTimes = [
+                getIcalDateFormat((_d = result.on) !== null && _d !== void 0 ? _d : "1970-01-01"),
+            ];
+            break;
+        case EventType.timeSpan:
+            result.icalDateOrTimes = [
+                getIcalDateFormat((_e = result.from) !== null && _e !== void 0 ? _e : "1970-01-01") +
+                    "T" +
+                    icalTimeStart,
+                getIcalDateFormat((_g = (_f = result.till) !== null && _f !== void 0 ? _f : result.from) !== null && _g !== void 0 ? _g : "1970-01-01") +
+                    "T" +
+                    icalTimeEnd,
+            ];
+            break;
+    }
     // Other missing fields:
-    result.name = (_a = element.name) !== null && _a !== void 0 ? _a : "Neuigkeit";
-    result.level = (_b = element.level) !== null && _b !== void 0 ? _b : "info";
-    result.image = (_c = element.image) !== null && _c !== void 0 ? _c : "";
+    result.name = (_h = element.name) !== null && _h !== void 0 ? _h : "Neuigkeit";
+    result.level = (_j = element.level) !== null && _j !== void 0 ? _j : "info";
+    result.image = (_k = element.image) !== null && _k !== void 0 ? _k : "";
     // Details fixes:
     switch (typeof element.details) {
         case "string":
@@ -269,8 +302,8 @@ function normalizedElement(news, element) {
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
     {
-        let from = (_e = (_d = result.from) !== null && _d !== void 0 ? _d : result.on) !== null && _e !== void 0 ? _e : "";
-        let till = (_g = (_f = result.till) !== null && _f !== void 0 ? _f : result.on) !== null && _g !== void 0 ? _g : "";
+        let from = (_m = (_l = result.from) !== null && _l !== void 0 ? _l : result.on) !== null && _m !== void 0 ? _m : "";
+        let till = (_p = (_o = result.till) !== null && _o !== void 0 ? _o : result.on) !== null && _p !== void 0 ? _p : "";
         if (from.includes("*") || till.includes("*")) {
             // Duplicates the event for the next and previous year
             let year = date.getFullYear();
@@ -286,8 +319,8 @@ function normalizedElement(news, element) {
         }
     }
     // Is happening now:
-    if (Date.parse((_h = result.from) !== null && _h !== void 0 ? _h : "") <= date.getTime() &&
-        Date.parse((_j = result.till) !== null && _j !== void 0 ? _j : "") + dayMilliseconds >= date.getTime()) {
+    if (Date.parse((_q = result.from) !== null && _q !== void 0 ? _q : "") <= date.getTime() &&
+        Date.parse((_r = result.till) !== null && _r !== void 0 ? _r : "") + dayMilliseconds >= date.getTime()) {
         result.isHappening = true;
     }
     else {

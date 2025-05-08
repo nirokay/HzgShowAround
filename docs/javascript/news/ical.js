@@ -1,20 +1,17 @@
-enum Variable {
-    currentTime = "CURRENT_TIME",
-    id = "ID",
-    dateStart = "DATE_START",
-    dateEnd = "DATE_END",
-    timeStart = "TIME_START",
-    timeEnd = "TIME_END",
-    summary = "SUMMARY",
-    description = "DESCRIPTION",
-    location = "LOCATION",
-}
-
-type EnumDictionary<T extends string | symbol | number, U> = {
-    [K in T]: U;
-};
-
-const icalTemplateHead: string = `BEGIN:VCALENDAR
+"use strict";
+var Variable;
+(function (Variable) {
+    Variable["currentTime"] = "CURRENT_TIME";
+    Variable["id"] = "ID";
+    Variable["dateStart"] = "DATE_START";
+    Variable["dateEnd"] = "DATE_END";
+    Variable["timeStart"] = "TIME_START";
+    Variable["timeEnd"] = "TIME_END";
+    Variable["summary"] = "SUMMARY";
+    Variable["description"] = "DESCRIPTION";
+    Variable["location"] = "LOCATION";
+})(Variable || (Variable = {}));
+const icalTemplateHead = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//www.nirokay.com//HzgShowAround
 CALSCALE:GREGORIAN
@@ -38,9 +35,8 @@ DTSTART:19701025T030000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE`;
-const icalTemplateFoot: string = `END:VCALENDAR`;
-
-const icalTemplateFullDay: string = `BEGIN:VEVENT
+const icalTemplateFoot = `END:VCALENDAR`;
+const icalTemplateFullDay = `BEGIN:VEVENT
 DTSTAMP:{CURRENT_TIME}Z
 UID:{ID}@hzgshowaround.nirokay.com
 DTSTART;VALUE=DATE:{DATE_START}
@@ -50,7 +46,7 @@ URL:https://www.nirokay.com/HzgShowAround/newsfeed.html
 DESCRIPTION:{DESCRIPTION}
 LOCATION:{LOCATION}
 END:VEVENT`;
-const icalTemplateTimeSpan: string = `BEGIN:VEVENT
+const icalTemplateTimeSpan = `BEGIN:VEVENT
 DTSTAMP:{CURRENT_TIME}Z
 UID:{ID}@hzgshowaround.nirokay.com
 DTSTART;TZID=Europe/Berlin:{DATE_START}T{TIME_START}
@@ -60,37 +56,27 @@ URL:https://www.nirokay.com/HzgShowAround/newsfeed.html
 DESCRIPTION:{DESCRIPTION}
 LOCATION:{LOCATION}
 END:VEVENT`;
-
-function getIcalDateFormat(
-    time: string,
-    reverse: boolean = false,
-    sep: string = "-",
-): string {
+function getIcalDateFormat(time, reverse = false, sep = "-") {
     let components = time.split(sep);
-    if (reverse) components.reverse();
+    if (reverse)
+        components.reverse();
     if (components[1].length == 1)
         components[1] = "0" + components[1].toString();
     if (components[2].length == 1)
         components[2] = "0" + components[2].toString();
     return components.join("");
 }
-function getVariable(name: Variable | string): string {
+function getVariable(name) {
     return "{" + name.toString() + "}";
 }
-
-function getIcalFileContent(event: NewsFeedElement): string {
-    let date: Date = new Date();
-    let currentTimeStamp: string = getIcalDateFormat(
-        [date.getFullYear(), date.getMonth(), date.getDate()].join("-"),
-    );
-    let dateStartString: string =
-        event.from ?? event.on ?? event.till ?? "1970-01-01";
-    let dateEnd = new Date(
-        event.till ?? event.on ?? event.from ?? "1970-01-01",
-    );
-
-    let timeStart: string;
-    let timeEnd: string;
+function getIcalFileContent(event) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    let date = new Date();
+    let currentTimeStamp = getIcalDateFormat([date.getFullYear(), date.getMonth(), date.getDate()].join("-"));
+    let dateStartString = (_c = (_b = (_a = event.from) !== null && _a !== void 0 ? _a : event.on) !== null && _b !== void 0 ? _b : event.till) !== null && _c !== void 0 ? _c : "1970-01-01";
+    let dateEnd = new Date((_f = (_e = (_d = event.till) !== null && _d !== void 0 ? _d : event.on) !== null && _e !== void 0 ? _e : event.from) !== null && _f !== void 0 ? _f : "1970-01-01");
+    let timeStart;
+    let timeEnd;
     switch (event.icalEventType) {
         case EventType.fullDay:
             dateEnd.setDate(dateEnd.getDate() + 1);
@@ -98,19 +84,17 @@ function getIcalFileContent(event: NewsFeedElement): string {
             timeEnd = "000000";
             break;
         case EventType.timeSpan:
-            timeStart = event.icalDateOrTimes[0] ?? "000000";
-            timeEnd = event.icalDateOrTimes[1] ?? "235959";
+            timeStart = (_g = event.icalDateOrTimes[0]) !== null && _g !== void 0 ? _g : "000000";
+            timeEnd = (_h = event.icalDateOrTimes[1]) !== null && _h !== void 0 ? _h : "235959";
             break;
     }
-
-    let dateEndString: string = [
+    let dateEndString = [
         dateEnd.getFullYear(),
         date.getMonth(),
         date.getDate(),
     ].join("");
-
     // Construct template:
-    let result: string = icalTemplateHead + "\n";
+    let result = icalTemplateHead + "\n";
     switch (event.icalEventType) {
         case EventType.fullDay:
             result += icalTemplateFullDay;
@@ -120,18 +104,14 @@ function getIcalFileContent(event: NewsFeedElement): string {
             break;
     }
     result += "\n" + icalTemplateFoot;
-
     // Replace all variables:
-    let dictionary: EnumDictionary<string, string> = {
+    let dictionary = {
         [Variable.summary]: event.name,
-        [Variable.description]: (
-            event.details ?? ["Keine Details vorhanden."]
-        ).join("\n"),
+        [Variable.description]: ((_j = event.details) !== null && _j !== void 0 ? _j : ["Keine Details vorhanden."]).join("\n"),
         [Variable.currentTime]: currentTimeStamp,
         [Variable.dateStart]: dateStartString,
         [Variable.dateEnd]: dateEndString,
-        [Variable.id]:
-            event.name.toLowerCase().replace(" ", "") +
+        [Variable.id]: event.name.toLowerCase().replace(" ", "") +
             dateStartString +
             "-" +
             dateEndString +
@@ -139,9 +119,8 @@ function getIcalFileContent(event: NewsFeedElement): string {
             currentTimeStamp,
         [Variable.timeStart]: timeStart,
         [Variable.timeEnd]: timeEnd,
-        [Variable.location]: (event.locations ?? ["Herzogsägmühle"]).join(", "),
+        [Variable.location]: ((_k = event.locations) !== null && _k !== void 0 ? _k : ["Herzogsägmühle"]).join(", "),
     };
-
     for (const key in [
         Variable.currentTime,
         Variable.dateEnd,
@@ -153,24 +132,19 @@ function getIcalFileContent(event: NewsFeedElement): string {
         Variable.timeEnd,
         Variable.timeStart,
     ]) {
-        let variable: string = getVariable(key.toString());
-        let value: string = dictionary[key];
+        let variable = getVariable(key.toString());
+        let value = dictionary[key];
         result.replace(variable, value);
         console.log(key, variable, value);
     }
-
     return encodeURIComponent(result);
 }
-
-function downloadIcalFile(filename: string, content: string) {
+function downloadIcalFile(filename, content) {
     var element = document.createElement("a");
     element.setAttribute("href", "data:text/plain;charset=utf-8," + content);
     element.setAttribute("download", filename);
-
     element.style.display = "none";
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
 }

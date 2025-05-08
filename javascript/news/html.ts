@@ -174,16 +174,26 @@ function htmlDetails(element: NewsFeedElement): HtmlString {
  * Generates the footer section
  */
 function htmlFooter(element: NewsFeedElement): HtmlString {
-    let result: HtmlString = "";
+    let result: HtmlString[] = [];
     let url = element.info;
+
     // Adds a little "more infos" link at the bottom:
     if (url != undefined && url != "") {
-        result +=
-            "<p class='generic-center'><a href='" +
-            url +
-            "' target='_blank'>mehr Infos</a></p>";
+        result.push(
+            "<a title='Mehr Informationen extern abrufen.' href='" +
+                url +
+                "' target='_blank'>🌐 mehr Infos</a>",
+        );
     }
-    return result;
+
+    // Adds a link to save ical file:
+    result.push(
+        "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
+            '"hzgshowaround.ical", \"' +
+            getIcalFileContent(element) +
+            "\")'>📅 Im Kalender abspeichern</a>",
+    );
+    return "<p class='generic-center'>" + result.join(" | ") + "</p>";
 }
 
 /**

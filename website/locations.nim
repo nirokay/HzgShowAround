@@ -101,6 +101,7 @@ proc generateLocationHtml*(location: Location) =
 
     html.addToHead importScript("../javascript/commons.js").add(attr("defer"))
     html.addToHead importScript("../javascript/news/typedefs.js").add(attr("defer"))
+    html.addToHead importScript("../javascript/news/ical.js").add(attr("defer"))
     html.addToHead importScript("../javascript/news/html.js").add(attr("defer"))
     html.addToHead importScript("../javascript/news/news.js").add(attr("defer"))
     html.addToHead importScript("../javascript/locations.js").add(attr("defer"))
