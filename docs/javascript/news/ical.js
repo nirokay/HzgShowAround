@@ -64,6 +64,9 @@ URL:https://www.nirokay.com/HzgShowAround/newsfeed.html
 DESCRIPTION:{DESCRIPTION}
 LOCATION:{LOCATION}
 END:VEVENT`;
+function getVariable(name) {
+    return "{" + name + "}";
+}
 function getIcalDateFormat(time, reverse = false, sep = "-") {
     let components = time.split(sep);
     if (reverse)
@@ -73,9 +76,6 @@ function getIcalDateFormat(time, reverse = false, sep = "-") {
     if (components[2].length == 1)
         components[2] = "0" + components[2].toString();
     return components.join("");
-}
-function getVariable(name) {
-    return "{" + name + "}";
 }
 function formatNumber(n) {
     let result = n.toString();
@@ -91,15 +91,30 @@ function formatNumber(n) {
     }
     return result;
 }
+function getCleanedArray(input) {
+    let result = undefined;
+    if (input != undefined && input != null) {
+        if (input.length != 0) {
+            result = input;
+        }
+        else {
+            result = undefined;
+        }
+    }
+    else {
+        result = undefined;
+    }
+    return result;
+}
 function getIcalFileContent(event) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-    let date = new Date();
-    let currentTimeStamp = getIcalDateFormat([
-        date.getFullYear(),
-        formatNumber(date.getMonth()),
-        formatNumber(date.getDate()),
-    ].join("-"));
-    let dateStartString = (_c = (_b = (_a = event.from) !== null && _a !== void 0 ? _a : event.on) !== null && _b !== void 0 ? _b : event.till) !== null && _c !== void 0 ? _c : "1970-01-01";
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    let now = new Date();
+    let currentTimeStamp = [
+        now.getFullYear(),
+        formatNumber(now.getMonth() + 1),
+        formatNumber(now.getDate()),
+    ].join("");
+    let dateStartString = replaceAll((_c = (_b = (_a = event.from) !== null && _a !== void 0 ? _a : event.on) !== null && _b !== void 0 ? _b : event.till) !== null && _c !== void 0 ? _c : "1970-01-01", "-", "");
     let dateEnd = new Date((_f = (_e = (_d = event.till) !== null && _d !== void 0 ? _d : event.on) !== null && _e !== void 0 ? _e : event.from) !== null && _f !== void 0 ? _f : "1970-01-01");
     let timeStart;
     let timeEnd;
@@ -114,11 +129,14 @@ function getIcalFileContent(event) {
             timeEnd = (_h = event.icalDateOrTimes[1]) !== null && _h !== void 0 ? _h : "235959";
             break;
     }
+    console.warn(dateEnd.toDateString());
     let dateEndString = [
         dateEnd.getFullYear(),
-        formatNumber(date.getMonth()),
-        formatNumber(date.getDate()),
+        formatNumber(dateEnd.getMonth() + 1),
+        formatNumber(dateEnd.getDate()),
     ].join("");
+    let cleanedLocations = getCleanedArray(event.locations);
+    let cleanedDetails = getCleanedArray((_j = event.details) !== null && _j !== void 0 ? _j : []);
     // Construct template:
     let result = icalTemplateHead + "\n";
     switch (event.icalEventType) {
@@ -133,7 +151,7 @@ function getIcalFileContent(event) {
     // Replace all variables:
     let dictionary = {
         SUMMARY: fixHtmlString(event.name),
-        DESCRIPTION: fixHtmlString(((_j = event.details) !== null && _j !== void 0 ? _j : ["Keine Details vorhanden."]).join("\n")),
+        DESCRIPTION: fixHtmlString((cleanedDetails !== null && cleanedDetails !== void 0 ? cleanedDetails : ["Keine Details vorhanden."]).join("\n")),
         CURRENT_TIME: currentTimeStamp,
         DATE_START: dateStartString,
         DATE_END: dateEndString,
@@ -145,20 +163,20 @@ function getIcalFileContent(event) {
             currentTimeStamp,
         TIME_START: timeStart,
         TIME_END: timeEnd,
-        LOCATION: fixHtmlString(((_k = event.locations) !== null && _k !== void 0 ? _k : ["Herzogsägmühle"]).join(", ")),
+        LOCATION: fixHtmlString((cleanedLocations !== null && cleanedLocations !== void 0 ? cleanedLocations : ["Herzogsägmühle"]).join(", ")),
     };
     for (const key in Variables) {
         let variable = Variables[key];
         let value = dictionary[variable];
         result = replaceAll(result, getVariable(variable), value);
-        console.log(key, variable, value);
+        console.log("Replaced " + variable + " with " + value);
     }
     console.log(dictionary);
-    return btoa(result);
+    return btoa(encodeURI(result));
 }
 function downloadIcalFile(filename, content) {
     let element = document.createElement("a");
-    let actualContent = encodeURI(atob(content));
+    let actualContent = atob(content);
     element.setAttribute("href", "data:text/plain;charset=utf-8," + actualContent);
     element.setAttribute("download", filename);
     element.style.display = "none";

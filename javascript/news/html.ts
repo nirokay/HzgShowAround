@@ -192,7 +192,7 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
     )
         result.push(
             "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
-                '"hzgshowaround.ical", \"' +
+                '"hzgshowaround-event.ics", \"' +
                 getIcalFileContent(element) +
                 "\")'>📅 im Kalender abspeichern</a>",
         );

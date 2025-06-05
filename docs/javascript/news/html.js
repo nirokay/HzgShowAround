@@ -152,7 +152,7 @@ function htmlFooter(element) {
     if (element.name != htmlHeaderPlaceholder &&
         element.name != placeHolderIdentifier)
         result.push("<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
-            '"hzgshowaround.ical", \"' +
+            '"hzgshowaround-event.ics", \"' +
             getIcalFileContent(element) +
             "\")'>📅 im Kalender abspeichern</a>");
     return "<p class='generic-center'>" + result.join(" | ") + "</p>";

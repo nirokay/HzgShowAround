@@ -71,6 +71,10 @@ DESCRIPTION:{DESCRIPTION}
 LOCATION:{LOCATION}
 END:VEVENT`;
 
+function getVariable(name: string): string {
+    return "{" + name + "}";
+}
+
 function getIcalDateFormat(
     time: string,
     reverse: boolean = false,
@@ -83,9 +87,6 @@ function getIcalDateFormat(
     if (components[2].length == 1)
         components[2] = "0" + components[2].toString();
     return components.join("");
-}
-function getVariable(name: string): string {
-    return "{" + name + "}";
 }
 
 function formatNumber(n: number | string): string {
@@ -103,17 +104,32 @@ function formatNumber(n: number | string): string {
     return result;
 }
 
+function getCleanedArray<T>(input: T[]): T[] | undefined {
+    let result = undefined;
+    if (input != undefined && input != null) {
+        if (input.length != 0) {
+            result = input;
+        } else {
+            result = undefined;
+        }
+    } else {
+        result = undefined;
+    }
+    return result;
+}
+
 function getIcalFileContent(event: NewsFeedElement): string {
-    let date: Date = new Date();
-    let currentTimeStamp: string = getIcalDateFormat(
-        [
-            date.getFullYear(),
-            formatNumber(date.getMonth()),
-            formatNumber(date.getDate()),
-        ].join("-"),
+    let now: Date = new Date();
+    let currentTimeStamp: string = [
+        now.getFullYear(),
+        formatNumber(now.getMonth() + 1),
+        formatNumber(now.getDate()),
+    ].join("");
+    let dateStartString: string = replaceAll(
+        event.from ?? event.on ?? event.till ?? "1970-01-01",
+        "-",
+        "",
     );
-    let dateStartString: string =
-        event.from ?? event.on ?? event.till ?? "1970-01-01";
     let dateEnd = new Date(
         event.till ?? event.on ?? event.from ?? "1970-01-01",
     );
@@ -131,12 +147,20 @@ function getIcalFileContent(event: NewsFeedElement): string {
             timeEnd = event.icalDateOrTimes[1] ?? "235959";
             break;
     }
+    console.warn(dateEnd.toDateString());
 
     let dateEndString: string = [
         dateEnd.getFullYear(),
-        formatNumber(date.getMonth()),
-        formatNumber(date.getDate()),
+        formatNumber(dateEnd.getMonth() + 1),
+        formatNumber(dateEnd.getDate()),
     ].join("");
+
+    let cleanedLocations: string[] | undefined = getCleanedArray(
+        event.locations,
+    );
+    let cleanedDetails: string[] | undefined = getCleanedArray(
+        event.details ?? [],
+    );
 
     // Construct template:
     let result: string = icalTemplateHead + "\n";
@@ -154,7 +178,7 @@ function getIcalFileContent(event: NewsFeedElement): string {
     let dictionary: EnumDictionary<string, string> = {
         SUMMARY: fixHtmlString(event.name),
         DESCRIPTION: fixHtmlString(
-            (event.details ?? ["Keine Details vorhanden."]).join("\n"),
+            (cleanedDetails ?? ["Keine Details vorhanden."]).join("\n"),
         ),
         CURRENT_TIME: currentTimeStamp,
         DATE_START: dateStartString,
@@ -169,7 +193,7 @@ function getIcalFileContent(event: NewsFeedElement): string {
         TIME_START: timeStart,
         TIME_END: timeEnd,
         LOCATION: fixHtmlString(
-            (event.locations ?? ["Herzogsägmühle"]).join(", "),
+            (cleanedLocations ?? ["Herzogsägmühle"]).join(", "),
         ),
     };
 
@@ -177,17 +201,17 @@ function getIcalFileContent(event: NewsFeedElement): string {
         let variable: string = Variables[key];
         let value: string = dictionary[variable];
         result = replaceAll(result, getVariable(variable), value);
-        console.log(key, variable, value);
+        console.log("Replaced " + variable + " with " + value);
     }
 
     console.log(dictionary);
 
-    return btoa(result);
+    return btoa(encodeURI(result));
 }
 
 function downloadIcalFile(filename: string, content: string) {
     let element = document.createElement("a");
-    let actualContent = encodeURI(atob(content));
+    let actualContent = atob(content);
     element.setAttribute(
         "href",
         "data:text/plain;charset=utf-8," + actualContent,
