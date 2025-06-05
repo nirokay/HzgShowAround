@@ -20,3 +20,25 @@ function debug(message, element = undefined) {
         console.log("===== " + message + " =====");
     }
 }
+function replaceAll(input, it, by) {
+    let result = input;
+    let oldResult = result;
+    do {
+        oldResult = result;
+        result = result.replace(it, by);
+    } while (oldResult != result);
+    return result;
+}
+function fixHtmlString(input) {
+    let table = [
+        ["<q>", "„"],
+        ["</q>", "“"],
+        ["<i>", ""],
+        ["</i>", ""],
+    ];
+    let result = input;
+    for (const id in table) {
+        result = replaceAll(result, table[id][0], table[id][1]);
+    }
+    return result;
+}

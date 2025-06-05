@@ -1,14 +1,24 @@
-enum Variable {
-    currentTime = "CURRENT_TIME",
-    id = "ID",
-    dateStart = "DATE_START",
-    dateEnd = "DATE_END",
-    timeStart = "TIME_START",
-    timeEnd = "TIME_END",
-    summary = "SUMMARY",
-    description = "DESCRIPTION",
-    location = "LOCATION",
-}
+const CURRENT_TIME = "CURRENT_TIME";
+const ID = "ID";
+const DATE_START = "DATE_START";
+const DATE_END = "DATE_END";
+const TIME_START = "TIME_START";
+const TIME_END = "TIME_END";
+const SUMMARY = "SUMMARY";
+const DESCRIPTION = "DESCRIPTION";
+const LOCATION = "LOCATION";
+
+const Variables: string[] = [
+    CURRENT_TIME,
+    ID,
+    DATE_START,
+    DATE_END,
+    TIME_START,
+    TIME_END,
+    SUMMARY,
+    DESCRIPTION,
+    LOCATION,
+];
 
 type EnumDictionary<T extends string | symbol | number, U> = {
     [K in T]: U;
@@ -74,14 +84,33 @@ function getIcalDateFormat(
         components[2] = "0" + components[2].toString();
     return components.join("");
 }
-function getVariable(name: Variable | string): string {
-    return "{" + name.toString() + "}";
+function getVariable(name: string): string {
+    return "{" + name + "}";
+}
+
+function formatNumber(n: number | string): string {
+    let result: string = n.toString();
+    switch (result.length) {
+        case 0:
+            result = "00";
+            break;
+        case 1:
+            result = "0" + result;
+            break;
+        default:
+            break;
+    }
+    return result;
 }
 
 function getIcalFileContent(event: NewsFeedElement): string {
     let date: Date = new Date();
     let currentTimeStamp: string = getIcalDateFormat(
-        [date.getFullYear(), date.getMonth(), date.getDate()].join("-"),
+        [
+            date.getFullYear(),
+            formatNumber(date.getMonth()),
+            formatNumber(date.getDate()),
+        ].join("-"),
     );
     let dateStartString: string =
         event.from ?? event.on ?? event.till ?? "1970-01-01";
@@ -93,7 +122,7 @@ function getIcalFileContent(event: NewsFeedElement): string {
     let timeEnd: string;
     switch (event.icalEventType) {
         case EventType.fullDay:
-            dateEnd.setDate(dateEnd.getDate() + 1);
+            formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
             timeStart = "000000";
             timeEnd = "000000";
             break;
@@ -105,8 +134,8 @@ function getIcalFileContent(event: NewsFeedElement): string {
 
     let dateEndString: string = [
         dateEnd.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
+        formatNumber(date.getMonth()),
+        formatNumber(date.getDate()),
     ].join("");
 
     // Construct template:
@@ -123,52 +152,37 @@ function getIcalFileContent(event: NewsFeedElement): string {
 
     // Replace all variables:
     let dictionary: EnumDictionary<string, string> = {
-        [Variable.summary]: event.name,
-        [Variable.description]: (
-            event.details ?? ["Keine Details vorhanden."]
-        ).join("\n"),
-        [Variable.currentTime]: currentTimeStamp,
-        [Variable.dateStart]: dateStartString,
-        [Variable.dateEnd]: dateEndString,
-        [Variable.id]:
-            event.name.toLowerCase().replace(" ", "") +
+        SUMMARY: fixHtmlString(event.name),
+        DESCRIPTION: fixHtmlString(
+            (event.details ?? ["Keine Details vorhanden."]).join("\n"),
+        ),
+        CURRENT_TIME: currentTimeStamp,
+        DATE_START: dateStartString,
+        DATE_END: dateEndString,
+        ID:
+            replaceAll(event.name.toLowerCase(), " ", "") +
             dateStartString +
             "-" +
             dateEndString +
             "-" +
             currentTimeStamp,
-        [Variable.timeStart]: timeStart,
-        [Variable.timeEnd]: timeEnd,
-        [Variable.location]: (event.locations ?? ["Herzogsägmühle"]).join(", "),
+        TIME_START: timeStart,
+        TIME_END: timeEnd,
+        LOCATION: fixHtmlString(
+            (event.locations ?? ["Herzogsägmühle"]).join(", "),
+        ),
     };
 
-    for (const key in [
-        Variable.currentTime,
-        Variable.dateEnd,
-        Variable.dateStart,
-        Variable.description,
-        Variable.id,
-        Variable.location,
-        Variable.summary,
-        Variable.timeEnd,
-        Variable.timeStart,
-    ]) {
-        let variable: string = getVariable(key.toString());
-        let value: string = dictionary[key];
-        result.replace(variable, value);
+    for (const key in Variables) {
+        let variable: string = Variables[key];
+        let value: string = dictionary[variable];
+        result = replaceAll(result, getVariable(variable), value);
         console.log(key, variable, value);
     }
 
-    () => {
-        let oldResult = result;
-        do {
-            oldResult = result;
-            result = oldResult.replace('"', '\\"');
-        } while (oldResult != result);
-    };
+    console.log(dictionary);
 
     return btoa(result);
-    // return encodeURIComponent(result);
 }
 
 function downloadIcalFile(filename: string, content: string) {

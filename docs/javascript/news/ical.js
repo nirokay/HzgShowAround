@@ -1,16 +1,24 @@
 "use strict";
-var Variable;
-(function (Variable) {
-    Variable["currentTime"] = "CURRENT_TIME";
-    Variable["id"] = "ID";
-    Variable["dateStart"] = "DATE_START";
-    Variable["dateEnd"] = "DATE_END";
-    Variable["timeStart"] = "TIME_START";
-    Variable["timeEnd"] = "TIME_END";
-    Variable["summary"] = "SUMMARY";
-    Variable["description"] = "DESCRIPTION";
-    Variable["location"] = "LOCATION";
-})(Variable || (Variable = {}));
+const CURRENT_TIME = "CURRENT_TIME";
+const ID = "ID";
+const DATE_START = "DATE_START";
+const DATE_END = "DATE_END";
+const TIME_START = "TIME_START";
+const TIME_END = "TIME_END";
+const SUMMARY = "SUMMARY";
+const DESCRIPTION = "DESCRIPTION";
+const LOCATION = "LOCATION";
+const Variables = [
+    CURRENT_TIME,
+    ID,
+    DATE_START,
+    DATE_END,
+    TIME_START,
+    TIME_END,
+    SUMMARY,
+    DESCRIPTION,
+    LOCATION,
+];
 const icalTemplateHead = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//www.nirokay.com//HzgShowAround
@@ -67,19 +75,37 @@ function getIcalDateFormat(time, reverse = false, sep = "-") {
     return components.join("");
 }
 function getVariable(name) {
-    return "{" + name.toString() + "}";
+    return "{" + name + "}";
+}
+function formatNumber(n) {
+    let result = n.toString();
+    switch (result.length) {
+        case 0:
+            result = "00";
+            break;
+        case 1:
+            result = "0" + result;
+            break;
+        default:
+            break;
+    }
+    return result;
 }
 function getIcalFileContent(event) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
     let date = new Date();
-    let currentTimeStamp = getIcalDateFormat([date.getFullYear(), date.getMonth(), date.getDate()].join("-"));
+    let currentTimeStamp = getIcalDateFormat([
+        date.getFullYear(),
+        formatNumber(date.getMonth()),
+        formatNumber(date.getDate()),
+    ].join("-"));
     let dateStartString = (_c = (_b = (_a = event.from) !== null && _a !== void 0 ? _a : event.on) !== null && _b !== void 0 ? _b : event.till) !== null && _c !== void 0 ? _c : "1970-01-01";
     let dateEnd = new Date((_f = (_e = (_d = event.till) !== null && _d !== void 0 ? _d : event.on) !== null && _e !== void 0 ? _e : event.from) !== null && _f !== void 0 ? _f : "1970-01-01");
     let timeStart;
     let timeEnd;
     switch (event.icalEventType) {
         case EventType.fullDay:
-            dateEnd.setDate(dateEnd.getDate() + 1);
+            formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
             timeStart = "000000";
             timeEnd = "000000";
             break;
@@ -90,8 +116,8 @@ function getIcalFileContent(event) {
     }
     let dateEndString = [
         dateEnd.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
+        formatNumber(date.getMonth()),
+        formatNumber(date.getDate()),
     ].join("");
     // Construct template:
     let result = icalTemplateHead + "\n";
@@ -106,46 +132,29 @@ function getIcalFileContent(event) {
     result += "\n" + icalTemplateFoot;
     // Replace all variables:
     let dictionary = {
-        [Variable.summary]: event.name,
-        [Variable.description]: ((_j = event.details) !== null && _j !== void 0 ? _j : ["Keine Details vorhanden."]).join("\n"),
-        [Variable.currentTime]: currentTimeStamp,
-        [Variable.dateStart]: dateStartString,
-        [Variable.dateEnd]: dateEndString,
-        [Variable.id]: event.name.toLowerCase().replace(" ", "") +
+        SUMMARY: fixHtmlString(event.name),
+        DESCRIPTION: fixHtmlString(((_j = event.details) !== null && _j !== void 0 ? _j : ["Keine Details vorhanden."]).join("\n")),
+        CURRENT_TIME: currentTimeStamp,
+        DATE_START: dateStartString,
+        DATE_END: dateEndString,
+        ID: replaceAll(event.name.toLowerCase(), " ", "") +
             dateStartString +
             "-" +
             dateEndString +
             "-" +
             currentTimeStamp,
-        [Variable.timeStart]: timeStart,
-        [Variable.timeEnd]: timeEnd,
-        [Variable.location]: ((_k = event.locations) !== null && _k !== void 0 ? _k : ["Herzogsägmühle"]).join(", "),
+        TIME_START: timeStart,
+        TIME_END: timeEnd,
+        LOCATION: fixHtmlString(((_k = event.locations) !== null && _k !== void 0 ? _k : ["Herzogsägmühle"]).join(", ")),
     };
-    for (const key in [
-        Variable.currentTime,
-        Variable.dateEnd,
-        Variable.dateStart,
-        Variable.description,
-        Variable.id,
-        Variable.location,
-        Variable.summary,
-        Variable.timeEnd,
-        Variable.timeStart,
-    ]) {
-        let variable = getVariable(key.toString());
-        let value = dictionary[key];
-        result.replace(variable, value);
+    for (const key in Variables) {
+        let variable = Variables[key];
+        let value = dictionary[variable];
+        result = replaceAll(result, getVariable(variable), value);
         console.log(key, variable, value);
     }
-    () => {
-        let oldResult = result;
-        do {
-            oldResult = result;
-            result = oldResult.replace('"', '\\"');
-        } while (oldResult != result);
-    };
+    console.log(dictionary);
     return btoa(result);
-    // return encodeURIComponent(result);
 }
 function downloadIcalFile(filename, content) {
     let element = document.createElement("a");
