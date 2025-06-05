@@ -137,11 +137,20 @@ function getIcalFileContent(event) {
         result.replace(variable, value);
         console.log(key, variable, value);
     }
-    return encodeURIComponent(result);
+    () => {
+        let oldResult = result;
+        do {
+            oldResult = result;
+            result = oldResult.replace('"', '\\"');
+        } while (oldResult != result);
+    };
+    return btoa(result);
+    // return encodeURIComponent(result);
 }
 function downloadIcalFile(filename, content) {
-    var element = document.createElement("a");
-    element.setAttribute("href", "data:text/plain;charset=utf-8," + content);
+    let element = document.createElement("a");
+    let actualContent = encodeURI(atob(content));
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + actualContent);
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);

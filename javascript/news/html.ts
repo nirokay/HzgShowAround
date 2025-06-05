@@ -178,21 +178,24 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
     let url = element.info;
 
     // Adds a little "more infos" link at the bottom:
-    if (url != undefined && url != "") {
+    if (url != undefined && url != "")
         result.push(
             "<a title='Mehr Informationen extern abrufen.' href='" +
                 url +
                 "' target='_blank'>🌐 mehr Infos</a>",
         );
-    }
 
     // Adds a link to save ical file:
-    result.push(
-        "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
-            '"hzgshowaround.ical", \"' +
-            getIcalFileContent(element) +
-            "\")'>📅 Im Kalender abspeichern</a>",
-    );
+    if (
+        element.name != htmlHeaderPlaceholder &&
+        element.name != placeHolderIdentifier
+    )
+        result.push(
+            "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
+                '"hzgshowaround.ical", \"' +
+                getIcalFileContent(element) +
+                "\")'>📅 im Kalender abspeichern</a>",
+        );
     return "<p class='generic-center'>" + result.join(" | ") + "</p>";
 }
 
