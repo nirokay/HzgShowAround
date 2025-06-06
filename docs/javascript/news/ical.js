@@ -154,7 +154,6 @@ function getIcalFileContent(event) {
         let variable = Variables[key];
         let value = dictionary[variable];
         result = replaceAll(result, getVariable(variable), value);
-        console.log("Replaced " + variable + " with " + value);
     }
     console.log(dictionary);
     return btoa(encodeURI(result));

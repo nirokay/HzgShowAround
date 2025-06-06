@@ -100,7 +100,8 @@ function healthPresentationToNewsfeedElement(
     let result = new NewsFeedElement();
 
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
-    result.on = presentation.on ?? getToday();
+    result.from = (presentation.on ?? getToday()) + " 13:00";
+    result.till = (presentation.on ?? getToday()) + " 14:30";
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
 
@@ -122,6 +123,7 @@ function healthPresentationToNewsfeedElement(
             "<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>",
         );
 
+    result.icalEventType = EventType.timeSpan;
     return result;
 }
 function healthPresentationsToNewsfeedElements(
@@ -264,16 +266,13 @@ function normalizedElement(
 
     // Single-day events:
     if (element.on != undefined) {
-        result.icalEventType = EventType.fullDay;
         result.on = element.on;
         result.from = element.on;
         result.till = element.on;
     }
 
     // Correct wrongly formatted event dates:
-
     if (element.on == undefined) {
-        result.icalEventType = EventType.timeSpan;
         if (fromTimes[0] == undefined && tillTimes[0] != undefined) {
             // Forgot to assign `from`:
             result.from = tillTimes[0];
@@ -293,7 +292,6 @@ function normalizedElement(
     }
     // Single-day event:
     if (result.on == undefined && result.from == result.till) {
-        result.icalEventType = EventType.fullDay;
         result.on = result.from;
     }
 
@@ -308,12 +306,6 @@ function normalizedElement(
     // Populating ical fields:
     result.icalTimeStart = timeStartParts ?? "000000";
     result.icalTimeEnd = timeEndParts ?? "000000";
-    switch (result.icalEventType) {
-        case EventType.fullDay:
-            result.icalTimeEnd = "000000"; // To 00:00:00 of next day
-        case EventType.timeSpan:
-            break;
-    }
     if (
         result.icalTimeStart == "000000" &&
         (result.icalTimeEnd == "000000" || result.icalTimeEnd == "235959")

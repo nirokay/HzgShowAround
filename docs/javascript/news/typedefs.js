@@ -64,18 +64,19 @@ class SchoolHoliday {
     }
 }
 function healthPresentationToNewsfeedElement(presentation) {
-    var _a, _b;
+    var _a, _b, _c;
     if (presentation.COMMENT != undefined)
         return null;
     if (presentation.topic == "?")
         return null;
     let result = new NewsFeedElement();
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
-    result.on = (_a = presentation.on) !== null && _a !== void 0 ? _a : getToday();
+    result.from = ((_a = presentation.on) !== null && _a !== void 0 ? _a : getToday()) + " 13:00";
+    result.till = ((_b = presentation.on) !== null && _b !== void 0 ? _b : getToday()) + " 14:30";
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
     result.image = "newsfeed/icons/presentation.svg";
-    (_b = presentation.desc) !== null && _b !== void 0 ? _b : (presentation.desc = presentation.topic);
+    (_c = presentation.desc) !== null && _c !== void 0 ? _c : (presentation.desc = presentation.topic);
     result.details = [
         "von <time datetime='" +
             presentation.on +
@@ -86,6 +87,7 @@ function healthPresentationToNewsfeedElement(presentation) {
         result.details.push("<small>Geleitet von " + presentation.by + "</small>");
     if (presentation.required != undefined && presentation.required === true)
         result.details.push("<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>");
+    result.icalEventType = EventType.timeSpan;
     return result;
 }
 function healthPresentationsToNewsfeedElements(presentations) {
@@ -206,14 +208,12 @@ function normalizedElement(news, element) {
     let tillTimes = element.till == undefined ? [] : element.till.split(" ");
     // Single-day events:
     if (element.on != undefined) {
-        result.icalEventType = EventType.fullDay;
         result.on = element.on;
         result.from = element.on;
         result.till = element.on;
     }
     // Correct wrongly formatted event dates:
     if (element.on == undefined) {
-        result.icalEventType = EventType.timeSpan;
         if (fromTimes[0] == undefined && tillTimes[0] != undefined) {
             // Forgot to assign `from`:
             result.from = tillTimes[0];
@@ -236,7 +236,6 @@ function normalizedElement(news, element) {
     }
     // Single-day event:
     if (result.on == undefined && result.from == result.till) {
-        result.icalEventType = EventType.fullDay;
         result.on = result.from;
     }
     // Parsing Times:
@@ -245,12 +244,6 @@ function normalizedElement(news, element) {
     // Populating ical fields:
     result.icalTimeStart = timeStartParts !== null && timeStartParts !== void 0 ? timeStartParts : "000000";
     result.icalTimeEnd = timeEndParts !== null && timeEndParts !== void 0 ? timeEndParts : "000000";
-    switch (result.icalEventType) {
-        case EventType.fullDay:
-            result.icalTimeEnd = "000000"; // To 00:00:00 of next day
-        case EventType.timeSpan:
-            break;
-    }
     if (result.icalTimeStart == "000000" &&
         (result.icalTimeEnd == "000000" || result.icalTimeEnd == "235959")) {
         result.icalEventType = EventType.fullDay;

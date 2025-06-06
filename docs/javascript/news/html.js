@@ -141,6 +141,7 @@ function htmlDetails(element) {
  * Generates the footer section
  */
 function htmlFooter(element) {
+    var _a, _b;
     let result = [];
     let url = element.info;
     // Adds a little "more infos" link at the bottom:
@@ -148,11 +149,20 @@ function htmlFooter(element) {
         result.push("<a title='Mehr Informationen extern abrufen.' href='" +
             url +
             "' target='_blank'>🌐 mehr Infos</a>");
+    let hash = element.from +
+        "_" +
+        replaceAll((_a = element.icalTimeStart) !== null && _a !== void 0 ? _a : "", "00", "-") +
+        "_" +
+        element.till +
+        "_" +
+        replaceAll((_b = element.icalTimeEnd) !== null && _b !== void 0 ? _b : "", "00", "-");
+    let filename = "hzgshowaround-event-" + btoa(hash) + ".ics";
     // Adds a link to save ical file:
     if (element.name != htmlHeaderPlaceholder &&
         element.name != placeHolderIdentifier)
-        result.push("<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
-            '"hzgshowaround-event.ics", \"' +
+        result.push("<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(\"" +
+            filename +
+            '", "' +
             getIcalFileContent(element) +
             "\")'>📅 im Kalender abspeichern</a>");
     return "<p class='generic-center'>" + result.join(" | ") + "</p>";

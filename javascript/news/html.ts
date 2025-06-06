@@ -185,14 +185,26 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
                 "' target='_blank'>🌐 mehr Infos</a>",
         );
 
+    let hash: string =
+        element.from +
+        "_" +
+        replaceAll(element.icalTimeStart ?? "", "00", "-") +
+        "_" +
+        element.till +
+        "_" +
+        replaceAll(element.icalTimeEnd ?? "", "00", "-");
+
+    let filename: string = "hzgshowaround-event-" + btoa(hash) + ".ics";
+
     // Adds a link to save ical file:
     if (
         element.name != htmlHeaderPlaceholder &&
         element.name != placeHolderIdentifier
     )
         result.push(
-            "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(" +
-                '"hzgshowaround-event.ics", \"' +
+            "<a title='Im Kalender abspeichern' href='javascript:downloadIcalFile(\"" +
+                filename +
+                '", "' +
                 getIcalFileContent(element) +
                 "\")'>📅 im Kalender abspeichern</a>",
         );

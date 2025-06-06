@@ -185,7 +185,6 @@ function getIcalFileContent(event: NewsFeedElement): string {
         let variable: string = Variables[key];
         let value: string = dictionary[variable];
         result = replaceAll(result, getVariable(variable), value);
-        console.log("Replaced " + variable + " with " + value);
     }
 
     console.log(dictionary);
