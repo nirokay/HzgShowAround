@@ -231,6 +231,18 @@ function schoolHolidaysToNewsfeedElements(
     return result;
 }
 
+function getIcalTimeFromParts(input: string[]): string {
+    let result: string[] = input;
+    while (result.length < 3) {
+        result.push("00");
+    }
+    result.forEach((number, index) => {
+        result[index] = formatNumber(number);
+    });
+
+    return result.join("");
+}
+
 /**
  * Normalizes an element, so all fields are occupied
  */
@@ -246,9 +258,9 @@ function normalizedElement(
     let date: Date = new Date();
 
     let fromTimes: string[] | undefined =
-        element.from == undefined ? [] : element.from.split("T");
+        element.from == undefined ? [] : element.from.split(" ");
     let tillTimes: string[] | undefined =
-        element.till == undefined ? [] : element.till.split("T");
+        element.till == undefined ? [] : element.till.split(" ");
 
     // Single-day events:
     if (element.on != undefined) {
@@ -285,9 +297,17 @@ function normalizedElement(
         result.on = result.from;
     }
 
+    // Parsing Times:
+    let timeStartParts: string = getIcalTimeFromParts(
+        (fromTimes[1] ?? "00:00").split(":"),
+    );
+    let timeEndParts: string = getIcalTimeFromParts(
+        (tillTimes[1] ?? "00:00").split(":"),
+    );
+
     // Populating ical fields:
-    result.icalTimeStart = fromTimes[1] ?? "000000";
-    result.icalTimeEnd = tillTimes[1] ?? "235959";
+    result.icalTimeStart = timeStartParts ?? "000000";
+    result.icalTimeEnd = timeEndParts ?? "000000";
     switch (result.icalEventType) {
         case EventType.fullDay:
             result.icalTimeEnd = "000000"; // To 00:00:00 of next day

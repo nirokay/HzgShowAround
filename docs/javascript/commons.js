@@ -42,3 +42,17 @@ function fixHtmlString(input) {
     }
     return result;
 }
+function formatNumber(n) {
+    let result = n.toString();
+    switch (result.length) {
+        case 0:
+            result = "00";
+            break;
+        case 1:
+            result = "0" + result;
+            break;
+        default:
+            break;
+    }
+    return result;
+}
