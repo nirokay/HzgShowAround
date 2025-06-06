@@ -22,8 +22,8 @@ const htmlHeaderPlaceholder = "<pre style='background-color: #ffffff22;margin: 0
 const htmlDatePlaceholder = "<pre style='background-color: #ffffff22;margin: 0px 40%;border-radius: 10px;'> </pre>";
 const htmlDescriptionPlaceholder = "<div>" +
     [
-        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
-        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>",
+        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                                       </pre>",
+        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                       </pre>",
     ].join("") +
     "</div>";
 /**

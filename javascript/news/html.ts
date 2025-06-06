@@ -46,8 +46,8 @@ const htmlDatePlaceholder: HtmlString =
 const htmlDescriptionPlaceholder: HtmlString =
     "<div>" +
     [
-        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                        </pre>",
-        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                                                        </pre>",
+        "<pre style='background-color: #ffffff22;margin: 20px 10% 10px 10%;border-radius: 10px;'>                                       </pre>",
+        "<pre style='background-color: #ffffff22;margin: 0px 10% 20px 10%;border-radius: 10px;'>                       </pre>",
     ].join("") +
     "</div>";
 
