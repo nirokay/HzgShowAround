@@ -30,7 +30,10 @@ class NewsFeedElement {
 
     // ICal times:
     icalEventType: EventType = EventType.timeSpan;
-    icalDateOrTimes: string[] = [];
+    icalDateStart: string = "19700101";
+    icalDateEnd: string = "19700101";
+    icalTimeStart: string = "000000";
+    icalTimeEnd: string = "235959";
 
     level: string = "info"; // Importance as string
     importance: number = 0; // Importance as number
@@ -283,25 +286,19 @@ function normalizedElement(
     }
 
     // Populating ical fields:
-    let icalDate: string = getIcalDateFormat(result.on ?? "1970-01-01");
-    let icalTimeStart: string = fromTimes[1] ?? "000000";
-    let icalTimeEnd: string = tillTimes[1] ?? "235959";
+    result.icalTimeStart = fromTimes[1] ?? "000000";
+    result.icalTimeEnd = tillTimes[1] ?? "235959";
     switch (result.icalEventType) {
         case EventType.fullDay:
-            result.icalDateOrTimes = [
-                getIcalDateFormat(result.on ?? "1970-01-01"),
-            ];
-            break;
+            result.icalTimeEnd = "000000"; // To 00:00:00 of next day
         case EventType.timeSpan:
-            result.icalDateOrTimes = [
-                getIcalDateFormat(result.from ?? "1970-01-01") +
-                    "T" +
-                    icalTimeStart,
-                getIcalDateFormat(result.till ?? result.from ?? "1970-01-01") +
-                    "T" +
-                    icalTimeEnd,
-            ];
             break;
+    }
+    if (
+        result.icalTimeStart == "000000" &&
+        (result.icalTimeEnd == "000000" || result.icalTimeEnd == "235959")
+    ) {
+        result.icalEventType = EventType.fullDay;
     }
 
     // Other missing fields:

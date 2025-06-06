@@ -107,7 +107,7 @@ function getCleanedArray(input) {
     return result;
 }
 function getIcalFileContent(event) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    var _a, _b, _c, _d, _e, _f, _g;
     let now = new Date();
     let currentTimeStamp = [
         now.getFullYear(),
@@ -125,18 +125,17 @@ function getIcalFileContent(event) {
             timeEnd = "000000";
             break;
         case EventType.timeSpan:
-            timeStart = (_g = event.icalDateOrTimes[0]) !== null && _g !== void 0 ? _g : "000000";
-            timeEnd = (_h = event.icalDateOrTimes[1]) !== null && _h !== void 0 ? _h : "235959";
+            timeStart = event.icalTimeStart;
+            timeEnd = event.icalTimeEnd;
             break;
     }
-    console.warn(dateEnd.toDateString());
     let dateEndString = [
         dateEnd.getFullYear(),
         formatNumber(dateEnd.getMonth() + 1),
         formatNumber(dateEnd.getDate()),
     ].join("");
     let cleanedLocations = getCleanedArray(event.locations);
-    let cleanedDetails = getCleanedArray((_j = event.details) !== null && _j !== void 0 ? _j : []);
+    let cleanedDetails = getCleanedArray((_g = event.details) !== null && _g !== void 0 ? _g : []);
     // Construct template:
     let result = icalTemplateHead + "\n";
     switch (event.icalEventType) {

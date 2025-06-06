@@ -143,11 +143,10 @@ function getIcalFileContent(event: NewsFeedElement): string {
             timeEnd = "000000";
             break;
         case EventType.timeSpan:
-            timeStart = event.icalDateOrTimes[0] ?? "000000";
-            timeEnd = event.icalDateOrTimes[1] ?? "235959";
+            timeStart = event.icalTimeStart;
+            timeEnd = event.icalTimeEnd;
             break;
     }
-    console.warn(dateEnd.toDateString());
 
     let dateEndString: string = [
         dateEnd.getFullYear(),
