@@ -80,7 +80,7 @@ function htmlLocationSection(element) {
         }
         let sep = "📌 ";
         result =
-            "<p class='center' style='margin-top:2px;' title='Relevant(e) Ort(e)'>" +
+            "<p class='center' style='margin-top:2px;' title='Relevante(r) Ort(e)'>" +
                 sep +
                 locations.join(", " + sep) +
                 "</p>";
