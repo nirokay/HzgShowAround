@@ -56,3 +56,13 @@ function formatNumber(n) {
     }
     return result;
 }
+function icalTimeToNormal(icalTime) {
+    let time = icalTime.split(":").join("");
+    while (time.length < 6) {
+        time += "0";
+    }
+    let result = [];
+    result.push(time[0] + time[1]);
+    result.push(time[2] + time[3]);
+    return "<time>" + result.join(":") + " Uhr </time>";
+}

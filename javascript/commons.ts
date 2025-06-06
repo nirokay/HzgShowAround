@@ -61,3 +61,15 @@ function formatNumber(n: number | string): string {
     }
     return result;
 }
+
+function icalTimeToNormal(icalTime: string): string {
+    let time: string = icalTime.split(":").join("");
+    while (time.length < 6) {
+        time += "0";
+    }
+
+    let result: string[] = [];
+    result.push(time[0] + time[1]);
+    result.push(time[2] + time[3]);
+    return "<time>" + result.join(":") + " Uhr </time>";
+}

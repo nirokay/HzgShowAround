@@ -123,10 +123,10 @@ function htmlLocationSection(element: NewsFeedElement): HtmlString {
 function htmlDateSection(element: NewsFeedElement): HtmlString {
     const from = displayTime(element.from ?? "?");
     const till = displayTime(element.till ?? "?");
-    let result: HtmlString = "";
+    let resultDate: HtmlString = "";
     if (from == till) {
         // Same day:
-        result = "am " + from;
+        resultDate = "am " + from;
     } else {
         if (
             Date.parse(element.from ?? getToday()) + dayMilliseconds * 1.5 >=
@@ -134,21 +134,32 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
         ) {
             // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
             // Two days (both dates):
-            result = "am " + from + " und am " + till;
+            resultDate = "am " + from + " und am " + till;
         } else {
             // More than two days (span):
-            result = "von " + from + " bis " + till;
+            resultDate = "von " + from + " bis " + till;
         }
     }
     if (element.name == placeHolderIdentifier) {
-        result = htmlDatePlaceholder;
+        resultDate = htmlDatePlaceholder;
     }
-    return (
+    let result: HtmlString =
         "<small class='generic-center' title='Datum des Events'>" +
-        result +
-        "</small>" +
-        htmlLocationSection(element)
-    );
+        resultDate +
+        "</small>";
+
+    if (element.icalTimeStart != "000000" && element.icalTimeEnd != "000000") {
+        let resultTime: HtmlString =
+            "von " +
+            icalTimeToNormal(element.icalTimeStart) +
+            " bis " +
+            icalTimeToNormal(element.icalTimeEnd);
+        result +=
+            "<small class='generic-center' title='Zeitraum des Events'>" +
+            resultTime +
+            "</small>";
+    }
+    return result + htmlLocationSection(element);
 }
 /**
  * Generates the details/description section

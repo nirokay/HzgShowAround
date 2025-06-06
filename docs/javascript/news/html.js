@@ -95,30 +95,40 @@ function htmlDateSection(element) {
     var _a, _b, _c, _d;
     const from = displayTime((_a = element.from) !== null && _a !== void 0 ? _a : "?");
     const till = displayTime((_b = element.till) !== null && _b !== void 0 ? _b : "?");
-    let result = "";
+    let resultDate = "";
     if (from == till) {
         // Same day:
-        result = "am " + from;
+        resultDate = "am " + from;
     }
     else {
         if (Date.parse((_c = element.from) !== null && _c !== void 0 ? _c : getToday()) + dayMilliseconds * 1.5 >=
             Date.parse((_d = element.till) !== null && _d !== void 0 ? _d : getToday())) {
             // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
             // Two days (both dates):
-            result = "am " + from + " und am " + till;
+            resultDate = "am " + from + " und am " + till;
         }
         else {
             // More than two days (span):
-            result = "von " + from + " bis " + till;
+            resultDate = "von " + from + " bis " + till;
         }
     }
     if (element.name == placeHolderIdentifier) {
-        result = htmlDatePlaceholder;
+        resultDate = htmlDatePlaceholder;
     }
-    return ("<small class='generic-center' title='Datum des Events'>" +
-        result +
-        "</small>" +
-        htmlLocationSection(element));
+    let result = "<small class='generic-center' title='Datum des Events'>" +
+        resultDate +
+        "</small>";
+    if (element.icalTimeStart != "000000" && element.icalTimeEnd != "000000") {
+        let resultTime = "von " +
+            icalTimeToNormal(element.icalTimeStart) +
+            " bis " +
+            icalTimeToNormal(element.icalTimeEnd);
+        result +=
+            "<small class='generic-center' title='Zeitraum des Events'>" +
+                resultTime +
+                "</small>";
+    }
+    return result + htmlLocationSection(element);
 }
 /**
  * Generates the details/description section
