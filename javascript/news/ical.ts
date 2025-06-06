@@ -197,7 +197,7 @@ function downloadIcalFile(filename: string, content: string) {
     let actualContent = atob(content);
     element.setAttribute(
         "href",
-        "data:text/plain;charset=utf-8," + actualContent,
+        "data:text/calendar;charset=utf-8," + actualContent,
     );
     element.setAttribute("download", filename);
 

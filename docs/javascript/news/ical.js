@@ -161,7 +161,7 @@ function getIcalFileContent(event) {
 function downloadIcalFile(filename, content) {
     let element = document.createElement("a");
     let actualContent = atob(content);
-    element.setAttribute("href", "data:text/plain;charset=utf-8," + actualContent);
+    element.setAttribute("href", "data:text/calendar;charset=utf-8," + actualContent);
     element.setAttribute("download", filename);
     element.style.display = "none";
     document.body.appendChild(element);

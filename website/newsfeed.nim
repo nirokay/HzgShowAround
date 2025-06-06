@@ -22,7 +22,7 @@ html.addToHead importScript("javascript/news/news.js").add(attr("defer"))
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
-    h1($a("https://www.herzogsaegmuehle.de/aktuelles", "Newsfeed")),
+    h1($a("https://www.herzogsaegmuehle.de/aktuelles/veranstaltungen", "Newsfeed")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten für die nächsten zwei Monate und den letzten Monat."
