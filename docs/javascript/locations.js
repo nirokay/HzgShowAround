@@ -38,14 +38,13 @@ function filteredLocationNews(elements) {
             }
             let alreadyFound = false;
             element.locations.forEach((location) => {
-                var _a;
                 // Do not add duplicates:
                 if (alreadyFound) {
                     return;
                 }
                 // Add if name matches and event did not already happen:
                 if (location == locationName &&
-                    ((_a = element.importance) !== null && _a !== void 0 ? _a : -99) > -10) {
+                    (element.importance ?? -99) > -10) {
                     result.push(element);
                     alreadyFound = true;
                 }

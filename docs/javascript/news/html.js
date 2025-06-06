@@ -92,17 +92,16 @@ function htmlLocationSection(element) {
  * Generates the date section
  */
 function htmlDateSection(element) {
-    var _a, _b, _c, _d;
-    const from = displayTime((_a = element.from) !== null && _a !== void 0 ? _a : "?");
-    const till = displayTime((_b = element.till) !== null && _b !== void 0 ? _b : "?");
+    const from = displayTime(element.from ?? "?");
+    const till = displayTime(element.till ?? "?");
     let resultDate = "";
     if (from == till) {
         // Same day:
         resultDate = "am " + from;
     }
     else {
-        if (Date.parse((_c = element.from) !== null && _c !== void 0 ? _c : getToday()) + dayMilliseconds * 1.5 >=
-            Date.parse((_d = element.till) !== null && _d !== void 0 ? _d : getToday())) {
+        if (Date.parse(element.from ?? getToday()) + dayMilliseconds * 1.5 >=
+            Date.parse(element.till ?? getToday())) {
             // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
             // Two days (both dates):
             resultDate = "am " + from + " und am " + till;
@@ -134,13 +133,12 @@ function htmlDateSection(element) {
  * Generates the details/description section
  */
 function htmlDetails(element) {
-    var _a;
     if (element.name == placeHolderIdentifier) {
         return htmlDescriptionPlaceholder;
     }
     let lines = [];
     // Entire description:
-    lines = (_a = element.details) !== null && _a !== void 0 ? _a : [];
+    lines = element.details ?? [];
     let result = "";
     if (lines.length != 0) {
         result = "<p>" + lines.join("<br />") + "</p>";
@@ -151,7 +149,6 @@ function htmlDetails(element) {
  * Generates the footer section
  */
 function htmlFooter(element) {
-    var _a, _b;
     let result = [];
     let url = element.info;
     // Adds a little "more infos" link at the bottom:
@@ -161,11 +158,11 @@ function htmlFooter(element) {
             "' target='_blank'>🌐 mehr Infos</a>");
     let hash = element.from +
         "_" +
-        replaceAll((_a = element.icalTimeStart) !== null && _a !== void 0 ? _a : "", "00", "-") +
+        replaceAll(element.icalTimeStart ?? "", "00", "-") +
         "_" +
         element.till +
         "_" +
-        replaceAll((_b = element.icalTimeEnd) !== null && _b !== void 0 ? _b : "", "00", "-");
+        replaceAll(element.icalTimeEnd ?? "", "00", "-");
     let filename = "hzgshowaround-event-" + btoa(hash) + ".ics";
     // Adds a link to save ical file:
     if (element.name != htmlHeaderPlaceholder &&
@@ -181,12 +178,11 @@ function htmlFooter(element) {
  * URL -> <img> tag
  */
 function htmlImage(element) {
-    var _a;
     let result = "";
     if (element.image != "" &&
         element.image != undefined &&
         element.image != null) {
-        let url = (_a = element.image) !== null && _a !== void 0 ? _a : "";
+        let url = element.image ?? "";
         // Images from data repository:
         if (!url.startsWith("https://") && !url.startsWith("/")) {
             let subdir = "";

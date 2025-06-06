@@ -93,15 +93,14 @@ function getCleanedArray(input) {
     return result;
 }
 function getIcalFileContent(event) {
-    var _a, _b, _c, _d, _e, _f, _g;
     let now = new Date();
     let currentTimeStamp = [
         now.getFullYear(),
         formatNumber(now.getMonth() + 1),
         formatNumber(now.getDate()),
     ].join("");
-    let dateStartString = replaceAll((_c = (_b = (_a = event.from) !== null && _a !== void 0 ? _a : event.on) !== null && _b !== void 0 ? _b : event.till) !== null && _c !== void 0 ? _c : "1970-01-01", "-", "");
-    let dateEnd = new Date((_f = (_e = (_d = event.till) !== null && _d !== void 0 ? _d : event.on) !== null && _e !== void 0 ? _e : event.from) !== null && _f !== void 0 ? _f : "1970-01-01");
+    let dateStartString = replaceAll(event.from ?? event.on ?? event.till ?? "1970-01-01", "-", "");
+    let dateEnd = new Date(event.till ?? event.on ?? event.from ?? "1970-01-01");
     let timeStart;
     let timeEnd;
     switch (event.icalEventType) {
@@ -121,7 +120,7 @@ function getIcalFileContent(event) {
         formatNumber(dateEnd.getDate()),
     ].join("");
     let cleanedLocations = getCleanedArray(event.locations);
-    let cleanedDetails = getCleanedArray((_g = event.details) !== null && _g !== void 0 ? _g : []);
+    let cleanedDetails = getCleanedArray(event.details ?? []);
     // Construct template:
     let result = icalTemplateHead + "\n";
     switch (event.icalEventType) {
@@ -136,7 +135,7 @@ function getIcalFileContent(event) {
     // Replace all variables:
     let dictionary = {
         SUMMARY: fixHtmlString(event.name),
-        DESCRIPTION: fixHtmlString((cleanedDetails !== null && cleanedDetails !== void 0 ? cleanedDetails : ["Keine Details vorhanden."]).join("\n")),
+        DESCRIPTION: fixHtmlString((cleanedDetails ?? ["Keine Details vorhanden."]).join("\n")),
         CURRENT_TIME: currentTimeStamp,
         DATE_START: dateStartString,
         DATE_END: dateEndString,
@@ -148,7 +147,7 @@ function getIcalFileContent(event) {
             currentTimeStamp,
         TIME_START: timeStart,
         TIME_END: timeEnd,
-        LOCATION: fixHtmlString((cleanedLocations !== null && cleanedLocations !== void 0 ? cleanedLocations : ["Herzogsägmühle"]).join(", ")),
+        LOCATION: fixHtmlString((cleanedLocations ?? ["Herzogsägmühle"]).join(", ")),
     };
     for (const key in Variables) {
         let variable = Variables[key];

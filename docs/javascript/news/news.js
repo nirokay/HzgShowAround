@@ -1,5 +1,4 @@
 "use strict";
-var _a;
 let date = new Date();
 let relevantNews = [];
 let normalizedNews = [];
@@ -20,7 +19,7 @@ placeholderNewsFeedElement.till = "2170-12-31"; // future-proof date (i hope) //
 placeholderNewsFeedElement.name = placeHolderIdentifier;
 placeholderNewsFeedElement.details = [];
 placeholderNewsFeedElement =
-    (_a = normalizedElement([], placeholderNewsFeedElement)) !== null && _a !== void 0 ? _a : new NewsFeedElement();
+    normalizedElement([], placeholderNewsFeedElement) ?? new NewsFeedElement();
 function placePlaceholdersIntoRelevantNews() {
     relevantNews = [
         placeholderNewsFeedElement,
@@ -90,12 +89,11 @@ async function getHealthPresentations() {
 async function getHolidays() {
     let currentYear = date.getFullYear();
     async function doThisYear(year) {
-        var _a, _b;
         let json = (await fetchJson(getUrlHolidayApi(year), "{}", true));
         for (const name in json) {
             try {
                 const rawHoliday = json[name];
-                let element = new Holiday(name, (_a = rawHoliday.datum) !== null && _a !== void 0 ? _a : "1970-01-01", (_b = rawHoliday.hinweis) !== null && _b !== void 0 ? _b : "");
+                let element = new Holiday(name, rawHoliday.datum ?? "1970-01-01", rawHoliday.hinweis ?? "");
                 rawHolidays[rawHolidays.length] = element;
             }
             catch (error) {

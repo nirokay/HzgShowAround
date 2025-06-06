@@ -19,27 +19,40 @@ var EventType;
     EventType[EventType["timeSpan"] = 1] = "timeSpan";
 })(EventType || (EventType = {}));
 class NewsFeedElement {
-    constructor() {
-        this.name = "Neuigkeit";
-        // ICal times:
-        this.icalEventType = EventType.timeSpan;
-        this.icalDateStart = "19700101";
-        this.icalDateEnd = "19700101";
-        this.icalTimeStart = "000000";
-        this.icalTimeEnd = "235959";
-        this.level = "info"; // Importance as string
-        this.importance = 0; // Importance as number
-        this.isHappening = false;
-        this.locations = [];
-    }
+    name = "Neuigkeit";
+    // Display time:
+    on;
+    from;
+    till;
+    // ICal times:
+    icalEventType = EventType.timeSpan;
+    icalDateStart = "19700101";
+    icalDateEnd = "19700101";
+    icalTimeStart = "000000";
+    icalTimeEnd = "235959";
+    level = "info"; // Importance as string
+    importance = 0; // Importance as number
+    details; // Description
+    image; // Image
+    info; // URL to external resource
+    isHappening = false;
+    locations = [];
+    runtimeAdditionalMessage;
+    COMMENT;
 }
 const urlRemoteHealthPresentations = urlRemoteRepository + "news-health.json";
 class HealthPresentation {
-    constructor() {
-        this.topic = "Gesundheitsbildung: Präsentation";
-    }
+    topic = "Gesundheitsbildung: Präsentation";
+    desc;
+    on;
+    by;
+    required;
+    COMMENT;
 }
 class Holiday {
+    name; // Empty when fetching, will be set right after
+    datum;
+    hinweis;
     constructor(name, datum, hinweis) {
         this.name = name;
         this.datum = datum;
@@ -54,29 +67,26 @@ function getUrlSchoolHolidayApi(year) {
     return ("https://ferien-api.maxleistner.de/api/v1/" + year.toString() + "/BY/");
 }
 class SchoolHoliday {
-    constructor() {
-        this.start = "1970-01-01T00:00Z";
-        this.end = "1970-01-01T00:00Z";
-        this.year = 1970;
-        this.stateCode = "BY";
-        this.name = "Unbekannte Ferien";
-        this.slug = "unbekannte_ferien-1970-BY";
-    }
+    start = "1970-01-01T00:00Z";
+    end = "1970-01-01T00:00Z";
+    year = 1970;
+    stateCode = "BY";
+    name = "Unbekannte Ferien";
+    slug = "unbekannte_ferien-1970-BY";
 }
 function healthPresentationToNewsfeedElement(presentation) {
-    var _a, _b, _c;
     if (presentation.COMMENT != undefined)
         return null;
     if (presentation.topic == "?")
         return null;
     let result = new NewsFeedElement();
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
-    result.from = ((_a = presentation.on) !== null && _a !== void 0 ? _a : getToday()) + " 13:00";
-    result.till = ((_b = presentation.on) !== null && _b !== void 0 ? _b : getToday()) + " 14:30";
+    result.from = (presentation.on ?? getToday()) + " 13:00";
+    result.till = (presentation.on ?? getToday()) + " 14:30";
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
     result.image = "newsfeed/icons/presentation.svg";
-    (_c = presentation.desc) !== null && _c !== void 0 ? _c : (presentation.desc = presentation.topic);
+    presentation.desc ??= presentation.topic;
     result.details = [
         "von <time datetime='" +
             presentation.on +
@@ -102,9 +112,8 @@ function healthPresentationsToNewsfeedElements(presentations) {
     return result;
 }
 function holidayToNewsfeedElement(holiday) {
-    var _a;
     // Ignore some irrelevant holidays:
-    if (holidaysToIgnore.indexOf((_a = holiday.name) !== null && _a !== void 0 ? _a : "") > -1) {
+    if (holidaysToIgnore.indexOf(holiday.name ?? "") > -1) {
         return null;
     }
     // Build `NewsFeedElement`:
@@ -197,7 +206,6 @@ function getIcalTimeFromParts(input) {
  * Normalizes an element, so all fields are occupied
  */
 function normalizedElement(news, element) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     // Disregard comments:
     if (element.COMMENT != undefined)
         return null;
@@ -239,19 +247,19 @@ function normalizedElement(news, element) {
         result.on = result.from;
     }
     // Parsing Times:
-    let timeStartParts = getIcalTimeFromParts(((_a = fromTimes[1]) !== null && _a !== void 0 ? _a : "00:00").split(":"));
-    let timeEndParts = getIcalTimeFromParts(((_b = tillTimes[1]) !== null && _b !== void 0 ? _b : "00:00").split(":"));
+    let timeStartParts = getIcalTimeFromParts((fromTimes[1] ?? "00:00").split(":"));
+    let timeEndParts = getIcalTimeFromParts((tillTimes[1] ?? "00:00").split(":"));
     // Populating ical fields:
-    result.icalTimeStart = timeStartParts !== null && timeStartParts !== void 0 ? timeStartParts : "000000";
-    result.icalTimeEnd = timeEndParts !== null && timeEndParts !== void 0 ? timeEndParts : "000000";
+    result.icalTimeStart = timeStartParts ?? "000000";
+    result.icalTimeEnd = timeEndParts ?? "000000";
     if (result.icalTimeStart == "000000" &&
         (result.icalTimeEnd == "000000" || result.icalTimeEnd == "235959")) {
         result.icalEventType = EventType.fullDay;
     }
     // Other missing fields:
-    result.name = (_c = element.name) !== null && _c !== void 0 ? _c : "Neuigkeit";
-    result.level = (_d = element.level) !== null && _d !== void 0 ? _d : "info";
-    result.image = (_e = element.image) !== null && _e !== void 0 ? _e : "";
+    result.name = element.name ?? "Neuigkeit";
+    result.level = element.level ?? "info";
+    result.image = element.image ?? "";
     // Details fixes:
     switch (typeof element.details) {
         case "string":
@@ -303,8 +311,8 @@ function normalizedElement(news, element) {
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
     {
-        let from = (_g = (_f = result.from) !== null && _f !== void 0 ? _f : result.on) !== null && _g !== void 0 ? _g : "";
-        let till = (_j = (_h = result.till) !== null && _h !== void 0 ? _h : result.on) !== null && _j !== void 0 ? _j : "";
+        let from = result.from ?? result.on ?? "";
+        let till = result.till ?? result.on ?? "";
         if (from.includes("*") || till.includes("*")) {
             // Duplicates the event for the next and previous year
             let year = date.getFullYear();
@@ -320,8 +328,8 @@ function normalizedElement(news, element) {
         }
     }
     // Is happening now:
-    if (Date.parse((_k = result.from) !== null && _k !== void 0 ? _k : "") <= date.getTime() &&
-        Date.parse((_l = result.till) !== null && _l !== void 0 ? _l : "") + dayMilliseconds >= date.getTime()) {
+    if (Date.parse(result.from ?? "") <= date.getTime() &&
+        Date.parse(result.till ?? "") + dayMilliseconds >= date.getTime()) {
         result.isHappening = true;
     }
     else {
@@ -370,7 +378,6 @@ function normalizeTime(time, offset = 0) {
  * Gets the numerical importance of an event
  */
 function getImportance(element) {
-    var _a, _b, _c;
     let result = 0;
     switch (element.level) {
         case "alert":
@@ -402,7 +409,7 @@ function getImportance(element) {
     }
     // Special case, if the event occurred in the past:
     let date = new Date();
-    let till = (_c = (_b = (_a = element.till) !== null && _a !== void 0 ? _a : element.on) !== null && _b !== void 0 ? _b : element.from) !== null && _c !== void 0 ? _c : getToday();
+    let till = element.till ?? element.on ?? element.from ?? getToday();
     if (Date.parse(normalizeTime(till)) + dayMilliseconds < date.getTime()) {
         result = -10;
     }
@@ -441,15 +448,14 @@ function getElementClass(element) {
  * Determines if the event is relevant based on its time
  */
 function isElementRelevant(element) {
-    var _a, _b;
     if (typeof element != "object" || element == null) {
         debug("Element relevancy failed, not an object or is null", element);
         return false;
     }
     let date = new Date();
     // Filters irrelevant news:
-    let unixFrom = Date.parse((_a = element.from) !== null && _a !== void 0 ? _a : getToday());
-    let unixTill = Date.parse((_b = element.till) !== null && _b !== void 0 ? _b : getToday()) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
+    let unixFrom = Date.parse(element.from ?? getToday());
+    let unixTill = Date.parse(element.till ?? getToday()) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
     let unixNow = date.getTime();
     return (unixNow - relevancyLookIntoPast <= unixTill &&
         unixNow + relevancyLookIntoFuture >= unixFrom);
@@ -480,17 +486,15 @@ function sortedElementsByDateAndRelevancy(news) {
     }
     // Date:
     news.sort((a, b) => {
-        var _a, _b;
-        return (Date.parse((_a = a.from) !== null && _a !== void 0 ? _a : getToday()) - Date.parse((_b = b.from) !== null && _b !== void 0 ? _b : getToday()));
+        return (Date.parse(a.from ?? getToday()) - Date.parse(b.from ?? getToday()));
     });
     // Importance:
     news.sort((a, b) => {
         // Normal sorting
         // return (b.importance ?? -99) - (a.importance ?? -99);
-        var _a, _b;
         // Actually wtf, anyways: puts "happened" events (-10) to the bottom, puts everything else in place (already sorted by date)
-        return ((((_a = b.importance) !== null && _a !== void 0 ? _a : -99) > -10 ? 0 : -1) -
-            (((_b = a.importance) !== null && _b !== void 0 ? _b : -99) > -10 ? 0 : -1));
+        return (((b.importance ?? -99) > -10 ? 0 : -1) -
+            ((a.importance ?? -99) > -10 ? 0 : -1));
     });
     return news;
 }
