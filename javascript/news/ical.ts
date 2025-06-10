@@ -162,7 +162,7 @@ function getIcalFileContent(event: NewsFeedElement): string {
     let dictionary: EnumDictionary<string, string> = {
         SUMMARY: fixHtmlString(event.name),
         DESCRIPTION: fixHtmlString(
-            (cleanedDetails ?? ["Keine Details vorhanden."]).join("\n"),
+            (cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n"),
         ),
         CURRENT_TIME: currentTimeStamp,
         DATE_START: dateStartString,

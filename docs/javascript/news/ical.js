@@ -135,7 +135,7 @@ function getIcalFileContent(event) {
     // Replace all variables:
     let dictionary = {
         SUMMARY: fixHtmlString(event.name),
-        DESCRIPTION: fixHtmlString((cleanedDetails ?? ["Keine Details vorhanden."]).join("\n")),
+        DESCRIPTION: fixHtmlString((cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n")),
         CURRENT_TIME: currentTimeStamp,
         DATE_START: dateStartString,
         DATE_END: dateEndString,
