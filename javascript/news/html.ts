@@ -236,7 +236,7 @@ function htmlImage(element: NewsFeedElement): HtmlString {
         // Images from data repository:
         if (!url.startsWith("https://") && !url.startsWith("/")) {
             let subdir: string = "";
-            if (!url.includes("/")) subdir = "newsfeed/";
+            if (!url.includes("/")) subdir = "newsfeed/icons/";
             url = urlImagesDirectory + subdir + url;
         }
         result = "<img class='newsfeed-element-picture' src='" + url + "' />";

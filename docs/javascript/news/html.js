@@ -187,7 +187,7 @@ function htmlImage(element) {
         if (!url.startsWith("https://") && !url.startsWith("/")) {
             let subdir = "";
             if (!url.includes("/"))
-                subdir = "newsfeed/";
+                subdir = "newsfeed/icons/";
             url = urlImagesDirectory + subdir + url;
         }
         result = "<img class='newsfeed-element-picture' src='" + url + "' />";
