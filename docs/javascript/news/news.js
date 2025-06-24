@@ -87,7 +87,6 @@ async function getNews() {
         fetchNewsFeedElements(urlRemoteNewsYear(currentYear)),
         fetchNewsFeedElements(urlRemoteNewsYear(currentYear + 1)),
         fetchNewsFeedElements(urlRemoteNewsRepeat),
-        // fetchNewsFeedElements<NewsFeedElement>(urlRemoteNewsLegacy),
     ]);
     let result = [];
     rawLists.forEach((list) => {

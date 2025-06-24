@@ -16,7 +16,7 @@ let relevancyLookIntoFuture: number = monthMilliseconds * 2;
 let relevancyLookIntoPast: number = monthMilliseconds;
 
 const urlRemoteNewsLegacy: string = urlRemoteRepository + "news.json";
-const urlRemoteNewsRepeat: string = urlRemoteRepository + "news-repeating.json";
+const urlRemoteNewsRepeat: string = urlRemoteRepository + "news-repeat.json";
 function urlRemoteNewsYear(year: number): string {
     return urlRemoteRepository + "news-" + year.toString() + ".json";
 }

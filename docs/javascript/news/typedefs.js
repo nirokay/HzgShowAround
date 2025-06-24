@@ -13,7 +13,7 @@ const dateFormatDisplay = {
 let relevancyLookIntoFuture = monthMilliseconds * 2;
 let relevancyLookIntoPast = monthMilliseconds;
 const urlRemoteNewsLegacy = urlRemoteRepository + "news.json";
-const urlRemoteNewsRepeat = urlRemoteRepository + "news-repeating.json";
+const urlRemoteNewsRepeat = urlRemoteRepository + "news-repeat.json";
 function urlRemoteNewsYear(year) {
     return urlRemoteRepository + "news-" + year.toString() + ".json";
 }
