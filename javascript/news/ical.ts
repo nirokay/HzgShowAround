@@ -186,9 +186,6 @@ function getIcalFileContent(event: NewsFeedElement): string {
         let value: string = dictionary[variable];
         result = replaceAll(result, getVariable(variable), value);
     }
-
-    console.log(dictionary);
-
     return btoa(encodeURI(result));
 }
 
