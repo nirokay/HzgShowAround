@@ -12,7 +12,11 @@ const dateFormatDisplay = {
 };
 let relevancyLookIntoFuture = monthMilliseconds * 2;
 let relevancyLookIntoPast = monthMilliseconds;
-const urlRemoteNews = urlRemoteRepository + "news.json";
+const urlRemoteNewsLegacy = urlRemoteRepository + "news.json";
+const urlRemoteNewsRepeat = urlRemoteRepository + "news-repeating.json";
+function urlRemoteNewsYear(year) {
+    return urlRemoteRepository + "news-" + year.toString() + ".json";
+}
 var EventType;
 (function (EventType) {
     EventType[EventType["fullDay"] = 0] = "fullDay";

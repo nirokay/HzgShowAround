@@ -1,5 +1,6 @@
 "use strict";
 let date = new Date();
+let currentYear = date.getFullYear();
 let relevantNews = [];
 let normalizedNews = [];
 let rawNews = [];
@@ -62,9 +63,15 @@ async function fetchJson(url, defaultJson, softFail = false) {
     return json;
 }
 async function fetchNewsFeedElements(url) {
-    let json = await fetchJson(url, "[]");
-    let result = json;
-    return result;
+    try {
+        let json = await fetchJson(url, "[]");
+        let result = json;
+        return result;
+    }
+    catch (e) {
+        console.error("Failed to fetch and parse news from url " + url, e);
+        return [];
+    }
 }
 async function fetchSchoolHolidays(url) {
     let json = await fetchJson(url, "[]", true);
@@ -75,7 +82,18 @@ async function fetchSchoolHolidays(url) {
  * Fetches news
  */
 async function getNews() {
-    rawNews = await fetchNewsFeedElements(urlRemoteNews);
+    let rawLists = await Promise.all([
+        fetchNewsFeedElements(urlRemoteNewsYear(currentYear - 1)),
+        fetchNewsFeedElements(urlRemoteNewsYear(currentYear)),
+        fetchNewsFeedElements(urlRemoteNewsYear(currentYear + 1)),
+        fetchNewsFeedElements(urlRemoteNewsRepeat),
+        // fetchNewsFeedElements<NewsFeedElement>(urlRemoteNewsLegacy),
+    ]);
+    let result = [];
+    rawLists.forEach((list) => {
+        result = result.concat(list);
+    });
+    rawNews = result;
 }
 /**
  * Fetches health presentations

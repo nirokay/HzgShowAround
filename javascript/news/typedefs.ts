@@ -15,7 +15,11 @@ const dateFormatDisplay: Intl.DateTimeFormatOptions = {
 let relevancyLookIntoFuture: number = monthMilliseconds * 2;
 let relevancyLookIntoPast: number = monthMilliseconds;
 
-const urlRemoteNews: string = urlRemoteRepository + "news.json";
+const urlRemoteNewsLegacy: string = urlRemoteRepository + "news.json";
+const urlRemoteNewsRepeat: string = urlRemoteRepository + "news-repeating.json";
+function urlRemoteNewsYear(year: number): string {
+    return urlRemoteRepository + "news-" + year.toString() + ".json";
+}
 enum EventType {
     fullDay,
     timeSpan,

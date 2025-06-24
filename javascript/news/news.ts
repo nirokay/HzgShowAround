@@ -1,4 +1,5 @@
 let date: Date = new Date();
+let currentYear = date.getFullYear();
 
 let relevantNews: NewsFeedElement[] = [];
 let normalizedNews: NewsFeedElement[] = [];
@@ -72,9 +73,14 @@ async function fetchJson(
 async function fetchNewsFeedElements<T = NewsFeedElement>(
     url: string,
 ): Promise<T[]> {
-    let json: JSON = await fetchJson(url, "[]");
-    let result: T[] = json as unknown as T[];
-    return result;
+    try {
+        let json: JSON = await fetchJson(url, "[]");
+        let result: T[] = json as unknown as T[];
+        return result;
+    } catch (e) {
+        console.error("Failed to fetch and parse news from url " + url, e);
+        return [];
+    }
 }
 async function fetchSchoolHolidays(url: string): Promise<SchoolHoliday[]> {
     let json: JSON = await fetchJson(url, "[]", true);
@@ -86,7 +92,21 @@ async function fetchSchoolHolidays(url: string): Promise<SchoolHoliday[]> {
  * Fetches news
  */
 async function getNews() {
-    rawNews = await fetchNewsFeedElements<NewsFeedElement>(urlRemoteNews);
+    let rawLists: NewsFeedElement[][] = await Promise.all([
+        fetchNewsFeedElements<NewsFeedElement>(
+            urlRemoteNewsYear(currentYear - 1),
+        ),
+        fetchNewsFeedElements<NewsFeedElement>(urlRemoteNewsYear(currentYear)),
+        fetchNewsFeedElements<NewsFeedElement>(
+            urlRemoteNewsYear(currentYear + 1),
+        ),
+        fetchNewsFeedElements<NewsFeedElement>(urlRemoteNewsRepeat),
+    ]);
+    let result: NewsFeedElement[] = [];
+    rawLists.forEach((list: NewsFeedElement[]) => {
+        result = result.concat(list);
+    });
+    rawNews = result;
 }
 
 /**
