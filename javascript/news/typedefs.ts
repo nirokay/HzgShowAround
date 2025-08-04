@@ -12,7 +12,7 @@ const dateFormatDisplay: Intl.DateTimeFormatOptions = {
     year: "numeric",
 };
 
-let relevancyLookIntoFuture: number = monthMilliseconds * 2;
+let relevancyLookIntoFuture: number = monthMilliseconds * 3;
 let relevancyLookIntoPast: number = monthMilliseconds;
 
 const urlRemoteNewsLegacy: string = urlRemoteRepository + "news.json";

@@ -10,7 +10,7 @@ const dateFormatDisplay = {
     month: "2-digit",
     year: "numeric",
 };
-let relevancyLookIntoFuture = monthMilliseconds * 2;
+let relevancyLookIntoFuture = monthMilliseconds * 3;
 let relevancyLookIntoPast = monthMilliseconds;
 const urlRemoteNewsLegacy = urlRemoteRepository + "news.json";
 const urlRemoteNewsRepeat = urlRemoteRepository + "news-repeat.json";
