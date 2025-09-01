@@ -10,4 +10,4 @@ bin           = @["hzgshowaround"]
 # Dependencies
 
 requires "nim >= 2.2.2"
-requires "websitegenerator >= 2.5.2"
+requires "websitegenerator >= 2.5.1"

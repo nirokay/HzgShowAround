@@ -8,6 +8,17 @@
 import generator
 import globals, styles, snippets
 
+proc backgroundedSpan(definition, explanation, col: string): HtmlElement =
+    var elements: seq[HtmlElement]
+    elements.add span(<$>definition).addStyle("background-color" := col)
+    elements.add <$>(" = " & explanation)
+    result = <$>($elements) # wtf am i doing
+proc underlinedSpan(definition, explanation, col: string): HtmlElement =
+    var elements: seq[HtmlElement]
+    elements.add span(<$>definition).addStyle("text-decoration" := ("5px underline " & col))
+    elements.add <$>(" = " & explanation)
+    result = <$>($elements) # wtf am i doing
+
 var html: HtmlDocument = newPage(
     "Newsfeed",
     "newsfeed.html",
@@ -27,6 +38,24 @@ html.addToBody(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten für die nächsten drei Monate sowie den vergangenen Monat."
     ),
+    `div`(
+        newHtmlElement("details",
+            summary("Farberklärungen"),
+            p(
+                backgroundedSpan("Hellerer Hintergrund", "Veranstaltung findet heute statt", colourEventHappened),
+                br(),
+                underlinedSpan("Weißer Rahmen", "Normale Veranstaltung", colourEventGeneric),
+                br(),
+                underlinedSpan("Grauer Rahmen", "Vergangene Veranstaltung", colourEventHappened),
+                br(),
+                underlinedSpan("Blauer Rahmen", "Feiertage und Schulferien", colourEventHoliday),
+                br(),
+                underlinedSpan("Gelber Rahmen", "Warnung oder hervorgehobene Veranstaltung", colourEventWarning),
+                br(),
+                underlinedSpan("Roter Rahmen", "Alarm", colourEventAlert)
+            )
+        )
+    ).setClass(centerClass),
     small("Noch nicht aktualisiert").add(
         attr("id", "reloaded-time")
     ).setClass(centerClass),
