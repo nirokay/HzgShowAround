@@ -177,13 +177,39 @@ proc generateLocationHtml*(location: Location) =
         ]
 
     # Add map element (if location has coords):
-    if location.coords.isSet():
+    if location.coords.isSet() or location.contact.isSet():
         let path: string = location.getLocationMapPath()
+        var elements: seq[HtmlElement] = @[
+            ih2("Position und Kontakt", "position-und-kontakt"),
+        ]
 
-        html.addToBody(contentBox @[
-            ih2("Position auf der Karte", "position"),
-            img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageMapPreview)
-        ])
+        # Contact info:
+        if location.contact.isSet():
+            var contactElements: seq[HtmlElement]
+            let contact: ContactInformation = get location.contact
+            # Address:
+            if contact.address.isSet():
+                elements.add p(
+                    b("Anschrift: "),
+                    <$>contact.address.get()
+                )
+            # Telephone:
+            if contact.tels.isSet():
+                let tels: OrderedTable[string, string] = get contact.tels
+                discard
+            # Telephone:
+            if contact.emails.isSet():
+                let emails: OrderedTable[string, string] = get contact.emails
+                discard
+
+
+            elements.add `div`(contactElements)
+
+        # Map:
+        if location.coords.isSet():
+            elements.add img(path, "Kartenausschnitt kann nicht angezeigt werden").setClass(locationImageMapPreview)
+
+        html.addToBody(contentBox elements)
 
     # Add similar places as links:
     if location.same.isSet():

@@ -21,6 +21,10 @@ type
 
     OpeningTimes* = OrderedTable[string, string] ## `OrderedTable` of opening times
 
+    ContactInformation* = object
+        address*: Option[string]
+        tels*, emails*: Option[OrderedTable[string, string]]
+
     Location* = object
         name*: string ## Location name
         alias*: Option[seq[string]] ## Alias names for location (used for newsfeed substring replacements)
@@ -31,6 +35,7 @@ type
         coords*: Option[Coords] ## Optional coordinates -> will be inserted into the map image
         path*: Option[string] ## Optional, because needs not to be inserted into json file
         same*: Option[seq[string]] ## Optional similar locations
+        contact*: Option[ContactInformation] ## Optional contact information
 
     LocationLookup* = object ## Look-up table for alias names, will be injected into newsfeed
         names*: seq[string] ## List of aliases
@@ -131,4 +136,3 @@ type
         name*: string
         opacity*: float = 1.0
         shapes*: seq[T]
-
