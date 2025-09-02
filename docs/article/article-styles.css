@@ -281,6 +281,10 @@ icon-display {
     border-radius: 10px;
 }
 
+.location-contact-info-element {
+    margin: 10px;
+}
+
 .top-page-header {
     left: 0px;
     background-color: #23252c;

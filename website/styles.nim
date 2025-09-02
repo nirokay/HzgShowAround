@@ -176,6 +176,7 @@ globalCss.add(
     # Location:
     locationDeprecationDisclaimerHeaderClass,
     locationDeprecationDisclaimerDivClass,
+    locationContactElementDiv,
 
     # Bars:
     topPageHeaderClass,

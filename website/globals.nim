@@ -453,6 +453,10 @@ const
         ["flex-wrap", "wrap"]
     )
 
+    locationContactElementDiv* = newCssClass("location-contact-info-element",
+        "margin" := "10px"
+    )
+
     locationSearchBarAutocomplete*: CssElement = ".autocomplete"{
         "position" := "relative",
         "display" := "inline-block"

@@ -189,21 +189,63 @@ proc generateLocationHtml*(location: Location) =
             let contact: ContactInformation = get location.contact
             # Address:
             if contact.address.isSet():
-                elements.add p(
+                let
+                    address: string = contact.address.get()
+                    parts: seq[string] = address.split(",")
+                    street: string = parts[0].strip()
+                    area: string = block:
+                        if street.len() <= 1: "86971 Peiting-Herzogsägmühle"
+                        else: parts[1].strip()
+                contactElements.add `div`(
                     b("Anschrift: "),
-                    <$>contact.address.get()
-                )
+                    <$>street,
+                    <$>", ",
+                    i(area)
+                ).setClass(locationContactElementDiv)
             # Telephone:
             if contact.tels.isSet():
                 let tels: OrderedTable[string, string] = get contact.tels
-                discard
-            # Telephone:
+                if tels.hasKey(""):
+                    contactElements.add `div`(
+                        b("Telefonnummer: "),
+                        a("tel:" & tels[""], tels[""])
+                    ).setClass(locationContactElementDiv)
+                else:
+                    var children: seq[HtmlElement]
+                    for name, number in tels:
+                        children.add li(@[
+                            i(name & ": "),
+                            a("tel:" & number, number)
+                        ])
+                    contactElements.add `div`(
+                        b("Telefonnummern: "),
+                        ul(children).addStyle("margin-top" := "0")
+                    ).setClass(locationContactElementDiv)
+
+            # Email:
             if contact.emails.isSet():
                 let emails: OrderedTable[string, string] = get contact.emails
-                discard
+                if emails.hasKey(""):
+                    contactElements.add `div`(
+                        b("Email-Adresse: "),
+                        a("mailto:" & emails[""], emails[""])
+                    ).setClass(locationContactElementDiv)
+                else:
+                    var children: seq[HtmlElement]
+                    for name, address in emails:
+                        children.add li(@[
+                            i(name & ": "),
+                            a("mailto:" & address, address)
+                        ])
+                    contactElements.add `div`(
+                        b("Email-Adressen: "),
+                        ul(children).addStyle("margin-top" := "0")
+                    ).setClass(locationContactElementDiv)
 
-
-            elements.add `div`(contactElements)
+            elements.add `div`(contactElements).setClass(contentBoxClass).addStyle(
+                "width" := "fit-content",
+                "background-color" := colourBackgroundLight
+            )
 
         # Map:
         if location.coords.isSet():
