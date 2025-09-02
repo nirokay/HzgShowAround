@@ -194,7 +194,7 @@ proc generateLocationHtml*(location: Location) =
                     parts: seq[string] = address.split(",")
                     street: string = parts[0].strip()
                     area: string = block:
-                        if street.len() <= 1: "86971 Peiting-Herzogsägmühle"
+                        if parts.len() < 2: "86971 Peiting-Herzogsägmühle"
                         else: parts[1].strip()
                 contactElements.add `div`(
                     b("Anschrift: "),
