@@ -180,7 +180,7 @@ proc generateLocationHtml*(location: Location) =
     if location.coords.isSet() or location.contact.isSet():
         let path: string = location.getLocationMapPath()
         var elements: seq[HtmlElement] = @[
-            ih2("Position und Kontakt", "position-und-kontakt"),
+            ih2("Ort und Kontakt", "ort-und-kontakt"),
         ]
 
         # Contact info:
