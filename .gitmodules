@@ -1,0 +1,4 @@
+[submodule "HzgShowAroundData"]
+	path = HzgShowAroundData
+	url = https://github.com/nirokay/HzgShowAroundData
+	branch = master

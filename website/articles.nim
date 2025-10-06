@@ -156,7 +156,7 @@ proc getArticles() =
 
 proc getRawHtmlArticle(file: string): string =
     let url: string = urlCustomHtmlArticles & file
-    result = requestRawText(url)
+    result = readFileRawText(url)
 
 proc generateArticleHtml(article: Article) =
     ## Generate single article
