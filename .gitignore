@@ -9,3 +9,6 @@ hzgshowaround
 
 # Testing:
 .test/
+
+# Symbolic link to ../HzgShowAroundData/cspell.json (tracked there)
+cspell.json
