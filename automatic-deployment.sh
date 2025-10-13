@@ -7,7 +7,7 @@ ADDITIONAL_COMMIT_MESSAGE=""
 TMP_FILE=$(mktemp)
 
 function fetch() {
-    git pull
+    ./pull-all.sh
 }
 
 function push() {
@@ -65,4 +65,3 @@ else
         main
     done
 fi
-
