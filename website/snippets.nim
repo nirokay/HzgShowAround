@@ -182,6 +182,7 @@ proc getRelativeUrlPath*(name: string): string =
     ## Gets the path for an html page
     name.getRelativeUrlId() & ".html"
 
+let pinHeaderId: string = urlPinIdHeader.readFileRawText()
 proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlElement =
     var id: string
     result = element
@@ -192,6 +193,9 @@ proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlEle
         for c in [",", ".", "!", "?", ":", ";", "(", ")", "[", "]", "=", "#", "'", "\"", "§", "$", "€", "%", "/", "{", "}"]: # i should think of making this somehow a smarter system
             id = id.replace(c, "")
     result.addattr("id", id)
+
+    var pin: HtmlElement = a("#" & id, pinHeaderId).setTitle("Pinne diese Überschrift")
+    result.children.add pin
 proc ih1*(text: string, override: string = ""): HtmlElement = h1(text).iheader(text, override) ## Header element (with ascii-friendly id)
 proc ih2*(text: string, override: string = ""): HtmlElement = h2(text).iheader(text, override) ## Header element (with ascii-friendly id)
 proc ih3*(text: string, override: string = ""): HtmlElement = h3(text).iheader(text, override) ## Header element (with ascii-friendly id)

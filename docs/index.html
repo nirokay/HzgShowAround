@@ -17,9 +17,344 @@
     <link href='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png' rel='apple-touch-icon' />
 </head>
 <body lang='de'>
-    <div class='div-outer'><div class='div-middle'><div class='div-inner'><div class='autocomplete-floating-island'><form action='javascript:searchBarButtonClick();'><h3>Ort-Schnellsuche</h3><div class='autocomplete'><input class='autocomplete-search-bar' id='index-location-search-bar' placeholder='Name des Ortes' type='text' /><button id='index-location-search-bar-submit-button' onclick='searchBarButtonClick();'>Suche</button></div></form></div><div class='generic-center' style='max-width:100px;max-height:100px;filter:drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));'><img alt='Icon kann nicht geladen werden :(' class='icon-display' src='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.svg' style='max-width: 190px; max-height: 190px;' /></div><h1 id='hzgshowaround_fuer_die_diakonie_herzogsaegmuehle' style='position:relative;'>HzgShowAround für die Diakonie Herzogsägmühle</h1><p class='generic-center'>Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!</p><div class='content-box'><h2 id='newsfeed_und_artikel'>Newsfeed und Artikel</h2><p>Im Newsfeed sind alle, für Rehabilitanden relevanten, Events und Neuigkeiten eingetragen! Du kannst da gerne regelmäßig vorbeischauen, denn neue Events werden regelmäßig eingetragen.<br />Auch bei den Artikeln kannst du gerne vorbeischauen. Diese sind von Rehabilitanden geschrieben, die wichtig erscheinen, etwas mit der Mühle zu Tun haben, oder einfach nur zum Spaß geschrieben wurden!</p><div class='generic-center'><a class='button' href='/HzgShowAround/newsfeed.html' style='color:#e8e6e3;' title='Navigiere zum Newsfeed'>Newsfeed</a><a class='button' href='/HzgShowAround/articles.html' style='color:#e8e6e3;' title='Navigiere zu den Artikeln'>Artikel</a></div></div><div class='content-box'><h2 id='orte'>Orte</h2><div class='image-paragraph'><a href='map.html'><img alt='Ortskarte' src='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/map.svg' style='max-width:200px;' /></a><p class='image-paragraph-content'>Alle wichtigen Orte sind online abrufbar; Es gibt eine interaktive Karte von der Diakonie Herzogsägmühle, wo die eingetragenen Orte anklickbar sind.<br />Keine Lust selbstständig dir Orte anzuschauen? Dann führe doch die Digitale Tour durch den Ort durch. Da siehst du die wichtigsten Orte und deren Beschreibungen.</p></div><p><label for='index-location-drop-down'><u>Drop-Down Liste aller Orte:</u></label><br /><select id='index-location-drop-down' name='index-location-drop-down' onchange='changeToLocationPage();' onfocus='this.selectedIndex = 0;' title='Drop-Down Menü mit allen Orten'><option selected value='none'>-- Bitte auswählen --</option><option value='location/abenteuerspielplatz.html'>Abenteuerspielplatz</option><option value='location/albrecht-schnitter-berufsschule.html'>Albrecht-Schnitter-Berufsschule</option><option value='location/alfons-brandl-schule.html'>Alfons-Brandl-Schule</option><option value='location/am_latterbach_haus_13.html'>Am Latterbach Haus 13</option><option value='location/am_latterbach_haus_14.html'>Am Latterbach Haus 14</option><option value='location/am_latterbach_haeuser_10_und_12.html'>Am Latterbach Häuser 10 und 12</option><option value='location/am_latterbach_haeuser_16_und_18.html'>Am Latterbach Häuser 16 und 18</option><option value='location/am_latterbach_haeuser_9_und_11.html'>Am Latterbach Häuser 9 und 11</option><option value='location/arbeits-tagesstrukturierende_massnahme_(attm).html'>Arbeits-tagesstrukturierende Maßnahme (AttM)</option><option value='location/bau-_und_moebelschreinerei.html'>Bau- und Möbelschreinerei</option><option value='location/beach-volleyballfeld.html'>Beach-Volleyballfeld</option><option value='location/berufliches_zentrum_(bz).html'>Berufliches Zentrum (BZ)</option><option value='location/berufsbildende_massnahme_(bbm).html'>Berufsbildende Maßnahme (BBM)</option><option value='location/cafe_und_wirtshaus_herzog.html'>Cafe und Wirtshaus Herzog</option><option value='location/deckerhalle.html'>Deckerhalle</option><option value='location/dorfplatz.html'>Dorfplatz</option><option value='location/elektrowerkstatt.html'>Elektrowerkstatt</option><option value='location/friedhof.html'>Friedhof</option><option value='location/fussballplatz.html'>Fußballplatz</option><option value='location/gesundheits.punkt.html'>gesundheits.punkt</option><option value='location/gaertnerei.html'>Gärtnerei</option><option value='location/handball-_und_basketballfeld.html'>Handball- und Basketballfeld</option><option value='location/herzogsaegmuehler_werkstaetten.html'>Herzogsägmühler Werkstätten</option><option value='location/haeuser_am_latterbach.html'>Häuser Am Latterbach</option><option value='location/jugendreha.html'>Jugendreha</option><option value='location/kfz-werkstatt.html'>KFZ-Werkstatt</option><option value='location/landwirtschaft.html'>Landwirtschaft</option><option value='location/licht-_und_wachsmanifaktur.html'>Licht- und Wachsmanifaktur</option><option value='location/lindenhofsaal.html'>Lindenhofsaal</option><option value='location/liselotte-von-lepel-gnitz-schule.html'>Liselotte-von-Lepel-Gnitz-Schule</option><option value='location/malerei.html'>Malerei</option><option value='location/martinskirche.html'>Martinskirche</option><option value='location/metzgerei_und_baeckerei.html'>Metzgerei und Bäckerei</option><option value='location/minigolfanlage.html'>Minigolfanlage</option><option value='location/muehlenmarkt.html'>MühlenMarkt</option><option value='location/post_und_treuhand-kasse.html'>Post und Treuhand-Kasse</option><option value='location/rainer-endisch-saal.html'>Rainer-Endisch-Saal</option><option value='location/sanitaer-_und_heizungstechnik.html'>Sanitär- und Heizungstechnik</option><option value='location/schlosserei.html'>Schlosserei</option><option value='location/schoeneckerhaus.html'>Schöneckerhaus</option><option value='location/sinnespfad.html'>Sinnespfad</option><option value='location/skater-park.html'>Skater-Park</option><option value='location/sporthalle.html'>Sporthalle</option><option value='location/sprintstrecke.html'>Sprintstrecke</option><option value='location/sternenstunden-reithalle.html'>Sternenstunden-Reithalle</option><option value='location/telezentrum_-_digitale_medien.html'>Telezentrum - Digitale Medien</option><option value='location/tennisplatz.html'>Tennisplatz</option><option value='location/vereinsheim_sv_herzogsaegmuehle.html'>Vereinsheim SV Herzogsägmühle</option><option value='location/von-kahl_denkmal.html'>Von-Kahl Denkmal</option><option value='location/werkstatt-laden_im_muehlenmarkt.html'>Werkstatt-Laden im MühlenMarkt</option><option value='location/wuehlkiste.html'>Wühlkiste</option></select></p><div class='generic-center'><a class='button' href='/HzgShowAround/map.html' style='color:#e8e6e3;' title='Navigiere zur Karte'>Karte</a><a class='button' href='/HzgShowAround/tour.html' style='color:#e8e6e3;' title='Navigiere zur digitalen Tour'>Digitale Tour</a></div></div><div class='content-box'><h2 id='freizeitangebote'>Freizeitangebote</h2><p>Verschiedene Freizeitangebote werden in der Herzogsägmühle und im nahen Umfeld angeboten.<br />Hier kannst du eine Liste von Angeboten einsehen und ggf. Kontakt mit den Anbietern aufnehmen, falls diese Informationen angegeben sind.</p><div class='generic-center'><a class='button' href='/HzgShowAround/offerings.html' style='color:#e8e6e3;' title='Navigiere zu den Freizeitangeboten'>Freizeitangebote</a></div></div><div class='content-box'><h2 id='sonstiges'>Sonstiges</h2><p>Diese Seite ist von einem kleinen Team geführt und ist komplett <a href='https://de.wiktionary.org/wiki/quelloffen'>quelloffen</a>.<br />Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein <a href='https://github.com/'>GitHub</a>-Account.</p><ul><li><a href='https://github.com/nirokay/HzgShowAround'>Website Repository</a></li><li><a href='https://github.com/nirokay/HzgShowAroundData'>Website-Data Repository</a></li></ul><div class='generic-center'><a class='button' href='/HzgShowAround/contact.html' style='color:#e8e6e3;' title='Navigiere zur Kontaktseite'>Kontakt</a><a class='button' href='/HzgShowAround/contributors.html' style='color:#e8e6e3;' title='Navigiere zu den Mitwirkenden'>Mitwirkende</a><a class='button' href='/HzgShowAround/changelog.html' style='color:#e8e6e3;' title='Navigiere zu der Seite mit Veränderungen'>Veränderungen</a></div></div><div style='min-height:52px;'><!-- This element is a hack, please ignore my superior HTML/CSS skills --></div></div></div></div>
+    <div class='div-outer'><div class='div-middle'><div class='div-inner'><div class='autocomplete-floating-island'><form action='javascript:searchBarButtonClick();'><h3>Ort-Schnellsuche</h3><div class='autocomplete'><input class='autocomplete-search-bar' id='index-location-search-bar' placeholder='Name des Ortes' type='text' /><button id='index-location-search-bar-submit-button' onclick='searchBarButtonClick();'>Suche</button></div></form></div><div class='generic-center' style='max-width:100px;max-height:100px;filter:drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));'><img alt='Icon kann nicht geladen werden :(' class='icon-display' src='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.svg' style='max-width: 190px; max-height: 190px;' /></div><h1 id='hzgshowaround_fuer_die_diakonie_herzogsaegmuehle' style='position:relative;'>HzgShowAround für die Diakonie Herzogsägmühle<a href='#hzgshowaround_fuer_die_diakonie_herzogsaegmuehle' title='Pinne diese Überschrift'><?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <svg
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg4"
+        sodipodi:docname="header-href-pin.svg"
+        inkscape:version="1.4.2 (unknown)"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs4" />
+      <sodipodi:namedview
+            id="namedview4"
+            pagecolor="#505050"
+            bordercolor="#eeeeee"
+            borderopacity="1"
+            inkscape:showpageshadow="0"
+            inkscape:pageopacity="0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#505050"
+            inkscape:zoom="0.9025"
+            inkscape:cx="400"
+            inkscape:cy="400"
+            inkscape:window-width="1707"
+            inkscape:window-height="965"
+            inkscape:window-x="0"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg4"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 8.37688C22 8.78086 21.6668 9.10836 21.2557 9.10836H16.2937C15.8826 9.10836 15.5494 8.78086 15.5494 8.37688C15.5494 7.97289 15.8826 7.64539 16.2937 7.64539H21.2557C21.6668 7.64539 22 7.97289 22 8.37688Z"
+            fill="#1C274C"
+            id="path1"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12.7658C22 13.1698 21.6668 13.4973 21.2557 13.4973H17.2861C16.875 13.4973 16.5418 13.1698 16.5418 12.7658C16.5418 12.3618 16.875 12.0343 17.2861 12.0343H21.2557C21.6668 12.0343 22 12.3618 22 12.7658Z"
+            fill="#1C274C"
+            id="path2"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            d="M12.5872 8.23781L12.9508 8.59515C14.4693 10.0875 15.2285 10.8336 15.2278 11.6425C15.2276 11.9068 15.1728 12.1682 15.0666 12.411C14.7417 13.1542 13.7441 13.5444 11.7489 14.3248L11.6045 14.3813C11.0389 14.6025 10.7561 14.7132 10.5279 14.8908C10.3548 15.0256 10.2058 15.1878 10.0871 15.3708C9.93056 15.6119 9.84745 15.8997 9.68123 16.4753C9.42348 17.3678 9.2946 17.8141 9.01976 18.0121C8.81551 18.1593 8.56173 18.2242 8.3104 18.1934C7.97221 18.1521 7.63845 17.8241 6.97092 17.168L5.94386 16.1586L3.2706 18.7858C2.97993 19.0714 2.50867 19.0714 2.218 18.7858C1.92733 18.5001 1.92733 18.0369 2.218 17.7513L4.88125 15.1143L3.86422 14.1148C3.1967 13.4588 2.86293 13.1307 2.82084 12.7984C2.78956 12.5514 2.85556 12.302 3.00532 12.1012C3.20683 11.8311 3.66091 11.7045 4.56907 11.4511C5.15473 11.2878 5.44756 11.2061 5.69297 11.0523C5.87915 10.9356 6.0442 10.7891 6.18133 10.619C6.36209 10.3948 6.47465 10.1168 6.69977 9.56094L6.75724 9.41903C7.55132 7.45818 7.94835 6.47775 8.70458 6.15843C8.95161 6.05411 9.21763 6.00021 9.4865 6C10.3096 5.99934 11.0688 6.7455 12.5872 8.23781Z"
+            fill="#1C274C"
+            id="path3"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 17.1547C22 17.5587 21.6668 17.8862 21.2557 17.8862H12.3241C11.9131 17.8862 11.5798 17.5587 11.5798 17.1547C11.5798 16.7507 11.9131 16.4232 12.3241 16.4232H21.2557C21.6668 16.4232 22 16.7507 22 17.1547Z"
+            fill="#1C274C"
+            id="path4"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+    </svg>
+    </a></h1><p class='generic-center'>Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!</p><div class='content-box'><h2 id='newsfeed_und_artikel'>Newsfeed und Artikel<a href='#newsfeed_und_artikel' title='Pinne diese Überschrift'><?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <svg
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg4"
+        sodipodi:docname="header-href-pin.svg"
+        inkscape:version="1.4.2 (unknown)"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs4" />
+      <sodipodi:namedview
+            id="namedview4"
+            pagecolor="#505050"
+            bordercolor="#eeeeee"
+            borderopacity="1"
+            inkscape:showpageshadow="0"
+            inkscape:pageopacity="0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#505050"
+            inkscape:zoom="0.9025"
+            inkscape:cx="400"
+            inkscape:cy="400"
+            inkscape:window-width="1707"
+            inkscape:window-height="965"
+            inkscape:window-x="0"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg4"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 8.37688C22 8.78086 21.6668 9.10836 21.2557 9.10836H16.2937C15.8826 9.10836 15.5494 8.78086 15.5494 8.37688C15.5494 7.97289 15.8826 7.64539 16.2937 7.64539H21.2557C21.6668 7.64539 22 7.97289 22 8.37688Z"
+            fill="#1C274C"
+            id="path1"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12.7658C22 13.1698 21.6668 13.4973 21.2557 13.4973H17.2861C16.875 13.4973 16.5418 13.1698 16.5418 12.7658C16.5418 12.3618 16.875 12.0343 17.2861 12.0343H21.2557C21.6668 12.0343 22 12.3618 22 12.7658Z"
+            fill="#1C274C"
+            id="path2"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            d="M12.5872 8.23781L12.9508 8.59515C14.4693 10.0875 15.2285 10.8336 15.2278 11.6425C15.2276 11.9068 15.1728 12.1682 15.0666 12.411C14.7417 13.1542 13.7441 13.5444 11.7489 14.3248L11.6045 14.3813C11.0389 14.6025 10.7561 14.7132 10.5279 14.8908C10.3548 15.0256 10.2058 15.1878 10.0871 15.3708C9.93056 15.6119 9.84745 15.8997 9.68123 16.4753C9.42348 17.3678 9.2946 17.8141 9.01976 18.0121C8.81551 18.1593 8.56173 18.2242 8.3104 18.1934C7.97221 18.1521 7.63845 17.8241 6.97092 17.168L5.94386 16.1586L3.2706 18.7858C2.97993 19.0714 2.50867 19.0714 2.218 18.7858C1.92733 18.5001 1.92733 18.0369 2.218 17.7513L4.88125 15.1143L3.86422 14.1148C3.1967 13.4588 2.86293 13.1307 2.82084 12.7984C2.78956 12.5514 2.85556 12.302 3.00532 12.1012C3.20683 11.8311 3.66091 11.7045 4.56907 11.4511C5.15473 11.2878 5.44756 11.2061 5.69297 11.0523C5.87915 10.9356 6.0442 10.7891 6.18133 10.619C6.36209 10.3948 6.47465 10.1168 6.69977 9.56094L6.75724 9.41903C7.55132 7.45818 7.94835 6.47775 8.70458 6.15843C8.95161 6.05411 9.21763 6.00021 9.4865 6C10.3096 5.99934 11.0688 6.7455 12.5872 8.23781Z"
+            fill="#1C274C"
+            id="path3"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 17.1547C22 17.5587 21.6668 17.8862 21.2557 17.8862H12.3241C11.9131 17.8862 11.5798 17.5587 11.5798 17.1547C11.5798 16.7507 11.9131 16.4232 12.3241 16.4232H21.2557C21.6668 16.4232 22 16.7507 22 17.1547Z"
+            fill="#1C274C"
+            id="path4"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+    </svg>
+    </a></h2><p>Im Newsfeed sind alle, für Rehabilitanden relevanten, Events und Neuigkeiten eingetragen! Du kannst da gerne regelmäßig vorbeischauen, denn neue Events werden regelmäßig eingetragen.<br />Auch bei den Artikeln kannst du gerne vorbeischauen. Diese sind von Rehabilitanden geschrieben, die wichtig erscheinen, etwas mit der Mühle zu Tun haben, oder einfach nur zum Spaß geschrieben wurden!</p><div class='generic-center'><a class='button' href='/HzgShowAround/newsfeed.html' style='color:#e8e6e3;' title='Navigiere zum Newsfeed'>Newsfeed</a><a class='button' href='/HzgShowAround/articles.html' style='color:#e8e6e3;' title='Navigiere zu den Artikeln'>Artikel</a></div></div><div class='content-box'><h2 id='orte'>Orte<a href='#orte' title='Pinne diese Überschrift'><?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <svg
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg4"
+        sodipodi:docname="header-href-pin.svg"
+        inkscape:version="1.4.2 (unknown)"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs4" />
+      <sodipodi:namedview
+            id="namedview4"
+            pagecolor="#505050"
+            bordercolor="#eeeeee"
+            borderopacity="1"
+            inkscape:showpageshadow="0"
+            inkscape:pageopacity="0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#505050"
+            inkscape:zoom="0.9025"
+            inkscape:cx="400"
+            inkscape:cy="400"
+            inkscape:window-width="1707"
+            inkscape:window-height="965"
+            inkscape:window-x="0"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg4"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 8.37688C22 8.78086 21.6668 9.10836 21.2557 9.10836H16.2937C15.8826 9.10836 15.5494 8.78086 15.5494 8.37688C15.5494 7.97289 15.8826 7.64539 16.2937 7.64539H21.2557C21.6668 7.64539 22 7.97289 22 8.37688Z"
+            fill="#1C274C"
+            id="path1"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12.7658C22 13.1698 21.6668 13.4973 21.2557 13.4973H17.2861C16.875 13.4973 16.5418 13.1698 16.5418 12.7658C16.5418 12.3618 16.875 12.0343 17.2861 12.0343H21.2557C21.6668 12.0343 22 12.3618 22 12.7658Z"
+            fill="#1C274C"
+            id="path2"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            d="M12.5872 8.23781L12.9508 8.59515C14.4693 10.0875 15.2285 10.8336 15.2278 11.6425C15.2276 11.9068 15.1728 12.1682 15.0666 12.411C14.7417 13.1542 13.7441 13.5444 11.7489 14.3248L11.6045 14.3813C11.0389 14.6025 10.7561 14.7132 10.5279 14.8908C10.3548 15.0256 10.2058 15.1878 10.0871 15.3708C9.93056 15.6119 9.84745 15.8997 9.68123 16.4753C9.42348 17.3678 9.2946 17.8141 9.01976 18.0121C8.81551 18.1593 8.56173 18.2242 8.3104 18.1934C7.97221 18.1521 7.63845 17.8241 6.97092 17.168L5.94386 16.1586L3.2706 18.7858C2.97993 19.0714 2.50867 19.0714 2.218 18.7858C1.92733 18.5001 1.92733 18.0369 2.218 17.7513L4.88125 15.1143L3.86422 14.1148C3.1967 13.4588 2.86293 13.1307 2.82084 12.7984C2.78956 12.5514 2.85556 12.302 3.00532 12.1012C3.20683 11.8311 3.66091 11.7045 4.56907 11.4511C5.15473 11.2878 5.44756 11.2061 5.69297 11.0523C5.87915 10.9356 6.0442 10.7891 6.18133 10.619C6.36209 10.3948 6.47465 10.1168 6.69977 9.56094L6.75724 9.41903C7.55132 7.45818 7.94835 6.47775 8.70458 6.15843C8.95161 6.05411 9.21763 6.00021 9.4865 6C10.3096 5.99934 11.0688 6.7455 12.5872 8.23781Z"
+            fill="#1C274C"
+            id="path3"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 17.1547C22 17.5587 21.6668 17.8862 21.2557 17.8862H12.3241C11.9131 17.8862 11.5798 17.5587 11.5798 17.1547C11.5798 16.7507 11.9131 16.4232 12.3241 16.4232H21.2557C21.6668 16.4232 22 16.7507 22 17.1547Z"
+            fill="#1C274C"
+            id="path4"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+    </svg>
+    </a></h2><div class='image-paragraph'><a href='map.html'><img alt='Ortskarte' src='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/map.svg' style='max-width:200px;' /></a><p class='image-paragraph-content'>Alle wichtigen Orte sind online abrufbar; Es gibt eine interaktive Karte von der Diakonie Herzogsägmühle, wo die eingetragenen Orte anklickbar sind.<br />Keine Lust selbstständig dir Orte anzuschauen? Dann führe doch die Digitale Tour durch den Ort durch. Da siehst du die wichtigsten Orte und deren Beschreibungen.</p></div><p><label for='index-location-drop-down'><u>Drop-Down Liste aller Orte:</u></label><br /><select id='index-location-drop-down' name='index-location-drop-down' onchange='changeToLocationPage();' onfocus='this.selectedIndex = 0;' title='Drop-Down Menü mit allen Orten'><option selected value='none'>-- Bitte auswählen --</option><option value='location/abenteuerspielplatz.html'>Abenteuerspielplatz</option><option value='location/albrecht-schnitter-berufsschule.html'>Albrecht-Schnitter-Berufsschule</option><option value='location/alfons-brandl-schule.html'>Alfons-Brandl-Schule</option><option value='location/am_latterbach_haus_13.html'>Am Latterbach Haus 13</option><option value='location/am_latterbach_haus_14.html'>Am Latterbach Haus 14</option><option value='location/am_latterbach_haeuser_10_und_12.html'>Am Latterbach Häuser 10 und 12</option><option value='location/am_latterbach_haeuser_16_und_18.html'>Am Latterbach Häuser 16 und 18</option><option value='location/am_latterbach_haeuser_9_und_11.html'>Am Latterbach Häuser 9 und 11</option><option value='location/arbeits-tagesstrukturierende_massnahme_(attm).html'>Arbeits-tagesstrukturierende Maßnahme (AttM)</option><option value='location/bau-_und_moebelschreinerei.html'>Bau- und Möbelschreinerei</option><option value='location/beach-volleyballfeld.html'>Beach-Volleyballfeld</option><option value='location/berufliches_zentrum_(bz).html'>Berufliches Zentrum (BZ)</option><option value='location/berufsbildende_massnahme_(bbm).html'>Berufsbildende Maßnahme (BBM)</option><option value='location/cafe_und_wirtshaus_herzog.html'>Cafe und Wirtshaus Herzog</option><option value='location/deckerhalle.html'>Deckerhalle</option><option value='location/dorfplatz.html'>Dorfplatz</option><option value='location/dorfrat.html'>Dorfrat</option><option value='location/elektrowerkstatt.html'>Elektrowerkstatt</option><option value='location/friedhof.html'>Friedhof</option><option value='location/fussballplatz.html'>Fußballplatz</option><option value='location/gesundheits.punkt.html'>gesundheits.punkt</option><option value='location/gaertnerei.html'>Gärtnerei</option><option value='location/handball-_und_basketballfeld.html'>Handball- und Basketballfeld</option><option value='location/herzogsaegmuehler_werkstaetten.html'>Herzogsägmühler Werkstätten</option><option value='location/haeuser_am_latterbach.html'>Häuser Am Latterbach</option><option value='location/jugendreha.html'>Jugendreha</option><option value='location/kfz-werkstatt.html'>KFZ-Werkstatt</option><option value='location/landwirtschaft.html'>Landwirtschaft</option><option value='location/licht-_und_wachsmanifaktur.html'>Licht- und Wachsmanifaktur</option><option value='location/lindenhofsaal.html'>Lindenhofsaal</option><option value='location/liselotte-von-lepel-gnitz-schule.html'>Liselotte-von-Lepel-Gnitz-Schule</option><option value='location/malerei.html'>Malerei</option><option value='location/martinskirche.html'>Martinskirche</option><option value='location/metzgerei_und_baeckerei.html'>Metzgerei und Bäckerei</option><option value='location/minigolfanlage.html'>Minigolfanlage</option><option value='location/muehlenmarkt.html'>MühlenMarkt</option><option value='location/post_und_treuhand-kasse.html'>Post und Treuhand-Kasse</option><option value='location/rainer-endisch-saal.html'>Rainer-Endisch-Saal</option><option value='location/sanitaer-_und_heizungstechnik.html'>Sanitär- und Heizungstechnik</option><option value='location/schlosserei.html'>Schlosserei</option><option value='location/schoeneckerhaus.html'>Schöneckerhaus</option><option value='location/sinnespfad.html'>Sinnespfad</option><option value='location/skater-park.html'>Skater-Park</option><option value='location/sporthalle.html'>Sporthalle</option><option value='location/sprintstrecke.html'>Sprintstrecke</option><option value='location/sternenstunden-reithalle.html'>Sternenstunden-Reithalle</option><option value='location/telezentrum_-_digitale_medien.html'>Telezentrum - Digitale Medien</option><option value='location/tennisplatz.html'>Tennisplatz</option><option value='location/vereinsheim_sv_herzogsaegmuehle.html'>Vereinsheim SV Herzogsägmühle</option><option value='location/von-kahl_denkmal.html'>Von-Kahl Denkmal</option><option value='location/werkstatt-laden_im_muehlenmarkt.html'>Werkstatt-Laden im MühlenMarkt</option><option value='location/wuehlkiste.html'>Wühlkiste</option></select></p><div class='generic-center'><a class='button' href='/HzgShowAround/map.html' style='color:#e8e6e3;' title='Navigiere zur Karte'>Karte</a><a class='button' href='/HzgShowAround/tour.html' style='color:#e8e6e3;' title='Navigiere zur digitalen Tour'>Digitale Tour</a></div></div><div class='content-box'><h2 id='freizeitangebote'>Freizeitangebote<a href='#freizeitangebote' title='Pinne diese Überschrift'><?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <svg
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg4"
+        sodipodi:docname="header-href-pin.svg"
+        inkscape:version="1.4.2 (unknown)"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs4" />
+      <sodipodi:namedview
+            id="namedview4"
+            pagecolor="#505050"
+            bordercolor="#eeeeee"
+            borderopacity="1"
+            inkscape:showpageshadow="0"
+            inkscape:pageopacity="0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#505050"
+            inkscape:zoom="0.9025"
+            inkscape:cx="400"
+            inkscape:cy="400"
+            inkscape:window-width="1707"
+            inkscape:window-height="965"
+            inkscape:window-x="0"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg4"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 8.37688C22 8.78086 21.6668 9.10836 21.2557 9.10836H16.2937C15.8826 9.10836 15.5494 8.78086 15.5494 8.37688C15.5494 7.97289 15.8826 7.64539 16.2937 7.64539H21.2557C21.6668 7.64539 22 7.97289 22 8.37688Z"
+            fill="#1C274C"
+            id="path1"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12.7658C22 13.1698 21.6668 13.4973 21.2557 13.4973H17.2861C16.875 13.4973 16.5418 13.1698 16.5418 12.7658C16.5418 12.3618 16.875 12.0343 17.2861 12.0343H21.2557C21.6668 12.0343 22 12.3618 22 12.7658Z"
+            fill="#1C274C"
+            id="path2"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            d="M12.5872 8.23781L12.9508 8.59515C14.4693 10.0875 15.2285 10.8336 15.2278 11.6425C15.2276 11.9068 15.1728 12.1682 15.0666 12.411C14.7417 13.1542 13.7441 13.5444 11.7489 14.3248L11.6045 14.3813C11.0389 14.6025 10.7561 14.7132 10.5279 14.8908C10.3548 15.0256 10.2058 15.1878 10.0871 15.3708C9.93056 15.6119 9.84745 15.8997 9.68123 16.4753C9.42348 17.3678 9.2946 17.8141 9.01976 18.0121C8.81551 18.1593 8.56173 18.2242 8.3104 18.1934C7.97221 18.1521 7.63845 17.8241 6.97092 17.168L5.94386 16.1586L3.2706 18.7858C2.97993 19.0714 2.50867 19.0714 2.218 18.7858C1.92733 18.5001 1.92733 18.0369 2.218 17.7513L4.88125 15.1143L3.86422 14.1148C3.1967 13.4588 2.86293 13.1307 2.82084 12.7984C2.78956 12.5514 2.85556 12.302 3.00532 12.1012C3.20683 11.8311 3.66091 11.7045 4.56907 11.4511C5.15473 11.2878 5.44756 11.2061 5.69297 11.0523C5.87915 10.9356 6.0442 10.7891 6.18133 10.619C6.36209 10.3948 6.47465 10.1168 6.69977 9.56094L6.75724 9.41903C7.55132 7.45818 7.94835 6.47775 8.70458 6.15843C8.95161 6.05411 9.21763 6.00021 9.4865 6C10.3096 5.99934 11.0688 6.7455 12.5872 8.23781Z"
+            fill="#1C274C"
+            id="path3"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 17.1547C22 17.5587 21.6668 17.8862 21.2557 17.8862H12.3241C11.9131 17.8862 11.5798 17.5587 11.5798 17.1547C11.5798 16.7507 11.9131 16.4232 12.3241 16.4232H21.2557C21.6668 16.4232 22 16.7507 22 17.1547Z"
+            fill="#1C274C"
+            id="path4"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+    </svg>
+    </a></h2><p>Verschiedene Freizeitangebote werden in der Herzogsägmühle und im nahen Umfeld angeboten.<br />Hier kannst du eine Liste von Angeboten einsehen und ggf. Kontakt mit den Anbietern aufnehmen, falls diese Informationen angegeben sind.</p><div class='generic-center'><a class='button' href='/HzgShowAround/offerings.html' style='color:#e8e6e3;' title='Navigiere zu den Freizeitangeboten'>Freizeitangebote</a></div></div><div class='content-box'><h2 id='sonstiges'>Sonstiges<a href='#sonstiges' title='Pinne diese Überschrift'><?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <svg
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg4"
+        sodipodi:docname="header-href-pin.svg"
+        inkscape:version="1.4.2 (unknown)"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs4" />
+      <sodipodi:namedview
+            id="namedview4"
+            pagecolor="#505050"
+            bordercolor="#eeeeee"
+            borderopacity="1"
+            inkscape:showpageshadow="0"
+            inkscape:pageopacity="0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#505050"
+            inkscape:zoom="0.9025"
+            inkscape:cx="400"
+            inkscape:cy="400"
+            inkscape:window-width="1707"
+            inkscape:window-height="965"
+            inkscape:window-x="0"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg4"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 8.37688C22 8.78086 21.6668 9.10836 21.2557 9.10836H16.2937C15.8826 9.10836 15.5494 8.78086 15.5494 8.37688C15.5494 7.97289 15.8826 7.64539 16.2937 7.64539H21.2557C21.6668 7.64539 22 7.97289 22 8.37688Z"
+            fill="#1C274C"
+            id="path1"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 12.7658C22 13.1698 21.6668 13.4973 21.2557 13.4973H17.2861C16.875 13.4973 16.5418 13.1698 16.5418 12.7658C16.5418 12.3618 16.875 12.0343 17.2861 12.0343H21.2557C21.6668 12.0343 22 12.3618 22 12.7658Z"
+            fill="#1C274C"
+            id="path2"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            d="M12.5872 8.23781L12.9508 8.59515C14.4693 10.0875 15.2285 10.8336 15.2278 11.6425C15.2276 11.9068 15.1728 12.1682 15.0666 12.411C14.7417 13.1542 13.7441 13.5444 11.7489 14.3248L11.6045 14.3813C11.0389 14.6025 10.7561 14.7132 10.5279 14.8908C10.3548 15.0256 10.2058 15.1878 10.0871 15.3708C9.93056 15.6119 9.84745 15.8997 9.68123 16.4753C9.42348 17.3678 9.2946 17.8141 9.01976 18.0121C8.81551 18.1593 8.56173 18.2242 8.3104 18.1934C7.97221 18.1521 7.63845 17.8241 6.97092 17.168L5.94386 16.1586L3.2706 18.7858C2.97993 19.0714 2.50867 19.0714 2.218 18.7858C1.92733 18.5001 1.92733 18.0369 2.218 17.7513L4.88125 15.1143L3.86422 14.1148C3.1967 13.4588 2.86293 13.1307 2.82084 12.7984C2.78956 12.5514 2.85556 12.302 3.00532 12.1012C3.20683 11.8311 3.66091 11.7045 4.56907 11.4511C5.15473 11.2878 5.44756 11.2061 5.69297 11.0523C5.87915 10.9356 6.0442 10.7891 6.18133 10.619C6.36209 10.3948 6.47465 10.1168 6.69977 9.56094L6.75724 9.41903C7.55132 7.45818 7.94835 6.47775 8.70458 6.15843C8.95161 6.05411 9.21763 6.00021 9.4865 6C10.3096 5.99934 11.0688 6.7455 12.5872 8.23781Z"
+            fill="#1C274C"
+            id="path3"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+      <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M22 17.1547C22 17.5587 21.6668 17.8862 21.2557 17.8862H12.3241C11.9131 17.8862 11.5798 17.5587 11.5798 17.1547C11.5798 16.7507 11.9131 16.4232 12.3241 16.4232H21.2557C21.6668 16.4232 22 16.7507 22 17.1547Z"
+            fill="#1C274C"
+            id="path4"
+            style="fill:#e8e6e3;fill-opacity:1"
+        />
+    </svg>
+    </a></h2><p>Diese Seite ist von einem kleinen Team geführt und ist komplett <a href='https://de.wiktionary.org/wiki/quelloffen'>quelloffen</a>.<br />Falls du Interesse hast mitzuhelfen, bist du herzlichst eingeladen! Alles was du zum Mithelfen brauchst ist ein <a href='https://github.com/'>GitHub</a>-Account.</p><ul><li><a href='https://github.com/nirokay/HzgShowAround'>Website Repository</a></li><li><a href='https://github.com/nirokay/HzgShowAroundData'>Website-Data Repository</a></li></ul><div class='generic-center'><a class='button' href='/HzgShowAround/contact.html' style='color:#e8e6e3;' title='Navigiere zur Kontaktseite'>Kontakt</a><a class='button' href='/HzgShowAround/contributors.html' style='color:#e8e6e3;' title='Navigiere zu den Mitwirkenden'>Mitwirkende</a><a class='button' href='/HzgShowAround/changelog.html' style='color:#e8e6e3;' title='Navigiere zu der Seite mit Veränderungen'>Veränderungen</a></div></div><div style='min-height:52px;'><!-- This element is a hack, please ignore my superior HTML/CSS skills --></div></div></div></div>
     <div class='top-page-header'><h2 style='text-align:left;text-decoration:none;padding-left:10px;'><a href='/' style='color:#e8e6e3;' title='Zurück zum Host'>nirokay.com</a> › <a href='/HzgShowAround' style='color:#e8e6e3;' title>HzgShowAround</a></h2></div>
-    <div class='bottom-page-footer'><p><small>🄯 nirokay | Updated @ <time datetime='2025-10-13 10:19'>2025-10-13 - 10:19</time> | <a href='https://github.com/nirokay/HzgShowAround' target='_blank' title='Quell-Code der Website'>Source</a> | <a href='terms-of-service.html' title='Nutzungsbedingungen'>ToS</a></small></p></div>
+    <div class='bottom-page-footer'><p><small>🄯 nirokay <time datetime='2025-10-14 10:11'>2025</time> | <a href='https://github.com/nirokay/HzgShowAround' target='_blank' title='Quell-Code der Website'>Source</a> | <a href='terms-of-service.html' title='Nutzungsbedingungen'>ToS</a></small></p></div>
     <meta content='https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png' property='og:image' />
 </body>
 </html>

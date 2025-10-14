@@ -114,8 +114,8 @@ proc generate*(html: var HtmlDocument) =
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
             p($small @[
-                "🄯 nirokay",
-                "Updated @ " & $time($now().format("yyyy-MM-dd - HH:mm")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
+                "🄯 nirokay " &
+                $time($now().format("yyyy")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
                 $aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
                 $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
             ].join(" | "))

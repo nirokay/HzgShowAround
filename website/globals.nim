@@ -54,6 +54,8 @@ const
     urlIconSmallSVG*: string = urlIcons & "icon_small.svg" ## Small icon (SVG)
     urlIconSmallPNG*: string = urlIcons & "icon_small.png" ## Small icon (PNG)
 
+    urlPinIdHeader*: string = urlImages & "header-href-pin.svg" ## SVG icon for headers with IDs, so they can be "pinned"
+
     urlContributors*: string = urlRemoteRepo & "contributors.json" ## Author JSON file
     urlAuthors*: string = urlRemoteRepo & "authors.json" ## Author JSON file
     urlAuthorImages*: string = urlImages & "authors/" ## Author image directory
