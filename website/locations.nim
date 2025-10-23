@@ -143,23 +143,27 @@ proc generateLocationHtml*(location: Location) =
 
     # Opening times:
     if location.open.isSet():
-        let open: OpeningTimes = get location.open
-        var elements: seq[HtmlElement]
-        for day, time in open:
-            elements.add(tr(@[
-                td($b(day & ":")),
-                #[
-                I FIXED IT!!!!!!!!!!!!!!!!!
-                This comment will stay for historic purposes though! i am happy:
-
+        let openTable: OrderedTable[string, OpeningTimes] = get location.open
+        var tables: seq[HtmlElement]
+        for headingText, open in openTable:
+            var elements: seq[HtmlElement]
+            for day, time in open:
+                elements.add(tr(@[
+                    td($b(day & ":")),
+                    #[
+                    I FIXED IT!!!!!!!!!!!!!!!!!
+                    This comment will stay for historic purposes though! i am happy:
                     # Invisible and zero width character, so stuff is spaced a tad more... # DONE: implement this properly # DONE: eventually # DONE: not today, but seriously do this someday
-                ]#
-                td(time)
-            ]))
-        html.addToBody(contentBox @[
-            ih2("Öffnungszeiten"),
-            table(elements).setClass(centerTableClass)
-        ])
+                    ]#
+                    td(time)
+                ]))
+
+            # Add heading, if `headingText` is not `""` or if `headingText` is `""` but also there are multiple entries (defaults to location name)
+            if headingText != "": tables.add h3(headingText)
+            elif unlikely openTable.len() >= 2: tables.add h3(name)
+
+            tables.add table(elements).setClass(centerTableClass)
+        html.addToBody contentBox(ih2("Öffnungszeiten") & tables)
 
     # Add paragraphs:
     let description: seq[HtmlElement] = location.desc.convert()

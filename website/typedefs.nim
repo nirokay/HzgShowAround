@@ -30,7 +30,7 @@ type
         alias*: Option[seq[string]] ## Alias names for location (used for newsfeed substring replacements)
         link*: Option[string] ## Link to a webpage (if there is one)
         desc*: Description ## Description about a location
-        open*: Option[OpeningTimes] ## Optional opening times
+        open*: Option[OrderedTable[string, OpeningTimes]] ## Optional opening times
         pics*: Option[Pictures] ## Optional header and footer images
         coords*: Option[Coords] ## Optional coordinates -> will be inserted into the map image
         path*: Option[string] ## Optional, because needs not to be inserted into json file
