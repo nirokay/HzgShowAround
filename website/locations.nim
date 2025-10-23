@@ -158,9 +158,8 @@ proc generateLocationHtml*(location: Location) =
                     td(time)
                 ]))
 
-            # Add heading, if `headingText` is not `""` or if `headingText` is `""` but also there are multiple entries (defaults to location name)
-            if headingText != "": tables.add h3(headingText)
-            elif unlikely openTable.len() >= 2: tables.add h3(name)
+            if headingText != "": tables.add h3(headingText) # add heading, if `headingText` is not `""` ...
+            elif unlikely openTable.len() >= 2: tables.add h3(name) # ... or if `headingText` is `""` but also there are multiple entries (defaults to location name)
 
             tables.add table(elements).setClass(centerTableClass)
         html.addToBody contentBox(ih2("Öffnungszeiten") & tables)
