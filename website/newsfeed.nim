@@ -8,16 +8,15 @@
 import generator
 import globals, styles, snippets
 
+proc explanatoryElement(definition, explanation, col: string, cssAttribute: CssAttribute): HtmlElement =
+    var elements: seq[HtmlElement]
+    elements.add span(<$>definition).addStyle(cssAttribute)
+    elements.add <$>(" = " & explanation)
+    result = <$>($elements) # wtf am i doing
 proc backgroundedSpan(definition, explanation, col: string): HtmlElement =
-    var elements: seq[HtmlElement]
-    elements.add span(<$>definition).addStyle("background-color" := col)
-    elements.add <$>(" = " & explanation)
-    result = <$>($elements) # wtf am i doing
+    result = explanatoryElement(definition, explanation, col, "background-color" := col)
 proc underlinedSpan(definition, explanation, col: string): HtmlElement =
-    var elements: seq[HtmlElement]
-    elements.add span(<$>definition).addStyle("text-decoration" := ("5px underline " & col))
-    elements.add <$>(" = " & explanation)
-    result = <$>($elements) # wtf am i doing
+    result = explanatoryElement(definition, explanation, col, "text-decoration" := ("5px underline " & col))
 
 var html: HtmlDocument = newPage(
     "Newsfeed",
@@ -33,7 +32,7 @@ html.addToHead importScript("javascript/news/news.js").add(attr("defer"))
 html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
 
 html.addToBody(
-    h1($a("https://www.herzogsaegmuehle.de/aktuelles/veranstaltungen", "Newsfeed")),
+    h1($a("https://www.herzogsaegmuehle.de/erleben/veranstaltungen", "Newsfeed").addattr("target", "_blank")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten für die nächsten drei Monate sowie den vergangenen Monat."
