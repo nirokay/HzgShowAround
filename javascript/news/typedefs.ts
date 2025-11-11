@@ -24,10 +24,7 @@ enum EventType {
     fullDay,
     timeSpan,
 }
-class NewsFeedElement {
-    name: string = "Neuigkeit";
-
-    // Display time:
+class NewsEventTime {
     on?: string;
     from?: string;
     till?: string;
@@ -38,6 +35,21 @@ class NewsFeedElement {
     icalDateEnd: string = "19700101";
     icalTimeStart: string = "000000";
     icalTimeEnd: string = "235959";
+}
+function newTimeSpan(from: string, till: string): NewsEventTime {
+    let result = new NewsEventTime();
+    result.from = from;
+    result.till = till;
+    return result;
+}
+class NewsFeedElement {
+    name: string = "Neuigkeit";
+
+    // Display time:
+    on?: string;
+    from?: string;
+    till?: string;
+    times?: NewsEventTime[];
 
     level: string = "info"; // Importance as string
     importance: number = 0; // Importance as number
@@ -50,6 +62,12 @@ class NewsFeedElement {
 
     COMMENT?: string;
 }
+
+const IMPORTANCE_ALERT = 20;
+const IMPORTANCE_WARNING = 10;
+const IMPORTANCE_DEFAULT = 0;
+const IMPORTANCE_HOLIDAY = -5;
+const IMPORTANCE_HAPPENED = -10;
 
 const urlRemoteHealthPresentations: string =
     urlRemoteRepository + "news-health.json";
@@ -104,8 +122,12 @@ function healthPresentationToNewsfeedElement(
     let result = new NewsFeedElement();
 
     result.name = "Gesundheitsbildung: <q>" + presentation.topic + "</q>";
-    result.from = (presentation.on ?? getToday()) + " 13:00";
-    result.till = (presentation.on ?? getToday()) + " 14:30";
+    result.times = [
+        newTimeSpan(
+            (presentation.on ?? getToday()) + " 13:00",
+            (presentation.on ?? getToday()) + " 14:30",
+        ),
+    ];
     result.level = "info";
     result.locations = ["Am Latterbach Haus 13"];
 
@@ -127,7 +149,7 @@ function healthPresentationToNewsfeedElement(
             "<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>",
         );
 
-    result.icalEventType = EventType.timeSpan;
+    // result.icalEventType = EventType.timeSpan;
     return result;
 }
 function healthPresentationsToNewsfeedElements(
@@ -150,11 +172,14 @@ function holidayToNewsfeedElement(holiday: Holiday): NewsFeedElement | null {
     if (holidaysToIgnore.indexOf(holiday.name ?? "") > -1) {
         return null;
     }
-
     // Build `NewsFeedElement`:
     let element = new NewsFeedElement();
+    let time = new NewsEventTime();
+    time.on = holiday.datum;
+
     element.name = "Feiertag: <q>" + holiday.name + "</q>";
     element.on = holiday.datum;
+    element.times = [time];
     element.level = "holiday";
 
     // Icon:
@@ -202,8 +227,8 @@ function schoolHolidayToNewsfeedElement(
         // This is a workaround for "Buß- und Bettag":
         return null;
     }
-    result.from = startDate;
-    result.till = endDate;
+
+    result.times = [newTimeSpan(startDate, endDate)];
 
     // Name:
     try {
@@ -261,61 +286,66 @@ function normalizedElement(
 
     // Begin construction:
     let result: NewsFeedElement = new NewsFeedElement();
+    result.times = element.times ?? [];
     let date: Date = new Date();
 
-    let fromTimes: string[] | undefined =
-        element.from == undefined ? [] : element.from.split(" ");
-    let tillTimes: string[] | undefined =
-        element.till == undefined ? [] : element.till.split(" ");
-
-    // Single-day events:
-    if (element.on != undefined) {
-        result.on = element.on;
-        result.from = element.on;
-        result.till = element.on;
+    // Legacy time stuff (not really legacy but yeah):
+    if (
+        element.from != undefined ||
+        element.till != undefined ||
+        element.on != undefined
+    ) {
+        let time = new NewsEventTime();
+        time.on = element.on;
+        time.from = element.from;
+        time.till = element.till;
+        result.times.push(time);
     }
-
-    // Correct wrongly formatted event dates:
-    if (element.on == undefined) {
-        if (fromTimes[0] == undefined && tillTimes[0] != undefined) {
-            // Forgot to assign `from`:
-            result.from = tillTimes[0];
-        } else if (fromTimes[0] != undefined && tillTimes[0] == undefined) {
-            // Forgot to assign `till`:
-            result.till = fromTimes[0];
-        } else if (fromTimes[0] == undefined && tillTimes[0] == undefined) {
-            // Wtf happened here??
-            result.from = "*-01-01";
-            result.till = "*-12-31";
-            result.runtimeAdditionalMessage =
-                "Fehlendes Datum, wird als ganzjährig angezeigt!";
-        } else {
-            result.from = fromTimes[0];
-            result.till = tillTimes[0];
-        }
-    }
-    // Single-day event:
-    if (result.on == undefined && result.from == result.till) {
-        result.on = result.from;
-    }
+    // No longer needed:
+    result.on = undefined;
+    result.from = undefined;
+    result.till = undefined;
 
     // Parsing Times:
-    let timeStartParts: string = getIcalTimeFromParts(
-        (fromTimes[1] ?? "00:00").split(":"),
-    );
-    let timeEndParts: string = getIcalTimeFromParts(
-        (tillTimes[1] ?? "00:00").split(":"),
-    );
+    result.times.forEach((time, index) => {
+        if (result.times == undefined) result.times = []; // should not happen, however this makes the compiler happy
 
-    // Populating ical fields:
-    result.icalTimeStart = timeStartParts ?? "000000";
-    result.icalTimeEnd = timeEndParts ?? "000000";
-    if (
-        result.icalTimeStart == "000000" &&
-        (result.icalTimeEnd == "000000" || result.icalTimeEnd == "235959")
-    ) {
-        result.icalEventType = EventType.fullDay;
-    }
+        // Single-day events with 'on':
+        if (time.on != undefined) {
+            time.from = time.on;
+            time.till = time.on;
+        }
+
+        let partsStart: string[] = (time.on ?? time.from ?? "1970-01-01").split(
+            " ",
+        );
+        let partsEnd: string[] = (time.on ?? time.till ?? "1970-12-31").split(
+            " ",
+        );
+        let timeStartParts: string = getIcalTimeFromParts(
+            (partsStart[1] ?? "00:00").split(":"),
+        );
+        let timeEndParts: string = getIcalTimeFromParts(
+            (partsEnd[1] ?? "00:00").split(":"),
+        );
+
+        // Populating ical fields:
+        time.icalTimeStart = timeStartParts ?? "000000";
+        time.icalTimeEnd = timeEndParts ?? "000000";
+        if (
+            time.icalTimeStart == "000000" &&
+            (time.icalTimeEnd == "000000" || time.icalTimeEnd == "235959")
+        ) {
+            time.icalEventType = EventType.fullDay;
+        } else {
+            time.icalEventType = EventType.timeSpan;
+        }
+
+        if (time.till == undefined && time.from == undefined) {
+        }
+
+        result.times[index] = time;
+    });
 
     // Other missing fields:
     result.name = element.name ?? "Neuigkeit";
@@ -373,34 +403,59 @@ function normalizedElement(
         }
     }
 
+    // Is happening today:
+    result.isHappening = false;
+    result.times.forEach((time) => {
+        if (result.isHappening) return;
+        if (
+            Date.parse(time.from ?? "") <= date.getTime() &&
+            Date.parse(time.till ?? "") + dayMilliseconds >= date.getTime()
+        ) {
+            result.isHappening = true;
+        }
+    });
+
     // Who cares about performance anyways? Here the browser will do work, that will be probably discarded.
     // You cannot do anything about it, the browser runtime is MY bitch.
-    {
-        let from: string = result.from ?? result.on ?? "";
-        let till: string = result.till ?? result.on ?? "";
-        if (from.includes("*") || till.includes("*")) {
-            // Duplicates the event for the next and previous year
-            let year = date.getFullYear();
-            function duplicate(offset: number): NewsFeedElement {
-                let e = result;
-                let y = year + offset;
-                e.from = from.replace("\*", y.toString());
-                e.till = till.replace("\*", y.toString());
-                return e;
-            }
-            news.push(duplicate(1));
-            news.push(duplicate(-1));
-        }
-    }
+    let containsStars: boolean = false;
+    result.times.forEach((time) => {
+        if (containsStars) return;
+        if (
+            time.on?.includes("*") ||
+            time.from?.includes("*") ||
+            time.till?.includes("*")
+        )
+            containsStars = true;
+    });
+    if (containsStars) {
+        let y = date.getFullYear();
+        [y - 1, y, y + 1].forEach((year) => {
+            let borrowed = result;
+            if (borrowed.times == undefined) borrowed.times = []; // should not happen, makes the compiler happy
+            borrowed.times.forEach((time, index) => {
+                // Skip if no stars included (also wtf does my formatter do here?!):
+                if (
+                    !time.on?.includes("*") ||
+                    !time.from?.includes("*") ||
+                    !time.till?.includes("*")
+                )
+                    return;
 
-    // Is happening now:
-    if (
-        Date.parse(result.from ?? "") <= date.getTime() &&
-        Date.parse(result.till ?? "") + dayMilliseconds >= date.getTime()
-    ) {
-        result.isHappening = true;
-    } else {
-        result.isHappening = false;
+                // Replace values with year variable:
+                if (time.on != undefined)
+                    time.on = time.on.replace("*", year.toString());
+                if (time.from != undefined)
+                    time.from = time.from.replace("*", year.toString());
+                if (time.till != undefined)
+                    time.till = time.till.replace("*", year.toString());
+
+                if (borrowed.times == undefined) borrowed.times = []; // why does TS need this AGAIN??
+                borrowed.times[index] = time;
+            });
+
+            news.push(borrowed);
+        });
+        return null; // remove this event (already duplicated into news array)
     }
 
     // Finally done:
@@ -462,23 +517,23 @@ function getImportance(element: NewsFeedElement): number {
         case "alert":
         case "achtung":
         case "alarm":
-            result = 20;
+            result = IMPORTANCE_ALERT;
             break;
         case "warning":
         case "warn":
         case "warnung":
-            result = 10;
+            result = IMPORTANCE_WARNING;
             break;
         case "holiday":
         case "feiertag":
-            result = -5;
+            result = IMPORTANCE_HOLIDAY;
             break;
         case "happened":
             // this should never be triggered
-            result = -10;
+            result = IMPORTANCE_HAPPENED;
             break;
         case "info":
-            result = 0;
+            result = IMPORTANCE_DEFAULT;
             break;
         default:
             debug(
@@ -492,10 +547,18 @@ function getImportance(element: NewsFeedElement): number {
 
     // Special case, if the event occurred in the past:
     let date: Date = new Date();
-    let till: string = element.till ?? element.on ?? element.from ?? getToday();
-    if (Date.parse(normalizeTime(till)) + dayMilliseconds < date.getTime()) {
-        result = -10;
-    }
+    let willStillHappen: boolean = false;
+    element.times?.forEach((time) => {
+        if (willStillHappen) return;
+        let till: string = time.till ?? time.on ?? time.from ?? getToday();
+        if (
+            Date.parse(normalizeTime(till)) + dayMilliseconds >
+            date.getTime()
+        ) {
+            willStillHappen = true;
+        }
+    });
+    if (!willStillHappen) result = IMPORTANCE_HAPPENED;
 
     element.importance = result;
     return result;
@@ -524,10 +587,7 @@ function getElementClass(element: NewsFeedElement): string {
             classSuffix = "happened";
             break;
         default:
-            debug(
-                "Weird importance encountered in element, using default.",
-                element,
-            );
+            classSuffix = "generic";
             break;
     }
     return "newsfeed-element " + classPrefix + classSuffix;
@@ -537,6 +597,7 @@ function getElementClass(element: NewsFeedElement): string {
  * Determines if the event is relevant based on its time
  */
 function isElementRelevant(element: NewsFeedElement): boolean {
+    let result: boolean = false;
     if (typeof element != "object" || element == null) {
         debug("Element relevancy failed, not an object or is null", element);
         return false;
@@ -544,13 +605,18 @@ function isElementRelevant(element: NewsFeedElement): boolean {
 
     let date: Date = new Date();
     // Filters irrelevant news:
-    let unixFrom = Date.parse(element.from ?? getToday());
-    let unixTill = Date.parse(element.till ?? getToday()) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
-    let unixNow = date.getTime();
-    return (
-        unixNow - relevancyLookIntoPast <= unixTill &&
-        unixNow + relevancyLookIntoFuture >= unixFrom
-    );
+    element.times?.forEach((time) => {
+        if (result) return; // Skip if already relevant
+        let unixFrom = Date.parse(time.from ?? time.on ?? getToday());
+        let unixTill =
+            Date.parse(time.till ?? time.on ?? getToday()) + dayMilliseconds; // `+ dayMilliseconds`, so that the whole day is included, not only upto 0:00
+        let unixNow = date.getTime();
+        let isRelevant: boolean =
+            unixNow - relevancyLookIntoPast <= unixTill &&
+            unixNow + relevancyLookIntoFuture >= unixFrom;
+        if (isRelevant) result = true;
+    });
+    return result;
 }
 
 /**
@@ -563,8 +629,12 @@ function getFilteredNews(news: NewsFeedElement[]): NewsFeedElement[] {
         return [];
     }
     news.forEach((element) => {
-        if (isElementRelevant(element)) {
-            result.push(element);
+        try {
+            if (isElementRelevant(element)) {
+                result.push(element);
+            }
+        } catch (e) {
+            console.error("Failed to do relevancy check on event", e, element);
         }
     });
     return result;
@@ -585,9 +655,15 @@ function sortedElementsByDateAndRelevancy(
     }
     // Date:
     news.sort((a, b) => {
-        return (
-            Date.parse(a.from ?? getToday()) - Date.parse(b.from ?? getToday())
-        );
+        let aEarliest: string =
+            (a.times != undefined ? a.times[0].from : undefined) ??
+            a.from ??
+            getToday();
+        let bEarliest: string =
+            (b.times != undefined ? b.times[0].from : undefined) ??
+            b.from ??
+            getToday();
+        return Date.parse(aEarliest) - Date.parse(bEarliest);
     });
     // Importance:
     news.sort((a, b) => {

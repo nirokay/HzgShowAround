@@ -48,6 +48,7 @@ DTSTART:19701025T030000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE`;
+
 const icalTemplateFoot: string = `END:VCALENDAR`;
 
 const icalTemplateFullDay: string = `BEGIN:VEVENT
@@ -110,82 +111,90 @@ function getIcalFileContent(event: NewsFeedElement): string {
         formatNumber(now.getMonth() + 1),
         formatNumber(now.getDate()),
     ].join("");
-    let dateStartString: string = replaceAll(
-        event.from ?? event.on ?? event.till ?? "1970-01-01",
-        "-",
-        "",
-    );
-    let dateEnd = new Date(
-        event.till ?? event.on ?? event.from ?? "1970-01-01",
-    );
-
-    let timeStart: string;
-    let timeEnd: string;
-    switch (event.icalEventType) {
-        case EventType.fullDay:
-            formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
-            timeStart = "000000";
-            timeEnd = "000000";
-            break;
-        case EventType.timeSpan:
-            timeStart = event.icalTimeStart;
-            timeEnd = event.icalTimeEnd;
-            break;
-    }
-
-    let dateEndString: string = [
-        dateEnd.getFullYear(),
-        formatNumber(dateEnd.getMonth() + 1),
-        formatNumber(dateEnd.getDate()),
-    ].join("");
-
-    let cleanedLocations: string[] | undefined = getCleanedArray(
-        event.locations,
-    );
-    let cleanedDetails: string[] | undefined = getCleanedArray(
-        event.details ?? [],
-    );
-
-    // Construct template:
     let result: string = icalTemplateHead + "\n";
-    switch (event.icalEventType) {
-        case EventType.fullDay:
-            result += icalTemplateFullDay;
-            break;
-        case EventType.timeSpan:
-            result += icalTemplateTimeSpan;
-            break;
-    }
-    result += "\n" + icalTemplateFoot;
+    event.times?.forEach((time, index) => {
+        let dateStartString: string = replaceAll(
+            time.from ?? time.on ?? time.till ?? "1970-01-01",
+            "-",
+            "",
+        );
+        let dateEnd = new Date(
+            time.till ?? time.on ?? time.from ?? "1970-01-01",
+        );
 
-    // Replace all variables:
-    let dictionary: EnumDictionary<string, string> = {
-        SUMMARY: fixHtmlString(event.name),
-        DESCRIPTION: fixHtmlString(
-            (cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n"),
-        ),
-        CURRENT_TIME: currentTimeStamp,
-        DATE_START: dateStartString,
-        DATE_END: dateEndString,
-        ID:
-            replaceAll(event.name.toLowerCase(), " ", "") +
-            dateStartString +
-            "-" +
-            dateEndString +
-            "-" +
-            currentTimeStamp,
-        TIME_START: timeStart,
-        TIME_END: timeEnd,
-        LOCATION: fixHtmlString(
-            (cleanedLocations ?? ["Herzogsägmühle"]).join(", "),
-        ),
-    };
+        let timeStart: string;
+        let timeEnd: string;
+        switch (time.icalEventType) {
+            case EventType.fullDay:
+                formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
+                timeStart = "000000";
+                timeEnd = "000000";
+                break;
+            case EventType.timeSpan:
+                timeStart = time.icalTimeStart;
+                timeEnd = time.icalTimeEnd;
+                break;
+        }
 
-    for (const key in Variables) {
-        let variable: string = Variables[key];
-        let value: string = dictionary[variable];
-        result = replaceAll(result, getVariable(variable), value);
-    }
+        let dateEndString: string = [
+            dateEnd.getFullYear(),
+            formatNumber(dateEnd.getMonth() + 1),
+            formatNumber(dateEnd.getDate()),
+        ].join("");
+
+        let cleanedLocations: string[] | undefined = getCleanedArray(
+            event.locations,
+        );
+        let cleanedDetails: string[] | undefined = getCleanedArray(
+            event.details ?? [],
+        );
+
+        // Construct template:
+        switch (time.icalEventType) {
+            case EventType.fullDay:
+                result += icalTemplateFullDay;
+                break;
+            case EventType.timeSpan:
+                result += icalTemplateTimeSpan;
+                break;
+        }
+        result += "\n";
+
+        // Replace all variables:
+        let dictionary: EnumDictionary<string, string> = {
+            SUMMARY: fixHtmlString(event.name),
+            DESCRIPTION: fixHtmlString(
+                (cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n"),
+            ),
+            CURRENT_TIME: currentTimeStamp,
+            DATE_START: dateStartString,
+            DATE_END: dateEndString,
+            ID:
+                replaceAll(
+                    event.name.toLowerCase() + index.toString(),
+                    " ",
+                    "",
+                ) +
+                dateStartString +
+                "-" +
+                dateEndString +
+                "-" +
+                currentTimeStamp,
+            TIME_START: timeStart,
+            TIME_END: timeEnd,
+            LOCATION: fixHtmlString(
+                (cleanedLocations ?? ["Herzogsägmühle"]).join(", "),
+            ),
+        };
+
+        for (const key in Variables) {
+            let variable: string = Variables[key];
+            let value: string = dictionary[variable];
+            result = replaceAll(result, getVariable(variable), value);
+        }
+    });
+    result += icalTemplateFoot;
+
     return btoa(encodeURI(result));
 }
 

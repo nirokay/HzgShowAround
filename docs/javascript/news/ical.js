@@ -99,61 +99,64 @@ function getIcalFileContent(event) {
         formatNumber(now.getMonth() + 1),
         formatNumber(now.getDate()),
     ].join("");
-    let dateStartString = replaceAll(event.from ?? event.on ?? event.till ?? "1970-01-01", "-", "");
-    let dateEnd = new Date(event.till ?? event.on ?? event.from ?? "1970-01-01");
-    let timeStart;
-    let timeEnd;
-    switch (event.icalEventType) {
-        case EventType.fullDay:
-            formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
-            timeStart = "000000";
-            timeEnd = "000000";
-            break;
-        case EventType.timeSpan:
-            timeStart = event.icalTimeStart;
-            timeEnd = event.icalTimeEnd;
-            break;
-    }
-    let dateEndString = [
-        dateEnd.getFullYear(),
-        formatNumber(dateEnd.getMonth() + 1),
-        formatNumber(dateEnd.getDate()),
-    ].join("");
-    let cleanedLocations = getCleanedArray(event.locations);
-    let cleanedDetails = getCleanedArray(event.details ?? []);
-    // Construct template:
     let result = icalTemplateHead + "\n";
-    switch (event.icalEventType) {
-        case EventType.fullDay:
-            result += icalTemplateFullDay;
-            break;
-        case EventType.timeSpan:
-            result += icalTemplateTimeSpan;
-            break;
-    }
-    result += "\n" + icalTemplateFoot;
-    // Replace all variables:
-    let dictionary = {
-        SUMMARY: fixHtmlString(event.name),
-        DESCRIPTION: fixHtmlString((cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n")),
-        CURRENT_TIME: currentTimeStamp,
-        DATE_START: dateStartString,
-        DATE_END: dateEndString,
-        ID: replaceAll(event.name.toLowerCase(), " ", "") +
-            dateStartString +
-            "-" +
-            dateEndString +
-            "-" +
-            currentTimeStamp,
-        TIME_START: timeStart,
-        TIME_END: timeEnd,
-        LOCATION: fixHtmlString((cleanedLocations ?? ["Herzogsägmühle"]).join(", ")),
-    };
-    for (const key in Variables) {
-        let variable = Variables[key];
-        let value = dictionary[variable];
-        result = replaceAll(result, getVariable(variable), value);
-    }
+    event.times?.forEach((time, index) => {
+        let dateStartString = replaceAll(time.from ?? time.on ?? time.till ?? "1970-01-01", "-", "");
+        let dateEnd = new Date(time.till ?? time.on ?? time.from ?? "1970-01-01");
+        let timeStart;
+        let timeEnd;
+        switch (time.icalEventType) {
+            case EventType.fullDay:
+                formatNumber(dateEnd.setDate(dateEnd.getDate() + 1));
+                timeStart = "000000";
+                timeEnd = "000000";
+                break;
+            case EventType.timeSpan:
+                timeStart = time.icalTimeStart;
+                timeEnd = time.icalTimeEnd;
+                break;
+        }
+        let dateEndString = [
+            dateEnd.getFullYear(),
+            formatNumber(dateEnd.getMonth() + 1),
+            formatNumber(dateEnd.getDate()),
+        ].join("");
+        let cleanedLocations = getCleanedArray(event.locations);
+        let cleanedDetails = getCleanedArray(event.details ?? []);
+        // Construct template:
+        switch (time.icalEventType) {
+            case EventType.fullDay:
+                result += icalTemplateFullDay;
+                break;
+            case EventType.timeSpan:
+                result += icalTemplateTimeSpan;
+                break;
+        }
+        result += "\n";
+        // Replace all variables:
+        let dictionary = {
+            SUMMARY: fixHtmlString(event.name),
+            DESCRIPTION: fixHtmlString((cleanedDetails ?? ["Keine Details vorhanden."]).join("\\n")),
+            CURRENT_TIME: currentTimeStamp,
+            DATE_START: dateStartString,
+            DATE_END: dateEndString,
+            ID: replaceAll(event.name.toLowerCase() + index.toString(), " ", "") +
+                dateStartString +
+                "-" +
+                dateEndString +
+                "-" +
+                currentTimeStamp,
+            TIME_START: timeStart,
+            TIME_END: timeEnd,
+            LOCATION: fixHtmlString((cleanedLocations ?? ["Herzogsägmühle"]).join(", ")),
+        };
+        for (const key in Variables) {
+            let variable = Variables[key];
+            let value = dictionary[variable];
+            result = replaceAll(result, getVariable(variable), value);
+        }
+    });
+    result += icalTemplateFoot;
     return btoa(encodeURI(result));
 }
 function downloadIcalFile(filename, content) {

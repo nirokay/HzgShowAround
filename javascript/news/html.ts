@@ -121,45 +121,53 @@ function htmlLocationSection(element: NewsFeedElement): HtmlString {
  * Generates the date section
  */
 function htmlDateSection(element: NewsFeedElement): HtmlString {
-    const from = displayTime(element.from ?? "?");
-    const till = displayTime(element.till ?? "?");
-    let resultDate: HtmlString = "";
-    if (from == till) {
-        // Same day:
+    let result: HtmlString[] = [];
+    let times: HtmlString[] = [];
+    element.times?.forEach((time) => {
+        const from = displayTime(time.from ?? "?");
+        const till = displayTime(time.till ?? "?");
+        let resultDate: HtmlString = "";
         resultDate = "am " + from;
-    } else {
-        if (
-            Date.parse(element.from ?? getToday()) + dayMilliseconds * 1.5 >=
-            Date.parse(element.till ?? getToday())
-        ) {
-            // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
-            // Two days (both dates):
-            resultDate = "am " + from + " und am " + till;
+        /**
+        if (from == till) {
+            // Same day:
+            resultDate = "am " + from;
         } else {
-            // More than two days (span):
-            resultDate = "von " + from + " bis " + till;
+            if (
+                Date.parse(time.from ?? getToday()) + dayMilliseconds * 1.5 >=
+                Date.parse(time.till ?? getToday())
+            ) {
+                // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
+                // Two days (both dates):
+                resultDate = "am " + from + " und am " + till;
+            } else {
+                // More than two days (span):
+                resultDate = "von " + from + " bis " + till;
+            }
         }
-    }
-    if (element.name == placeHolderIdentifier) {
-        resultDate = htmlDatePlaceholder;
-    }
-    let result: HtmlString =
-        "<small class='generic-center' title='Datum des Events'>" +
-        resultDate +
-        "</small>";
-
-    if (element.icalTimeStart != "000000" && element.icalTimeEnd != "000000") {
-        let resultTime: HtmlString =
-            "von " +
-            icalTimeToNormal(element.icalTimeStart) +
-            " bis " +
-            icalTimeToNormal(element.icalTimeEnd);
-        result +=
+        */
+        if (element.name == placeHolderIdentifier) {
+            resultDate = htmlDatePlaceholder;
+        }
+        let timeElement: HtmlString =
             "<small class='generic-center' title='Zeitraum des Events'>" +
-            resultTime +
-            "</small>";
-    }
-    return result + htmlLocationSection(element);
+            resultDate;
+
+        if (time.icalTimeStart != "000000" && time.icalTimeEnd != "000000") {
+            let resultTime: HtmlString =
+                " von " +
+                icalTimeToNormal(time.icalTimeStart) +
+                " bis " +
+                icalTimeToNormal(time.icalTimeEnd);
+            timeElement += resultTime + "</small>";
+        }
+        times.push(timeElement);
+    });
+    times.forEach((time) => {
+        result.push(time);
+    });
+    result.push(htmlLocationSection(element));
+    return result.join("");
 }
 /**
  * Generates the details/description section
@@ -196,14 +204,23 @@ function htmlFooter(element: NewsFeedElement): HtmlString {
                 "' target='_blank'>🌐 mehr Infos</a>",
         );
 
+    // Genuinely what the actual fuck:
+    let fromTime: string =
+        element.times != undefined ? element.times[0].icalTimeStart : "";
+    let tillTime: string =
+        element.times != undefined ? element.times[0].icalTimeEnd : "";
+    let fromDate: string =
+        element.times != undefined ? (element.times[0].from ?? "") : "";
+    let tillDate: string =
+        element.times != undefined ? (element.times[0].till ?? "") : "";
     let hash: string =
         element.from +
         "_" +
-        replaceAll(element.icalTimeStart ?? "", "00", "-") +
+        replaceAll(fromTime ?? "", "00", "-") +
         "_" +
         element.till +
         "_" +
-        replaceAll(element.icalTimeEnd ?? "", "00", "-");
+        replaceAll(tillTime ?? "", "00", "-");
 
     let filename: string = "hzgshowaround-event-" + btoa(hash) + ".ics";
 
