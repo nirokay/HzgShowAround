@@ -97,8 +97,8 @@ function htmlDateSection(element) {
     element.times?.forEach((time) => {
         const from = displayTime(time.from ?? "?");
         const till = displayTime(time.till ?? "?");
-        let resultDate = "";
-        resultDate = "am " + from;
+        let lines = "";
+        lines += "am " + from;
         /**
         if (from == till) {
             // Same day:
@@ -117,22 +117,22 @@ function htmlDateSection(element) {
             }
         }
         */
-        if (element.name == placeHolderIdentifier) {
-            resultDate = htmlDatePlaceholder;
-        }
-        let timeElement = "<small class='generic-center' title='Zeitraum des Events'>" +
-            resultDate;
         if (time.icalTimeStart != "000000" && time.icalTimeEnd != "000000") {
             let resultTime = " von " +
                 icalTimeToNormal(time.icalTimeStart) +
                 " bis " +
                 icalTimeToNormal(time.icalTimeEnd);
-            timeElement += resultTime + "</small>";
+            lines += resultTime;
         }
-        times.push(timeElement);
+        if (element.name == placeHolderIdentifier) {
+            lines = htmlDatePlaceholder;
+        }
+        times.push(lines);
     });
     times.forEach((time) => {
-        result.push(time);
+        result.push("<small class='generic-center' title='Zeitraum des Events'>" +
+            time +
+            "</small>");
     });
     result.push(htmlLocationSection(element));
     return result.join("");

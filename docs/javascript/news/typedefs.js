@@ -143,7 +143,6 @@ function holidayToNewsfeedElement(holiday) {
     let time = new NewsEventTime();
     time.on = holiday.datum;
     element.name = "Feiertag: <q>" + holiday.name + "</q>";
-    element.on = holiday.datum;
     element.times = [time];
     element.level = "holiday";
     // Icon:

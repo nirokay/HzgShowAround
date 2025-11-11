@@ -126,8 +126,8 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
     element.times?.forEach((time) => {
         const from = displayTime(time.from ?? "?");
         const till = displayTime(time.till ?? "?");
-        let resultDate: HtmlString = "";
-        resultDate = "am " + from;
+        let lines: HtmlString = "";
+        lines += "am " + from;
         /**
         if (from == till) {
             // Same day:
@@ -146,12 +146,6 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
             }
         }
         */
-        if (element.name == placeHolderIdentifier) {
-            resultDate = htmlDatePlaceholder;
-        }
-        let timeElement: HtmlString =
-            "<small class='generic-center' title='Zeitraum des Events'>" +
-            resultDate;
 
         if (time.icalTimeStart != "000000" && time.icalTimeEnd != "000000") {
             let resultTime: HtmlString =
@@ -159,12 +153,20 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
                 icalTimeToNormal(time.icalTimeStart) +
                 " bis " +
                 icalTimeToNormal(time.icalTimeEnd);
-            timeElement += resultTime + "</small>";
+            lines += resultTime;
         }
-        times.push(timeElement);
+
+        if (element.name == placeHolderIdentifier) {
+            lines = htmlDatePlaceholder;
+        }
+        times.push(lines);
     });
     times.forEach((time) => {
-        result.push(time);
+        result.push(
+            "<small class='generic-center' title='Zeitraum des Events'>" +
+                time +
+                "</small>",
+        );
     });
     result.push(htmlLocationSection(element));
     return result.join("");

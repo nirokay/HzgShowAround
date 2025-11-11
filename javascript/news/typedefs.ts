@@ -178,7 +178,6 @@ function holidayToNewsfeedElement(holiday: Holiday): NewsFeedElement | null {
     time.on = holiday.datum;
 
     element.name = "Feiertag: <q>" + holiday.name + "</q>";
-    element.on = holiday.datum;
     element.times = [time];
     element.level = "holiday";
 
