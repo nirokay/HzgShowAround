@@ -113,11 +113,14 @@ function getIcalFileContent(event: NewsFeedElement): string {
     ].join("");
     let result: string = icalTemplateHead + "\n";
     event.times?.forEach((time, index) => {
-        let dateStartString: string = replaceAll(
+        let dateStart = new Date(
             time.from ?? time.on ?? time.till ?? "1970-01-01",
-            "-",
-            "",
         );
+        let dateStartString: string = [
+            dateStart.getFullYear(),
+            formatNumber(dateStart.getMonth() + 1),
+            formatNumber(dateStart.getDate()),
+        ].join("");
         let dateEnd = new Date(
             time.till ?? time.on ?? time.from ?? "1970-01-01",
         );
@@ -171,7 +174,7 @@ function getIcalFileContent(event: NewsFeedElement): string {
             DATE_END: dateEndString,
             ID:
                 replaceAll(
-                    event.name.toLowerCase() + index.toString(),
+                    event.name.toLowerCase() + "-day" + index.toString() + "-",
                     " ",
                     "",
                 ) +

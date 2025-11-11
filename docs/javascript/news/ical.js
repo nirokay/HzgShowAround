@@ -101,7 +101,12 @@ function getIcalFileContent(event) {
     ].join("");
     let result = icalTemplateHead + "\n";
     event.times?.forEach((time, index) => {
-        let dateStartString = replaceAll(time.from ?? time.on ?? time.till ?? "1970-01-01", "-", "");
+        let dateStart = new Date(time.from ?? time.on ?? time.till ?? "1970-01-01");
+        let dateStartString = [
+            dateStart.getFullYear(),
+            formatNumber(dateStart.getMonth() + 1),
+            formatNumber(dateStart.getDate()),
+        ].join("");
         let dateEnd = new Date(time.till ?? time.on ?? time.from ?? "1970-01-01");
         let timeStart;
         let timeEnd;
@@ -140,7 +145,7 @@ function getIcalFileContent(event) {
             CURRENT_TIME: currentTimeStamp,
             DATE_START: dateStartString,
             DATE_END: dateEndString,
-            ID: replaceAll(event.name.toLowerCase() + index.toString(), " ", "") +
+            ID: replaceAll(event.name.toLowerCase() + "-day" + index.toString() + "-", " ", "") +
                 dateStartString +
                 "-" +
                 dateEndString +
