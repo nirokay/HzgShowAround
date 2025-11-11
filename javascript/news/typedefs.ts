@@ -655,12 +655,18 @@ function sortedElementsByDateAndRelevancy(
     // Date:
     news.sort((a, b) => {
         let aEarliest: string =
-            (a.times != undefined ? a.times[0].from : undefined) ??
+            (a.times != undefined
+                ? (a.times[0].from ?? a.times[0].on)
+                : undefined) ??
             a.from ??
+            a.on ??
             getToday();
         let bEarliest: string =
-            (b.times != undefined ? b.times[0].from : undefined) ??
+            (b.times != undefined
+                ? (b.times[0].from ?? b.times[0].on)
+                : undefined) ??
             b.from ??
+            a.on ??
             getToday();
         return Date.parse(aEarliest) - Date.parse(bEarliest);
     });
@@ -671,8 +677,12 @@ function sortedElementsByDateAndRelevancy(
 
         // Actually wtf, anyways: puts "happened" events (-10) to the bottom, puts everything else in place (already sorted by date)
         return (
-            ((b.importance ?? -99) > -10 ? 0 : -1) -
-            ((a.importance ?? -99) > -10 ? 0 : -1)
+            ((b.importance ?? IMPORTANCE_DEFAULT) > IMPORTANCE_HAPPENED
+                ? 0
+                : -1) -
+            ((a.importance ?? IMPORTANCE_DEFAULT) > IMPORTANCE_HAPPENED
+                ? 0
+                : -1)
         );
     });
     return news;
