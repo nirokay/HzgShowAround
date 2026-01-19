@@ -28,6 +28,10 @@ globalCss.add(
         fontFamily("Verdana, Geneva, Tahoma, sans-serif"),
     },
 
+    "::selection, ::-moz-selection, ::-webkit-selection"{
+        backgroundColour(colourHighlightBackground)
+    },
+
     "p"{
         "margin" := "10px"
     },

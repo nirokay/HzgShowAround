@@ -102,6 +102,8 @@ const
     colourButtonHover* = colourBackgroundMiddle # rgba(255, 100, 255, 0.2)
     colourButtonClick* = colourBackgroundDark
 
+    colourHighlightBackground* = "#b3485f"
+
     # Text:
     colourText* = "#e8e6e3" # Stolen from DarkReader with love <3
     colourTextUnfocused* = "#464544" # Darker text, used for unfocus/deleted elements

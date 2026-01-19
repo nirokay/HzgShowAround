@@ -4,6 +4,10 @@ html {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+::selection, ::-moz-selection, ::-webkit-selection {
+    background-color: #b3485f;
+}
+
 p {
     margin: 10px;
 }
