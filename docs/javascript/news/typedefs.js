@@ -569,15 +569,11 @@ function sortedElementsByDateAndRelevancy(news) {
         // return (b.importance ?? -99) - (a.importance ?? -99);
         // Actually wtf, anyways: puts "happened" events (-10) to the bottom, puts everything else in place (already sorted by date)
         return (((b.importance ?? IMPORTANCE_DEFAULT) > IMPORTANCE_HAPPENED
-            ? 1
-            : (b.importance ?? IMPORTANCE_DEFAULT) == IMPORTANCE_HAPPENED
-                ? 0
-                : -1) -
+            ? 0
+            : -1) -
             ((a.importance ?? IMPORTANCE_DEFAULT) > IMPORTANCE_HAPPENED
-                ? 1
-                : (a.importance ?? IMPORTANCE_DEFAULT) == IMPORTANCE_HAPPENED
-                    ? 0
-                    : -1));
+                ? 0
+                : -1));
     });
     return news;
 }
