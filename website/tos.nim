@@ -12,9 +12,9 @@ var html: HtmlDocument = newPage(
 )
 
 html.addToBody(
-    insertButtons(hrefIndex),
-
     ih1("HzgShowAround"),
+
+    insertButtons(hrefIndex),
 
     ih2("Über"),
     p(

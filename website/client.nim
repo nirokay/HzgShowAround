@@ -38,3 +38,4 @@ proc getContributorsJson*(): JsonNode = urlContributors.readFileJson() ## Gets t
 proc getMapSvg*(): string = readFileRawText(urlImages & "map.svg") ## Gets the raw map svg
 proc getOfferingsJson*(): JsonNode = urlOfferings.readFileJson() ## Gets the json with offerings
 proc getChangelogJson*(): JsonNode = urlChangelog.readFileJson() ## Gets the json with the changelog
+proc getTravelJson*(): JsonNode = urlTravel.readFileJson() ## Gets the json with travel information

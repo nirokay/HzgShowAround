@@ -66,6 +66,20 @@ type
         date*: string ## Date in `yyyy-MM-dd` format
         text*: OrderedTable[string, seq[string]] ## Heading -> list
 
+    TravelRoute* = array[2, string]
+    TravelBus* = object
+        route*: TravelRoute
+        link*: string
+    TravelTaxiOperator* = object
+        name*, number*, web*: string
+    TravelTaxi* = object
+        route*: TravelRoute
+        price*: string
+        operators*: seq[TravelTaxiOperator]
+    TravelData* = object
+        bus*: seq[TravelBus]
+        taxi*: seq[TravelTaxi]
+
 iterator withCoords*(locations: seq[Location]): Location =
     ## Filters locations only with coordinates
     for location in locations:

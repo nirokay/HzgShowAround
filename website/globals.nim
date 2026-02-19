@@ -74,6 +74,7 @@ const
 
     urlChangelog*: string = urlRemoteRepo & "changelog.json" ## Changelog JSON file
 
+    urlTravel*: string = urlRemoteRepo & "travel.json" ## Travel JSON file
 
 # -----------------------------------------------------------------------------
 # Export paths:

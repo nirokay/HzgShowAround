@@ -119,6 +119,7 @@ html.addContentBox(
     ),
     insertButtons(
         hrefMap,
+        hrefTravel,
         hrefTour
     )
 )

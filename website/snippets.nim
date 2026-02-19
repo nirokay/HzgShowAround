@@ -81,7 +81,7 @@ const
     hrefTour*: ButtonHref = "tour.html" -> ["Digitale Tour", "Navigiere zur digitalen Tour"]
     hrefChangelog*: ButtonHref = "changelog.html" -> ["Veränderungen", "Navigiere zu der Seite mit Veränderungen"]
     hrefContributors*: ButtonHref = "contributors.html" -> ["Mitwirkende", "Navigiere zu den Mitwirkenden"]
-
+    hrefTravel*: ButtonHref = "travel.html" -> ["Bus und Taxi", "Navigiere zur Bus- und Taxiübersicht"]
 
 
 proc toHtmlElement*(button: ButtonHref): HtmlElement =

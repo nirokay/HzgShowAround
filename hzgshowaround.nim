@@ -11,9 +11,9 @@ import website/generator
 import utils/[logging, xmlSiteMap]
 
 # Sub-modules:
-import website/[tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog, contact]
+import website/[tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog, contact, travel]
 # To make the compiler shut up about unused imports:
-export tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog, contact
+export tos, index, styles, tour, map, newsfeed, articles, contributors, offerings, changelog, contact, travel
 
 # Delay importing, because 404 page has css jammed into it to work well depth-independent
 import website/[notFound404]
