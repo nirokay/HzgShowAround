@@ -25,7 +25,7 @@ html.addToBody(
     ih2($a(busPlanUrl, "Busplan").addattr("target", "_blank")),
     pc(
         "Falls der untere Busplan nicht erkennbar ist, " &
-        $a(busPlanUrl, "klicke hier oder auf die Überschrift oben") &
+        $a(busPlanUrl, "klicke hier oder auf die Überschrift oben").addattr("target", "_blank") &
         ", um diesen extern aufzurufen."
     ),
     `div`(
@@ -42,7 +42,7 @@ html.addToBody(
                 "height" -= "500"
             ).add(
                 <$>"Dieser Browser unterstützt keine PDF-Anzeige,",
-                a(busPlanUrl, "klicke hier"),
+                a(busPlanUrl, "klicke hier").addattr("target", "_blank"),
                 <$>", um es manuell anzusehen."
             )
         )
@@ -53,23 +53,19 @@ html.addToBody(
     )
 )
 
+
+html.add ih2("Routen")
 proc routeName(route: TravelRoute): string = route[0] & " ➡️ " & route[1]
-proc routeItem(name: string, elements: seq[HtmlElement]): HtmlElement =
-    `div`(
-        @[<$>name] &
-        `div`(
-            elements
-        ).setClass(flexContainedContainerClass)
-    ).setClass(flexElementClass)
 
 var routes: OrderedTable[string, seq[HtmlElement]]
+
 for bus in travel.bus:
     let routeName: string = bus.route.routeName()
     if not routes.hasKey(routeName): routes[routeName] = @[]
 
     routes[routeName].add fieldSet(
         legend("🚍 Bus"),
-        ul(@[li(a(bus.link, "🌐 Suche").addattr("target", "_blank"))])
+        ul(@[li(a(bus.link, "🌐 DB Navigator").addattr("target", "_blank"))])
     )
 
 for taxi in travel.taxi:
@@ -86,8 +82,9 @@ for taxi in travel.taxi:
             ])
         )
 
+
 for route, data in routes:
-    html.add ih2(route)
+    html.add ih3(route)
     html.add `div`(
         `div`(
             `div`(
