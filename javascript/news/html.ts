@@ -124,28 +124,19 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
     let result: HtmlString[] = [];
     let times: HtmlString[] = [];
     element.times?.forEach((time) => {
-        const from = displayTime(time.from ?? "?");
-        const till = displayTime(time.till ?? "?");
+        const from: HtmlString = displayTime(time.from ?? "?");
+        const till: HtmlString = displayTime(time.till ?? "?");
         let lines: HtmlString = "";
-        lines += "am " + from;
-        /**
-        if (from == till) {
-            // Same day:
-            resultDate = "am " + from;
+
+        // Compare variables, because the `displayTime` function injects exact datetime html attribute
+        const fromCmp: string = from.split(">")[1];
+        const tillCmp: string = till.split(">")[1];
+
+        if (fromCmp == tillCmp) {
+            lines = "am " + from;
         } else {
-            if (
-                Date.parse(time.from ?? getToday()) + dayMilliseconds * 1.5 >=
-                Date.parse(time.till ?? getToday())
-            ) {
-                // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
-                // Two days (both dates):
-                resultDate = "am " + from + " und am " + till;
-            } else {
-                // More than two days (span):
-                resultDate = "von " + from + " bis " + till;
-            }
+            lines = "von " + from + " bis " + till;
         }
-        */
 
         if (time.icalTimeStart != "000000" && time.icalTimeEnd != "000000") {
             let resultTime: HtmlString =
@@ -156,9 +147,8 @@ function htmlDateSection(element: NewsFeedElement): HtmlString {
             lines += resultTime;
         }
 
-        if (element.name == placeHolderIdentifier) {
-            lines = htmlDatePlaceholder;
-        }
+        if (element.name == placeHolderIdentifier) lines = htmlDatePlaceholder;
+
         times.push(lines);
     });
     times.forEach((time) => {

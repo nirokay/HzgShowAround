@@ -240,6 +240,10 @@ function normalizedElement(news, element) {
     if (element.from != undefined ||
         element.till != undefined ||
         element.on != undefined) {
+        if (result.times.length != 0) {
+            console.error("Element has legacy time and new time format, overwriting with legacy times.", result.times, element);
+            result.times = [];
+        }
         let time = new NewsEventTime();
         time.on = element.on;
         time.from = element.from;
@@ -259,8 +263,8 @@ function normalizedElement(news, element) {
             time.from = time.on;
             time.till = time.on;
         }
-        let partsStart = (time.on ?? time.from ?? "1970-01-01").split(" ");
-        let partsEnd = (time.on ?? time.till ?? "1970-12-31").split(" ");
+        let partsStart = (time.from ?? "1970-01-01").split(" ");
+        let partsEnd = (time.till ?? "1970-12-31").split(" ");
         let timeStartParts = getIcalTimeFromParts((partsStart[1] ?? "00:00").split(":"));
         let timeEndParts = getIcalTimeFromParts((partsEnd[1] ?? "00:00").split(":"));
         // Populating ical fields:
@@ -379,6 +383,10 @@ function normalizedElement(news, element) {
     }
     // Finally done:
     // debug(result);
+    if (result.on != undefined ||
+        result.from != undefined ||
+        result.till != undefined)
+        console.error("Event did not clear legacy on/from/till fields", result);
     return result;
 }
 /**
@@ -444,9 +452,12 @@ function getImportance(element) {
             result = IMPORTANCE_DEFAULT;
             break;
         default:
-            debug("Weird importance level of '" +
-                element.level +
-                "' in element (using default)", element);
+            result = IMPORTANCE_DEFAULT;
+            if (element.level != undefined)
+                // only log, if its not undefined
+                debug("Weird importance level of '" +
+                    element.level +
+                    "' in element (using default)", element);
             break;
     }
     // Special case, if the event occurred in the past:

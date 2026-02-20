@@ -98,25 +98,15 @@ function htmlDateSection(element) {
         const from = displayTime(time.from ?? "?");
         const till = displayTime(time.till ?? "?");
         let lines = "";
-        lines += "am " + from;
-        /**
-        if (from == till) {
-            // Same day:
-            resultDate = "am " + from;
-        } else {
-            if (
-                Date.parse(time.from ?? getToday()) + dayMilliseconds * 1.5 >=
-                Date.parse(time.till ?? getToday())
-            ) {
-                // Why is it multiplied by 1.5 you ask? Well not having to think about daylight-saving of course! I am a master programmer and I will not tolerate any stupid questions like these about my GODLIKE code! Thank you very much for understanding :)
-                // Two days (both dates):
-                resultDate = "am " + from + " und am " + till;
-            } else {
-                // More than two days (span):
-                resultDate = "von " + from + " bis " + till;
-            }
+        // Compare variables, because the `displayTime` function injects exact datetime html attribute
+        const fromCmp = from.split(">")[1];
+        const tillCmp = till.split(">")[1];
+        if (fromCmp == tillCmp) {
+            lines = "am " + from;
         }
-        */
+        else {
+            lines = "von " + from + " bis " + till;
+        }
         if (time.icalTimeStart != "000000" && time.icalTimeEnd != "000000") {
             let resultTime = " von " +
                 icalTimeToNormal(time.icalTimeStart) +
@@ -124,9 +114,8 @@ function htmlDateSection(element) {
                 icalTimeToNormal(time.icalTimeEnd);
             lines += resultTime;
         }
-        if (element.name == placeHolderIdentifier) {
+        if (element.name == placeHolderIdentifier)
             lines = htmlDatePlaceholder;
-        }
         times.push(lines);
     });
     times.forEach((time) => {

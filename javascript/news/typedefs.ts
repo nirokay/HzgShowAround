@@ -294,6 +294,14 @@ function normalizedElement(
         element.till != undefined ||
         element.on != undefined
     ) {
+        if (result.times.length != 0) {
+            console.error(
+                "Element has legacy time and new time format, overwriting with legacy times.",
+                result.times,
+                element,
+            );
+            result.times = [];
+        }
         let time = new NewsEventTime();
         time.on = element.on;
         time.from = element.from;
@@ -315,12 +323,8 @@ function normalizedElement(
             time.till = time.on;
         }
 
-        let partsStart: string[] = (time.on ?? time.from ?? "1970-01-01").split(
-            " ",
-        );
-        let partsEnd: string[] = (time.on ?? time.till ?? "1970-12-31").split(
-            " ",
-        );
+        let partsStart: string[] = (time.from ?? "1970-01-01").split(" ");
+        let partsEnd: string[] = (time.till ?? "1970-12-31").split(" ");
         let timeStartParts: string = getIcalTimeFromParts(
             (partsStart[1] ?? "00:00").split(":"),
         );
@@ -458,7 +462,13 @@ function normalizedElement(
     }
 
     // Finally done:
-    // debug(result);
+    if (
+        result.on != undefined ||
+        result.from != undefined ||
+        result.till != undefined
+    )
+        console.error("Event did not clear legacy on/from/till fields", result);
+
     return result;
 }
 
@@ -535,12 +545,15 @@ function getImportance(element: NewsFeedElement): number {
             result = IMPORTANCE_DEFAULT;
             break;
         default:
-            debug(
-                "Weird importance level of '" +
-                    element.level +
-                    "' in element (using default)",
-                element,
-            );
+            result = IMPORTANCE_DEFAULT;
+            if (element.level != undefined)
+                // only log, if its not undefined
+                debug(
+                    "Weird importance level of '" +
+                        element.level +
+                        "' in element (using default)",
+                    element,
+                );
             break;
     }
 
