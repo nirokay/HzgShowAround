@@ -115,6 +115,8 @@ proc generate*(html: var HtmlDocument) =
         bottomFooter: HtmlElement = `div`(
             p($small @[
                 "🄯 nirokay " &
+                $time("2023").addattr("datetime", "2023-11-13 00:00") &
+                " - " &
                 $time($now().format("yyyy")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
                 $aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
                 $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
