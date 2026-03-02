@@ -382,7 +382,6 @@ function normalizedElement(news, element) {
         return null; // remove this event (already duplicated into news array)
     }
     // Finally done:
-    // debug(result);
     if (result.on != undefined ||
         result.from != undefined ||
         result.till != undefined)
