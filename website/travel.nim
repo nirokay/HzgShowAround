@@ -22,7 +22,7 @@ html.addToBody(
     pc("Hier findest du Informationen wie du aus benachbarten Orten zurück in die Mühle findest."),
     insertButtons(hrefIndex, hrefMap),
 
-    ih2($a(busPlanUrl, "Busplan").addattr("target", "_blank")),
+    ih2($a(busPlanUrl, "Busplan").addattr("target", "_blank"), "Busplan"),
     pc(
         "Falls der untere Busplan nicht erkennbar ist, " &
         $a(busPlanUrl, "klicke hier oder auf die Überschrift oben").addattr("target", "_blank") &

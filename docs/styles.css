@@ -432,6 +432,10 @@ a:active {
     margin-left: auto;
 }
 
+.clickable-heading {
+    scroll-margin-top: 82px;
+}
+
 h1, h2 {
     text-align: center;
     text-decoration: underline;

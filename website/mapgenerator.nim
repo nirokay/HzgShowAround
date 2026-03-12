@@ -240,4 +240,3 @@ proc generateLocationSvgMap*(location: Location) =
     # Add overlay stuff and write to disk:
     svg.addLocationOverlay()
     svg.writeSvg(filepath)
-

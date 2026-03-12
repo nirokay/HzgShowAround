@@ -184,16 +184,29 @@ proc getRelativeUrlPath*(name: string): string =
 
 let pinHeaderId: string = urlPinIdHeader.readFileRawText()
 proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlElement =
-    var id: string
+    var id: string = "" ## final id
+    let rawString: string = (if override != "": override else: text)
+        .toLower()
+        .replace(" ", "_")
+        .replace("ä", "ae")
+        .replace("ö", "oe")
+        .replace("ü", "ue")
+        .replace("ß", "ss")
+        .replace("&", "UND")  # caps so they ...
+        .replace("/", "ODER") # ... stand out more
+        .replace("§", "P")
+    for c in rawString:
+        if (
+            c notin 'a'..'z' and
+            c notin 'A'..'Z' and
+            c notin '0'..'9' and
+            c notin "-_()"
+        ): continue
+        id.add c
+
     result = element
-    if override != "":
-        id = override.toLower()
-    else:
-        id = text.toLower().formatToAscii()
-        for c in [",", ".", "!", "?", ":", ";", "(", ")", "[", "]", "=", "#", "'", "\"", "§", "$", "€", "%", "/", "{", "}"]: # i should think of making this somehow a smarter system
-            id = id.replace(c, "")
     result.addattr("id", id)
-    result.addStyle("scroll-margin-top" := &"{heightBarTop + heightBarMargins * 2}px")
+    result.setClass(clickableHeaderClass.name)
 
     var pin: HtmlElement = a("#" & id, pinHeaderId).setTitle("Pinne diese Überschrift")
     result.children.add pin

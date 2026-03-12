@@ -247,6 +247,9 @@ css.add(
     articlePreviewItem,
     articlePreviewBox,
 
+    #   Clickable headings:
+    clickableHeaderClass,
+
     # Headers:
     "h1, h2"{
         textCenter,

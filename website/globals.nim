@@ -243,6 +243,11 @@ const
         "background-color" := colourButtonClick
     }
 
+    # Clickable id headers:
+    clickableHeaderClass* = newCssClass("clickable-heading",
+        "scroll-margin-top" := &"{heightBarTop + heightBarMargins * 2}px"
+    )
+
     # Stuff inside a box (looks cool i guess):
     contentBoxClass* = newCssClass("content-box",
         width("100%"),

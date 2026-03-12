@@ -63,7 +63,7 @@ html.addToBody(
     ih1("HzgShowAround für die Diakonie Herzogsägmühle").addStyle(
         "position" := "relative"
     ),
-    pc("Diese Website soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
+    pc("Diese inoffizielle Website, für das Diakoniedorf Herzogsägmühle, soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
 )
 
 
@@ -75,7 +75,7 @@ html.addContentBox(
     ih2("Newsfeed und Artikel"),
     p(
         "Im Newsfeed sind alle, für Rehabilitanden relevanten, Events und Neuigkeiten eingetragen! Du kannst da gerne regelmäßig vorbeischauen, denn neue Events werden regelmäßig eingetragen.",
-        "Auch bei den Artikeln kannst du gerne vorbeischauen. Diese sind von Rehabilitanden geschrieben, die wichtig erscheinen, etwas mit der Mühle zu Tun haben, oder einfach nur zum Spaß geschrieben wurden!"
+        "Auch bei den Artikeln kannst du gerne vorbeischauen. Diese sind von Rehabilitanden geschrieben, die wichtig erscheinen, etwas mit der Mühle zu tun haben, oder einfach nur zum Spaß geschrieben wurden!"
     ),
     insertButtons(
         hrefNewsfeed,
