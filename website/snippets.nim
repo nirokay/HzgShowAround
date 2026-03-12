@@ -3,7 +3,7 @@
 ##
 ## Just like the `globals` module but for HTML procs.
 
-import std/[strutils, sequtils, json, options, tables, times]
+import std/[strutils, strformat, sequtils, json, options, tables, times]
 import generator, globals, styles, client
 
 # =============================================================================
@@ -193,6 +193,7 @@ proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlEle
         for c in [",", ".", "!", "?", ":", ";", "(", ")", "[", "]", "=", "#", "'", "\"", "§", "$", "€", "%", "/", "{", "}"]: # i should think of making this somehow a smarter system
             id = id.replace(c, "")
     result.addattr("id", id)
+    result.addStyle("scroll-margin-top" := &"{heightBarTop + heightBarMargins * 2}px")
 
     var pin: HtmlElement = a("#" & id, pinHeaderId).setTitle("Pinne diese Überschrift")
     result.children.add pin
