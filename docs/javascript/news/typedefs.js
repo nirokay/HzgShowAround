@@ -467,7 +467,10 @@ function getImportance(element) {
     element.times?.forEach((time) => {
         if (willStillHappen)
             return;
-        let till = time.till ?? time.on ?? time.from ?? getToday();
+        let till = (time.till ??
+            time.on ??
+            time.from ??
+            getToday()).split(" ")[0];
         if (Date.parse(normalizeTime(till)) + dayMilliseconds >
             date.getTime()) {
             willStillHappen = true;

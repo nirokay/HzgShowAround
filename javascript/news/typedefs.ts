@@ -564,7 +564,12 @@ function getImportance(element: NewsFeedElement): number {
     let willStillHappen: boolean = false;
     element.times?.forEach((time) => {
         if (willStillHappen) return;
-        let till: string = time.till ?? time.on ?? time.from ?? getToday();
+        let till: string = (
+            time.till ??
+            time.on ??
+            time.from ??
+            getToday()
+        ).split(" ")[0];
         if (
             Date.parse(normalizeTime(till)) + dayMilliseconds >
             date.getTime()
