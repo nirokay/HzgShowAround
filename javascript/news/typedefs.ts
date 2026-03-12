@@ -410,9 +410,11 @@ function normalizedElement(
     result.isHappening = false;
     result.times.forEach((time) => {
         if (result.isHappening) return;
+        let dateFrom: string = (time.from ?? "1970-01-01").split(" ")[0];
+        let dateTill: string = (time.from ?? "1970-01-01").split(" ")[0];
         if (
-            Date.parse(time.from ?? "") <= date.getTime() &&
-            Date.parse(time.till ?? "") + dayMilliseconds >= date.getTime()
+            Date.parse(dateFrom) <= date.getTime() &&
+            Date.parse(dateTill) + dayMilliseconds >= date.getTime()
         ) {
             result.isHappening = true;
         }

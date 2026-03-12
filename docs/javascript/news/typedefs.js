@@ -338,8 +338,10 @@ function normalizedElement(news, element) {
     result.times.forEach((time) => {
         if (result.isHappening)
             return;
-        if (Date.parse(time.from ?? "") <= date.getTime() &&
-            Date.parse(time.till ?? "") + dayMilliseconds >= date.getTime()) {
+        let dateFrom = (time.from ?? "1970-01-01").split(" ")[0];
+        let dateTill = (time.from ?? "1970-01-01").split(" ")[0];
+        if (Date.parse(dateFrom) <= date.getTime() &&
+            Date.parse(dateTill) + dayMilliseconds >= date.getTime()) {
             result.isHappening = true;
         }
     });
