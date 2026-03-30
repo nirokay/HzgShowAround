@@ -12,8 +12,8 @@ var html: HtmlDocument = newPage(
 html.setStylesheet(css)
 
 html.add(
-    insertButtons(hrefIndex),
-    h1("Mitwirkende und Credits")
+    h1("Mitwirkende und Credits"),
+    insertButtons(hrefIndex)
 )
 
 
