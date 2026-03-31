@@ -56,6 +56,7 @@ type
         email*, telephone*: Option[string]
     Offering* = object
         name*: string ## Activity name
+        emoji*: Option[string] ## Activity emoji
         desc*: Option[seq[string]] ## Description of the activity (joined by `<br />`s)
         time*: Option[string] ## EITHER: single time
         times*: Option[seq[string]] ## OR: multiple times

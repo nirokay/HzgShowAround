@@ -4,7 +4,7 @@
 ## This module generates the `offerings.html` page, with all offerings
 ## displayed for reading.
 
-import std/[json, options, strutils]
+import std/[json, options, strutils, algorithm]
 
 import generator
 import globals, styles, client, typedefs, snippets
@@ -23,7 +23,12 @@ html.add(
 
 let
     jsonOfferings: JsonNode = getOfferingsJson()
-    offerings: seq[Offering] = jsonOfferings.to(seq[Offering])
+    offerings: seq[Offering] = block:
+        var r: seq[Offering] = jsonOfferings.to(seq[Offering])
+        proc alphabetically(x, y: Offering): int =
+            result = cmp(x.name, y.name)
+        r.sort(alphabetically)
+        r
 
 
 var htmlOfferings: seq[HtmlElement]
@@ -32,7 +37,8 @@ for offering in offerings:
         elementsTop: seq[HtmlElement]
         elementsBottom: seq[HtmlElement]
     # Name:
-    elementsTop.add h3(offering.name)
+    let emoji: string = offering.emoji.get("")
+    elementsTop.add ih3(strip offering.name & " " & emoji, offering.name)
 
     # Description:
     var desc: seq[string]

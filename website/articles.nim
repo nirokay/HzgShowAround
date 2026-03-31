@@ -235,9 +235,10 @@ proc generateHtmlMainPage() =
     # Sort articles by date:
     var articlesSorted: seq[Article] = articles
 
-    articlesSorted.sort do (x, y: Article) -> int:
+    proc alphabetically(x, y: Article): int =
         let default: string = "0001-01-01"
         result = cmp(y.date.get(default), x.date.get(default))
+    articlesSorted.sort(alphabetically)
 
     # Add articles to html:
     var articleElements: seq[HtmlElement]
