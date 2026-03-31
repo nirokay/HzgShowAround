@@ -88,6 +88,40 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
                 # Set no og:image, will use default favicon image
                 discard
 
+proc getLocationContact(elements: OrderedTable[string, string], singular, plural, htmlHref: string): HtmlElement =
+    echo elements
+    var contactElements: seq[HtmlElement]
+    let allElements: seq[array[2, string]] = block:
+        var r: seq[array[2, string]]
+        for name, referTo in elements: r.add [name, referTo]
+        r
+
+    # Single entry:
+    if allElements.len() == 0:
+        return <$> "ERROR, should not have happened."
+    elif allElements.len() == 1:
+        let element: array[2, string] = allElements[0]
+        contactElements.add b(singular & ": ")
+        contactElements.add a(htmlHref & ":" & element[1], element[1])
+
+    # Multiple entries:
+    else:
+        var children: seq[HtmlElement]
+
+        # Construct bullet points:
+        for element in allElements:
+            var listElements: seq[HtmlElement]
+            # Only add prefix name, if not whitespace-only:
+            if element[0].strip() != "": listElements.add i(element[0] & ": ")
+            listElements.add a(htmlHref & ":" & element[1], element[1])
+            children.add li(listElements)
+
+        contactElements.add b(plural & ": ")
+        contactElements.add ul(children).addStyle("margin-top" := "0")
+
+    result = `div`(contactElements).setClass(locationContactElementDiv)
+    echo result
+
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location
     let
@@ -205,45 +239,10 @@ proc generateLocationHtml*(location: Location) =
                     <$>", ",
                     i(area)
                 ).setClass(locationContactElementDiv)
-            # Telephone:
-            if contact.tels.isSet():
-                let tels: OrderedTable[string, string] = get contact.tels
-                if tels.hasKey(""):
-                    contactElements.add `div`(
-                        b("Telefonnummer: "),
-                        a("tel:" & tels[""], tels[""])
-                    ).setClass(locationContactElementDiv)
-                else:
-                    var children: seq[HtmlElement]
-                    for name, number in tels:
-                        children.add li(@[
-                            i(name & ": "),
-                            a("tel:" & number, number)
-                        ])
-                    contactElements.add `div`(
-                        b("Telefonnummern: "),
-                        ul(children).addStyle("margin-top" := "0")
-                    ).setClass(locationContactElementDiv)
 
-            # Email:
-            if contact.emails.isSet():
-                let emails: OrderedTable[string, string] = get contact.emails
-                if emails.hasKey(""):
-                    contactElements.add `div`(
-                        b("Email-Adresse: "),
-                        a("mailto:" & emails[""], emails[""])
-                    ).setClass(locationContactElementDiv)
-                else:
-                    var children: seq[HtmlElement]
-                    for name, address in emails:
-                        children.add li(@[
-                            i(name & ": "),
-                            a("mailto:" & address, address)
-                        ])
-                    contactElements.add `div`(
-                        b("Email-Adressen: "),
-                        ul(children).addStyle("margin-top" := "0")
-                    ).setClass(locationContactElementDiv)
+            # Telephone and Email:
+            if contact.tels.isSet(): contactElements.add getLocationContact(get contact.tels, "Telefonnummer", "Telefonnummern", "tel")
+            if contact.emails.isSet(): contactElements.add getLocationContact(get contact.emails, "Email-Adresse", "Email-Adressen", "mailto")
 
             elements.add `div`(contactElements).setClass(contentBoxClass).addStyle(
                 "width" := "fit-content",
