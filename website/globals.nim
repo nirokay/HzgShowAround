@@ -337,7 +337,7 @@ const
         "padding" := "5px",
         "width" := "30%",
         "max-width" := "500px",
-        "min-width" := "300px",
+        "min-width" := "150px",
         "background" := colourBackgroundMiddle,
         "border-radius" := "10px",
         "padding" := "10px",
@@ -346,7 +346,7 @@ const
 
     newsDivClass* = newCssClass("news-div-class",
         width("75%"),
-        "min-width" := "300px",
+        "min-width" := "200px",
         "display" := "block",
         "margin-left" := "auto",
         "margin-right" := "auto",
@@ -495,7 +495,7 @@ const
     }
     locationSearchBar*: CssElement = ".autocomplete-search-bar"{
         "width" := "50%",
-        "min-width" := "200px",
+        "min-width" := "100px",
         "max-width" := "600px"
     }
 #[

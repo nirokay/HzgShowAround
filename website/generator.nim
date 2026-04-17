@@ -82,7 +82,7 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     result.addToHead(
         htmlComment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
         charset("utf-8"),
-        viewport("width=device-width, initial-scale=1"),
+        viewport("width=device-width, height=device-height, user-scalable=yes, initial-scale=0.8"),
         (
             if name == "": title("HzgShowAround")
             else: title(name & " | HzgShowAround")

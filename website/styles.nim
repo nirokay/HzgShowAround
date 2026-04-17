@@ -237,6 +237,10 @@ css.add(
         newsElementTextSegment,
         newsElementPictureSegment,
 
+    ".newsfeed-element-segment-body > p"{
+        "max-width" := "95%"
+    },
+
     newsElementGeneric,
     newsElementHoliday,
     newsElementWarning,
