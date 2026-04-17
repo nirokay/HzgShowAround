@@ -183,7 +183,7 @@ proc generate*(html: var HtmlDocument) =
                 hasOGImage = true
                 break
     if not hasOGImage:
-        html.add ogImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
+        html.addToHead ogImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
 
     # Global body attributes:
     html.addAttributesToBody(
