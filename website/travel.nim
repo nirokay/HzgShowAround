@@ -5,7 +5,9 @@
 import std/[strutils, json, tables]
 import globals, client, typedefs, generator, styles, snippets
 
-const busPlanUrl: string = "https://www.herzogsaegmuehle.de/fileadmin/Diakoniedorf/PDFs/Dorf/Hier_findest_Du_uns/Busfahrplan_Herzogsaegmuehle_Peiting_aktuell.pdf"
+const
+    busPlanUrlSchongau: string = "https://www.herzogsaegmuehle.de/fileadmin/Diakoniedorf/PDFs/Dorf/Hier_findest_Du_uns/Busfahrplan_Herzogsaegmuehle_Schongau_aktuell.pdf"
+    busPlanUrlPeiting: string = "https://www.herzogsaegmuehle.de/fileadmin/Diakoniedorf/PDFs/Dorf/Hier_findest_Du_uns/Busfahrplan_Herzogsaegmuehle_Peiting_aktuell.pdf"
 
 let
     jsonTravel: JsonNode = getTravelJson()
@@ -14,35 +16,27 @@ let
 var html: HtmlDocument = newPage(
     "Bus und Taxi",
     "travel.html",
-    "Bus und Taxi von benachbarten Orten zurück in die Herzogsägmühle."
+    "Bus und Taxi von Herzogsägmühle zu den benachbarten Orten und zurück."
 )
 
-html.addToBody(
-    ih1("Bus und Taxi zurück in die Herzogsägmühle"),
-    pc("Hier findest du Informationen wie du aus benachbarten Orten zurück in die Mühle findest."),
-    insertButtons(hrefIndex, hrefMap),
-
-    ih2($a(busPlanUrl, "Busplan").addattr("target", "_blank"), "Busplan"),
-    pc(
-        "Falls der untere Busplan nicht erkennbar ist, " &
-        $a(busPlanUrl, "klicke hier oder auf die Überschrift oben").addattr("target", "_blank") &
-        ", um diesen extern aufzurufen."
-    ),
+proc objectIframeElement(header, url: string): HtmlElement =
+    let finishedHeading: string = header & " ↔️ " & "Herzogsägmühle"
     `div`(
+        ih3($a(url, finishedHeading).addattr("target", "_blank"), "bus-plan-hsm-" & header.toLower()),
         newHtmlElement("object").add(
-            "data" -= busPlanUrl,
+            "data" -= url,
             "type" -= $applicationPdf,
             "width" -= "100%",
             "height" -= "100%"
         ).add(
             newHtmlElement("iframe").add(
                 "type" -= $applicationPdf,
-                "src" -= busPlanUrl,
+                "src" -= url,
                 "width" -= "500",
                 "height" -= "500"
             ).add(
                 <$>"Dieser Browser unterstützt keine PDF-Anzeige,",
-                a(busPlanUrl, "klicke hier").addattr("target", "_blank"),
+                a(url, "klicke hier").addattr("target", "_blank"),
                 <$>", um es manuell anzusehen."
             )
         )
@@ -51,6 +45,15 @@ html.addToBody(
         "min-height" := "300px",
         "margin" := "20px"
     )
+
+html.addToBody(
+    ih1("Bus und Taxi zurück in die Herzogsägmühle"),
+    pc("Hier findest du Informationen wie du aus benachbarten Orten zurück in die Mühle findest."),
+    insertButtons(hrefIndex, hrefMap),
+
+    ih2("Buspläne"),
+    objectIframeElement("Schongau", busPlanUrlSchongau),
+    objectIframeElement("Peiting", busPlanUrlPeiting)
 )
 
 
