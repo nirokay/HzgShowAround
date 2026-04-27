@@ -1,6 +1,6 @@
 const urlRemoteRepository: string =
     "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/";
-
+const urlJsonsNews: string = urlRemoteRepository + "json/news/";
 // Date stuff:
 const dayMilliseconds: number = 86400000;
 const weekMilliseconds: number = dayMilliseconds * 7;
@@ -15,10 +15,10 @@ const dateFormatDisplay: Intl.DateTimeFormatOptions = {
 let relevancyLookIntoFuture: number = monthMilliseconds * 3;
 let relevancyLookIntoPast: number = monthMilliseconds;
 
-const urlRemoteNewsLegacy: string = urlRemoteRepository + "news.json";
-const urlRemoteNewsRepeat: string = urlRemoteRepository + "news-repeat.json";
+const urlRemoteNewsLegacy: string = urlJsonsNews + "news.json";
+const urlRemoteNewsRepeat: string = urlJsonsNews + "news-repeat.json";
 function urlRemoteNewsYear(year: number): string {
-    return urlRemoteRepository + "news-" + year.toString() + ".json";
+    return urlJsonsNews + "news-" + year.toString() + ".json";
 }
 enum EventType {
     fullDay,
@@ -69,8 +69,7 @@ const IMPORTANCE_DEFAULT = 0;
 const IMPORTANCE_HOLIDAY = -5;
 const IMPORTANCE_HAPPENED = -10;
 
-const urlRemoteHealthPresentations: string =
-    urlRemoteRepository + "news-health.json";
+const urlRemoteHealthPresentations: string = urlJsonsNews + "news-health.json";
 class HealthPresentation {
     topic: string = "Gesundheitsbildung: Präsentation";
     desc?: string;

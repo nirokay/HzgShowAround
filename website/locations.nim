@@ -2,7 +2,7 @@
 ## ================
 ##
 ## This module deals with locations and generating them from the
-## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/locations.json).
+## [locations JSON file](https://github.com/nirokay/HzgShowAroundData/blob/master/json/locationslocations.json).
 
 import std/[tables, options, strutils, json]
 import generator, styles, typedefs, mapgenerator
@@ -89,7 +89,6 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
                 discard
 
 proc getLocationContact(elements: OrderedTable[string, string], singular, plural, htmlHref: string): HtmlElement =
-    echo elements
     var contactElements: seq[HtmlElement]
     let allElements: seq[array[2, string]] = block:
         var r: seq[array[2, string]]
@@ -120,7 +119,6 @@ proc getLocationContact(elements: OrderedTable[string, string], singular, plural
         contactElements.add ul(children).addStyle("margin-top" := "0")
 
     result = `div`(contactElements).setClass(locationContactElementDiv)
-    echo result
 
 proc generateLocationHtml*(location: Location) =
     ## Generates HTML site for a location

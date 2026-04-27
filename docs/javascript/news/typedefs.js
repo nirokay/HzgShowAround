@@ -1,5 +1,6 @@
 "use strict";
 const urlRemoteRepository = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/";
+const urlJsonsNews = urlRemoteRepository + "json/news/";
 // Date stuff:
 const dayMilliseconds = 86400000;
 const weekMilliseconds = dayMilliseconds * 7;
@@ -12,10 +13,10 @@ const dateFormatDisplay = {
 };
 let relevancyLookIntoFuture = monthMilliseconds * 3;
 let relevancyLookIntoPast = monthMilliseconds;
-const urlRemoteNewsLegacy = urlRemoteRepository + "news.json";
-const urlRemoteNewsRepeat = urlRemoteRepository + "news-repeat.json";
+const urlRemoteNewsLegacy = urlJsonsNews + "news.json";
+const urlRemoteNewsRepeat = urlJsonsNews + "news-repeat.json";
 function urlRemoteNewsYear(year) {
-    return urlRemoteRepository + "news-" + year.toString() + ".json";
+    return urlJsonsNews + "news-" + year.toString() + ".json";
 }
 var EventType;
 (function (EventType) {
@@ -61,7 +62,7 @@ const IMPORTANCE_WARNING = 10;
 const IMPORTANCE_DEFAULT = 0;
 const IMPORTANCE_HOLIDAY = -5;
 const IMPORTANCE_HAPPENED = -10;
-const urlRemoteHealthPresentations = urlRemoteRepository + "news-health.json";
+const urlRemoteHealthPresentations = urlJsonsNews + "news-health.json";
 class HealthPresentation {
     topic = "Gesundheitsbildung: Präsentation";
     desc;

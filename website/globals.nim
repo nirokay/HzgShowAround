@@ -38,12 +38,17 @@ const urlConvertChars*: seq[array[2, string]] = @[
 ] ## List of characters to convert [0] and their final conversion [1]
 
 const
-    urlDeploymentSite*: string = "https://nirokay.github.io/HzgShowAround/" ## Target deployment site directory
+    urlDeploymentSite*: string = "https://www.nirokay.com/HzgShowAround/" ## Target deployment site directory
     urlDeploymentResources*: string = urlDeploymentSite & "resources/" ## Target site resources directory
     urlDeploymentImages*: string = urlDeploymentResources & "images/" ## Target site images directory
     urlDeploymentLocationMaps*: string = urlDeploymentImages & "map-locations/" ## Target site location maps directory
 
     urlRemoteRepo*: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/" ## Data repository
+    urlJsons*: string = urlRemoteRepo & "json/"
+    urlJsonsContributors*: string = urlJsons & "contributors/"
+    urlJsonsLocations*: string = urlJsons & "locations/"
+    urlJsonsNews*: string = urlJsons & "news/"
+    urlJsonsPages*: string = urlJsons & "pages/"
 
     urlResources*: string = urlRemoteRepo & "resources/" ## Resources directory
     urlImages*: string = urlResources & "images/" ## Image directory
@@ -56,25 +61,25 @@ const
 
     urlPinIdHeader*: string = urlImages & "header-href-pin.svg" ## SVG icon for headers with IDs, so they can be "pinned"
 
-    urlContributors*: string = urlRemoteRepo & "contributors.json" ## Author JSON file
-    urlAuthors*: string = urlRemoteRepo & "authors.json" ## Author JSON file
+    urlContributors*: string = urlJsonsContributors & "contributors.json" ## Author JSON file
+    urlAuthors*: string = urlJsonsContributors & "authors.json" ## Author JSON file
     urlAuthorImages*: string = urlImages & "authors/" ## Author image directory
 
     urlArticleImages*: string = urlImages & "articles/" ## Article directory
-    urlArticles*: string = urlRemoteRepo & "articles.json" ## Articles JSON file
+    urlArticles*: string = urlJsonsPages & "articles.json" ## Articles JSON file
     urlCustomHtmlArticles*: string = urlResources & "articles/" ## Custom HTML articles repository
 
     urlLocationImages*: string = urlImages & "locations/" ## Location image directory
-    urlLocationData*: string = urlRemoteRepo & "locations.json" ## Location JSON file
-    urlTourData*: string = urlRemoteRepo & "tour_locations.json" ## Tour location JSON file
+    urlLocationData*: string = urlJsonsLocations & "locations.json" ## Location JSON file
+    urlTourData*: string = urlJsonsLocations & "tour_locations.json" ## Tour location JSON file
 
-    urlNewsFeed*: string = urlRemoteRepo & "news.json" ## News JSON file
+    urlNewsFeed*: string = urlJsonsNews & "news.json" ## News JSON file
 
-    urlOfferings*: string = urlRemoteRepo & "offerings.json" ## Offerings JSON file
+    urlOfferings*: string = urlJsonsPages & "offerings.json" ## Offerings JSON file
 
-    urlChangelog*: string = urlRemoteRepo & "changelog.json" ## Changelog JSON file
+    urlChangelog*: string = urlJsonsPages & "changelog.json" ## Changelog JSON file
 
-    urlTravel*: string = urlRemoteRepo & "travel.json" ## Travel JSON file
+    urlTravel*: string = urlJsonsPages & "travel.json" ## Travel JSON file
 
 # -----------------------------------------------------------------------------
 # Export paths:
