@@ -103,7 +103,7 @@ proc generate*(html: var HtmlDocument) =
                     "color" := "#e8e6e3"
                 ) &
                 " › " &
-                $a("/HzgShowAround", "HzgShowAround").setTitle("").addStyle(
+                $a("/HzgShowAround", "HzgShowAround").setTitle("Startseite").addStyle(
                     "color" := "#e8e6e3"
                 )
             ).addStyle(
