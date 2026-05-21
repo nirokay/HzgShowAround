@@ -24,23 +24,23 @@ proc objectIframeElement(header, url: string): HtmlElement =
     `div`(
         ih3($a(url, finishedHeading).addattr("target", "_blank"), "bus-plan-hsm-" & header.toLower()),
         newHtmlElement("object").add(
-            "data" -= url,
-            "type" -= $applicationPdf,
-            "width" -= "100%",
-            "height" -= "100%"
+            "data" <=> url,
+            "type" <=> $applicationPdf,
+            "width" <=> "100%",
+            "height" <=> "100%"
         ).add(
             newHtmlElement("iframe").add(
-                "type" -= $applicationPdf,
-                "src" -= url,
-                "width" -= "500",
-                "height" -= "500"
+                "type" <=> $applicationPdf,
+                "src" <=> url,
+                "width" <=> "500",
+                "height" <=> "500"
             ).add(
                 <$>"Dieser Browser unterstützt keine PDF-Anzeige,",
                 a(url, "klicke hier").addattr("target", "_blank"),
                 <$>", um es manuell anzusehen."
             )
         )
-    ).addStyle(
+    ).setStyle(
         "height" := "60vh",
         "min-height" := "300px",
         "margin" := "20px"

@@ -1,5 +1,5 @@
 import std/[strutils, strformat, sequtils, tables]
-import websitegenerator
+import cattag
 
 type Logger* = object
     generatedHtml*, generatedCss*, generatedSvg*, generatedXml*: seq[string]

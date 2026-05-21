@@ -53,14 +53,14 @@ html.addToBody(
         ).setClass(
             iconImageClass
         ),
-    ).addStyle(
+    ).setStyle(
         "max-width" := "100px",
         "max-height" := "100px",
         # ^ Does not work as intended but looks cool as fuck :D (it is a feature)
         dropShadow
     ).setClass(centerClass),
 
-    ih1("HzgShowAround für die Diakonie Herzogsägmühle").addStyle(
+    ih1("HzgShowAround für die Diakonie Herzogsägmühle").setStyle(
         "position" := "relative"
     ),
     pc("Diese inoffizielle Website, für das Diakoniedorf Herzogsägmühle, soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!")
@@ -100,7 +100,7 @@ html.addContentBox(
     ih2("Orte"),
     imageParagraph(
         # Inline image:
-        a(hrefMap.href, $img("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/map.svg", "Ortskarte").addStyle("max-width" := "200px")),
+        a(hrefMap.href, $img("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/map.svg", "Ortskarte").setStyle("max-width" := "200px")),
         # Text:
         p(
             "Alle wichtigen Orte sind online abrufbar; Es gibt eine interaktive Karte von der Diakonie Herzogsägmühle, wo die eingetragenen Orte anklickbar sind.",

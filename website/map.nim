@@ -20,10 +20,10 @@ var
     )
     locations: seq[Location] = getLocationsSorted()
     picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
-        "usemap" -= "#location-map",
-        "width" -= px(mapScaleTo),
-        "height" -= px(mapScaleTo)
-    ).addStyle(
+        "usemap" <=> "#location-map",
+        "width" <=> px(mapScaleTo),
+        "height" <=> px(mapScaleTo)
+    ).setStyle(
         "border-radius" := "20px",
         "text-align" := "center",
         "color" := colourText,
@@ -55,12 +55,12 @@ for location in locations.withCoords():
 
     # Coords and link:
     area.add(
-        "coords" -= scaledCoords.join(","),
-        "alt" -= location.name,
-        "href" -= location.getLocationPath(),
-        "tabindex" -= "0",
-        "class" -= "map-element",
-        "title" -= location.name
+        "coords" <=> scaledCoords.join(","),
+        "alt" <=> location.name,
+        "href" <=> location.getLocationPath(),
+        "tabindex" <=> "0",
+        "class" <=> "map-element",
+        "title" <=> location.name
     )
 
     # Dirty quick-fix for weird behaviour:
@@ -74,7 +74,7 @@ var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
 
 var locationButtons: seq[HtmlElement]
 for location in locations:
-    locationButtons.add a(location.path.get("404.html"), location.name).setClass(buttonClass).addStyle("color" := colourText)
+    locationButtons.add a(location.path.get("404.html"), location.name).setClass(buttonClass).setStyle("color" := colourText)
 
 html.addToBody(
     divSpacerTop, # TODO: Fix this dirty hack, someday
@@ -84,7 +84,7 @@ html.addToBody(
     `div`(
         picture,
         map
-    ).setClass(centerClass).addStyle(
+    ).setClass(centerClass).setStyle(
         "overflow" := "scroll",
         "touch-action" := "pan-x pan-y pinch-zoom",
         "max-width" := px(pictureDimensions.maxWidth),

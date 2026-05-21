@@ -29,11 +29,11 @@ for change in changelog:
     # Bullet point list:
     var list: seq[HtmlElement]
     for header, points in change.text:
-        if header != "": list.add h3(header).addStyle("text-align" := "left")
+        if header != "": list.add h3(header).setStyle("text-align" := "left")
         var allPoints: seq[HtmlElement]
         for point in points:
             allPoints.add li(point)
-        list.add ul(allPoints).addStyle("margin-top" := "5px")
+        list.add ul(allPoints).setStyle("margin-top" := "5px")
 
     # Div:
     let header: string = block:

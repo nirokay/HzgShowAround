@@ -7,11 +7,13 @@
 import std/[strutils, times, tables]
 from os import `/`, createDir
 export `/`
-import websitegenerator
-export websitegenerator except newDocument, newHtmlDocument, writeFile
+import cattag
+export cattag except newHtmlDocument, writeFile
 
 import ../utils/logging
 
+
+proc aNewTab*(href, text: string): HtmlElement = a(href, text).add("target" <=> "_blank")
 
 # -----------------------------------------------------------------------------
 # Margins:
@@ -22,22 +24,16 @@ const
     heightBarBottom*: int = 45 ## Height of the top bar (shrink main div)
     heightBarMargins*: int = 5 ## Margins between content and bars
 
-proc newSpacer(height: string|int): HtmlElement =
+proc newSpacer(height: int): HtmlElement =
     result = `div`(
-        htmlComment("Ignore this - this is a spacer... I am a GOD at Html/Css")
-    ).addStyle(
+        newHtmlComment("Ignore this - this is a spacer... I am a GOD at Html/Css")
+    ).setStyle(@[
         "min-height" := $height & "px"
-    )
+    ])
 
 let
     divSpacerTop*: HtmlElement = newSpacer(heightBarTop) ## Hacky solution for some pages to keep space for the header bar
     divSpacerBottom*: HtmlElement = newSpacer(heightBarBottom) ## Hacky solution for some pages to keep space for the footer bar
-
-
-# Target directory:
-# Stupid thing needs to be docs for some fucking reason, amazing work github pages!!
-const target*: string = "docs" ## Target/Output directory
-setTargetDirectory(target)
 
 const
     dirs: seq[string] = @[
@@ -48,7 +44,7 @@ const
         "resources" / "images" / "map-locations"
     ]
 for dir in dirs:
-    let path: string = target / dir
+    let path: string = "docs" / dir
     echo "Creating directory '" & path & "'"
     createDir(path)
 
@@ -57,6 +53,16 @@ for dir in dirs:
 const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
     "map.html" # TODO: Fix this someday holy shit # TODO: idk how, maybe later me will know more
 ]
+
+proc og*(property, content: string): HtmlElement =
+    meta().add(
+        "property" <=> property,
+        "content" <=> content
+    )
+proc ogTitle*(content: string): HtmlElement = og("title", content)
+proc ogDescription*(content: string): HtmlElement = og("description", content)
+proc ogImage*(content: string): HtmlElement = og("image", content)
+proc ogLocale*(content: string): HtmlElement = og("locale", content)
 
 var pageMetaDataCache: Table[string, seq[string]]
 
@@ -80,14 +86,14 @@ proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     ]
     result = newHtmlDocument(path)
     result.addToHead(
-        htmlComment("Html and Css generated using website generator: https://github.com/nirokay/websitegenerator "),
-        charset("utf-8"),
-        viewport("width=device-width, height=device-height, user-scalable=yes, initial-scale=0.8"),
+        meta("utf-8"),
+        metaViewport("width=device-width, height=device-height, user-scalable=yes, initial-scale=0.8"),
         (
-            if name == "": title("HzgShowAround")
-            else: title(name & " | HzgShowAround")
+            if name == "": title(html "HzgShowAround")
+            else: title(html name & " | HzgShowAround")
         ),
-        description(desc)
+        metaDescription(desc),
+        newHtmlComment("Html and Css generated using cattag: https://github.com/nirokay/cattag ")
     )
     result.addOgTags()
 
@@ -99,36 +105,36 @@ proc generate*(html: var HtmlDocument) =
     var
         topHeader: HtmlElement = `div`(
             h2(
-                $a("/", "nirokay.com").setTitle("Zurück zum Host").addStyle(
+                a("/", "nirokay.com").setTitle("Zurück zum Host").setStyle(
                     "color" := "#e8e6e3"
-                ) &
-                " › " &
-                $a("/HzgShowAround", "HzgShowAround").setTitle("Startseite").addStyle(
+                ),
+                html " › ",
+                a("/HzgShowAround", "HzgShowAround").setTitle("Startseite").setStyle(
                     "color" := "#e8e6e3"
                 )
-            ).addStyle(
+            ).setStyle(
                 "text-align" := "left",
                 "text-decoration" := "none",
                 "padding-left" := "10px"
             )
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
-            p($small @[
-                "🄯 nirokay " &
-                $time("2023").addattr("datetime", "2023-11-13 00:00") &
-                " - " &
-                $time($now().format("yyyy")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
-                $aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
-                $a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
+            p(small @[
+                html "🄯 nirokay ",
+                time("2023").addattr("datetime", "2023-11-13 00:00"),
+                html " - ",
+                time($now().format("yyyy")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
+                aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
+                a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
             ].join(" | "))
         ).setClass("bottom-page-footer")
 
     html.addToBody(
         # 1_000_000 IQ move to put a buffer between end of content and footer
         `div`(
-            htmlComment("This element is a hack, please ignore my superior HTML/CSS skills")
-        ).addStyle(
-            "min-height" := 52.px
+            newHtmlComment("This element is a hack, please ignore my superior HTML/CSS skills")
+        ).setStyle(
+            "min-height" := 52'px
         )
     )
 
@@ -160,38 +166,35 @@ proc generate*(html: var HtmlDocument) =
     let faviconUrl: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
     html.addToHead(
         # Favicon:
-        "link"[
-            "rel" -= "icon",
-            "type" -= "image/png",
-            "sizes" -= "512x512",
-            "href" -= faviconUrl
-        ],
+        link(@[
+            "rel" <=> "icon",
+            "type" <=> "image/png",
+            "sizes" <=> "512x512",
+            "href" <=> faviconUrl
+        ]),
         # Favicon 2.0:
-        "link"[
-            "rel" -= "apple-touch-icon",
-            "href" -= faviconUrl
-        ]
+        link(@[
+            "rel" <=> "apple-touch-icon",
+            "href" <=> faviconUrl
+        ])
     )
 
     # OG image, if none set:
     var hasOGImage: bool = false
     for element in html.head:
+        if element.elementType != typeElement: continue
         if element.tag != "meta": continue
-        for attribute in element.tagAttributes:
-            if attribute.name != "property": continue
-            if attribute.value == "og:image":
+        for attribute in element.attributes:
+            if attribute.attribute != "property": continue
+            if "og:image" in attribute.values:
                 hasOGImage = true
                 break
     if not hasOGImage:
         html.addToHead ogImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
 
-    # Global body attributes:
-    html.addAttributesToBody(
-        "lang" -= "de"
-    )
-    html.addAttributesToHtml(
-        "lang" -= "de"
-    )
+    # Global attributes:
+    html.htmlAttributes = @["lang" <=> "de"]
+    html.bodyAttributes = @["lang" <=> "de"]
 
     html.writeFile()
     logger.addGenerated(html)

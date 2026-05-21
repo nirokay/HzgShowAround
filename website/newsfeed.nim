@@ -9,7 +9,7 @@ import globals, styles, snippets
 
 proc explanatoryElement(definition, explanation, col: string, cssAttribute: CssAttribute): HtmlElement =
     var elements: seq[HtmlElement]
-    elements.add span(<$>definition).addStyle(cssAttribute)
+    elements.add span(<$>definition).setStyle(cssAttribute)
     elements.add <$>(" = " & explanation)
     result = <$>($elements) # wtf am i doing
 proc backgroundedSpan(definition, explanation, col: string): HtmlElement =

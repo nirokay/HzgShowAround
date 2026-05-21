@@ -120,7 +120,7 @@ proc getLocationContact(elements: OrderedTable[string, string], singular, plural
             children.add li(listElements)
 
         contactElements.add b(plural & ": ")
-        contactElements.add ul(children).addStyle("margin-top" := "0")
+        contactElements.add ul(children).setStyle("margin-top" := "0")
 
     result = `div`(contactElements).setClass(locationContactElementDiv)
 
@@ -246,7 +246,7 @@ proc generateLocationHtml*(location: Location) =
             if contact.tels.isSet(): contactElements.add getLocationContact(get contact.tels, "Telefonnummer", "Telefonnummern", "tel")
             if contact.emails.isSet(): contactElements.add getLocationContact(get contact.emails, "Email-Adresse", "Email-Adressen", "mailto")
 
-            elements.add `div`(contactElements).setClass(contentBoxClass).addStyle(
+            elements.add `div`(contactElements).setClass(contentBoxClass).setStyle(
                 "width" := "fit-content",
                 "background-color" := colourBackgroundLight
             )
