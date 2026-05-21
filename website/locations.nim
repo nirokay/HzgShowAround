@@ -83,7 +83,11 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             elif location.coords.isSome():
                 # Map location image:
                 if location.coords.get().len() < 4: break settingLocationOgImage
-                html.addToHead ogImage(location.getLocationMapPath(absolute = true))
+                var path: string = location.getLocationMapPath(absolute = true)
+                # PNG instead of SVG, because SVG seems to not be supported as preview in og image
+                path.removeSuffix(".svg")
+                path &= ".png"
+                html.addToHead ogImage(path)
             else:
                 # Set no og:image, will use default favicon image
                 discard
