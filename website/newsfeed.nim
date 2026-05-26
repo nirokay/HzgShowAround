@@ -7,10 +7,10 @@
 import generator
 import globals, styles, snippets
 
-proc explanatoryElement(definition, explanation, col: string, cssAttribute: CssAttribute): HtmlElement =
+proc explanatoryElement(definition, explanation, col: string, cssProperty: CssElementProperty): HtmlElement =
     var elements: seq[HtmlElement]
-    elements.add span(<$>definition).setStyle(cssAttribute)
-    elements.add <$>(" = " & explanation)
+    elements.add span(definition).setStyle(cssProperty)
+    elements.add html (" = " & explanation)
     result = <$>($elements) # wtf am i doing
 proc backgroundedSpan(definition, explanation, col: string): HtmlElement =
     result = explanatoryElement(definition, explanation, col, "background-color" := col)

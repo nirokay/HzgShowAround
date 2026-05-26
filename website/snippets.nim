@@ -27,7 +27,7 @@ proc fullyCenter*(html: varargs[HtmlElement]): HtmlElement =
     result = elements.fullyCenter()
 
 proc divCenter*(elements: seq[HtmlElement]): HtmlElement = `div`(elements).setClass(centerClass) ## Div with `centerClass` applied
-proc divCenter*(elements: varargs[HtmlElement]): HtmlElement = `div`(elements).setClass(centerClass) ## Div with `centerClass` applied
+proc divCenter*(elements: varargs[HtmlElement]): HtmlElement = divCenter(elements.toSeq()) ## Div with `centerClass` applied
 
 
 # =============================================================================
@@ -41,7 +41,7 @@ proc divCenter*(elements: varargs[HtmlElement]): HtmlElement = `div`(elements).s
 proc pc*(lines: seq[string]): HtmlElement =
     ## Returns a centered paragraph. Joins each line with a `<br />`
     let text: string = lines.join($br())
-    result = p(text).setClass(centerClass)
+    result = p(html text).setClass(centerClass)
 
 proc pc*(lines: varargs[string]): HtmlElement =
     ## Returns a centered paragraph. Joins each line with a `<br />`
@@ -114,8 +114,10 @@ proc insertButtons*(buttons: varargs[ButtonHref]): HtmlElement =
 
 proc buttonScript*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
-    button(text, onclick) # Use before overwrite lol
+    button("button", text, onclick) # Use before overwrite lol
 
+#htmlElements.button(type: string, content: string, contents: varargs[string])
+#htmlElements.button(type: string, onclick: string)
 proc buttonLink*(content, href: string): HtmlElement =
     ## Styled button-like link
     result = (href -> [content, ""]).toHtmlElement()
@@ -150,11 +152,9 @@ proc authorBubble*(authorName: string, beforeAfterText: array[2, string] = ["", 
     let
         authorImage: HtmlElement = img(urlAuthorImages & pictureFile, "Bild nicht verfügbar").setClass(authorPictureClass)
         authorText: HtmlElement = small(
-            beforeAfterText[0] &
-            $b(
-                if authorDisplayName != "": authorDisplayName else: authorName
-            ) &
-            beforeAfterText[1]
+            html beforeAfterText[0],
+            b html(if authorDisplayName != "": authorDisplayName else: authorName) ,
+            html beforeAfterText[1]
         ).setClass(authorNameClass)
 
     result = `div`(
@@ -206,16 +206,16 @@ proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlEle
 
     result = element
     result.addattr("id", id)
-    result.setClass(clickableHeaderClass.name)
+    result.setClass(clickableHeaderClass)
 
     var pin: HtmlElement = a("#" & id, pinHeaderId).setTitle("Pinne diese Überschrift")
     result.children.add pin
-proc ih1*(text: string, override: string = ""): HtmlElement = h1(text).iheader(text, override) ## Header element (with ascii-friendly id)
-proc ih2*(text: string, override: string = ""): HtmlElement = h2(text).iheader(text, override) ## Header element (with ascii-friendly id)
-proc ih3*(text: string, override: string = ""): HtmlElement = h3(text).iheader(text, override) ## Header element (with ascii-friendly id)
-proc ih4*(text: string, override: string = ""): HtmlElement = h4(text).iheader(text, override) ## Header element (with ascii-friendly id)
-proc ih5*(text: string, override: string = ""): HtmlElement = h5(text).iheader(text, override) ## Header element (with ascii-friendly id)
-proc ih6*(text: string, override: string = ""): HtmlElement = h6(text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih1*(text: string, override: string = ""): HtmlElement = h1(html text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih2*(text: string, override: string = ""): HtmlElement = h2(html text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih3*(text: string, override: string = ""): HtmlElement = h3(html text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih4*(text: string, override: string = ""): HtmlElement = h4(html text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih5*(text: string, override: string = ""): HtmlElement = h5(html text).iheader(text, override) ## Header element (with ascii-friendly id)
+proc ih6*(text: string, override: string = ""): HtmlElement = h6(html text).iheader(text, override) ## Header element (with ascii-friendly id)
 
 proc timeReadable*(dateTime: DateTime): string =
     result = dateTime.format("dd-MM-yyyy").replace("-", ".")

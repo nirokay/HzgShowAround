@@ -172,7 +172,7 @@ proc addLocationOverlay(svg: var SvgFile, pinScale: float = 0.02) =
 proc writeSvg(svg: SvgFile, path: string) =
     ## Writes svg file to disk
     try:
-        writeFile(target / path, svg.data)
+        writeFile(targetDir / path, svg.data)
     except IOError as e:
         echo "FUCK " & e.msg
 

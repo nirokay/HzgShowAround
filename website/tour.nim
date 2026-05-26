@@ -12,7 +12,7 @@ var tourIds*: seq[string] = rawTourJson.to(seq[string])
 for i, v in tourIds:
     tourIds[i] = getRelativeUrlId(v)
 
-writeFile(target / "resources/tour_locations.json", $(% tourIds))
+writeFile(targetDir / "resources/tour_locations.json", $(% tourIds))
 
 var html*: HtmlDocument = newPage(
     "Digitale Tour",

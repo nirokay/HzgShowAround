@@ -8,7 +8,7 @@ import std/[strutils, times, tables]
 from os import `/`, createDir
 export `/`
 import cattag
-export cattag except newHtmlDocument, writeFile
+export cattag except newHtmlDocument, newXmlDocument, writeFile
 
 import ../utils/logging
 
@@ -54,6 +54,7 @@ const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
     "map.html" # TODO: Fix this someday holy shit # TODO: idk how, maybe later me will know more
 ]
 
+#[
 proc og*(property, content: string): HtmlElement =
     meta().add(
         "property" <=> property,
@@ -62,9 +63,11 @@ proc og*(property, content: string): HtmlElement =
 proc ogTitle*(content: string): HtmlElement = og("title", content)
 proc ogDescription*(content: string): HtmlElement = og("description", content)
 proc ogImage*(content: string): HtmlElement = og("image", content)
-proc ogLocale*(content: string): HtmlElement = og("locale", content)
+proc ogLocale*(content: string): HtmlElement = og("locale", content)]
+]#
 
 var pageMetaDataCache: Table[string, seq[string]]
+
 
 proc addOgTags*(html: var HtmlDocument) =
     ## Adds `og:...` tags to the head of an Html document, that shows when sharing a link
@@ -78,6 +81,14 @@ proc addOgTags*(html: var HtmlDocument) =
 # -----------------------------------------------------------------------------
 # Shortcut procs:
 # -----------------------------------------------------------------------------
+
+proc importScripts*(html: var HtmlDocument, paths: varargs[string]) =
+    ## Imports JS scripts and defers them
+    for path in paths:
+        html.addToHead script(@[
+            "src" <=> path,
+            attr("defer")
+        ])
 
 proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
     ## Shortcut to create standardized html pages
