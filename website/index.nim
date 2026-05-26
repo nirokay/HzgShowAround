@@ -19,11 +19,11 @@ var html: HtmlDocument = newPage(
     ].join(" ")
 )
 
-html.addToHead(
-    importScript("javascript/news/html.js").add(attr("defer")), # Only used for `getLocationLookupTable()`
-    importScript("javascript/commons.js").add(attr("defer")),
-    importScript("javascript/index-autocomplete.js").add(attr("defer")),
-    importScript("javascript/index.js").add(attr("defer"))
+html.importScripts(
+    "javascript/news/html.js", # Only used for `getLocationLookupTable()`
+    "javascript/commons.js",
+    "javascript/index-autocomplete.js",
+    "javascript/index.js"
 )
 
 proc locationSearchBar(): HtmlElement =

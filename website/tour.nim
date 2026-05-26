@@ -21,7 +21,7 @@ var html*: HtmlDocument = newPage(
 )
 
 # Import js script:
-html.addToHead importScript("javascript/tourLogic.js")
+html.importScripts("javascript/tourLogic.js")
 
 # Header and description:
 html.addToBody(

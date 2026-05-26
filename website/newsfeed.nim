@@ -23,12 +23,14 @@ var html: HtmlDocument = newPage(
     "Neuigkeiten von und rund um die Herzogsägmühle."
 )
 
-html.addToHead importScript("javascript/commons.js").add(attr("defer"))
-html.addToHead importScript("javascript/news/typedefs.js").add(attr("defer"))
-html.addToHead importScript("javascript/news/ical.js").add(attr("defer"))
-html.addToHead importScript("javascript/news/html.js").add(attr("defer"))
-html.addToHead importScript("javascript/news/news.js").add(attr("defer"))
-html.addToHead importScript("javascript/newsfeed.js").add(attr("defer"))
+html.importScripts(
+    "javascript/commons.js",
+    "javascript/news/typedefs.js",
+    "javascript/news/ical.js",
+    "javascript/news/html.js",
+    "javascript/news/news.js",
+    "javascript/newsfeed.js"
+)
 
 html.addToBody(
     h1($a("https://www.herzogsaegmuehle.de/erleben/veranstaltungen", "Newsfeed").addattr("target", "_blank")),
