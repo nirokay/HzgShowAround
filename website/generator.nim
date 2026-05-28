@@ -54,17 +54,6 @@ const pagesThatShouldIgnoreTheDivsUsedForVerticalCentering: seq[string] = @[
     "map.html" # TODO: Fix this someday holy shit # TODO: idk how, maybe later me will know more
 ]
 
-#[
-proc og*(property, content: string): HtmlElement =
-    meta().add(
-        "property" <=> property,
-        "content" <=> content
-    )
-proc ogTitle*(content: string): HtmlElement = og("title", content)
-proc ogDescription*(content: string): HtmlElement = og("description", content)
-proc ogImage*(content: string): HtmlElement = og("image", content)
-proc ogLocale*(content: string): HtmlElement = og("locale", content)]
-]#
 
 var pageMetaDataCache: Table[string, seq[string]]
 
@@ -73,8 +62,14 @@ proc addOgTags*(html: var HtmlDocument) =
     ## Adds `og:...` tags to the head of an Html document, that shows when sharing a link
     let metaData: seq[string] = pageMetaDataCache[html.file]
     html.addToHead(
-        ogTitle(metaData[0]),
-        ogDescription(metaData[1])
+        ogType("website"),
+        twitterCard(),
+        ogTitle(metaData[0] & " | HzgShowAround"),
+        twitterTitle(metaData[0] & " | HzgShowAround"),
+        ogDescription(metaData[1]),
+        twitterDescription(metaData[1]),
+        ogSiteName("HzgShowAround"),
+        ogLocale("de_DE")
     )
 
 
@@ -178,7 +173,9 @@ proc generate*(html: var HtmlDocument) =
     )
 
     # Html head:
-    let faviconUrl: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
+    let
+        faviconUrl: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
+        pageUrl: string = "https://www.nirokay.com/HzgShowAround/" & html.file
     html.addToHead(
         # Favicon:
         link(@[
@@ -191,11 +188,19 @@ proc generate*(html: var HtmlDocument) =
         link(@[
             "rel" <=> "apple-touch-icon",
             "href" <=> faviconUrl
-        ])
+        ]),
+        # URLs:
+        link(@[
+            "rel" <=> "canonical",
+            "href" <=> pageUrl
+        ]),
+        ogUrl(pageUrl),
+        ogSecureUrl(pageUrl),
     )
 
     # OG image, if none set:
     var hasOGImage: bool = false
+    let replacementImage: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png"
     for element in html.head:
         if element.elementType != typeElement: continue
         if element.tag != "meta": continue
@@ -205,7 +210,12 @@ proc generate*(html: var HtmlDocument) =
                 hasOGImage = true
                 break
     if not hasOGImage:
-        html.addToHead ogImage("https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon.png")
+        html.addToHead(
+            ogImage(replacementImage),
+            ogImageAlt("HzgShowAround Logo"),
+            twitterImage(replacementImage),
+            twitterImageAlt("HzgShowAround Logo")
+        )
 
     # Global attributes:
     html.htmlAttributes = @["lang" <=> "de"]

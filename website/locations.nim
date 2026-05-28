@@ -76,10 +76,22 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             let pics: Pictures = get location.pics
             if pics.header.isSet():
                 # Header image:
-                html.addToHead ogImage(url pics.header.get())
+                let imgUrl: string = url pics.header.get()
+                html.addToHead(
+                    ogImage(imgUrl),
+                    twitterImage(imgUrl),
+                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
+                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                )
             elif pics.footer.isSet():
                 # First footer image:
-                html.addToHead ogImage(url pics.footer.get()[0])
+                let imgUrl: string = url pics.footer.get()[0]
+                html.addToHead(
+                    ogImage(imgUrl),
+                    twitterImage(imgUrl),
+                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
+                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                )
             elif location.coords.isSome():
                 # Map location image:
                 if location.coords.get().len() < 4: break settingLocationOgImage
@@ -87,7 +99,12 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
                 # PNG instead of SVG, because SVG seems to not be supported as preview in og image
                 path.removeSuffix(".svg")
                 path &= ".png"
-                html.addToHead ogImage(path)
+                html.addToHead(
+                    ogImage(path),
+                    twitterImage(path),
+                    ogImageAlt("Kartenausschnitt mit dem Ort '" & location.name & "'."),
+                    twitterImageAlt("Kartenausschnitt mit dem Ort '" & location.name & "'.")
+                )
             else:
                 # Set no og:image, will use default favicon image
                 discard

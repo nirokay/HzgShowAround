@@ -21,5 +21,5 @@ task runall, "Compiles all and runs executable":
 # Dependencies
 
 requires "nim >= 2.2.2"
-# requires "https://github.com/nirokay/CatTag >= 0.1.9"
+# requires "https://github.com/nirokay/CatTag >= 0.1.10"
 requires "cattag"

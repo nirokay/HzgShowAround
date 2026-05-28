@@ -105,6 +105,12 @@ generateFullSvgMap()
 stdout.write "\r📌 Finished generating big map\n"
 stdout.flushFile()
 
-html.add ogImage(urlImages & "map.svg")
+let imgUrl: string = urlImages & "map.svg"
+html.addToHead(
+    ogImage(imgUrl),
+    twitterImage(imgUrl),
+    ogImageAlt("Karte von Herzogsägmühle."),
+    twitterImageAlt("Karte von Herzogsägmühle."),
+)
 html.applyStylesheet(css)
 html.generate()

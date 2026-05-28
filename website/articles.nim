@@ -214,7 +214,13 @@ proc generateArticleHtml(article: Article) =
 
     # Add css and write to disk:
     if article.image.isSet():
-        html.add ogImage(urlArticleImages & article.image.get())
+        let imgUrl: string = urlArticleImages & article.image.get()
+        html.addToHead(
+            ogImage(imgUrl),
+            twitterImage(imgUrl),
+            ogImageAlt("Artikelbild."),
+            twitterImageAlt("Artikelbild."),
+        )
     html.applyStylesheet(articleCssFile)
     html.generate()
 
