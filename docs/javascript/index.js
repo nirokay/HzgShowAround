@@ -18,6 +18,8 @@ function changeToLocationPage() {
         alert("Irgendwas ist schief gelaufen... :(");
         return;
     }
+    if (element.value == "none")
+        return;
     if (element.index <= 0) {
         return;
     }
