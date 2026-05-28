@@ -113,7 +113,8 @@ proc generate*(html: var HtmlDocument) =
     ## Adds a header and footer before writing html page to disk
     logger.announceGeneration(html)
 
-    var
+    let
+        sep: HtmlElement = html " | "
         topHeader: HtmlElement = `div`(
             h2(
                 a("/", "nirokay.com").setTitle("Zurück zum Host").setStyle(
@@ -130,14 +131,17 @@ proc generate*(html: var HtmlDocument) =
             )
         ).setClass("top-page-header")
         bottomFooter: HtmlElement = `div`(
-            p(small @[
+            p(small(
                 html "🄯 nirokay ",
-                time("2023").addattr("datetime", "2023-11-13 00:00"),
+                sep,
+                time(html "2023").add("datetime" <=> "2023-11-13 00:00"),
                 html " - ",
-                time($now().format("yyyy")).addattr("datetime", now().format("yyyy-MM-dd HH:mm")),
+                time(html $now().format("yyyy")).add("datetime" <=> now().format("yyyy-MM-dd HH:mm")),
+                sep,
                 aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
+                sep,
                 a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
-            ].join(" | "))
+            ))
         ).setClass("bottom-page-footer")
 
     html.addToBody(
