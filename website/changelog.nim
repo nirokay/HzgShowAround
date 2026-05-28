@@ -18,7 +18,7 @@ var html: HtmlDocument = newPage(
 )
 
 html.add(
-    h1("Veränderungen"),
+    h1(html "Veränderungen"),
     pc("Hier werden Veränderungen an der HzgShowAround Website aufgelistet."),
     insertButtons(hrefIndex)
 )
@@ -29,10 +29,10 @@ for change in changelog:
     # Bullet point list:
     var list: seq[HtmlElement]
     for header, points in change.text:
-        if header != "": list.add h3(header).setStyle("text-align" := "left")
+        if header != "": list.add h3(html header).setStyle("text-align" := "left")
         var allPoints: seq[HtmlElement]
         for point in points:
-            allPoints.add li(point)
+            allPoints.add li(html point)
         list.add ul(allPoints).setStyle("margin-top" := "5px")
 
     # Div:
@@ -42,7 +42,7 @@ for change in changelog:
         except CatchableError:
             change.date
     var elements: seq[HtmlElement] = @[
-        h2($time(header).addattr("datetime", change.date)),
+        h2(time(header).add("datetime" <=> change.date)),
         `div`(list)
     ]
 
@@ -54,5 +54,5 @@ html.add(
     ).setClass(flexContainerClass)
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()
