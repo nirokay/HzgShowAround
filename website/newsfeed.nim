@@ -9,9 +9,9 @@ import globals, styles, snippets
 
 proc explanatoryElement(definition, explanation, col: string, cssProperty: CssElementProperty): HtmlElement =
     var elements: seq[HtmlElement]
-    elements.add span(definition).setStyle(cssProperty)
+    elements.add span(html definition).setStyle(cssProperty)
     elements.add html (" = " & explanation)
-    result = <$>($elements) # wtf am i doing
+    result = html $elements
 proc backgroundedSpan(definition, explanation, col: string): HtmlElement =
     result = explanatoryElement(definition, explanation, col, "background-color" := col)
 proc underlinedSpan(definition, explanation, col: string): HtmlElement =
@@ -33,14 +33,14 @@ html.importScripts(
 )
 
 html.addToBody(
-    h1($a("https://www.herzogsaegmuehle.de/erleben/veranstaltungen", "Newsfeed").addattr("target", "_blank")),
+    h1(a("https://www.herzogsaegmuehle.de/erleben/veranstaltungen", "Newsfeed").add("target" <=> "_blank")),
     pc(
         "Hier findest du relevante Termine oder Neuigkeiten.",
         "Einzusehen sind Neuigkeiten für die nächsten drei Monate sowie den vergangenen Monat."
     ),
     `div`(
         newHtmlElement("details",
-            summary("Farberklärungen"),
+            summary(html "Farberklärungen"),
             p(
                 backgroundedSpan("Hellerer Hintergrund", "Veranstaltung findet heute statt", colourEventHappened),
                 br(),
@@ -56,19 +56,19 @@ html.addToBody(
             )
         )
     ).setClass(centerClass),
-    small("Noch nicht aktualisiert").add(
-        attr("id", "reloaded-time")
+    small(html "Noch nicht aktualisiert").add(
+        "id" <=> "reloaded-time"
     ).setClass(centerClass),
     `div`(
         hrefIndex.toHtmlElement(),
         buttonScript("Neu laden", "refreshNewsfeed()"),
     ).setClass(centerClass),
     `div`(
-        p("Events werden geladen...")
+        p(html "Events werden geladen...")
     ).setClass(newsDivClass).add(
-        attr("id", newsfeedDivId)
+        "id" <=> newsfeedDivId
     )
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()
