@@ -22,15 +22,15 @@ var default404: HtmlDocument = newPage(
 default404.addToHead stylesheetCompressed
 
 default404.addToBody(
-    h1("404: Not found"),
+    h1(html "404: Not found"),
     pc("Das Gewässer, das du erforschen willst, ist zu tief und gruselig, du wirst aufgehalten!"),
     `div`(
         img(urlImages & "404.svg", "Ironisch... dieses Bild kann nicht angezeigt werden...").add(
-            attr("style", "max-width: 500px; width: 50%; border-radius: 10px;")
+            "style" <=> "max-width: 500px; width: 50%; border-radius: 10px;"
         )
     ).setClass(centerClass),
 
-    h2("Zum Ufer zurückkehren"),
+    h2(html "Zum Ufer zurückkehren"),
     pc("Diese Gewässer sind sicher, schau doch da mal vorbei. :)"),
     insertButtons(
         hrefIndex,
@@ -55,7 +55,7 @@ var location404: HtmlDocument = newPage(
 location404.addToHead stylesheetCompressed
 
 location404.addToBody(
-    h1("404: Not Found"),
+    h1(html "404: Not Found"),
     pc("Der aufgerufene Ort kann nicht aufgerufen werden."),
     insertButtons(
         hrefIndex,
