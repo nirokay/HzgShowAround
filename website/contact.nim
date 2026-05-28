@@ -12,11 +12,11 @@ var html: HtmlDocument = newPage(
 )
 
 html.add(
-    h1("Kontakt"),
+    h1(html "Kontakt"),
     pc("Hier kannst du uns kontaktieren."),
     insertButtons(hrefIndex),
-    h2($a("mailto:" & emailAddress, emailAddress))
+    h2(a("mailto:" & emailAddress, emailAddress))
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()
