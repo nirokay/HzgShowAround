@@ -9,10 +9,10 @@ var html: HtmlDocument = newPage(
     "Mitwirkende der Website"
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 
 html.add(
-    h1("Mitwirkende und Credits"),
+    h1(html "Mitwirkende und Credits"),
     insertButtons(hrefIndex)
 )
 
@@ -42,7 +42,7 @@ for contributor in contributors:
     )
 
 html.add(
-    h2("Mitwirkende"),
+    h2(html "Mitwirkende"),
     pc("Hier siehst du Alle, die diese Website erstellt und bei ihr mitgeholfen haben!"),
     `div`(
         htmlContributors
@@ -88,15 +88,15 @@ var technologies*: seq[Technology] = @[
 proc toHtml(techs: seq[Technology]): seq[HtmlElement] =
     for tech in techs:
         var element: seq[HtmlElement] = @[
-            h3($a(tech.link, tech.name)),
+            h3(a(tech.link, tech.name)),
         ]
         if tech.desc != @[]:
-            element.add p(tech.desc)
+            element.add p(html tech.desc)
 
         result.add `div`(element).setClass(flexElementClass)
 
 html.add(
-    h2("Credits"),
+    h2(html "Credits"),
     pc("Alle benutzte Technologien und Ressourcen werden hier für Transparenz und \"Shout-Out\" aufgelistet."),
     `div`(
         technologies.toHtml()
