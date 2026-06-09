@@ -4,12 +4,13 @@
 ## This module is a "dumbed down" `websitegenerator` module.
 ## Basically when writing HTML-files it adds a footer to each page as well as modifies the HTML-head.
 
-import std/[strutils, times, tables]
+import std/[strutils, times, tables, json]
 from os import `/`, createDir
 export `/`
 import cattag
 export cattag except newHtmlDocument, newXmlDocument, writeFile
 
+import urls
 import ../utils/logging
 
 
@@ -85,24 +86,37 @@ proc importScripts*(html: var HtmlDocument, paths: varargs[string]) =
             attr("defer")
         ])
 
-proc newPage*(name, path: string, desc: string = ""): HtmlDocument =
-    ## Shortcut to create standardized html pages
+var empty: OrderedTable[string, string]
+proc newPage*(name, path: string, desc: string = "", customSchema: JsonNode = %* {}): HtmlDocument =
     pageMetaDataCache[path] = @[
         name, desc
     ]
+    let pageName: string = (
+        if name == "": "HzgShowAround"
+        else: name & " | HzgShowAround"
+    )
     result = newHtmlDocument(path)
     result.addToHead(
         meta("utf-8"),
         metaViewport("width=device-width, height=device-height, user-scalable=yes, initial-scale=0.8"),
-        (
-            if name == "": title(html "HzgShowAround")
-            else: title(html name & " | HzgShowAround")
-        ),
+        title(html pageName),
         metaDescription(desc),
         newHtmlComment("Html and Css generated using cattag: https://github.com/nirokay/cattag ")
     )
-    result.addOgTags()
 
+    let schema: JsonNode = block:
+        if customSchema == %* {}:
+            %* {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": pageName,
+                "description": desc
+            }
+        else:
+            customSchema
+    result.addToHead script(@["type" <=> "application/ld+json"]).add(html pretty(schema, 4))
+
+    result.addOgTags()
 
 proc generate*(html: var HtmlDocument) =
     ## Adds a header and footer before writing html page to disk
@@ -173,21 +187,24 @@ proc generate*(html: var HtmlDocument) =
     )
 
     # Html head:
-    let
-        faviconUrl: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/master/resources/images/icon/icon_small.png" # Hardcoded because `globals` depends on this module
-        pageUrl: string = "https://www.nirokay.com/HzgShowAround/" & html.file
+    proc newFavicon(url, mimetype: string, size = ""): HtmlElement =
+        result = link(@[
+            "rel" <=> "icon",
+            "type" <=> mimetype,
+            "href" <=> url
+        ])
+        if size != "":
+            result.add "sizes" <=> size
+
+    let pageUrl: string = "https://www.nirokay.com/HzgShowAround/" & html.file
     html.addToHead(
         # Favicon:
-        link(@[
-            "rel" <=> "icon",
-            "type" <=> "image/png",
-            "sizes" <=> "512x512",
-            "href" <=> faviconUrl
-        ]),
+        newFavicon(urlIconSmallSVG, "image/svg+xml"),
+        newFavicon(urlIconSmallPNG, "image/png", "512x512"),
         # Favicon 2.0:
         link(@[
             "rel" <=> "apple-touch-icon",
-            "href" <=> faviconUrl
+            "href" <=> urlIconSmallPNG
         ]),
         # URLs:
         link(@[
@@ -196,6 +213,11 @@ proc generate*(html: var HtmlDocument) =
         ]),
         ogUrl(pageUrl),
         ogSecureUrl(pageUrl),
+        # Manifest:
+        link(@[
+            "rel" <=> "manifest",
+            "href" <=> "hzgshowaround.webmanifest"
+        ])
     )
 
     # OG image, if none set:

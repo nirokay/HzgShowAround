@@ -1,0 +1,14 @@
+{
+    "name": "HzgShowAround",
+    "short_name": HzgShowAround",
+    "icons": [
+        {
+            "src": "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/icon/icon_small.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#FFB6C1",
+    "background_color": "#171921",
+    "display": "standalone"
+}

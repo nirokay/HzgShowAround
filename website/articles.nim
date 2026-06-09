@@ -4,7 +4,7 @@
 ## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
 ## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
 
-import std/[strutils, options, json, algorithm]
+import std/[strutils, options, json, algorithm, tables]
 import generator
 import globals, styles, client, snippets
 import ../utils/logging
@@ -157,10 +157,42 @@ proc generateArticleHtml(article: Article) =
     if article.desc.isSet():
         desc = get article.desc
 
+    #[
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Your Article Title",
+            "description": "Article summary",
+            "author": {
+                "@type": "Person",
+                "name": "Author Name"
+            },
+            "datePublished": "2025-01-15",
+            "image": "https://yoursite.com/og-image.jpg"
+        }
+    ]#
+    var schema: JsonNode = %* {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": article.title,
+        "description": article.desc
+    }
+    if article.date.isSome(): schema["datePublished"] = % article.date
+    if article.image.isSome(): schema["image"] = % (
+        let original: string = article.image.get("")
+        if original.startsWith("https://") or original.startsWith("http://"): original
+        else: urlArticleImages & original
+    )
+    if article.author.isSome(): schema["author"] = %* {
+            "@type": "Person",
+            "name": % article.author
+        }
+
     var html: HtmlDocument = newPage(
         "Artikel - " & article.title,
         articlesLocation & article.articleUrl(),
-        desc
+        desc,
+        customSchema = schema
     )
 
     # Article header:
