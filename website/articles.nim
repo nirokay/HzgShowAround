@@ -54,7 +54,7 @@ proc displayDateTime*(rawDate: string): string =
     display.reverse()
     assert display.len() == 3
 
-    result = $time(display.join(".")).addattr("datetime", rawDate)
+    result = $time(html display.join(".")).add("datetime" <=> rawDate)
 
 proc getImageUrl(fileName: string): string = urlArticleImages & fileName
 proc formatLine*(line: string): HtmlElement =
@@ -111,16 +111,6 @@ proc formatLine*(line: string): HtmlElement =
 proc addArticleHeader(html: var HtmlDocument, article: Article) =
     ## Adds stuff on the top of an article (title, author, etc.)
     var header: seq[HtmlElement] = @[h1(html article.title)]
-
-    #[ Old author + date field in header:
-    # Author and date (on the same line):
-    var authorAndDate: seq[string]
-    if article.author.isSome():
-        authorAndDate.add "Autor: " & article.author.get(defaultAuthor)
-    if article.date.isSome():
-        authorAndDate.add "verfasst am " & displayDateTime(article.date.get())
-    header.add pc($small(authorAndDate.join(" | ")))
-    ]#
 
     header.add authorBubble(article.author.get(defaultAuthor), [
         "verfasst von ",

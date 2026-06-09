@@ -133,9 +133,9 @@ proc generate*(html: var HtmlDocument) =
                 html " - ",
                 time(html $now().format("yyyy")).add("datetime" <=> now().format("yyyy-MM-dd HH:mm")),
                 sep,
-                aNewTab("https://github.com/nirokay/HzgShowAround", "Source").addattr("title", "Quell-Code der Website"),
+                aNewTab("https://github.com/nirokay/HzgShowAround", "Source").add("title" <=> "Quell-Code der Website"),
                 sep,
-                a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").addattr("title", "Nutzungsbedingungen")
+                a(repeat("../", html.file.count('/')) & "terms-of-service.html", "ToS").add("title" <=> "Nutzungsbedingungen")
             ))
         ).setClass("bottom-page-footer")
 

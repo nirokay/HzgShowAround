@@ -9,7 +9,7 @@
     "pre-selected" so to speak.
 
 */
-const urlTourLocations = "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/json/locations/tour_locations.json";
+const urlTourLocations = "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/tour_locations.json";
 const iframeId = "location-display";
 const progressId = "tour-progress";
 let tourLocations = [];

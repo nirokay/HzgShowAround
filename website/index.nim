@@ -48,8 +48,8 @@ proc locationSearchBar(): HtmlElement =
 html.addToBody(
     locationSearchBar(),
     `div`(
-        img(urlIconLargeSVG, "Icon kann nicht geladen werden :(").addattr(
-            "style", "max-width: 190px; max-height: 190px;"
+        img(urlIconLargeSVG, "Icon kann nicht geladen werden :(").add(
+            "style" <=> "max-width: 190px; max-height: 190px;"
         ).setClass(
             iconImageClass
         ),

@@ -68,8 +68,8 @@ var technologies*: seq[Technology] = @[
     tech("Nim", "https://nim-lang.org/", @[
         "HzgShowAround ist fast vollständig in Nim geschrieben - eine sehr coole Programmiersprache!"
     ]),
-    tech("WebsiteGenerator", "https://github.com/nirokay/websitegenerator/", @[
-        "Meine eigene HTML/CSS library - für HTML und CSS, lol."
+    tech("CatTag", "https://github.com/nirokay/CatTag/", @[
+        "Meine eigene HTML/XML/CSS library."
     ]),
     tech("Feiertage-API", "https://www.feiertage-api.de/", @[
         "Automatisches Einfügen von Feiertagen in den NewsFeed."

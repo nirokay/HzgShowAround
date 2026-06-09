@@ -22,7 +22,7 @@ var html: HtmlDocument = newPage(
 proc objectIframeElement(header, url: string): HtmlElement =
     let finishedHeading: string = header & " ↔️ " & "Herzogsägmühle"
     `div`(
-        ih3($a(url, finishedHeading).addattr("target", "_blank"), "bus-plan-hsm-" & header.toLower()),
+        ih3($a(url, finishedHeading).add("target" <=> "_blank"), "bus-plan-hsm-" & header.toLower()),
         newHtmlElement("object").add(
             "data" <=> url,
             "type" <=> "application/pdf",

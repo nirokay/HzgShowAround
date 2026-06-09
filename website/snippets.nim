@@ -100,7 +100,7 @@ proc toHtmlElement*(button: ButtonHref): HtmlElement =
         "color" := colourText
     )
 
-    if button.title != "": result.addattr("title", button.title)
+    if button.title != "": result.add("title" <=> button.title)
 proc toHtmlElements*(buttons: varargs[ButtonHref]|seq[ButtonHref]): seq[HtmlElement] =
     ## Converts `ButtonHref`s to HTML buttons
     for button in buttons:
@@ -203,7 +203,7 @@ proc iheader(element: HtmlElement, text: string, override: string = ""): HtmlEle
         id.add c
 
     result = element
-    result.addattr("id", id)
+    result.add("id" <=> id)
     result.setClass(clickableHeaderClass)
 
     var pin: HtmlElement = a("#" & id, pinHeaderId).setTitle("Pinne diese Überschrift")

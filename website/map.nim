@@ -32,7 +32,7 @@ var
         "margin" := "0px"
     )
 
-var areas: seq[string]
+var areas: seq[HtmlElement]
 for location in locations.withCoords():
     let
         coords: Coords = get location.coords
@@ -67,9 +67,9 @@ for location in locations.withCoords():
     area.attributes = area.attributes.deduplicate()
 
     # Add to sequence:
-    areas.add($area)
+    areas.add(area)
 
-var map: HtmlElement = newHtmlElement("map", html areas.join("\n")).add(
+var map: HtmlElement = newHtmlElement("map", areas.join()).add(
     "name" <=> "location-map"
 )
 
