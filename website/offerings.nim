@@ -16,7 +16,7 @@ var html: HtmlDocument = newPage(
 )
 
 html.add(
-    h1("Freizeitangebote"),
+    h1(html "Freizeitangebote"),
     pc("Hier findest du freiwillige Freizeitangebote im Ort."),
     insertButtons(hrefIndex),
 )
@@ -69,10 +69,10 @@ for offering in offerings:
     if times.len() != 0:
         var points: seq[HtmlElement]
         for point in times:
-            points.add li(point)
+            points.add li(html point)
         elementsBottom.add(
             fieldset(
-                legend("Zeiten"),
+                legend(html "Zeiten"),
                 ul(points)
             )
         )
@@ -96,10 +96,10 @@ for offering in offerings:
         if contactDetails.len() != 0:
             var items: seq[HtmlElement]
             for item in contactDetails:
-                items.add li($item)
+                items.add li(item)
             elementsBottom.add `div`(
                 fieldset(
-                    legend("Kontakt"),
+                    legend(html "Kontakt"),
                     ul(items)
                 )
             )
@@ -118,5 +118,5 @@ html.add(
     ).setClass(flexContainerClass)
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()

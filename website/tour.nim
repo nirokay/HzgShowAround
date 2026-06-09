@@ -12,7 +12,7 @@ var tourIds*: seq[string] = rawTourJson.to(seq[string])
 for i, v in tourIds:
     tourIds[i] = getRelativeUrlId(v)
 
-writeFile(target / "resources/tour_locations.json", $(% tourIds))
+writeFile(targetDir / "resources/tour_locations.json", $(% tourIds))
 
 var html*: HtmlDocument = newPage(
     "Digitale Tour",
@@ -21,16 +21,16 @@ var html*: HtmlDocument = newPage(
 )
 
 # Import js script:
-html.addToHead importScript("javascript/tourLogic.js")
+html.importScripts("javascript/tourLogic.js")
 
 # Header and description:
 html.addToBody(
-    h1("Digitale Tour durch Herzogsägmühle"),
-    p("").setClass(textCenterClass)
+    h1(html "Digitale Tour durch Herzogsägmühle"),
+    p(html "").setClass(textCenterClass)
 )
 
 # iframe of current location:
-var startingPageBecauseFuckYouJavascript: string = tourIds[0] # Fuck you javascript, this ensures that the starting page is not blank
+let startingPageBecauseFuckYouJavascript: string = tourIds[0] # Fuck you javascript, this ensures that the starting page is not blank
 html.addToBody(
     insertButtons(hrefIndex),
     `div`(
@@ -38,18 +38,21 @@ html.addToBody(
         buttonScript("weiter →", "nextLocation()")
     ).setClass(centerClass),
     `div`(
-        progress("tour-progress", tourIds.len()).add(attr("value", "1"))
+        progress().add(
+            "id" <=> "tour-progress",
+            "value" <=> "1",
+            "max" <=> $tourIds.len()
+        )
     ).setClass(centerClass),
     `div`(
-        iframe("location/" & startingPageBecauseFuckYouJavascript & ".html")
-            .add(
-                attr("id", "location-display"),
-                attr("width", "90%"),
-                attr("height", "500vh")
-            )
+        iframe("location/" & startingPageBecauseFuckYouJavascript & ".html").add(
+            "id" <=> "location-display",
+            "width" <=> "90%",
+            "height" <=> "500vh"
+        )
     ).setClass(centerClass)
 )
 
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()

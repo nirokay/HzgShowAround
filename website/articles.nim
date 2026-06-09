@@ -54,7 +54,7 @@ proc displayDateTime*(rawDate: string): string =
     display.reverse()
     assert display.len() == 3
 
-    result = $time(display.join(".")).addattr("datetime", rawDate)
+    result = $time(html display.join(".")).add("datetime" <=> rawDate)
 
 proc getImageUrl(fileName: string): string = urlArticleImages & fileName
 proc formatLine*(line: string): HtmlElement =
@@ -79,12 +79,12 @@ proc formatLine*(line: string): HtmlElement =
         let content: string = words[1 .. ^1].join(" ")
         result =
             case words[0].len():
-            of 1: h1(content)
-            of 2: h2(content)
-            of 3: h3(content)
-            of 4: h4(content)
-            of 5: h5(content)
-            of 6: h6(content)
+            of 1: h1(html content)
+            of 2: h2(html content)
+            of 3: h3(html content)
+            of 4: h4(html content)
+            of 5: h5(html content)
+            of 6: h6(html content)
             else: break CheckForHeader
         return result
 
@@ -105,22 +105,12 @@ proc formatLine*(line: string): HtmlElement =
             return img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass)
 
     # Just returns the line (if no format found)
-    return p(content)
+    return p(html content)
 
 
 proc addArticleHeader(html: var HtmlDocument, article: Article) =
     ## Adds stuff on the top of an article (title, author, etc.)
-    var header: seq[HtmlElement] = @[h1(article.title)]
-
-    #[ Old author + date field in header:
-    # Author and date (on the same line):
-    var authorAndDate: seq[string]
-    if article.author.isSome():
-        authorAndDate.add "Autor: " & article.author.get(defaultAuthor)
-    if article.date.isSome():
-        authorAndDate.add "verfasst am " & displayDateTime(article.date.get())
-    header.add pc($small(authorAndDate.join(" | ")))
-    ]#
+    var header: seq[HtmlElement] = @[h1(html article.title)]
 
     header.add authorBubble(article.author.get(defaultAuthor), [
         "verfasst von ",
@@ -129,9 +119,9 @@ proc addArticleHeader(html: var HtmlDocument, article: Article) =
 
     # Description/summary:
     if article.desc.isSome():
-        header.add summary(get article.desc)
+        header.add summary(html get article.desc)
 
-    html.addToBody header(header.join("\n"))
+    html.addToBody header(header)
 
 
 proc isHidden(article: Article): bool =
@@ -208,14 +198,20 @@ proc generateArticleHtml(article: Article) =
 
     html.addToBody(
         hr(),
-        contentBox @[article(body.join("\n"))],
+        contentBox @[article(html body.join("\n"))],
         hr()
     )
 
     # Add css and write to disk:
     if article.image.isSet():
-        html.add ogImage(urlArticleImages & article.image.get())
-    html.addToHead(stylesheet(articleCssFile))
+        let imgUrl: string = urlArticleImages & article.image.get()
+        html.addToHead(
+            ogImage(imgUrl),
+            twitterImage(imgUrl),
+            ogImageAlt("Artikelbild."),
+            twitterImageAlt("Artikelbild."),
+        )
+    html.applyStylesheet(articleCssFile)
     html.generate()
 
 proc generateArticlesHtmls() =
@@ -247,16 +243,16 @@ proc generateHtmlMainPage() =
         var elements: seq[HtmlElement]
 
         # Article title:
-        elements.add a(articlesLocation & article.articleUrl(), $h3(article.title))
+        elements.add a(articlesLocation & article.articleUrl(), h3(html article.title))
 
         # Description:
         if article.desc.isSome():
-            elements.add p(article.desc.get().replace("\n", $br()))
+            elements.add p(html article.desc.get().replace("\n", $br()))
 
         # Footer: (author and date)
         elements.add(
             small(
-                "verfasst von " & article.author.get(defaultAuthor) & (
+                html "verfasst von " & article.author.get(defaultAuthor) & (
                     if article.date.isSome(): " | am " & displayDateTime(article.date.get())
                     else: ""
                 )
@@ -271,13 +267,13 @@ proc generateHtmlMainPage() =
         articleElements.add pc("Artikel wurden noch nicht geladen...")
 
     html.addToBody(
-        h1("Artikel"),
+        h1(html "Artikel"),
         pc("Hier findest du verschiedene Artikel verfasst von unterschiedlichen Leuten zu Themen, die sie interessieren."),
         insertButtons(hrefIndex),
         `div`(articleElements).setClass(articlePreviewBox)
     )
 
-    html.setStylesheet(css)
+    html.applyStylesheet(css)
     html.generate()
 
 generateArticlesHtmls()

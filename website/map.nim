@@ -20,19 +20,19 @@ var
     )
     locations: seq[Location] = getLocationsSorted()
     picture: HtmlElement = img(svgExportPath, "Karte wird geladen...").add(
-        "usemap" -= "#location-map",
-        "width" -= px(mapScaleTo),
-        "height" -= px(mapScaleTo)
-    ).addStyle(
+        "usemap" <=> "#location-map",
+        "width" <=> $mapScaleTo & "px",
+        "height" <=> $mapScaleTo & "px"
+    ).setStyle(
         "border-radius" := "20px",
         "text-align" := "center",
         "color" := colourText,
-        "width" := px(mapScaleTo),
-        "height" := px(mapScaleTo),
-        "margin" := px(0)
+        "width" := $mapScaleTo & "px",
+        "height" := $mapScaleTo & "px",
+        "margin" := "0px"
     )
 
-var areas: seq[string]
+var areas: seq[HtmlElement]
 for location in locations.withCoords():
     let
         coords: Coords = get location.coords
@@ -41,8 +41,8 @@ for location in locations.withCoords():
 
     # Shape:
     case coords.len():
-    of 3: area.add attr("shape", "circle")
-    of 4: area.add attr("shape", "rect")
+    of 3: area.add "shape" <=> "circle"
+    of 4: area.add "shape" <=> "rect"
     else:
         raise ValueError.newException(
             "Got a length of " & $coords.len() & " for coordinates! Expected 3-4. " &
@@ -55,42 +55,43 @@ for location in locations.withCoords():
 
     # Coords and link:
     area.add(
-        "coords" -= scaledCoords.join(","),
-        "alt" -= location.name,
-        "href" -= location.getLocationPath(),
-        "tabindex" -= "0",
-        "class" -= "map-element",
-        "title" -= location.name
+        "coords" <=> scaledCoords.join(","),
+        "alt" <=> location.name,
+        "href" <=> location.getLocationPath(),
+        "tabindex" <=> "0",
+        "class" <=> "map-element",
+        "title" <=> location.name
     )
 
     # Dirty quick-fix for weird behaviour:
-    area.tagAttributes = area.tagAttributes.deduplicate()
+    area.attributes = area.attributes.deduplicate()
 
     # Add to sequence:
-    areas.add($area)
+    areas.add(area)
 
-var map: HtmlElement = newHtmlElement("map", areas.join("\n"))
-    .add(attr("name", "location-map"))
+var map: HtmlElement = newHtmlElement("map", areas.join()).add(
+    "name" <=> "location-map"
+)
 
 var locationButtons: seq[HtmlElement]
 for location in locations:
-    locationButtons.add a(location.path.get("404.html"), location.name).setClass(buttonClass).addStyle("color" := colourText)
+    locationButtons.add a(location.path.get("404.html"), location.name).setClass(buttonClass).setStyle("color" := colourText)
 
 html.addToBody(
     divSpacerTop, # TODO: Fix this dirty hack, someday
-    h1("Karte von Herzogsägmühle"),
+    h1(html "Karte von Herzogsägmühle"),
     pc("Diese Karte ist interaktiv. Du kannst jede Stecknadel/Grau-Schwarzes Rechteck anklicken und zu dem entsprechenden Ort gelangen."),
     insertButtons(hrefIndex),
     `div`(
         picture,
         map
-    ).setClass(centerClass).addStyle(
+    ).setClass(centerClass).setStyle(
         "overflow" := "scroll",
         "touch-action" := "pan-x pan-y pinch-zoom",
-        "max-width" := px(pictureDimensions.maxWidth),
-        "max-height" := px(pictureDimensions.maxHeight),
-        "width" := $(pictureDimensions.width) & "%",
-        "height" := $(pictureDimensions.height) & "vh",
+        "max-width" := $pictureDimensions.maxWidth & "px",
+        "max-height" := $pictureDimensions.maxHeight & "px",
+        "width" := $pictureDimensions.width & "%",
+        "height" := $pictureDimensions.height & "vh",
         "border-radius" := "20px",
         "margin" := "10px auto"
     ),
@@ -104,6 +105,12 @@ generateFullSvgMap()
 stdout.write "\r📌 Finished generating big map\n"
 stdout.flushFile()
 
-html.add ogImage(urlImages & "map.svg")
-html.setStylesheet(css)
+let imgUrl: string = urlImages & "map.svg"
+html.addToHead(
+    ogImage(imgUrl),
+    twitterImage(imgUrl),
+    ogImageAlt("Karte von Herzogsägmühle."),
+    twitterImageAlt("Karte von Herzogsägmühle."),
+)
+html.applyStylesheet(css)
 html.generate()

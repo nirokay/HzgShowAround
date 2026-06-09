@@ -10,7 +10,7 @@
 */
 
 const urlTourLocations: string =
-    "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/json/locations/tour_locations.json";
+    "https://raw.githubusercontent.com/nirokay/HzgShowAround/refs/heads/master/docs/resources/tour_locations.json";
 
 const iframeId: string = "location-display";
 const progressId: string = "tour-progress";

@@ -18,7 +18,7 @@ proc convert*(desc: Description): seq[HtmlElement] =
             result.add ih2(header)
         # For each line, put in a separate `<p> ... </p>` and replace all `\n` with `<br />`:
         for line in content:
-            result.add p(line.replace("\n", $br()))
+            result.add p(html line.replace("\n", $br()))
 
 proc has*(location: Location, img: LocationImageType): bool =
     if not location.pics.isSome(): return false
@@ -76,10 +76,22 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             let pics: Pictures = get location.pics
             if pics.header.isSet():
                 # Header image:
-                html.addToHead ogImage(url pics.header.get())
+                let imgUrl: string = url pics.header.get()
+                html.addToHead(
+                    ogImage(imgUrl),
+                    twitterImage(imgUrl),
+                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
+                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                )
             elif pics.footer.isSet():
                 # First footer image:
-                html.addToHead ogImage(url pics.footer.get()[0])
+                let imgUrl: string = url pics.footer.get()[0]
+                html.addToHead(
+                    ogImage(imgUrl),
+                    twitterImage(imgUrl),
+                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
+                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                )
             elif location.coords.isSome():
                 # Map location image:
                 if location.coords.get().len() < 4: break settingLocationOgImage
@@ -87,7 +99,12 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
                 # PNG instead of SVG, because SVG seems to not be supported as preview in og image
                 path.removeSuffix(".svg")
                 path &= ".png"
-                html.addToHead ogImage(path)
+                html.addToHead(
+                    ogImage(path),
+                    twitterImage(path),
+                    ogImageAlt("Kartenausschnitt mit dem Ort '" & location.name & "'."),
+                    twitterImageAlt("Kartenausschnitt mit dem Ort '" & location.name & "'.")
+                )
             else:
                 # Set no og:image, will use default favicon image
                 discard
@@ -101,10 +118,10 @@ proc getLocationContact(elements: OrderedTable[string, string], singular, plural
 
     # Single entry:
     if allElements.len() == 0:
-        return <$> "ERROR, should not have happened."
+        return html "ERROR, should not have happened."
     elif allElements.len() == 1:
         let element: array[2, string] = allElements[0]
-        contactElements.add b(singular & ": ")
+        contactElements.add b(html singular & ": ")
         contactElements.add a(htmlHref & ":" & element[1], element[1])
 
     # Multiple entries:
@@ -115,12 +132,12 @@ proc getLocationContact(elements: OrderedTable[string, string], singular, plural
         for element in allElements:
             var listElements: seq[HtmlElement]
             # Only add prefix name, if not whitespace-only:
-            if element[0].strip() != "": listElements.add i(element[0] & ": ")
+            if element[0].strip() != "": listElements.add i(html element[0] & ": ")
             listElements.add a(htmlHref & ":" & element[1], element[1])
             children.add li(listElements)
 
-        contactElements.add b(plural & ": ")
-        contactElements.add ul(children).addStyle("margin-top" := "0")
+        contactElements.add b(html plural & ": ")
+        contactElements.add ul(children).setStyle("margin-top" := "0")
 
     result = `div`(contactElements).setClass(locationContactElementDiv)
 
@@ -135,21 +152,23 @@ proc generateLocationHtml*(location: Location) =
         "Infos zum Ort '" & name & "' in der Diakonie Herzogsägmühle."
     )
 
-    html.addToHead importScript("../javascript/commons.js").add(attr("defer"))
-    html.addToHead importScript("../javascript/news/typedefs.js").add(attr("defer"))
-    html.addToHead importScript("../javascript/news/ical.js").add(attr("defer"))
-    html.addToHead importScript("../javascript/news/html.js").add(attr("defer"))
-    html.addToHead importScript("../javascript/news/news.js").add(attr("defer"))
-    html.addToHead importScript("../javascript/locations.js").add(attr("defer"))
+    html.importScripts(
+        "../javascript/commons.js",
+        "../javascript/news/typedefs.js",
+        "../javascript/news/ical.js",
+        "../javascript/news/html.js",
+        "../javascript/news/news.js",
+        "../javascript/locations.js"
+    )
 
     let newsfeedEnclave: HtmlElement = `div`(
-        `var`(name).add(
-            attr("style", "display:none;"),
-            attr("id", locationNewsfeedEnclaveVarId)
+        `var`(html name).add(
+            "style" <=> "display:none;",
+            "id" <=> locationNewsfeedEnclaveVarId
         )
     ).add(
-        attr("id", locationNewsfeedEnclaveDivId),
-        attr("style", "width:75%;margin:auto;scale:0.9;")
+        "id" <=> locationNewsfeedEnclaveDivId,
+        "style" <=> "width:75%;margin:auto;scale:0.9;"
     )
 
     # Add to lookup table (used by newsfeed to replace substrings):
@@ -167,13 +186,13 @@ proc generateLocationHtml*(location: Location) =
     # Add header and header image:
     if location.has(imgHeader):
         html.addToBody contentBox @[
-            h1(headerText),
+            h1(html headerText),
             location.getLocationImage(imgHeader),
             newsfeedEnclave
         ]
     else:
         html.addToBody(
-            h1(headerText),
+            h1(html headerText),
             newsfeedEnclave
         )
 
@@ -185,29 +204,29 @@ proc generateLocationHtml*(location: Location) =
             var elements: seq[HtmlElement]
             for day, time in open:
                 elements.add(tr(@[
-                    td($b(day & ":")),
+                    td(b(html day & ":")),
                     #[
                     I FIXED IT!!!!!!!!!!!!!!!!!
                     This comment will stay for historic purposes though! i am happy:
                     # Invisible and zero width character, so stuff is spaced a tad more... # DONE: implement this properly # DONE: eventually # DONE: not today, but seriously do this someday
                     ]#
-                    td(time)
+                    td(html time)
                 ]))
 
-            if headingText != "": tables.add h3(headingText) # add heading, if `headingText` is not `""` ...
-            elif unlikely openTable.len() >= 2: tables.add h3(name) # ... or if `headingText` is `""` but also there are multiple entries (defaults to location name)
+            if headingText != "": tables.add h3(html headingText) # add heading, if `headingText` is not `""` ...
+            elif unlikely openTable.len() >= 2: tables.add h3(html name) # ... or if `headingText` is `""` but also there are multiple entries (defaults to location name)
 
             tables.add table(elements).setClass(centerTableClass)
         html.addToBody contentBox(ih2("Öffnungszeiten") & tables)
 
     # Add paragraphs:
     let description: seq[HtmlElement] = location.desc.convert()
-    if description != @[]:
+    if description.len() != 0:
         html.addToBody contentBox description
 
     # Insert spacing, if header and footer image are next to another:
-    if description == @[] and location.has(imgHeader) and location.has(imgFooter) and not location.open.isSet():
-        html.addToBody p($br())
+    if description.len() == 0 and location.has(imgHeader) and location.has(imgFooter) and not location.open.isSet():
+        html.addToBody p(br())
 
     # Add footer image:
     if location.has(imgFooter):
@@ -236,17 +255,17 @@ proc generateLocationHtml*(location: Location) =
                         if parts.len() < 2: "86971 Peiting-Herzogsägmühle"
                         else: parts[1].strip()
                 contactElements.add `div`(
-                    b("Anschrift: "),
-                    <$>street,
-                    <$>", ",
-                    i(area)
+                    b(html "Anschrift: "),
+                    html street,
+                    html ", ",
+                    i(html area)
                 ).setClass(locationContactElementDiv)
 
             # Telephone and Email:
             if contact.tels.isSet(): contactElements.add getLocationContact(get contact.tels, "Telefonnummer", "Telefonnummern", "tel")
             if contact.emails.isSet(): contactElements.add getLocationContact(get contact.emails, "Email-Adresse", "Email-Adressen", "mailto")
 
-            elements.add `div`(contactElements).setClass(contentBoxClass).addStyle(
+            elements.add `div`(contactElements).setClass(contentBoxClass).setStyle(
                 "width" := "fit-content",
                 "background-color" := colourBackgroundLight
             )
@@ -284,7 +303,7 @@ proc generateLocationHtml*(location: Location) =
         )
     ])
     # Apply css and write to disk:
-    html.addToHead(stylesheet("../styles.css"))
+    html.applyStylesheet("../" & css.file)
     html.setOgImage(location)
     html.generate()
 

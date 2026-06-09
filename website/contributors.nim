@@ -9,10 +9,10 @@ var html: HtmlDocument = newPage(
     "Mitwirkende der Website"
 )
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 
 html.add(
-    h1("Mitwirkende und Credits"),
+    h1(html "Mitwirkende und Credits"),
     insertButtons(hrefIndex)
 )
 
@@ -42,7 +42,7 @@ for contributor in contributors:
     )
 
 html.add(
-    h2("Mitwirkende"),
+    h2(html "Mitwirkende"),
     pc("Hier siehst du Alle, die diese Website erstellt und bei ihr mitgeholfen haben!"),
     `div`(
         htmlContributors
@@ -68,8 +68,8 @@ var technologies*: seq[Technology] = @[
     tech("Nim", "https://nim-lang.org/", @[
         "HzgShowAround ist fast vollständig in Nim geschrieben - eine sehr coole Programmiersprache!"
     ]),
-    tech("WebsiteGenerator", "https://github.com/nirokay/websitegenerator/", @[
-        "Meine eigene HTML/CSS library - für HTML und CSS, lol."
+    tech("CatTag", "https://github.com/nirokay/CatTag/", @[
+        "Meine eigene HTML/XML/CSS library."
     ]),
     tech("Feiertage-API", "https://www.feiertage-api.de/", @[
         "Automatisches Einfügen von Feiertagen in den NewsFeed."
@@ -88,15 +88,15 @@ var technologies*: seq[Technology] = @[
 proc toHtml(techs: seq[Technology]): seq[HtmlElement] =
     for tech in techs:
         var element: seq[HtmlElement] = @[
-            h3($a(tech.link, tech.name)),
+            h3(a(tech.link, tech.name)),
         ]
         if tech.desc != @[]:
-            element.add p(tech.desc)
+            element.add p(html tech.desc)
 
         result.add `div`(element).setClass(flexElementClass)
 
 html.add(
-    h2("Credits"),
+    h2(html "Credits"),
     pc("Alle benutzte Technologien und Ressourcen werden hier für Transparenz und \"Shout-Out\" aufgelistet."),
     `div`(
         technologies.toHtml()

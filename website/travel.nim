@@ -22,25 +22,25 @@ var html: HtmlDocument = newPage(
 proc objectIframeElement(header, url: string): HtmlElement =
     let finishedHeading: string = header & " ↔️ " & "Herzogsägmühle"
     `div`(
-        ih3($a(url, finishedHeading).addattr("target", "_blank"), "bus-plan-hsm-" & header.toLower()),
+        ih3($a(url, finishedHeading).add("target" <=> "_blank"), "bus-plan-hsm-" & header.toLower()),
         newHtmlElement("object").add(
-            "data" -= url,
-            "type" -= $applicationPdf,
-            "width" -= "100%",
-            "height" -= "100%"
+            "data" <=> url,
+            "type" <=> "application/pdf",
+            "width" <=> "100%",
+            "height" <=> "100%"
         ).add(
             newHtmlElement("iframe").add(
-                "type" -= $applicationPdf,
-                "src" -= url,
-                "width" -= "500",
-                "height" -= "500"
+                "type" <=> "application/pdf",
+                "src" <=> url,
+                "width" <=> "500",
+                "height" <=> "500"
             ).add(
-                <$>"Dieser Browser unterstützt keine PDF-Anzeige,",
-                a(url, "klicke hier").addattr("target", "_blank"),
-                <$>", um es manuell anzusehen."
+                html "Dieser Browser unterstützt keine PDF-Anzeige,",
+                a(url, "klicke hier").add("target" <=> "_blank"),
+                html ", um es manuell anzusehen."
             )
         )
-    ).addStyle(
+    ).setStyle(
         "height" := "60vh",
         "min-height" := "300px",
         "margin" := "20px"
@@ -67,8 +67,8 @@ for bus in travel.bus:
     if not routes.hasKey(routeName): routes[routeName] = @[]
 
     routes[routeName].add fieldSet(
-        legend("🚍 Bus"),
-        ul(@[li(a(bus.link, "🌐 DB Navigator").addattr("target", "_blank"))])
+        legend(html "🚍 Bus"),
+        ul(@[li(a(bus.link, "🌐 DB Navigator").add("target" <=> "_blank"))])
     )
 
 for taxi in travel.taxi:
@@ -77,11 +77,11 @@ for taxi in travel.taxi:
 
     for firm in taxi.operators:
         routes[routeName].add fieldSet(
-            legend("🚖 " & firm.name),
+            legend(html "🚖 " & firm.name),
             ul(@[
-                li("Erwarteteter Preis: " & $b(taxi.price)),
+                li(html "Erwarteteter Preis: ", b(html taxi.price)),
                 li(a("tel:" & firm.number.replace(" ", ""), "📞 Telefon")),
-                li(a(firm.web, "🌐 Website").addattr("target", "_blank"))
+                li(a(firm.web, "🌐 Website").add("target" <=> "_blank"))
             ])
         )
 
@@ -96,5 +96,5 @@ for route, data in routes:
         ).setClass(flexElementClass)
     ).setClass(flexContainerClass)
 
-html.setStylesheet(css)
+html.applyStylesheet(css)
 html.generate()

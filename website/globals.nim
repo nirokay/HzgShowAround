@@ -9,7 +9,9 @@ import generator
 
 from std/os import `/`
 export `/`
-export target
+
+const targetDir*: string = "HzgShowAround"
+export targetDir
 
 
 # -----------------------------------------------------------------------------
@@ -88,7 +90,7 @@ const
 const
     articlesLocation*: string = "article/" ## Local article export path
     articleCssFile*: string = "article-styles.css" ## Local article css export path
-    locationLookupTableFile*: string = target / "resources" / "location_lookup.json" ## Lookup table for location names to ID
+    locationLookupTableFile*: string = targetDir / "resources" / "location_lookup.json" ## Lookup table for location names to ID
 
 
 # -----------------------------------------------------------------------------
@@ -97,7 +99,7 @@ const
 
 const
     # Backgrounds:
-    colourBackgroundDark* = rgb(23, 25, 33) # Stolen from Nim doc generator with love <s3
+    colourBackgroundDark* = "#171921" # rgb(23, 25, 33) # Stolen from Nim doc generator with love <s3
     colourBackgroundMiddle* = "#23252c"
     colourBackgroundLight* = "#2f3139"
 
@@ -146,19 +148,19 @@ const
 
 const
     # Text stuff:
-    textUnderline*: CssAttribute = "text-decoration" := "underline"
-    textNoDecoration*: CssAttribute = "text-decoration" := "none"
-    textCenter*: CssAttribute = "text-align" := "center"
+    textUnderline*: CssElementProperty = "text-decoration" := "underline"
+    textNoDecoration*: CssElementProperty = "text-decoration" := "none"
+    textCenter*: CssElementProperty = "text-align" := "center"
 
 const
     # Drop shadow and highlights:
-    dropShadow*: CssAttribute = block:
+    dropShadow*: CssElementProperty = block:
         const
             offX: int = 5
             offY: int = 5
             diffusion: int = 5
-            colShadow: string = rgba(0, 0, 0, 0.5)
-            colHighlight: string = rgba(0, 0, 0, 0.2) # rgba(255, 255, 255, 0.1)
+            colShadow: string = "rgba(0, 0, 0, 0.5)"
+            colHighlight: string = "rgba(0, 0, 0, 0.2)" # rgba(255, 255, 255, 0.1)
         "filter" := &"drop-shadow(-{offX / 2}px -{offY / 2}px {diffusion / 2}px {colHighlight}) drop-shadow({offX}px {offY}px {diffusion}px {colShadow})"
 
 
@@ -197,10 +199,10 @@ proc newsElementRelevance(level: NewsLevel): CssElement =
 
 proc locationImage(className, width, maxWidth, marginTopBottom, marginSides: string): CssElement =
     result = newCssClass(className,
-        width(width),
-        ["display", "block"],
-        ["max-width", maxWidth],
-        ["border-radius", "10px"],
+        "width" := width,
+        "display" := "block",
+        "max-width" := "max-width",
+        "border-radius" := "10px",
         "margin" := marginTopBottom & " " & marginSides
     )
 
@@ -211,37 +213,35 @@ const
 
     centerClass* = newCssClass("generic-center",
         textCenter,
-        ["display", "block"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        # ["width", "90%"]
+        "display" := "block",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
     )
 
     centerTableClass* = newCssClass("table-center",
-        ["text-align", "left"],
-        ["margin", "10px auto"]
+        "text-align" := "left",
+        "margin" := "10px auto"
     )
 
     buttonClass* = newCssClass("button",
-        backgroundColour(colourButton),
-        color(colourText),
-        colour(colourText),
-        ["border", "none"],
-        padding("10px 20px"),
+        "background-color" := colourButton,
+        "color" := colourText,
+        "border" := "none",
+        "padding" := "10px 20px",
         textCenter,
-        ["text-decoration", "none"],
-        display($inlineBlock),
-        fontSize("1.2em"),
-        ["margin", "8px 4px"],
-        ["cursor", "pointer"],
-        ["transition", "0.3s"],
-        ["border-radius", 6.px],
+        "text-decoration" := "none",
+        "display" := "inline-block",
+        "font-size" := "1.2em",
+        "margin" := "8px 4px",
+        "cursor" := "pointer",
+        "transition" := "0.3s",
+        "border-radius" := "6px",
         dropShadow
     )
 
     buttonClassHover* = newCssClass("button:hover",
-        backgroundColour(colourButtonHover),
-        ["transition", "0.1s"]
+        "background-color" := colourButtonHover,
+        "transition" := "0.1s"
     )
 
     buttonClassClick* = ".button:active"{
@@ -255,12 +255,12 @@ const
 
     # Stuff inside a box (looks cool i guess):
     contentBoxClass* = newCssClass("content-box",
-        width("100%"),
-        maxWidth("1000px"),
-        backgroundColour(colourBackgroundMiddle),
-        ["border-radius", "20px"],
-        ["padding", "5px"],
-        ["margin", "30px auto"],
+        "width" := "100%",
+        "max-width" := "1000px",
+        "background-color" := colourBackgroundMiddle,
+        "border-radius" := "20px",
+        "padding" := "5px",
+        "margin" := "30px auto",
         dropShadow
     )
 
@@ -279,32 +279,32 @@ const
     }
 
     mapElement* = newCssClass("map-element",
-        outlineColour(colourMapElementOutline),
-        display($inline)
+        "outline-colour" := colourMapElementOutline,
+        "display" := "inline"
     )
 
     divCenterOuter* = newCssClass("div-outer",
-        display($table),
-        position($absolute),
-        top(px(heightBarTop + heightBarMargins)),
-        left($0),
-        height("calc(100vh - " & heightBarTop.px & " - " & heightBarBottom.px & " - " & px(heightBarMargins * 2) & ")"), # idk what im doing
-        width("100%")
+        "display" := $table,
+        "position" := "absolute",
+        "top" := &"{heightBarTop + heightBarMargins}px",
+        "left" := "0",
+        "height" := &"calc(100vh - {heightBarTop}px - {heightBarBottom}px - {heightBarMargins * 2}px)", # idk what im doing
+        "width" := "100%"
     )
     divCenterMiddle* = newCssClass("div-middle",
-        display($tableCell),
-        ["vertical-align", "middle"]
+        "display" := "table-cell",
+        "vertical-align" := "middle"
     )
     divCenterInner* = newCssClass("div-inner",
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        width("90%")
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "width" := "90%"
     )
 
     topPageHeaderClass* = ".top-page-header"{
         "left" := "0px",
         "top" := "0px",
-        "height" := heightBarTop.px,
+        "height" := &"{heightBarTop}px",
         "width" := "100%",
         "margin" := "auto",
         "position" := "fixed",
@@ -315,7 +315,7 @@ const
     bottomPageFooterClass* = ".bottom-page-footer"{
         "left" := "0px",
         "bottom" := "-10px",
-        "height" := px(heightBarBottom + 10),
+        "height" := &"{heightBarBottom + 10}px",
         "width" := "100%",
         "margin" := "auto",
         "position" := "fixed",
@@ -350,7 +350,7 @@ const
     }
 
     newsDivClass* = newCssClass("news-div-class",
-        width("75%"),
+        "width" := "75%",
         "min-width" := "200px",
         "display" := "block",
         "margin-left" := "auto",
@@ -367,14 +367,20 @@ const
         "background-color" := colourBackgroundMiddle
     }
 
-    newsElementHeaderSegment* = ".newsfeed-element-segment-header"{}
+    newsElementHeaderSegment* = ".newsfeed-element-segment-header"{
+        "color" := colourText # TODO: IMPLEMENTATION placeholder, so element is not empty
+    }
     newsElementBodySegment* = ".newsfeed-element-segment-body"{
         "display" := "flex",
         "flex-wrap" := "wrap-reverse"
     }
 
-    newsElementTextSegment* = ".newsfeed-element-segment-text"{}
-    newsElementPictureSegment* = ".newsfeed-element-segment-picture"{}
+    newsElementTextSegment* = ".newsfeed-element-segment-text"{
+        "color" := colourText # TODO: IMPLEMENTATION placeholder, so element is not empty
+    }
+    newsElementPictureSegment* = ".newsfeed-element-segment-picture"{
+        "color" := colourText # TODO: IMPLEMENTATION placeholder, so element is not empty
+    }
     newsElementPicture* = ".newsfeed-element-picture"{
         "max-height" := "8em"
     }
@@ -387,61 +393,61 @@ const
 
     articlePreviewItem* = newCssClass("article-preview",
         textCenter,
-        padding("10px"),
-        ["border-style", "solid"],
-        ["border-color", colourText],
-        ["flex", "content"], # Thanks Ika! :3
+        "padding" := "10px",
+        "border-style" := "solid",
+        "border-color" := colourText,
+        "flex" := "content", # Thanks Ika! :3
         "background-color" := colourBackgroundMiddle,
         dropShadow
     )
 
     articlePreviewBox* = newCssClass("article-preview-box",
-        width("75%"),
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["display", "flex"],
-        ["justify-content", "center"],
-        ["justify-items", "stretch"],
-        ["flex-wrap", "wrap"]
+        "width" := "75%",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "display" := "flex",
+        "justify-content" := "center",
+        "justify-items" := "stretch",
+        "flex-wrap" := "wrap"
     )
 
     authorDivClass* = newCssClass("author-div",
-        ["background-color", colourBackgroundMiddle],
-        ["max-width", "350px"],
-        ["display", "flex"],
-        ["justify-content", "center"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["margin-top", "10px"],
-        ["margin-bottom", "10px"],
-        ["border-radius", "900px"],
-        ["flex", "content"],
-        ["flex-wrap", "nowrap"],
-        ["justify-content", "left"],
-        ["flex-basis", "auto"],
+        "background-color" := colourBackgroundMiddle,
+        "max-width" := "350px",
+        "display" := "flex",
+        "justify-content" := "center",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "margin-top" := "10px",
+        "margin-bottom" := "10px",
+        "border-radius" := "900px",
+        "flex" := "content",
+        "flex-wrap" := "nowrap",
+        "justify-content" := "left",
+        "flex-basis" := "auto",
         dropShadow
     )
 
     authorPictureClass* = newCssClass("author-picture",
-        ["max-width", "48px"],
-        ["min-width", "32px"],
-        ["flex", "content"],
-        ["border-radius", "100px"],
-        ["display", "inline-block"],
-        ["margin-left", "10px"],
-        ["margin-top", "10px"],
-        ["margin-bottom", "10px"],
-        ["align-self", "center"]
+        "max-width" := "48px",
+        "min-width" := "32px",
+        "flex" := "content",
+        "border-radius" := "100px",
+        "display" := "inline-block",
+        "margin-left" := "10px",
+        "margin-top" := "10px",
+        "margin-bottom" := "10px",
+        "align-self" := "center"
     )
     authorNameClass* = newCssClass("author-name-div",
-        ["color", $colourAuthorNameText],
-        ["width", "50%"],
-        ["flex", "content"],
-        ["display", "inline-block"],
-        ["margin-right", "10px"],
-        ["margin-top", "10px"],
-        ["margin-bottom", "10px"],
-        ["align-self", "center"],
+        "color" := colourAuthorNameText,
+        "width" := "50%",
+        "flex" := "content",
+        "display" := "inline-block",
+        "margin-right" := "10px",
+        "margin-top" := "10px",
+        "margin-bottom" := "10px",
+        "align-self" := "center",
     )
 
     locationDeprecationDisclaimerHeaderClass* = newCssClass("location-deprecation-notice-header",
@@ -459,13 +465,13 @@ const
     locationImageMapPreview* = locationImage("location-image-map-preview", "50%", "500px", "20px", "auto")
 
     locationImageFooterDiv* = newCssClass("location-image-footer-div",
-        width("90%"),
-        ["max-width", "1000px"],
-        ["margin-left", "auto"],
-        ["margin-right", "auto"],
-        ["display", "flex"],
-        ["justify-content", "space-around"],
-        ["flex-wrap", "wrap"]
+        "width" := "90%",
+        "max-width" := "1000px",
+        "margin-left" := "auto",
+        "margin-right" := "auto",
+        "display" := "flex",
+        "justify-content" := "space-around",
+        "flex-wrap" := "wrap",
     )
 
     locationContactElementDiv* = newCssClass("location-contact-info-element",
