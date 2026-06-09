@@ -1,6 +1,8 @@
 {
     "name": "HzgShowAround",
-    "short_name": HzgShowAround",
+    "short_name": "HzgShowAround",
+    "description": "",
+    "start_url": "/HzgShowAround/",
     "icons": [
         {
             "src": "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/icon/icon_small.png",
