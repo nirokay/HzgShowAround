@@ -13,6 +13,14 @@ export cattag except newHtmlDocument, newXmlDocument, writeFile
 import urls
 import ../utils/logging
 
+const keywordTags: seq[string] = @[
+    "Herzogsägmühle", "Herzogsaegmuehle",
+    "Peiting", "Schongau",
+    "Diakonie", "Diakoniedorf",
+    "Reha", "Rehabilitation", "rehab", "rehabilitation",
+    "Karte", "map",
+    "Neuigkeiten", "news", "events"
+]
 
 proc aNewTab*(href, text: string): HtmlElement = a(href, text).add("target" <=> "_blank")
 
@@ -86,7 +94,6 @@ proc importScripts*(html: var HtmlDocument, paths: varargs[string]) =
             attr("defer")
         ])
 
-var empty: OrderedTable[string, string]
 proc newPage*(name, path: string, desc: string = "", customSchema: JsonNode = %* {}): HtmlDocument =
     pageMetaDataCache[path] = @[
         name, desc
@@ -217,7 +224,21 @@ proc generate*(html: var HtmlDocument) =
         link(@[
             "rel" <=> "manifest",
             "href" <=> "hzgshowaround.webmanifest"
-        ])
+        ]),
+        # Colours:
+        meta().add(
+            "name" <=> "theme-color",
+            "content" <=> "#b3485f"
+        ),
+        meta().add(
+            "name" <=> "background-color",
+            "content" <=> "#171921"
+        ),
+        # Keywords/Tags:
+        meta().add(
+            "name" <=> "keywords",
+            "content" <=> keywordTags.join(", ")
+        )
     )
 
     # OG image, if none set:

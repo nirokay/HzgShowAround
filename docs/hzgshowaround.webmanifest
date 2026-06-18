@@ -8,6 +8,10 @@
             "src": "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/icon/icon_small.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/resources/images/icon/icon_small.svg",
+            "type": "image/svg"
         }
     ],
     "theme_color": "#FFB6C1",
