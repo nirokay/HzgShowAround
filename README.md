@@ -54,7 +54,7 @@ This repository is deployed to [my homepage](https://nirokay.com/HzgShowAround/)
 These are all dependencies for the entire project:
 
 * [Nim](https://nim-lang.org/)
-  * [websitegenerator](https://github.com/nirokay/websitegenerator/)
+  * [CatTag](https://github.com/nirokay/CatTag/)
 * [Typescript](https://www.typescriptlang.org/)
 * [Bash](https://www.gnu.org/software/bash/)
 * [Git](https://git-scm.com/) (duh...)
