@@ -238,9 +238,12 @@ function generateElementHtml(element) {
             htmlDateSection(element),
         ]),
         newDiv("newsfeed-element-segment-body", [imageDiv, detailsDiv]),
+        newsfeedTagsToHtml(element),
         htmlFooter(element),
     ];
-    let attributes = [];
+    let attributes = [
+        newsfeedTagsToAttribute(element.newsTags)
+    ];
     if (element.isHappening && element.name != placeHolderIdentifier)
         attributes.push("style='background-color:#2f3139 !important;'");
     return newDiv(className, elements, attributes);

@@ -154,6 +154,7 @@ proc generateLocationHtml*(location: Location) =
 
     html.importScripts(
         "../javascript/commons.js",
+        "../javascript/news/tags.js",
         "../javascript/news/typedefs.js",
         "../javascript/news/ical.js",
         "../javascript/news/html.js",

@@ -77,10 +77,15 @@ async function refreshNewsfeed() {
         debug("Fetching from remote repository");
         updateRefreshedAt("Verbindung zum Server wird hergestellt...");
         try {
+            fetchNewsfeedTags();
+        } catch (error) {
+            console.error("Failed to fetch newsfeed tags", error)
+        }
+        try {
             await refetchNews();
         } catch (error) {
             updateRefreshedAt(errorMessageNoInternet.join("<br />"));
-            console.error(error);
+            console.error("Failed to refetch news", error);
             return;
         }
 

@@ -25,6 +25,7 @@ var html: HtmlDocument = newPage(
 
 html.importScripts(
     "javascript/commons.js",
+    "javascript/news/tags.js",
     "javascript/news/typedefs.js",
     "javascript/news/ical.js",
     "javascript/news/html.js",

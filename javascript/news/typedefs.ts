@@ -55,6 +55,8 @@ class NewsFeedElement {
     importance: number = 0; // Importance as number
     details?: string[]; // Description
     image?: string; // Image
+    tags?: string[] = []; // Raw tag names
+    newsTags: NewsTag[] = []; // Tags
     info?: string; // URL to external resource
     isHappening: boolean = false;
     locations: string[] = [];
@@ -131,6 +133,8 @@ function healthPresentationToNewsfeedElement(
     result.locations = ["Am Latterbach Haus 13"];
 
     result.image = "newsfeed/icons/presentation.svg";
+    result.tags = ["Gesundheitsvortrag"];
+    result.newsTags = [];
 
     presentation.desc ??= presentation.topic;
     result.details = [
@@ -144,6 +148,7 @@ function healthPresentationToNewsfeedElement(
             "<small>Geleitet von " + presentation.by + "</small>",
         );
     if (presentation.required != undefined && presentation.required === true)
+        result.tags.push("Verpflichtend");
         result.details.push(
             "<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>",
         );
@@ -172,18 +177,20 @@ function holidayToNewsfeedElement(holiday: Holiday): NewsFeedElement | null {
         return null;
     }
     // Build `NewsFeedElement`:
-    let element = new NewsFeedElement();
+    let result = new NewsFeedElement();
     let time = new NewsEventTime();
     time.on = holiday.datum;
 
-    element.name = "Feiertag: <q>" + holiday.name + "</q>";
-    element.times = [time];
-    element.level = "holiday";
+    result.name = "Feiertag: <q>" + holiday.name + "</q>";
+    result.times = [time];
+    result.level = "holiday";
 
     // Icon:
-    element.image = "newsfeed/icons/holidays.svg";
+    result.image = "newsfeed/icons/holidays.svg";
+    result.tags = ["Feiertag"];
+    result.newsTags = [];
 
-    return element;
+    return result;
 }
 function holidaysToNewsfeedElements(holidays: Holiday[]): NewsFeedElement[] {
     let result: NewsFeedElement[] = [];
@@ -242,6 +249,10 @@ function schoolHolidayToNewsfeedElement(
 
     // Icon:
     result.image = "newsfeed/icons/holidays-school.svg";
+    result.tags = ["Feiertag"];
+    result.newsTags = [];
+
+    console.log(result)
 
     return result;
 }
@@ -354,6 +365,28 @@ function normalizedElement(
     result.level = element.level ?? "info";
     result.image = element.image ?? "";
 
+    // Tags:
+    result.tags = element.tags ?? [];
+    switch (getImportance(element)) {
+        case 20:
+            result.tags.push("Alarm")
+            break;
+        case 10:
+            result.newsTags.push(newsfeedTags["Warnung"])
+            break;
+        default:
+            break;
+    }
+    result.newsTags = element.newsTags ?? [];
+    //
+    if (element.tags != undefined && element.tags?.length != 0) {
+        element.tags.forEach((name: string) => {
+            let tag: NewsTag | undefined = newsfeedTags[name];
+            if (tag != undefined) result.newsTags.push(tag);
+            else console.warn("Failed to get tag", name, newsfeedTags[name], newsfeedTags);
+        })
+    }
+
     // Details fixes:
     switch (typeof element.details) {
         case "string":
@@ -409,8 +442,8 @@ function normalizedElement(
     result.isHappening = false;
     result.times.forEach((time) => {
         if (result.isHappening) return;
-        let dateFrom: string = (time.from ?? "1970-01-01").split(" ")[0];
-        let dateTill: string = (time.from ?? "1970-01-01").split(" ")[0];
+        let dateFrom: string = (time.from ?? time.on ?? "1970-01-01").split(" ")[0];
+        let dateTill: string = (time.till ?? time.on ?? "1970-01-01").split(" ")[0];
         if (
             Date.parse(dateFrom) <= date.getTime() &&
             Date.parse(dateTill) + dayMilliseconds >= date.getTime()
