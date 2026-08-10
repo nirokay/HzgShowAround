@@ -51,21 +51,20 @@ function newsfeedTagsToAttribute(tags: NewsTag[]): string {
 }
 
 function newsfeedTagToHtml(tag: NewsTag): HtmlString {
-    let dot: HtmlString = "<span style='color:" + tag.color + ";margin-left:6px;margin-right:2px;' >🞄</span>"
-    let text: HtmlString = "<span style='margin-left:2px;margin-right:6px;' title='" + tag.desc + "'>" + tag.name + "</span>"
+    let dot: HtmlString = "<span class='newsfeed-element-tag-dot' style='color:" + tag.color + ";'>●</span>"
+    let text: HtmlString = "<span class='newsfeed-element-tag-text' title='" + tag.desc + "'>" + tag.name + "</span>"
 
-    let result: HtmlString = "<span style='" + [
-        "border:2px solid " + tag.color + ";",
+    let result: HtmlString = "<span class='newsfeed-element-tag shadow' style='" + [
+        "border-color:" + tag.color + ";",
         "border-radius:20px;",
-        "background:" + tag.color + "33;",
-        "margin:5px;"
+        "background:" + tag.color + "33;"
     ].join("") + "'>" + dot + text + "</span>";
     return result;
 }
 function newsfeedTagsToHtml(element: NewsFeedElement): HtmlString {
     let tags: NewsTag[] = element.newsTags;
     if (tags == undefined) {
-        console.log("Empty newsTags field for " + element.name);
+        console.warn("Empty newsTags field for " + element.name);
         return "";
     }
     if (tags.length == 0) return "";
@@ -73,5 +72,5 @@ function newsfeedTagsToHtml(element: NewsFeedElement): HtmlString {
     tags.forEach((tag) => {
         results.push(newsfeedTagToHtml(tag));
     })
-    return "<div class='newsfeed-element-segment-tags'>" + results.join("") + "</div>";
+    return "<div class='newsfeed-element-segment-tags generic-center'>" + results.join("") + "</div>";
 }

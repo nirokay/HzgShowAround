@@ -212,7 +212,6 @@ function schoolHolidayToNewsfeedElement(holiday) {
     result.image = "newsfeed/icons/holidays-school.svg";
     result.tags = ["Feiertag"];
     result.newsTags = [];
-    console.log(result);
     return result;
 }
 function schoolHolidaysToNewsfeedElements(holidays) {
@@ -299,19 +298,19 @@ function normalizedElement(news, element) {
     // Tags:
     result.tags = element.tags ?? [];
     switch (getImportance(element)) {
-        case 20:
+        case IMPORTANCE_ALERT:
             result.tags.push("Alarm");
             break;
-        case 10:
-            result.newsTags.push(newsfeedTags["Warnung"]);
+        case IMPORTANCE_WARNING:
+            result.tags.push("Warnung");
             break;
         default:
             break;
     }
     result.newsTags = element.newsTags ?? [];
     //
-    if (element.tags != undefined && element.tags?.length != 0) {
-        element.tags.forEach((name) => {
+    if (result.tags != undefined && result.tags?.length != 0) {
+        result.tags.forEach((name) => {
             let tag = newsfeedTags[name];
             if (tag != undefined)
                 result.newsTags.push(tag);
@@ -355,11 +354,11 @@ function normalizedElement(news, element) {
     // Default images:
     if (result.image == "") {
         switch (getImportance(element)) {
-            case 20:
+            case IMPORTANCE_ALERT:
                 // Alerts without image:
                 result.image = "newsfeed/icons/generic-alert.svg";
                 break;
-            case 10:
+            case IMPORTANCE_WARNING:
                 // Warnings without image:
                 result.image = "newsfeed/icons/generic-warning.svg";
                 break;

@@ -140,6 +140,8 @@ globalCss.add(
     # Classes:
     centerClass,
 
+    dropShadowClass,
+
     textCenterClass,
 
     buttonClass,
@@ -249,6 +251,10 @@ css.add(
     newsElementWarning,
     newsElementAlert,
     newsElementHappened,
+
+    newsElementTag,
+    newsElementTagDot,
+    newsElementTagText,
 
     #   Articles:
     articlePreviewItem,

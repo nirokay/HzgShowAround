@@ -225,7 +225,7 @@ function newDiv(className, elements, attributes = undefined) {
  * Generates the HTML for the entire element
  */
 function generateElementHtml(element) {
-    let className = getElementClass(element);
+    let className = getElementClass(element) + " shadow";
     let detailsDiv = addLocationLinks(htmlDetails(element));
     let imageDivAttributes = [];
     if (detailsDiv == "") {
@@ -239,7 +239,7 @@ function generateElementHtml(element) {
         ]),
         newDiv("newsfeed-element-segment-body", [imageDiv, detailsDiv]),
         newsfeedTagsToHtml(element),
-        htmlFooter(element),
+        htmlFooter(element)
     ];
     let attributes = [
         newsfeedTagsToAttribute(element.newsTags)

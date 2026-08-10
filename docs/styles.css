@@ -115,6 +115,10 @@ img {
     margin-right: auto;
 }
 
+.shadow {
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+}
+
 .center {
     text-align: center;
 }
@@ -419,6 +423,22 @@ a:active {
 
 .newsfeed-element-relevancy-happened {
     border-color: #2f3139;
+}
+
+.newsfeed-element-tag {
+    border: 2px solid;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.newsfeed-element-tag-dot {
+    margin-left: 6px;
+    margin-right: 2px;
+}
+
+.newsfeed-element-tag-text {
+    margin-left: 2px;
+    margin-right: 6px;
 }
 
 .article-preview {

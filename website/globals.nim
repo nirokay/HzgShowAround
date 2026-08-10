@@ -182,6 +182,10 @@ const
         "margin" := "10px auto"
     )
 
+    dropShadowClass*: CssElement = newCssClass("shadow",
+        dropShadow
+    )
+
     buttonClass* = newCssClass("button",
         "background-color" := colourButton,
         "color" := colourText,
@@ -342,6 +346,20 @@ const
     }
     newsElementPicture* = ".newsfeed-element-picture"{
         "max-height" := "8em"
+    }
+
+    newsElementTag* = ".newsfeed-element-tag"{
+        "border" := "2px solid",
+        "border-radius" := "20px",
+        "margin" := "5px"
+    }
+    newsElementTagDot* = ".newsfeed-element-tag-dot"{
+        "margin-left" := "6px",
+        "margin-right" := "2px"
+    }
+    newsElementTagText* = ".newsfeed-element-tag-text"{
+        "margin-left" := "2px",
+        "margin-right" := "6px"
     }
 
     newsElementHappened* = newsElementRelevance(Happened)
