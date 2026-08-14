@@ -13,6 +13,10 @@ class NewsTag {
 }
 let newsfeedTags: Record<string, NewsTag> = {};
 
+const tagDotTolerated: string = "☐";
+const tagDotFiltered: string = "☑";
+const tagDotProhibited: string = "☒";
+
 async function fetchNewsfeedTags() {
     newsfeedTags = {};
 
@@ -60,13 +64,13 @@ function tagDot(state: TagState): HtmlString {
     let result: HtmlString = "";
     switch (state) {
         case TagState.tolerated:
-            result = "☐";
+            result = tagDotTolerated;
             break;
         case TagState.filtered:
-            result = "☑";
+            result = tagDotFiltered;
             break;
         case TagState.prohibited:
-            result = "☒";
+            result = tagDotProhibited;
             break;
     };
     return result;
@@ -115,7 +119,7 @@ function updateTagDisplays() {
     if (element == null) return; // location page
 
     element.innerHTML = "";
-    Object.entries(newsfeedTags).forEach(([name, tag]) => {
+    Object.entries(newsfeedTags).forEach(([_, tag]) => {
         element.innerHTML += newsfeedTagToHtml(tag, true);
     });
 }

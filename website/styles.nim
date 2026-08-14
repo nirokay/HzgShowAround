@@ -329,10 +329,10 @@ cssArticles.add(
         textUnderline,
         textCenter
     },
-    "h3, h4, h5, h6, time"{
+    "h3, h4, h5, h6, summary, time"{
         textCenter
     },
-    "summary::hover"{
+    "summary:hover"{
         "text-decoration" := "underline"
     },
     "img"{
