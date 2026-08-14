@@ -17,6 +17,11 @@ proc backgroundedSpan(definition, explanation, col: string): HtmlElement =
 proc underlinedSpan(definition, explanation, col: string): HtmlElement =
     result = explanatoryElement(definition, explanation, col, "text-decoration" := ("5px underline " & col))
 
+const
+    tagDotTolerated: string = "☐"
+    tagDotFiltered: string = "☑"
+    tagDotProhibited: string = "☒"
+
 var html: HtmlDocument = newPage(
     "Newsfeed",
     "newsfeed.html",
@@ -57,7 +62,28 @@ html.addToBody(
             )
         )
     ).setClass(centerClass),
-    small(html "Noch nicht aktualisiert").add(
+    `div`(
+        newHtmlElement("details",
+            summary(html "Filtern nach Tags"),
+            `div`(
+                p(
+                    html "Klicke auf die Tags um sie ",
+                    b html "zu erlauben (" & tagDotTolerated & ")",
+                    html ", ",
+                    b html "zu verbieten (" & tagDotProhibited  & ")",
+                    html ", oder ",
+                    b html "explizit nach ihnen zu suchen (" & tagDotFiltered & ")",
+                    html "."
+                ),
+                `div`(
+                    small html "Tags werden geladen..."
+                ).setId("newsfeed-tag-toggle-list")
+            )
+        ).add(attr "open")
+    ).setClass(centerClass),
+    small(html "Noch nicht aktualisiert").setStyle(
+        "margin-top" := "1em"
+    ).add(
         "id" <=> "reloaded-time"
     ).setClass(centerClass),
     `div`(

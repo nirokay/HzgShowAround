@@ -122,4 +122,5 @@ async function refreshNewsfeed() {
 
 window.onload = async () => {
     await refreshNewsfeed();
+    updateTagDisplays();
 };
