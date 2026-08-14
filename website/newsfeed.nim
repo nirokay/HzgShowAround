@@ -57,6 +57,17 @@ html.addToBody(
             )
         )
     ).setClass(centerClass),
+    `div`(
+        newHtmlElement("details",
+            summary(html "Filtern nach Tags"),
+            `div`(
+                p(html "Klicke auf die Tags um sie zu erlauben, zu verbieten, oder explizit nach ihnen zu suchen."),
+                `div`(
+
+                ).setId("newsfeed-tag-toggle-list")
+            )
+        ).add(attr "open")
+    ).setClass(centerClass),
     small(html "Noch nicht aktualisiert").add(
         "id" <=> "reloaded-time"
     ).setClass(centerClass),
