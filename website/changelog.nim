@@ -42,7 +42,7 @@ for change in changelog:
         except CatchableError:
             change.date
     var elements: seq[HtmlElement] = @[
-        h2(time(header).add("datetime" <=> change.date)),
+        h2(time(html header).add("datetime" <=> change.date)),
         `div`(list)
     ]
 
