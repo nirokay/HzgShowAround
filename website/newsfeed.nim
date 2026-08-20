@@ -77,7 +77,7 @@ html.addToBody(
                 ),
                 `div`(
                     small html "Tags werden geladen..."
-                ).setId("newsfeed-tag-toggle-list")
+                ).setId("newsfeed-tag-toggle-list").setClass(flexContainerClass)
             )
         ).add(attr "open")
     ).setClass(centerClass),

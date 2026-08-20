@@ -53,6 +53,7 @@ function updateRefreshedAt(override?: string) {
         return;
     }
     reloadTime.innerHTML = newText;
+    updateTagDisplays();
 }
 
 async function refreshNewsfeed() {

@@ -46,6 +46,7 @@ function updateRefreshedAt(override) {
         return;
     }
     reloadTime.innerHTML = newText;
+    updateTagDisplays();
 }
 async function refreshNewsfeed() {
     // Block thingy going twice (or worse: MULTIPLE times)

@@ -73,3 +73,26 @@ function icalTimeToNormal(icalTime: string): string {
     result.push(time[2] + time[3]);
     return "<time>" + result.join(":") + " Uhr </time>";
 }
+
+const urlRedirectionList: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/json/redirections.json";
+async function getRedirectionList(): Promise<Record<string, string>> {
+    let result: Record<string, string> = {}
+    let response: Response = await fetch(urlRedirectionList)
+    let json: JSON = JSON.parse(await response.text())
+
+    Object.entries(json).forEach(([oldPage, newPage]) => {
+        result[oldPage] = newPage;
+    });
+
+    return result;
+}
+async function redirectToUpdatedPage() {
+    let pageNameParts: string[] = window.location.href.split("/")
+    let pageName: string = pageNameParts[pageNameParts.length - 1].split("#")[0];
+    let list: Record<string, string> = await getRedirectionList();
+    if (pageName in list) {
+        console.log("Redirecting to updated page: " + list[pageName]);
+        window.location.href = list[pageName];
+    }
+}
+redirectToUpdatedPage(); // keep in background

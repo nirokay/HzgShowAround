@@ -1,7 +1,7 @@
 {
     "name": "HzgShowAround",
     "short_name": "HzgShowAround",
-    "description": "",
+    "description": "Diese inoffizielle Website, für das Diakoniedorf Herzogsägmühle, soll dir helfen, dich besser in der Herzogsägmühle zurecht zu finden!",
     "start_url": "/HzgShowAround/",
     "icons": [
         {

@@ -66,3 +66,23 @@ function icalTimeToNormal(icalTime) {
     result.push(time[2] + time[3]);
     return "<time>" + result.join(":") + " Uhr </time>";
 }
+const urlRedirectionList = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/json/redirections.json";
+async function getRedirectionList() {
+    let result = {};
+    let response = await fetch(urlRedirectionList);
+    let json = JSON.parse(await response.text());
+    Object.entries(json).forEach(([oldPage, newPage]) => {
+        result[oldPage] = newPage;
+    });
+    return result;
+}
+async function redirectToUpdatedPage() {
+    let pageNameParts = window.location.href.split("/");
+    let pageName = pageNameParts[pageNameParts.length - 1].split("#")[0];
+    let list = await getRedirectionList();
+    if (pageName in list) {
+        console.log("Redirecting to updated page: " + list[pageName]);
+        window.location.href = list[pageName];
+    }
+}
+redirectToUpdatedPage(); // keep in background

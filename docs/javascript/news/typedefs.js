@@ -310,13 +310,18 @@ function normalizedElement(news, element) {
     result.newsTags = element.newsTags ?? [];
     //
     if (result.tags != undefined && result.tags?.length != 0) {
-        result.tags.forEach((name) => {
-            let tag = newsfeedTags[name];
-            if (tag != undefined)
-                result.newsTags.push(tag);
-            else
-                console.warn("Failed to get tag", name, newsfeedTags[name], newsfeedTags);
-        });
+        if (Object.keys(newsfeedTags).length != 0) {
+            result.tags.forEach((name) => {
+                let tag = newsfeedTags[name];
+                if (tag != undefined)
+                    result.newsTags.push(tag);
+                else
+                    console.warn("Failed to get tag", name, newsfeedTags[name], newsfeedTags);
+            });
+        }
+        else {
+            //console.warn("Tag dictionary is empty", newsfeedTags);
+        }
     }
     // Details fixes:
     switch (typeof element.details) {

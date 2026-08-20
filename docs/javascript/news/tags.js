@@ -80,9 +80,8 @@ function newsfeedTagToHtml(tag, displayState = false) {
         "border-radius:20px;",
         "background:" + tag.color + "33;"
     ].join("") + "'>" + dot + text + "</span>";
-    if (displayState) {
-        result = "<a href='javascript:cycleTag(\"" + tag.name + "\")'>" + result + "</a>";
-    }
+    if (displayState)
+        result = "<a style='margin:8px 2px;' href='javascript:cycleTag(\"" + tag.name + "\")'>" + result + "</a>";
     return result;
 }
 function newsfeedTagsToHtml(element) {
@@ -115,6 +114,9 @@ function updateTagDisplays() {
     Object.entries(newsfeedTags).forEach(([_, tag]) => {
         element.innerHTML += newsfeedTagToHtml(tag, true);
     });
+    // Internet failure:
+    if (element.innerHTML == "")
+        element.innerHTML = "<small>Es konnte keine Internetverbindung zum Server hergestellt werden.</small>";
 }
 function applyTagFiltering() {
     if (!isOnNewsfeedPage())
