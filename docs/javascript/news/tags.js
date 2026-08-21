@@ -13,6 +13,10 @@ class NewsTag {
     state = TagState.tolerated;
 }
 let newsfeedTags = {};
+const newsfeedTagUriEntry = "tags";
+const newsfeedTagUriTolerated = "o";
+const newsfeedTagUriFiltered = "v";
+const newsfeedTagUriProhibited = "x";
 const tagDotTolerated = "☐";
 const tagDotFiltered = "☑";
 const tagDotProhibited = "☒";
@@ -170,6 +174,94 @@ function cycleTag(name) {
             newsfeedTags[name].state = TagState.tolerated;
             break;
     }
+    updateTagDisplays();
+    applyTagFiltering();
+}
+function resetAllNewsfeedTags() {
+    Object.entries(newsfeedTags).forEach(([name, tag]) => {
+        let updated = tag;
+        updated.state = TagState.tolerated;
+        newsfeedTags[name] = updated;
+    });
+    updateTagDisplays();
+    applyTagFiltering();
+}
+function getNewsfeedTagStateUri(tag) {
+    let result = "";
+    switch (tag.state) {
+        case TagState.tolerated:
+            result = newsfeedTagUriTolerated;
+            break;
+        case TagState.filtered:
+            result = newsfeedTagUriFiltered;
+            break;
+        case TagState.prohibited:
+            result = newsfeedTagUriProhibited;
+            break;
+    }
+    return result;
+}
+function getNewsfeedTagStateFromUri(state) {
+    let result = null;
+    switch (state) {
+        case newsfeedTagUriTolerated:
+            result = TagState.tolerated;
+            break;
+        case newsfeedTagUriFiltered:
+            result = TagState.filtered;
+            break;
+        case newsfeedTagUriProhibited:
+            result = TagState.prohibited;
+            break;
+        default:
+            result = null;
+            break;
+    }
+    return result;
+}
+function copyNewsfeedUrlWithTags() {
+    let uri = window.location.href.split("?")[0].split("#")[0];
+    let parts = [];
+    Object.entries(newsfeedTags).forEach(([name, tag]) => {
+        if (tag.state == TagState.tolerated)
+            return;
+        let state = getNewsfeedTagStateUri(tag);
+        parts.push(name + "-" + state);
+    });
+    let tagStates = parts.join(",");
+    let completeUri = tagStates != "" ? uri + "?tags=" + tagStates : uri;
+    navigator.clipboard.writeText(completeUri);
+}
+// https://www.nirokay.com/HzgShowAround/newsfeed.html?tags=Verpflichtend-v,Warnung-x[..]
+function applyNewsfeedTagsFromUri() {
+    let paramsRaw = window.location.href.split("?")[1];
+    if (paramsRaw == undefined || paramsRaw == "")
+        return;
+    let tags = [];
+    paramsRaw.split("&").forEach((param) => {
+        let parts = param.split("=");
+        if (parts.length < 2)
+            return;
+        let key = parts[0];
+        let values = parts[1];
+        if (key != newsfeedTagUriEntry)
+            return;
+        tags = values.split(",");
+    });
+    tags.forEach((decl) => {
+        let parts = decl.split("-");
+        if (parts.length != 2)
+            return;
+        let name = parts[0];
+        let stateStr = parts[1];
+        let state = getNewsfeedTagStateFromUri(stateStr);
+        if (state == null)
+            return;
+        newsfeedTags[name].state = state;
+    });
+}
+function initNewsfeedTags() {
+    applyNewsfeedTagsFromUri();
     updateTagDisplays();
     applyTagFiltering();
 }

@@ -148,6 +148,10 @@ globalCss.add(
     buttonClassHover,
     buttonClassClick,
 
+    smallButtonClass,
+    smallButtonClassHover,
+    smallButtonClassClick,
+
     newCssElement("button", buttonClass.properties),
     newCssElement("button:hover", buttonClassHover.properties),
     newCssElement("button:active", buttonClassClick.properties),
@@ -274,6 +278,10 @@ css.add(
         "margin-bottom" := "0px"
     },
 
+    "summary:hover"{
+        "text-decoration" := "underline"
+    },
+
     "select"{
         "padding" := "4px 8px",
         "margin" := "8px 4px",
@@ -331,9 +339,6 @@ cssArticles.add(
     },
     "h3, h4, h5, h6, summary, time"{
         textCenter
-    },
-    "summary:hover"{
-        "text-decoration" := "underline"
     },
     "img"{
         "margin" := "20px",

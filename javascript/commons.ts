@@ -88,7 +88,7 @@ async function getRedirectionList(): Promise<Record<string, string>> {
 }
 async function redirectToUpdatedPage() {
     let pageNameParts: string[] = window.location.href.split("/")
-    let pageName: string = pageNameParts[pageNameParts.length - 1].split("#")[0];
+    let pageName: string = pageNameParts[pageNameParts.length - 1].split("#")[0].split("?")[0].split("&")[0];
     let list: Record<string, string> = await getRedirectionList();
     if (pageName in list) {
         console.log("Redirecting to updated page: " + list[pageName]);

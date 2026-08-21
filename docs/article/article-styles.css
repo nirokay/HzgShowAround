@@ -148,6 +148,32 @@ img {
     background-color: #171921;
 }
 
+.small-button {
+    background-color: #2f3139;
+    color: #e8e6e3;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2em;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 6px;
+    filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
+    font-size: 70%;
+}
+
+.small-button:hover {
+    background-color: #23252c;
+    transition: 0.1s;
+}
+
+.small-button:active {
+    background-color: #171921;
+}
+
 button {
     background-color: #2f3139;
     color: #e8e6e3;
@@ -352,10 +378,6 @@ h1, h2 {
 
 h3, h4, h5, h6, summary, time {
     text-align: center;
-}
-
-summary:hover {
-    text-decoration: underline;
 }
 
 img {

@@ -77,7 +77,11 @@ html.addToBody(
                 ),
                 `div`(
                     small html "Tags werden geladen..."
-                ).setId("newsfeed-tag-toggle-list").setClass(flexContainerClass)
+                ).setId("newsfeed-tag-toggle-list").setClass(flexContainerClass),
+                `div`(
+                    smallButtonScript("Link mit Tags kopieren", "copyNewsfeedUrlWithTags()").setTitle("Kopiere einen Link mit den ausgewählten Tags."),
+                    smallButtonScript("Tags zurücksetzten", "resetAllNewsfeedTags()").setTitle("Tags auf Standart zurücksetzten."),
+                ).setClass(centerClass)
             )
         ).add(attr "open")
     ).setClass(centerClass),
@@ -88,7 +92,7 @@ html.addToBody(
     ).setClass(centerClass),
     `div`(
         hrefIndex.toHtmlElement(),
-        buttonScript("Neu laden", "refreshNewsfeed()"),
+        buttonScript("Neu laden", "refreshNewsfeed()").setTitle("Aktualisiere die Neuigkeiten/Events des Newsfeeds."),
     ).setClass(centerClass),
     `div`(
         p(html "Events werden geladen...")

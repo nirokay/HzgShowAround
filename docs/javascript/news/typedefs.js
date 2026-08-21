@@ -117,14 +117,15 @@ function healthPresentationToNewsfeedElement(presentation) {
     result.details = [
         "von <time datetime='" +
             presentation.on +
-            " 13:00'>13.00 - 14.00/14.30 Uhr</time> im <b>Festsaal</b>",
+            " 13:00'>13.00 - 14.00/14.30 Uhr</time> im <b>Festsaal</b> (erster Stockwerk)",
         "zum Thema <q>" + presentation.desc + "</q>",
     ];
     if (presentation.by != undefined)
         result.details.push("<small>Geleitet von " + presentation.by + "</small>");
-    if (presentation.required != undefined && presentation.required === true)
+    if (presentation.required === true) {
         result.tags.push("Verpflichtend");
-    result.details.push("<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>");
+        result.details.push("<small><i>⚠️ Dieser Vortrag ist verpflichtend für Anwohner von Am Latterbach Häuser 16 und 18 und Am Latterbach Haus 14.</i></small>");
+    }
     // result.icalEventType = EventType.timeSpan;
     return result;
 }

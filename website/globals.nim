@@ -201,15 +201,30 @@ const
         "border-radius" := "6px",
         dropShadow
     )
+    smallButtonClass* = block:
+        var r: CssElement = buttonClass
+        r.selector = "small-button"
+        r.properties.add "font-size" := "70%"
+        for i, property in r.properties:
+            case property.property:
+            of "margin":
+                r.properties[i] = "margin" := "4px 2px"
+            of "padding":
+                r.properties[i] = "padding" := "5px 10px"
+            else:
+                continue
+        r
 
-    buttonClassHover* = newCssClass("button:hover",
+    buttonClassHover* = newCssClass("button:hover ",
         "background-color" := colourButtonHover,
         "transition" := "0.1s"
     )
+    smallButtonClassHover* = newCssClass("small-button:hover", buttonClassHover.properties)
 
-    buttonClassClick* = ".button:active"{
+    buttonClassClick* = newCssClass("button:active",
         "background-color" := colourButtonClick
-    }
+    )
+    smallButtonClassClick* = newCssClass("small-button:active", buttonClassClick.properties)
 
     # Clickable id headers:
     clickableHeaderClass* = newCssClass("clickable-heading",

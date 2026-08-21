@@ -115,6 +115,9 @@ proc insertButtons*(buttons: varargs[ButtonHref]): HtmlElement =
 proc buttonScript*(text, onclick: string): HtmlElement =
     ## Button with script attached to it
     button("button", onclick, text) # Use before overwrite lol
+proc smallButtonScript*(text, onclick: string): HtmlElement =
+    ## Button with script attached to it
+    button("button", onclick, text).setClass(smallButtonClass)
 
 proc buttonLink*(content, href: string): HtmlElement =
     ## Styled button-like link

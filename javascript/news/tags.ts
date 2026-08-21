@@ -13,6 +13,11 @@ class NewsTag {
 }
 let newsfeedTags: Record<string, NewsTag> = {};
 
+const newsfeedTagUriEntry: string = "tags";
+const newsfeedTagUriTolerated: string = "o";
+const newsfeedTagUriFiltered: string = "v";
+const newsfeedTagUriProhibited: string = "x";
+
 const tagDotTolerated: string = "☐";
 const tagDotFiltered: string = "☑";
 const tagDotProhibited: string = "☒";
@@ -174,6 +179,93 @@ function cycleTag(name: string) {
             newsfeedTags[name].state = TagState.tolerated;
             break;
     }
+    updateTagDisplays();
+    applyTagFiltering();
+}
+
+function resetAllNewsfeedTags() {
+    Object.entries(newsfeedTags).forEach(([name, tag]) => {
+        let updated: NewsTag = tag;
+        updated.state = TagState.tolerated;
+        newsfeedTags[name] = updated;
+    });
+
+    updateTagDisplays();
+    applyTagFiltering();
+}
+
+function getNewsfeedTagStateUri(tag: NewsTag): string {
+    let result: string = "";
+    switch (tag.state) {
+        case TagState.tolerated:
+            result = newsfeedTagUriTolerated;
+            break;
+        case TagState.filtered:
+            result = newsfeedTagUriFiltered;
+            break;
+        case TagState.prohibited:
+            result = newsfeedTagUriProhibited;
+            break;
+    }
+    return result;
+}
+function getNewsfeedTagStateFromUri(state: string): TagState | null {
+    let result: TagState | null = null;
+    switch (state) {
+        case newsfeedTagUriTolerated:
+            result = TagState.tolerated;
+            break;
+        case newsfeedTagUriFiltered:
+            result = TagState.filtered;
+            break;
+        case newsfeedTagUriProhibited:
+            result = TagState.prohibited;
+            break;
+        default:
+            result = null;
+            break;
+    }
+    return result;
+}
+function copyNewsfeedUrlWithTags() {
+    let uri: string = window.location.href.split("?")[0].split("#")[0];
+    let parts: string[] = [];
+    Object.entries(newsfeedTags).forEach(([name, tag]) => {
+        if (tag.state == TagState.tolerated) return;
+        let state: string = getNewsfeedTagStateUri(tag);
+        parts.push(name + "-" + state);
+    });
+    let tagStates: string = parts.join(",");
+    let completeUri: string = tagStates != "" ? uri + "?tags=" + tagStates : uri
+    navigator.clipboard.writeText(completeUri);
+}
+
+// example: https://www.nirokay.com/HzgShowAround/newsfeed.html?tags=Gesundheitsvortrag-v,Verpflichtend-x[..]
+function applyNewsfeedTagsFromUri() {
+    let paramsRaw: string = window.location.href.split("?")[1];
+    if (paramsRaw == undefined || paramsRaw == "") return;
+    let tags: string[] = [];
+    paramsRaw.split("&").forEach((param) => {
+        let parts: string[] = param.split("=");
+        if (parts.length < 2) return;
+        let key: string = parts[0];
+        let values: string = parts[1];
+        if (key != newsfeedTagUriEntry) return;
+        tags = values.split(",");
+    });
+    tags.forEach((decl) => {
+        let parts: string[] = decl.split("-");
+        if (parts.length != 2) return;
+        let name: string = parts[0];
+        let stateStr: string = parts[1];
+        let state: TagState | null = getNewsfeedTagStateFromUri(stateStr);
+        if (state == null) return;
+        newsfeedTags[name].state = state;
+    });
+}
+
+function initNewsfeedTags() {
+    applyNewsfeedTagsFromUri();
     updateTagDisplays();
     applyTagFiltering();
 }

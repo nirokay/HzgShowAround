@@ -84,12 +84,16 @@
                         .
                     </p>
                     <div class='flex-container' id='newsfeed-tag-toggle-list'><small>Tags werden geladen...</small></div>
+                    <div class='generic-center'>
+                        <button class='small-button' onclick='copyNewsfeedUrlWithTags()' title='Kopiere einen Link mit den ausgewählten Tags.' type='button'>Link mit Tags kopieren</button>
+                        <button class='small-button' onclick='resetAllNewsfeedTags()' title='Tags auf Standart zurücksetzten.' type='button'>Tags zurücksetzten</button>
+                    </div>
                 </div>
             </details></div>
             <small class='generic-center' id='reloaded-time' style='margin-top: 1em;'>Noch nicht aktualisiert</small>
             <div class='generic-center'>
                 <a class='button' href='/HzgShowAround/index.html' style='color: #e8e6e3;' title='Navigiere zur Startseite'>Startseite</a>
-                <button onclick='refreshNewsfeed()' type='button'>Neu laden</button>
+                <button onclick='refreshNewsfeed()' title='Aktualisiere die Neuigkeiten/Events des Newsfeeds.' type='button'>Neu laden</button>
             </div>
             <div class='news-div-class' id='news-div'><p>Events werden geladen...</p></div>
             <div style='min-height: 52.0px;'><!--
@@ -106,7 +110,7 @@
              | 
             <time datetime='2023-11-13 00:00'>2023</time>
              - 
-            <time datetime='2026-08-20 09:41'>2026</time>
+            <time datetime='2026-08-21 10:46'>2026</time>
              | 
             <a href='https://github.com/nirokay/HzgShowAround' target='_blank' title='Quell-Code der Website'>Source</a>
              | 

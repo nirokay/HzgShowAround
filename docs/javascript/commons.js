@@ -78,7 +78,7 @@ async function getRedirectionList() {
 }
 async function redirectToUpdatedPage() {
     let pageNameParts = window.location.href.split("/");
-    let pageName = pageNameParts[pageNameParts.length - 1].split("#")[0];
+    let pageName = pageNameParts[pageNameParts.length - 1].split("#")[0].split("?")[0].split("&")[0];
     let list = await getRedirectionList();
     if (pageName in list) {
         console.log("Redirecting to updated page: " + list[pageName]);
