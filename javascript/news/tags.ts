@@ -56,10 +56,11 @@ function newsfeedTagsToAttribute(tags: NewsTag[]): string {
     let tagNames: string[] = [];
     if (tags != undefined) {
         tags.forEach((tag: NewsTag) => {
+            if (tag == undefined) return;
             tagNames.push(tag.name);
         })
     }
-    let joinedTags: string = tagNames.join(" ");
+    let joinedTags: string = tagNames.join(",");
     result += joinedTags != "" ? joinedTags : "/"
     result += "'";
     return result;
@@ -81,9 +82,10 @@ function tagDot(state: TagState): HtmlString {
     return result;
 }
 function newsfeedTagToHtml(tag: NewsTag, displayState: boolean = false): HtmlString {
+    if (tag == undefined) return "";
     let dotText: HtmlString = displayState ? tagDot(tag.state) : "●"
-    let dot: HtmlString = "<span class='newsfeed-element-tag-dot' style='color:" + tag.color + ";'>" + dotText + "</span>"
-    let text: HtmlString = "<span class='newsfeed-element-tag-text' title='" + tag.desc + "'>" + tag.name + "</span>"
+    let dot: HtmlString = "<span class='newsfeed-element-tag-dot' style='color:" + (tag.color ?? "#E8E6E3") + ";'>" + dotText + "</span>"
+    let text: HtmlString = "<span class='newsfeed-element-tag-text' title='" + (tag.desc ?? tag.name) + "'>" + tag.name + "</span>"
 
     let result: HtmlString = "<span class='newsfeed-element-tag shadow' style='" + [
         "border-color:" + tag.color + ";",
@@ -140,7 +142,7 @@ function applyTagFiltering() {
     for (const c of element.children) {
         const child = c as HTMLDivElement;
         if (!child.hasAttribute("x-tags")) continue;
-        let tags: string[] = (child.getAttribute("x-tags") ?? "").split(" ");
+        let tags: string[] = (child.getAttribute("x-tags") ?? "").split(",");
         if (tags.length == 0) continue;
 
         let hidden: boolean = false;

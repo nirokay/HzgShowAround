@@ -154,7 +154,7 @@ function holidayToNewsfeedElement(holiday) {
     result.level = "holiday";
     // Icon:
     result.image = "newsfeed/icons/holidays.svg";
-    result.tags = ["Feiertag"];
+    result.tags = ["Feiertage und Ferien"];
     result.newsTags = [];
     return result;
 }
@@ -211,7 +211,7 @@ function schoolHolidayToNewsfeedElement(holiday) {
     }
     // Icon:
     result.image = "newsfeed/icons/holidays-school.svg";
-    result.tags = ["Feiertag"];
+    result.tags = ["Feiertage und Ferien"];
     result.newsTags = [];
     return result;
 }
@@ -296,34 +296,6 @@ function normalizedElement(news, element) {
     result.name = element.name ?? "Neuigkeit";
     result.level = element.level ?? "info";
     result.image = element.image ?? "";
-    // Tags:
-    result.tags = element.tags ?? [];
-    switch (getImportance(element)) {
-        case IMPORTANCE_ALERT:
-            result.tags.push("Alarm");
-            break;
-        case IMPORTANCE_WARNING:
-            result.tags.push("Warnung");
-            break;
-        default:
-            break;
-    }
-    result.newsTags = element.newsTags ?? [];
-    //
-    if (result.tags != undefined && result.tags?.length != 0) {
-        if (Object.keys(newsfeedTags).length != 0) {
-            result.tags.forEach((name) => {
-                let tag = newsfeedTags[name];
-                if (tag != undefined)
-                    result.newsTags.push(tag);
-                else
-                    console.warn("Failed to get tag", name, newsfeedTags[name], newsfeedTags);
-            });
-        }
-        else {
-            //console.warn("Tag dictionary is empty", newsfeedTags);
-        }
-    }
     // Details fixes:
     switch (typeof element.details) {
         case "string":
@@ -421,6 +393,39 @@ function normalizedElement(news, element) {
             news.push(borrowed);
         });
         return null; // remove this event (already duplicated into news array)
+    }
+    // Tags:
+    // Tags:
+    result.tags = element.tags ?? [];
+    switch (getImportance(element)) {
+        case IMPORTANCE_ALERT:
+            result.tags.push("Alarm");
+            break;
+        case IMPORTANCE_WARNING:
+            result.tags.push("Warnung");
+            break;
+        case IMPORTANCE_HAPPENED:
+            result.tags.push("Vergangen");
+            break;
+        default:
+            break;
+    }
+    if (result.isHappening)
+        result.tags.push("Heute");
+    result.newsTags = element.newsTags ?? [];
+    if (result.tags != undefined && result.tags?.length != 0) {
+        if (Object.keys(newsfeedTags).length != 0) {
+            result.tags.forEach((name) => {
+                let tag = newsfeedTags[name];
+                if (tag != undefined)
+                    result.newsTags.push(tag);
+                else
+                    console.warn("Failed to get tag", name, newsfeedTags[name], newsfeedTags);
+            });
+        }
+        else {
+            //console.warn("Tag dictionary is empty", newsfeedTags);
+        }
     }
     // Finally done:
     if (result.on != undefined ||

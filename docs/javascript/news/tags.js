@@ -51,10 +51,12 @@ function newsfeedTagsToAttribute(tags) {
     let tagNames = [];
     if (tags != undefined) {
         tags.forEach((tag) => {
+            if (tag == undefined)
+                return;
             tagNames.push(tag.name);
         });
     }
-    let joinedTags = tagNames.join(" ");
+    let joinedTags = tagNames.join(",");
     result += joinedTags != "" ? joinedTags : "/";
     result += "'";
     return result;
@@ -76,9 +78,11 @@ function tagDot(state) {
     return result;
 }
 function newsfeedTagToHtml(tag, displayState = false) {
+    if (tag == undefined)
+        return "";
     let dotText = displayState ? tagDot(tag.state) : "●";
-    let dot = "<span class='newsfeed-element-tag-dot' style='color:" + tag.color + ";'>" + dotText + "</span>";
-    let text = "<span class='newsfeed-element-tag-text' title='" + tag.desc + "'>" + tag.name + "</span>";
+    let dot = "<span class='newsfeed-element-tag-dot' style='color:" + (tag.color ?? "#E8E6E3") + ";'>" + dotText + "</span>";
+    let text = "<span class='newsfeed-element-tag-text' title='" + (tag.desc ?? tag.name) + "'>" + tag.name + "</span>";
     let result = "<span class='newsfeed-element-tag shadow' style='" + [
         "border-color:" + tag.color + ";",
         "border-radius:20px;",
@@ -135,7 +139,7 @@ function applyTagFiltering() {
         const child = c;
         if (!child.hasAttribute("x-tags"))
             continue;
-        let tags = (child.getAttribute("x-tags") ?? "").split(" ");
+        let tags = (child.getAttribute("x-tags") ?? "").split(",");
         if (tags.length == 0)
             continue;
         let hidden = false;
@@ -232,7 +236,7 @@ function copyNewsfeedUrlWithTags() {
     let completeUri = tagStates != "" ? uri + "?tags=" + tagStates : uri;
     navigator.clipboard.writeText(completeUri);
 }
-// https://www.nirokay.com/HzgShowAround/newsfeed.html?tags=Verpflichtend-v,Warnung-x[..]
+// example: https://www.nirokay.com/HzgShowAround/newsfeed.html?tags=Gesundheitsvortrag-v,Verpflichtend-x[..]
 function applyNewsfeedTagsFromUri() {
     let paramsRaw = window.location.href.split("?")[1];
     if (paramsRaw == undefined || paramsRaw == "")
