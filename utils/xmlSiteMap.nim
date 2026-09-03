@@ -27,5 +27,5 @@ proc generateXmlSiteMap*() =
             urlEntries(logger.generatedHtml)
         )
     )
-    writeFile("docs/" & sitemapPath, $document.body)
+    writeFile("docs/" & sitemapPath, $document)
     logger.addGenerated(document)

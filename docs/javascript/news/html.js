@@ -37,9 +37,6 @@ function htmlDisclaimer(element, cssClass) {
     if (cssClass.endsWith("happened")) {
         result.push("<i>vergangen</i>");
     }
-    if (element.isHappening) {
-        result.push("<b>heute</b>");
-    }
     return result.length == 0
         ? ""
         : "<small>(" + result.join(", ") + ")</small>";

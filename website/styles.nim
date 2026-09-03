@@ -170,6 +170,7 @@ globalCss.add(
     iconImageClass,
 
     flexContainerClass,
+    flexContainerGenericClass,
     flexContainedContainerClass,
     flexElementClass,
 
@@ -255,6 +256,8 @@ css.add(
     newsElementWarning,
     newsElementAlert,
     newsElementHappened,
+
+    newsFeedElementTagSegment,
 
     newsElementTag,
     newsElementTagDot,

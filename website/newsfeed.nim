@@ -77,7 +77,7 @@ html.addToBody(
                 ),
                 `div`(
                     small html "Tags werden geladen..."
-                ).setId("newsfeed-tag-toggle-list").setClass(flexContainerClass),
+                ).setId("newsfeed-tag-toggle-list").setClass(flexContainerGenericClass),
                 `div`(
                     smallButtonScript("Link mit Tags kopieren", "copyNewsfeedUrlWithTags()").setTitle("Kopiere einen Link mit den ausgewählten Tags."),
                     smallButtonScript("Tags zurücksetzten", "resetAllNewsfeedTags()").setTitle("Tags auf Standart zurücksetzten."),

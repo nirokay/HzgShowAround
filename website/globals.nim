@@ -301,12 +301,14 @@ const
         "background-color" := colourBackgroundMiddle
     }
 
-    flexContainerClass*: CssElement = ".flex-container"{
+    flexContainerGenericClass*: CssElement = ".flex-container-generic"{
         "align-items" := "normal",
         "display" := "flex",
         "flex-wrap" := "wrap",
         "justify-content" := "center",
-        dropShadow
+    }
+    flexContainerClass*: CssElement = ".flex-container"{
+        flexContainerGenericClass.properties & @[dropShadow],
     }
     flexContainedContainerClass*: CssElement = ".flex-contained-container"{
         "display" := "flex",
@@ -363,10 +365,14 @@ const
         "max-height" := "8em"
     }
 
+    newsFeedElementTagSegment* = ".newsfeed-element-segment-tags"{
+        flexContainerGenericClass.properties
+    }
+
     newsElementTag* = ".newsfeed-element-tag"{
         "border" := "2px solid",
         "border-radius" := "20px",
-        "margin" := "5px"
+        "margin" := "6px"
     }
     newsElementTagDot* = ".newsfeed-element-tag-dot"{
         "margin-left" := "6px",

@@ -227,6 +227,13 @@ icon-display {
     filter: drop-shadow(-2.5px -2.5px 2.5px rgba(0, 0, 0, 0.2)) drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
+.flex-container-generic {
+    align-items: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .flex-contained-container {
     display: flex;
     justify-content: center;
@@ -451,10 +458,17 @@ a:active {
     border-color: #2f3139;
 }
 
+.newsfeed-element-segment-tags {
+    align-items: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .newsfeed-element-tag {
     border: 2px solid;
     border-radius: 20px;
-    margin: 5px;
+    margin: 6px;
 }
 
 .newsfeed-element-tag-dot {
