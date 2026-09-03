@@ -321,4 +321,3 @@ proc generateLocations*(locations: seq[Location]) =
 
     # Write lookup-table to disk:
     locationLookupTableFile.writeFile($%locationLookupTable)
-    # locationLookupTableFile.writeFile(pretty(%locationLookupTable, 4))
