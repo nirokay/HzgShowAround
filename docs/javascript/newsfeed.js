@@ -85,10 +85,20 @@ async function refreshNewsfeed() {
         newsfeed().innerHTML = "";
         updateRefreshedAt("Daten werden verarbeitet...");
         await rebuildNews();
+        // Reset count: (dont even need this, as tags get fetched every time lol)
+        // for (const [name, oldTag] of Object.entries(newsfeedTags)) {
+        //     let newTag: NewsTag = oldTag;
+        //     newTag.counted = 0;
+        //     newsfeedTags[name] = newTag;
+        // }
         updateRefreshedAt("Daten werden angezeigt...");
         relevantNews.forEach((element) => {
             let htmlElement = generateElementHtml(element);
             addToNewsfeed(htmlElement);
+            // Count tags:
+            element.newsTags.forEach((tag) => {
+                newsfeedTags[tag.name].counted += 1;
+            });
         });
         updateRefreshedAt();
         // Terminator error messages:

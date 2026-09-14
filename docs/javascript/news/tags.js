@@ -10,6 +10,7 @@ class NewsTag {
     name = "";
     desc = "";
     color = "";
+    counted = 0;
     state = TagState.tolerated;
 }
 let newsfeedTags = {};
@@ -82,14 +83,15 @@ function newsfeedTagToHtml(tag, displayState = false) {
         return "";
     let dotText = displayState ? tagDot(tag.state) : "●";
     let dot = "<span class='newsfeed-element-tag-dot' style='color:" + (tag.color ?? "#E8E6E3") + ";'>" + dotText + "</span>";
-    let text = "<span class='newsfeed-element-tag-text' title='" + (tag.desc ?? tag.name) + "'>" + tag.name + "</span>";
+    let count = displayState ? " (" + tag.counted.toString() + ")" : "";
+    let text = "<span class='newsfeed-element-tag-text' title='" + (tag.desc ?? tag.name) + "'>" + tag.name + count + "</span>";
     let result = "<span class='newsfeed-element-tag shadow' style='" + [
         "border-color:" + tag.color + ";",
         "border-radius:20px;",
         "background:" + tag.color + "33;"
     ].join("") + "'>" + dot + text + "</span>";
     if (displayState)
-        result = "<a style='margin:8px 2px;' href='javascript:cycleTag(\"" + tag.name + "\")'>" + result + "</a>";
+        result = "<a style='margin:8px 2px;color:#e8e6e3;' href='javascript:cycleTag(\"" + tag.name + "\")'>" + result + "</a>";
     return result;
 }
 function newsfeedTagsToHtml(element) {
