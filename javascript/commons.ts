@@ -22,6 +22,9 @@ function debug(message: string, element: any = undefined): void {
     }
 }
 
+
+// Text -----------------------------------------------------------------------
+
 function replaceAll(input: string, it: string, by: string): string {
     let result = input;
     let oldResult = result;
@@ -46,6 +49,9 @@ function fixHtmlString(input: string): string {
     }
     return result;
 }
+
+
+// Time -----------------------------------------------------------------------
 
 function formatNumber(n: number | string): string {
     let result: string = n.toString();
@@ -74,6 +80,9 @@ function icalTimeToNormal(icalTime: string): string {
     return "<time>" + result.join(":") + " Uhr </time>";
 }
 
+
+// Redirections ---------------------------------------------------------------
+
 const urlRedirectionList: string = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/json/redirections.json";
 async function getRedirectionList(): Promise<Record<string, string>> {
     let result: Record<string, string> = {}
@@ -96,3 +105,36 @@ async function redirectToUpdatedPage() {
     }
 }
 redirectToUpdatedPage(); // keep in background
+
+
+// URI Parameters -------------------------------------------------------------
+
+function getURIParams(): Record<string, string> {
+    let result: Record<string, string> = {};
+
+    let raw: string = window.location.href.split("?")[1].split("#")[0];
+    if (raw == undefined || raw == "") return result;
+
+    let parts: string[] = raw.split("&")
+    parts.forEach((part: string) => {
+        let splits: string[] = part.split("=");
+        let key: string = splits[0] ?? "";
+        let value: string = splits[1] ?? "";
+
+        if (key == undefined || key == "") return;
+        result[key] = value;
+    });
+
+    return result;
+}
+function encodeToURI(params: Record<string, string>): string {
+    let result = window.location.href.split("?")[0].split("#")[0];
+
+    let pairs: string[] = [];
+    Object.entries(params).forEach(([key, value]) => {
+        pairs.push(key + "=" + value);
+    });
+
+    if (pairs.length > 0) result += "?" + pairs.join("&");
+    return result;
+}

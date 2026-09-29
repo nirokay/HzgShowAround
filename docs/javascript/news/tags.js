@@ -226,7 +226,6 @@ function getNewsfeedTagStateFromUri(state) {
     return result;
 }
 function copyNewsfeedUrlWithTags() {
-    let uri = window.location.href.split("?")[0].split("#")[0];
     let parts = [];
     Object.entries(newsfeedTags).forEach(([name, tag]) => {
         if (tag.state == TagState.tolerated)
@@ -235,25 +234,15 @@ function copyNewsfeedUrlWithTags() {
         parts.push(name + "-" + state);
     });
     let tagStates = parts.join(",");
-    let completeUri = tagStates != "" ? uri + "?tags=" + tagStates : uri;
-    navigator.clipboard.writeText(completeUri);
+    let params = { "tags": tagStates };
+    navigator.clipboard.writeText(encodeToURI(params));
 }
 // example: https://www.nirokay.com/HzgShowAround/newsfeed.html?tags=Gesundheitsvortrag-v,Verpflichtend-x[..]
 function applyNewsfeedTagsFromUri() {
-    let paramsRaw = window.location.href.split("?")[1];
-    if (paramsRaw == undefined || paramsRaw == "")
+    let params = getURIParams();
+    if (!("tags" in params))
         return;
-    let tags = [];
-    paramsRaw.split("&").forEach((param) => {
-        let parts = param.split("=");
-        if (parts.length < 2)
-            return;
-        let key = parts[0];
-        let values = parts[1];
-        if (key != newsfeedTagUriEntry)
-            return;
-        tags = values.split(",");
-    });
+    let tags = params["tags"].split(",");
     tags.forEach((decl) => {
         let parts = decl.split("-");
         if (parts.length != 2)

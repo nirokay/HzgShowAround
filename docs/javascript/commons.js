@@ -20,6 +20,7 @@ function debug(message, element = undefined) {
         console.log("===== " + message + " =====");
     }
 }
+// Text -----------------------------------------------------------------------
 function replaceAll(input, it, by) {
     let result = input;
     let oldResult = result;
@@ -42,6 +43,7 @@ function fixHtmlString(input) {
     }
     return result;
 }
+// Time -----------------------------------------------------------------------
 function formatNumber(n) {
     let result = n.toString();
     switch (result.length) {
@@ -66,6 +68,7 @@ function icalTimeToNormal(icalTime) {
     result.push(time[2] + time[3]);
     return "<time>" + result.join(":") + " Uhr </time>";
 }
+// Redirections ---------------------------------------------------------------
 const urlRedirectionList = "https://raw.githubusercontent.com/nirokay/HzgShowAroundData/refs/heads/master/json/redirections.json";
 async function getRedirectionList() {
     let result = {};
@@ -86,3 +89,30 @@ async function redirectToUpdatedPage() {
     }
 }
 redirectToUpdatedPage(); // keep in background
+// URI Parameters -------------------------------------------------------------
+function getURIParams() {
+    let result = {};
+    let raw = window.location.href.split("?")[1].split("#")[0];
+    if (raw == undefined || raw == "")
+        return result;
+    let parts = raw.split("&");
+    parts.forEach((part) => {
+        let splits = part.split("=");
+        let key = splits[0] ?? "";
+        let value = splits[1] ?? "";
+        if (key == undefined || key == "")
+            return;
+        result[key] = value;
+    });
+    return result;
+}
+function encodeToURI(params) {
+    let result = window.location.href.split("?")[0].split("#")[0];
+    let pairs = [];
+    Object.entries(params).forEach(([key, value]) => {
+        pairs.push(key + "=" + value);
+    });
+    if (pairs.length > 0)
+        result += "?" + pairs.join("&");
+    return result;
+}
