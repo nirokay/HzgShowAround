@@ -11,14 +11,10 @@ function debug(message: string, element: any = undefined): void {
     if (!debugPrintingEnabled) {
         return;
     }
-    const separator: string =
-        "================================================";
     if (element != undefined && element != "" && element != null) {
-        console.log("===== " + message + " ===== :");
-        console.log(element);
-        console.log(separator);
+        console.log("[DEBUG] " + message + ":", element);
     } else {
-        console.log("===== " + message + " =====");
+        console.log("[DEBUG] " + message);
     }
 }
 
@@ -112,7 +108,7 @@ redirectToUpdatedPage(); // keep in background
 function getURIParams(): Record<string, string> {
     let result: Record<string, string> = {};
 
-    let raw: string = window.location.href.split("?")[1].split("#")[0];
+    let raw: string = (window.location.href.split("?")[1] ?? "").split("#")[0] ?? "";
     if (raw == undefined || raw == "") return result;
 
     let parts: string[] = raw.split("&")
@@ -137,4 +133,25 @@ function encodeToURI(params: Record<string, string>): string {
 
     if (pairs.length > 0) result += "?" + pairs.join("&");
     return result;
+}
+
+
+// Metered Connections: -------------------------------------------------------
+
+function clientIsProbablyMobileDevice(): boolean {
+    // This should probably work? idk:  portrait mode && low width -> probably phone? i know this is hacky qwq
+    return window.screen.width < window.screen.height && window.screen.width < 900;
+}
+function isMeteredConnection(): boolean {
+    if (!("connection" in navigator)) return clientIsProbablyMobileDevice();
+    // TS is a bit too nerdy here, relying on vibe-based approach of JS:
+    let connection: any = navigator.connection;
+    if (connection == undefined) return false;
+    // Explicit:
+    if (connection.saveData === true) return true;
+    // Implicit:
+    if (connection.type == "cellular") return true;
+    if (["slow-2g", "2g"].includes(connection.effectiveType)) return true;
+
+    return false;
 }

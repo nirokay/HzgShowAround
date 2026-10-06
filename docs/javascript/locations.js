@@ -79,7 +79,29 @@ function displayDeprecationNotice() {
         "</p>" +
         "</div>");
 }
+function restoreImageResolutions(cssClass, replaceWhat, replaceWith) {
+    let collection = document.getElementsByClassName(cssClass);
+    if (collection.length == 0)
+        return;
+    debug("Restoring quality of images with class: " + cssClass);
+    Array.from(collection).forEach((element) => {
+        let image = element;
+        let src = image.src.replace(replaceWhat, replaceWith);
+        image.src = src;
+    });
+}
+function displayFullResolutionImages() {
+    if (isMeteredConnection()) {
+        debug("Metered connection, keeping low-resolution images");
+        return;
+    }
+    debug("Non-metered connection, restoring full-resolution location images");
+    restoreImageResolutions("location-image-header", "_mini.webp", ".webp");
+    restoreImageResolutions("location-image-footer", "_nano.webp", "_mini.webp");
+}
 window.onload = async () => {
+    // Images:
+    displayFullResolutionImages();
     // Deprecated location notice:
     await getLocationLookupTable();
     for (const [name, _] of Object.entries(locationLookupTable)) {

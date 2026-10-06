@@ -10,14 +10,11 @@ function debug(message, element = undefined) {
     if (!debugPrintingEnabled) {
         return;
     }
-    const separator = "================================================";
     if (element != undefined && element != "" && element != null) {
-        console.log("===== " + message + " ===== :");
-        console.log(element);
-        console.log(separator);
+        console.log("[DEBUG] " + message + ":", element);
     }
     else {
-        console.log("===== " + message + " =====");
+        console.log("[DEBUG] " + message);
     }
 }
 // Text -----------------------------------------------------------------------
@@ -92,7 +89,7 @@ redirectToUpdatedPage(); // keep in background
 // URI Parameters -------------------------------------------------------------
 function getURIParams() {
     let result = {};
-    let raw = window.location.href.split("?")[1].split("#")[0];
+    let raw = (window.location.href.split("?")[1] ?? "").split("#")[0] ?? "";
     if (raw == undefined || raw == "")
         return result;
     let parts = raw.split("&");
@@ -115,4 +112,26 @@ function encodeToURI(params) {
     if (pairs.length > 0)
         result += "?" + pairs.join("&");
     return result;
+}
+// Metered Connections: -------------------------------------------------------
+function clientIsProbablyMobileDevice() {
+    // This should probably work? idk:  portrait mode && low width -> probably phone? i know this is hacky qwq
+    return window.screen.width < window.screen.height && window.screen.width < 900;
+}
+function isMeteredConnection() {
+    if (!("connection" in navigator))
+        return clientIsProbablyMobileDevice();
+    // TS is a bit too nerdy here, relying on vibe-based approach of JS:
+    let connection = navigator.connection;
+    if (connection == undefined)
+        return false;
+    // Explicit:
+    if (connection.saveData === true)
+        return true;
+    // Implicit:
+    if (connection.type == "cellular")
+        return true;
+    if (["slow-2g", "2g"].includes(connection.effectiveType))
+        return true;
+    return false;
 }

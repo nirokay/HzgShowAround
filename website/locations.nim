@@ -10,6 +10,15 @@ import snippets except pc
 
 var locationLookupTable: OrderedTable[string, LocationLookup]
 
+proc imageMinified*(url: string): string = result = url.replace(".webp", "_mini.webp")
+proc imageMinified*(urls: seq[string]): seq[string] =
+    for url in urls:
+        result.add url.imageMinified()
+proc imageNanofied*(url: string): string = result = url.replace(".webp", "_nano.webp")
+proc imageNanofied*(urls: seq[string]): seq[string] =
+    for url in urls:
+        result.add url.imageNanofied()
+
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s
     for header, content in desc:
@@ -40,14 +49,18 @@ proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement 
     var imageBlock: seq[HtmlElement]
 
     for src in sources:
-        imageBlock.add img(urlLocationImages & src, altText)
+        let href: string = case img:
+            of imgHeader: src.imageMinified()
+            of imgFooter: src.imageNanofied()
+        # Not an `<a></a>` because if the css classes being fucky with it, this will do:
+        imageBlock.add img(urlLocationImages & href, altText).add("onclick" <=> "window.open('" & urlLocationImages & src & "');")
 
     let class: CssElement = case img:
         of imgHeader: locationImageHeader
         of imgFooter: locationImageFooter
 
     for index, img in imageBlock:
-        imageBlock[index] = img.setClass(class)
+        imageBlock[index].setClass(class)
 
     result = `div`(imageBlock)
 
@@ -76,7 +89,7 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             let pics: Pictures = get location.pics
             if pics.header.isSet():
                 # Header image:
-                let imgUrl: string = url pics.header.get()
+                let imgUrl: string = url pics.header.get().imageNanofied()
                 html.addToHead(
                     ogImage(imgUrl),
                     twitterImage(imgUrl),
@@ -85,7 +98,7 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
                 )
             elif pics.footer.isSet():
                 # First footer image:
-                let imgUrl: string = url pics.footer.get()[0]
+                let imgUrl: string = url pics.footer.get()[0].imageNanofied()
                 html.addToHead(
                     ogImage(imgUrl),
                     twitterImage(imgUrl),
