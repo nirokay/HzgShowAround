@@ -242,6 +242,21 @@ proc imageParagraph*(image: HtmlElement, content: seq[HtmlElement]): HtmlElement
 proc imageParagraph*(image: HtmlElement, content: varargs[HtmlElement]): HtmlElement =
     result = imageParagraph(image, content.toSeq())
 
+
+# -----------------------------------------------------------------------------
+# Dynamic images:
+# -----------------------------------------------------------------------------
+
+proc imageMinified*(url: string): string = result = url.replace(".webp", "_mini.webp")
+proc imageMinified*(urls: seq[string]): seq[string] =
+    for url in urls:
+        result.add url.imageMinified()
+proc imageNanofied*(url: string): string = result = url.replace(".webp", "_nano.webp")
+proc imageNanofied*(urls: seq[string]): seq[string] =
+    for url in urls:
+        result.add url.imageNanofied()
+
+
 # =============================================================================
 # Options:
 # =============================================================================

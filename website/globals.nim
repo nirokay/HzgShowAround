@@ -250,10 +250,14 @@ const
         "margin-top" := "0"
     }
 
-    iconImageClass* = "icon-display"{
-        "width" := "50%",
+    iconImageClass* = ".icon-display"{
+        # "width" := "50%",
         "max-width" := "500px",
         "margin" := "auto"
+    }
+
+    imageDynamicResolution* = ".dynamic-resolution"{
+        "color" := colourText # just to have something in the css class body, class is used with JS exclusively
     }
 
     mapElement* = newCssClass("map-element",

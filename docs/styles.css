@@ -213,8 +213,7 @@ input {
     margin: 10px auto;
 }
 
-icon-display {
-    width: 50%;
+.icon-display {
     max-width: 500px;
     margin: auto;
 }
@@ -614,4 +613,8 @@ select:hover {
     max-width: max-width;
     border-radius: 10px;
     margin: 20px auto;
+}
+
+.dynamic-resolution {
+    color: #e8e6e3;
 }

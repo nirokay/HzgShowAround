@@ -10,15 +10,6 @@ import snippets except pc
 
 var locationLookupTable: OrderedTable[string, LocationLookup]
 
-proc imageMinified*(url: string): string = result = url.replace(".webp", "_mini.webp")
-proc imageMinified*(urls: seq[string]): seq[string] =
-    for url in urls:
-        result.add url.imageMinified()
-proc imageNanofied*(url: string): string = result = url.replace(".webp", "_nano.webp")
-proc imageNanofied*(urls: seq[string]): seq[string] =
-    for url in urls:
-        result.add url.imageNanofied()
-
 proc convert*(desc: Description): seq[HtmlElement] =
     ## Converts a `Location`s description to a sequence of `HtmlElement`s
     for header, content in desc:
@@ -60,7 +51,7 @@ proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement 
         of imgFooter: locationImageFooter
 
     for index, img in imageBlock:
-        imageBlock[index].setClass(class)
+        imageBlock[index].setClass(class, imageDynamicResolution)
 
     result = `div`(imageBlock)
 

@@ -4,7 +4,7 @@
 ## This module includes everything about articles. The main article page, as well as the user-written articles are generated here.
 ## For documentation about how articles are written see [the articles documentation](https://github.com/nirokay/HzgShowAroundData#artikel).
 
-import std/[strutils, options, json, algorithm]
+import std/[strutils, options, json, algorithm, os]
 import generator
 import globals, styles, client, snippets
 import ../utils/logging
@@ -57,6 +57,9 @@ proc displayDateTime*(rawDate: string): string =
     result = $time(html display.join(".")).add("datetime" <=> rawDate)
 
 proc getImageUrl(fileName: string): string = urlArticleImages & fileName
+proc hasDynamicImages(fullUrl: string): bool =
+    let file: string = imageMinified("./HzgShowAroundData/" & fullUrl.replace(urlRemoteRepo, ""))
+    return file.fileExists()
 proc formatLine*(line: string): HtmlElement =
     ## Formats a line of the article, if tags are found. Keeps the line as is, if none of the
     ## conditional formatting is encountered.
@@ -99,10 +102,17 @@ proc formatLine*(line: string): HtmlElement =
             content = content.strip()
 
             # Return image:
-            let src: string = content.getImageUrl()
-            var srcNotFound: string = src
+            var
+                src: string = content.getImageUrl()
+                srcNotFound: string = src
             srcNotFound.removePrefix(urlArticleImages)
-            return img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass)
+
+            if src.hasDynamicImages():
+                result = img(src.imageMinified(), "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass, imageDynamicResolution)
+            else:
+                result = img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass)
+
+            return result
 
     # Just returns the line (if no format found)
     return p(html content)
@@ -194,6 +204,7 @@ proc generateArticleHtml(article: Article) =
         desc,
         customSchema = schema
     )
+    html.importScripts("../javascript/commons.js")
 
     # Article header:
     html.addArticleHeader(article)

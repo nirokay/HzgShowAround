@@ -113,7 +113,8 @@ function encodeToURI(params) {
         result += "?" + pairs.join("&");
     return result;
 }
-// Metered Connections: -------------------------------------------------------
+// Metered Connections --------------------------------------------------------
+const dynamicResolutionClass = "dynamic-resolution";
 function clientIsProbablyMobileDevice() {
     // This should probably work? idk:  portrait mode && low width -> probably phone? i know this is hacky qwq
     return window.screen.width < window.screen.height && window.screen.width < 900;
@@ -135,3 +136,43 @@ function isMeteredConnection() {
         return true;
     return false;
 }
+function restoreImageResolutions() {
+    let collection = document.getElementsByClassName(dynamicResolutionClass);
+    if (collection.length == 0)
+        return;
+    debug("Restoring quality of images with class: " + dynamicResolutionClass);
+    Array.from(collection).forEach((element) => {
+        let image = element;
+        let src = image.src;
+        let ending = src.split("_")[1] ?? ".webp";
+        switch (ending) {
+            case "nano.webp":
+                src = src.replace("_nano.webp", "_mini.webp");
+                break;
+            case "mini.webp":
+                src = src.replace("_mini.webp", ".webp");
+                break;
+            case ".webp":
+                // why would i make this dynamic, if its already full-res?
+                break;
+            default:
+                // oopsie, something really fucked up
+                debug("FUCK, why is element dynamic-resolution?", image);
+                break;
+        }
+        if (image.src != src)
+            debug("Dynamic resolution, replacing '" + image.src + "' with '" + src + "'.");
+        else
+            debug("Keeping resolution for '" + src + "'...");
+        image.src = src;
+    });
+}
+function displayFullResolutionImages() {
+    if (isMeteredConnection()) {
+        debug("Metered connection, keeping low-resolution images");
+        return;
+    }
+    debug("Non-metered connection, restoring full-resolution location images");
+    restoreImageResolutions();
+}
+window.addEventListener("load", displayFullResolutionImages);

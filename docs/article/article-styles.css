@@ -213,8 +213,7 @@ input {
     margin: 10px auto;
 }
 
-icon-display {
-    width: 50%;
+.icon-display {
     max-width: 500px;
     margin: auto;
 }

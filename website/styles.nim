@@ -321,7 +321,10 @@ css.add(
     locationImageHeader,
     locationImageFooter,
     locationImageFooterDiv,
-    locationImageMapPreview
+    locationImageMapPreview,
+
+    # Images (dynamic resolution):
+    imageDynamicResolution
 )
 
 cssArticles.children = globalCss.children
