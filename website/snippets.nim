@@ -3,8 +3,9 @@
 ##
 ## Just like the `globals` module but for HTML procs.
 
-import std/[strutils, strformat, sequtils, json, options, tables, times]
-import generator, globals, styles, client
+import std/[strutils, strformat, sequtils, json, options, tables, times, os]
+import generator, globals, styles, client, ../utils/logging
+from cattag import newHtmlDocument
 
 # =============================================================================
 # CSS:
@@ -256,6 +257,54 @@ proc imageNanofied*(urls: seq[string]): seq[string] =
     for url in urls:
         result.add url.imageNanofied()
 
+
+proc altTextForSrc*(src: string): string =
+    if src.replace(urlRemoteRepo, "HzgShowAroundData/") == src: return "" # remote image
+    let path: string = src.replace(urlRemoteRepo, "HzgShowAroundData/")
+        .split(".")[0 .. ^2].join(".")
+        .split("_")[0] & ".alt"
+    echo "\n", path, "\n"
+    if not path.fileExists():
+        logger.addFailure(newHtmlDocument(src), "Failed to get image alt text, file does not exist")
+        return ""
+    try:
+        let content: string = readFile(path).strip()
+            .replace("\n", " ")
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("'", "&apos;")
+            .replace("\"", "&quot;")
+        result = content
+    except OSError as e:
+        logger.addFailure(newHtmlDocument(src), "Failed to get image alt text: " & e.msg)
+proc addAutomaticAltText*(img: var HtmlElement) =
+    ## Replaces or sets `alt` with alt-text from file.
+    var src: string = ""
+    for attribute in img.attributes:
+        if src != "": continue
+        if attribute.attribute != "src": continue
+        src = attribute.values.join(" ")
+    if src == "":
+        logger.addFailure(newHtmlDocument("sourceless-image"), "An image has no source, but an automatic alt text injection has been attempted.")
+        return
+
+    let altText: string = src.altTextForSrc()
+    if altText == "": return
+
+    var hasFoundAltAttr: bool = false
+    for i, attribute in img.attributes:
+        if hasFoundAltAttr: continue
+        if attribute.attribute != "alt": continue
+        hasFoundAltAttr = true
+        img.attributes[i] = "alt" <=> altText
+    if not hasFoundAltAttr:
+        img.add "alt" <=> altText
+
+proc addAutomaticAltText*(img: HtmlElement): HtmlElement =
+    ## Replaces or sets `alt` with alt-text from file.
+    result = img
+    result.addAutomaticAltText()
 
 # =============================================================================
 # Options:

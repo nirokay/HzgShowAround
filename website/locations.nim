@@ -31,7 +31,7 @@ proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement 
     ## Gets the HTML for a header/footer image(s)
     let
         pics: Pictures = get location.pics
-        altText: string = "$1 $2 nicht vorhanden" % [location.name, $img]
+        altText: string = "$1 $2" % [location.name, $img]
     var sources: seq[string] = block:
         case img:
         of imgHeader: @[pics.header.get()]
@@ -44,7 +44,7 @@ proc getLocationImage*(location: Location, img: LocationImageType): HtmlElement 
             of imgHeader: src.imageMinified()
             of imgFooter: src.imageNanofied()
         # Not an `<a></a>` because if the css classes being fucky with it, this will do:
-        imageBlock.add img(urlLocationImages & href, altText).add("onclick" <=> "window.open('" & urlLocationImages & src & "');")
+        imageBlock.add img(urlLocationImages & href, altText).addAutomaticAltText().add("onclick" <=> "window.open('" & urlLocationImages & src & "');")
 
     let class: CssElement = case img:
         of imgHeader: locationImageHeader
@@ -73,6 +73,9 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
     proc url(path: string): string =
         ## Gets the image from remote repo
         urlLocationImages & path
+    proc getAltText(src: string): string =
+        result = src.altTextForSrc()
+        if result == "": result = "Bild vom Ort '" & location.name & "'."
 
     # Abomination:
     block settingLocationOgImage:
@@ -80,21 +83,25 @@ proc setOgImage*(html: var HtmlDocument, location: Location) =
             let pics: Pictures = get location.pics
             if pics.header.isSet():
                 # Header image:
-                let imgUrl: string = url pics.header.get().imageNanofied()
+                let
+                    imgUrl: string = url pics.header.get().imageNanofied()
+                    altText: string = getAltText(imgUrl)
                 html.addToHead(
                     ogImage(imgUrl),
                     twitterImage(imgUrl),
-                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
-                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                    ogImageAlt(altText),
+                    twitterImageAlt(altText)
                 )
             elif pics.footer.isSet():
                 # First footer image:
-                let imgUrl: string = url pics.footer.get()[0].imageNanofied()
+                let
+                    imgUrl: string = url pics.footer.get()[0].imageNanofied()
+                    altText: string = getAltText(imgUrl)
                 html.addToHead(
                     ogImage(imgUrl),
                     twitterImage(imgUrl),
-                    ogImageAlt("Bild vom Ort '" & location.name & "'."),
-                    twitterImageAlt("Bild vom Ort '" & location.name & "'.")
+                    ogImageAlt(altText),
+                    twitterImageAlt(altText)
                 )
             elif location.coords.isSome():
                 # Map location image:

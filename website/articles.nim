@@ -108,9 +108,9 @@ proc formatLine*(line: string): HtmlElement =
             srcNotFound.removePrefix(urlArticleImages)
 
             if src.hasDynamicImages():
-                result = img(src.imageMinified(), "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass, imageDynamicResolution)
+                result = img(src.imageMinified(), "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass, imageDynamicResolution).addAutomaticAltText()
             else:
-                result = img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass)
+                result = img(src, "Bild '" & srcNotFound & "' nicht vorhanden").setClass(centerClass).addAutomaticAltText()
 
             return result
 
