@@ -193,10 +193,13 @@ function htmlImage(element) {
     }
     return result;
 }
-function newDiv(className, elements, attributes = undefined) {
+function newDivWithId(className, id, elements, attributes = undefined) {
     let result = "<div";
     if (className != "" || className != null || className != undefined) {
         result += " class='" + className + "'";
+    }
+    if (id != "" && id != null && id != undefined) {
+        result += " id='" + id + "'";
     }
     if (attributes != undefined && attributes != null) {
         try {
@@ -218,11 +221,55 @@ function newDiv(className, elements, attributes = undefined) {
     result += "</div>";
     return result;
 }
+function newDiv(className, elements, attributes = undefined) {
+    return newDivWithId(className, "", elements, attributes);
+}
+/**
+ * Get ID for the event
+ */
+function getElementUniqueId(element) {
+    let result = ["e"];
+    // Name:
+    let name = "";
+    let skipOverChar = false;
+    let unwantedChars = ["<", ">", "/", "#", "\\", "'", "\"", ":", ".", ",", "(", ")"];
+    for (let i = 0; i < element.name.length; i++) {
+        let char = element.name[i];
+        if (char == "<")
+            skipOverChar = true;
+        else if (char == ">") {
+            skipOverChar = false;
+            continue;
+        }
+        ;
+        if (skipOverChar)
+            continue;
+        if (unwantedChars.includes(char))
+            continue;
+        name += char;
+    }
+    result.push(name);
+    // (First) time:
+    let times = [];
+    if (element.times != undefined && element.times[0] != undefined) {
+        let t = element.times[0];
+        if (t.from == t.till) {
+            times.push(t.from ?? "?");
+        }
+        else {
+            times.push(t.from ?? "?");
+            times.push(t.till ?? "?");
+        }
+    }
+    result.push(times.join("_"));
+    return replaceAll(result.join("_"), " ", "-");
+}
 /**
  * Generates the HTML for the entire element
  */
 function generateElementHtml(element) {
     let className = getElementClass(element) + " shadow";
+    let eventId = getElementUniqueId(element);
     let detailsDiv = addLocationLinks(htmlDetails(element));
     let imageDivAttributes = [];
     if (detailsDiv == "") {
@@ -243,7 +290,7 @@ function generateElementHtml(element) {
     ];
     if (element.isHappening && element.name != placeHolderIdentifier)
         attributes.push("style='background-color:#2f3139 !important;'");
-    return newDiv(className, elements, attributes);
+    return newDivWithId(className, eventId, elements, attributes);
 }
 /**
  * Replaces location substrings with links to the locations

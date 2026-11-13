@@ -250,14 +250,18 @@ function htmlImage(element: NewsFeedElement): HtmlString {
     return result;
 }
 
-function newDiv(
+function newDivWithId(
     className: string,
+    id: string,
     elements: HtmlString[],
     attributes: string[] | undefined = undefined,
 ): HtmlString {
     let result: HtmlString = "<div";
     if (className != "" || className != null || className != undefined) {
         result += " class='" + className + "'";
+    }
+    if (id != "" && id != null && id != undefined) {
+        result += " id='" + id + "'";
     }
     if (attributes != undefined && attributes != null) {
         try {
@@ -281,12 +285,60 @@ function newDiv(
     result += "</div>";
     return result;
 }
+function newDiv(
+    className: string,
+    elements: HtmlString[],
+    attributes: string[] | undefined = undefined,
+): HtmlString {
+    return newDivWithId(className, "", elements, attributes)
+}
+
+/**
+ * Get ID for the event
+ */
+function getElementUniqueId(element: NewsFeedElement): string {
+    let result: string[] = ["e"];
+
+    // Name:
+    let name: string = "";
+    let skipOverChar: boolean = false;
+    let unwantedChars: string[] = ["<", ">", "/", "#", "\\", "'", "\"", ":", ".", ",", "(", ")"]
+    for (let i = 0; i < element.name.length; i++) {
+        let char: string = element.name[i];
+
+        if (char == "<") skipOverChar = true;
+        else if (char == ">") {
+            skipOverChar = false;
+            continue;
+        };
+        if (skipOverChar) continue;
+        if (unwantedChars.includes(char)) continue;
+        name += char
+    }
+    result.push(name);
+
+    // (First) time:
+    let times: string[] = [];
+    if (element.times != undefined && element.times[0] != undefined) {
+        let t: NewsEventTime = element.times[0];
+        if (t.from == t.till) {
+            times.push(t.from ?? "?");
+        } else {
+            times.push(t.from ?? "?");
+            times.push(t.till ?? "?");
+        }
+    }
+    result.push(times.join("_"));
+
+    return replaceAll(result.join("_"), " ", "-");
+}
 
 /**
  * Generates the HTML for the entire element
  */
 function generateElementHtml(element: NewsFeedElement): HtmlString {
     let className: string = getElementClass(element) + " shadow";
+    let eventId: string = getElementUniqueId(element);
     let detailsDiv: HtmlString = addLocationLinks(htmlDetails(element));
     let imageDivAttributes: HtmlString[] = [];
     if (detailsDiv == "") {
@@ -312,7 +364,7 @@ function generateElementHtml(element: NewsFeedElement): HtmlString {
     ];
     if (element.isHappening && element.name != placeHolderIdentifier)
         attributes.push("style='background-color:#2f3139 !important;'");
-    return newDiv(className, elements, attributes);
+    return newDivWithId(className, eventId, elements, attributes);
 }
 
 /**
